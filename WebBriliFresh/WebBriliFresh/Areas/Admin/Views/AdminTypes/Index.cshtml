@@ -1,0 +1,42 @@
+﻿@model IEnumerable<WebBriliFresh.Models.Type>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SubType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MainType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MainType)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.TypeId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.TypeId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.TypeId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

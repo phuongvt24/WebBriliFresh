@@ -1,8 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using WebBriliFresh.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
-
+builder.Services.AddDbContext<BriliFreshDbContext>(options => options.UseSqlServer(
+builder.Configuration.GetConnectionString("BriliFreshDB")
+));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
