@@ -1,0 +1,100 @@
+﻿@model IEnumerable<WebBriliFresh.Models.Store>
+
+@{
+    ViewData["Title"] = "Quản lý cửa hàng";
+}
+
+    <!-- Content Wrapper START -->
+        <div class="page-header">
+            <h2 class="header-title">Orders List</h2>
+            <div class="header-sub-title">
+                <nav class="breadcrumb breadcrumb-dash">
+                    <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+                    <span class="breadcrumb-item active">Quản lý cửa hàng</span>
+                </nav>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="row m-b-30">
+                    <div class="col-lg-8">
+                        <div class="d-md-flex">
+                            <div class="m-b-10 m-r-15">
+                                <select class="custom-select" style="min-width: 180px;">
+                                    <option selected>Tỉnh/Thành</option>
+                                    <option value="all">All</option>
+                                    <option value="homeDeco">Home Decoration</option>
+                                    <option value="eletronic">Eletronic</option>
+                                    <option value="jewellery">Jewellery</option>
+                                </select>
+                            </div>
+                            <div class="m-b-10">
+                                <select class="custom-select" style="min-width: 180px;">
+                                    <option selected>Quận/Huyện</option>
+                                    <option value="all">All</option>
+                                    <option value="inStock">In Stock </option>
+                                    <option value="outOfStock">Out of Stock</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-right">
+                    <a asp-controller="AdminStores" asp-action="Create" class="btn btn-primary">
+                        <i class="anticon anticon-plus-circle m-r-5"></i>
+                        <span>Thêm mới cửa hàng</span>
+                    </a>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                            <table class="table table-hover e-commerce-table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="checkbox">
+                                                <input id="checkAll" type="checkbox">
+                                                <label for="checkAll" class="m-b-0"></label>
+                                            </div>
+                                        </th>
+                                        <th>ID</th>
+                                        <th>Địa chỉ</th>
+                                        <th>Phường/Xã</th>
+                                        <th>Quận/Huyện</th>
+                                        <th>Tỉnh/Thành</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null)
+                                    {
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <div class="checkbox">
+                                                        <input id='check-item-1' type="checkbox">
+                                                        <label for="check-item-1" class="m-b-0"></label>
+                                                    </div>
+                                                </td>
+                                                <td>@Html.DisplayFor(modelItem => item.StoreId)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.SpecificAddress)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.Ward)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.District)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.City)</td>
+                                        
+                                                <td class="text-right">
+                                                    <a asp-controller="AdminStores" asp-action="Edit" asp-route-id="@item.StoreId"  class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                                    <i class="anticon anticon-edit"></i>
+                                                    </a>
+                                                    <a asp-controller="AdminStores" asp-action="Delete" asp-route-id="@item.StoreId"  class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                                    <i class="anticon anticon-delete"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                </div>
+            </div>
+        </div>
+    <!-- Content Wrapper END -->
