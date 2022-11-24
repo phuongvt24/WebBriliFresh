@@ -8,6 +8,15 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddDbContext<BriliFreshDbContext>(options => options.UseSqlServer(
 builder.Configuration.GetConnectionString("BriliFreshDB")
 ));
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(10);
+});
+builder.Services.AddMemoryCache();
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,9 +31,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseSession();
 
 app.UseAuthorization();
-
+//app.MapRazorPages();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
@@ -34,6 +44,11 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+    endpoints.MapControllerRoute(
+    name: "login",
+    pattern: "{area:exists}/{controller=AdminLogin}/{action=Login}/{id?}");
+    //endpoints.MapRazorPages();
 });
 
 
