@@ -1,68 +1,5 @@
 ﻿@model IEnumerable<WebBriliFresh.Models.DiscountOrder>
 
-@*<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DisCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DisRate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaxDis)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CusType)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DisCode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DisRate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MaxDis)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CusType)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.DisId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.DisId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.DisId">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-*@
-
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -134,6 +71,7 @@
                             Loại Khách Hàng
                         </th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -168,20 +106,29 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.CusType)
                             </td>
-
-                            @*     <td>
-                        <div class="d-flex align-items-center">
-                        <div class="badge badge-success badge-dot m-r-10"></div>
-                        <div>In Stock</div>
-                        </div>
-                        </td>*@
+                            @if(item.Status==0){
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="badge badge-success badge-dot m-r-10"></div>
+                                        <div>Chưa Sử Dụng</div>
+                                    </div>
+                                </td>
+                            }else{
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="badge badge-danger badge-dot m-r-10"></div>
+                                        <div>Đã Sử Dụng</div>
+                                    </div>
+                                </td>
+                            }
+                      
                             <td class="text-right">
-                                <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                <a asp-area="Admin" asp-controller="DiscountOrders" asp-action="Edit" asp-route-id="@item.DisId" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
                                     <i class="anticon anticon-edit"></i>
-                                </button>
-                                <button class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                </a>
+                                <a asp-area="Admin" asp-controller="DiscountOrders" asp-action="Delete" asp-route-id="@item.DisId" class="btn btn-icon btn-hover btn-sm btn-rounded">
                                     <i class="anticon anticon-delete"></i>
-                                </button>
+                                </a>
                             </td>
                         </tr>
                     }

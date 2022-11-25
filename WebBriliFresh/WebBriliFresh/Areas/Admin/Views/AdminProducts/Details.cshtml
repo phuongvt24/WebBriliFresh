@@ -1,67 +1,129 @@
-﻿@model WebBriliFresh.Models.Product
+﻿@model IEnumerable<WebBriliFresh.Models.DiscountOrder>
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-
-<h1>Details</h1>
-
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Source)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Source)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Des)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Des)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Unit)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Unit)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsDelet)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsDelet)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Type.TypeId)
-        </dd>
-    </dl>
+<div class="page-header">
+    <h2 class="header-title">Orders List</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <span class="breadcrumb-item active">Khuyến Mãi Hóa Đơn</span>
+        </nav>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.ProId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="card">
+    <div class="card-body">
+        <div class="row m-b-30">
+            <div class="col-lg-8">
+                <div class="d-md-flex">
+                    <div class="m-b-10 m-r-15">
+                        <select class="custom-select" style="min-width: 180px;">
+                            <option selected>Catergory</option>
+                            <option value="all">All</option>
+                            <option value="homeDeco">Home Decoration</option>
+                            <option value="eletronic">Eletronic</option>
+                            <option value="jewellery">Jewellery</option>
+                        </select>
+                    </div>
+                    @*                    <div class="m-b-10">
+                    <select class="custom-select" style="min-width: 180px;">
+                    <option selected>Status</option>
+                    <option value="all">All</option>
+                    <option value="inStock">In Stock </option>
+                    <option value="outOfStock">Out of Stock</option>
+                    </select>
+                    </div>*@
+                </div>
+            </div>
+            <div class="col-lg-4 text-right">
+                <a asp-area="Admin" asp-controller="DiscountOrders" asp-action="Create" class="btn btn-primary">
+                    <i class="anticon anticon-plus-circle m-r-5"></i>
+                    <span>Tạo Mã</span>
+                </a>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover e-commerce-table">
+                <thead>
+                    <tr>
+                        <th>
+                            <div class="checkbox">
+                                <input id="checkAll" type="checkbox">
+                                <label for="checkAll" class="m-b-0"></label>
+                            </div>
+                        </th>
+                        <th>Mã Giảm Giá</th>
+                        <th>
+                            Tỉ Lệ Giảm
+                        </th>
+                        <th>
+                            Giảm Tối Đa
+                        </th>
+                        <th>
+                            Bắt Đầu
+                        </th>
+                        <th>
+                            Kết Thúc
+                        </th>
+                        <th>
+                            Loại Khách Hàng
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="checkbox">
+                                    <input id="check-item-1" type="checkbox">
+                                    <label for="check-item-1" class="m-b-0"></label>
+                                </div>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DisCode)
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <h6 class="m-b-0 m-l-10">
+                                        @Html.DisplayFor(modelItem => item.DisRate)
+                                    </h6>
+                                </div>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MaxDis)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StartDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EndDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CusType)
+                            </td>
+
+                            @*     <td>
+                        <div class="d-flex align-items-center">
+                        <div class="badge badge-success badge-dot m-r-10"></div>
+                        <div>In Stock</div>
+                        </div>
+                        </td>*@
+                            <td class="text-right">
+                                <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                    <i class="anticon anticon-edit"></i>
+                                </button>
+                                <button class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                    <i class="anticon anticon-delete"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

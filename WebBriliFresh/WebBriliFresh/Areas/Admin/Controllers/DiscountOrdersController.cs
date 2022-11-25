@@ -54,7 +54,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DisId,DisCode,DisRate,MaxDis,StartDate,EndDate,CusType")] DiscountOrder discountOrder)
+        public async Task<IActionResult> Create([Bind("DisId,DisCode,DisRate,MaxDis,StartDate,EndDate,CusType,Status")] DiscountOrder discountOrder)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DisId,DisCode,DisRate,MaxDis,StartDate,EndDate,CusType")] DiscountOrder discountOrder)
+        public async Task<IActionResult> Edit(int id, [Bind("DisId,DisCode,DisRate,MaxDis,StartDate,EndDate,CusType,Status")] DiscountOrder discountOrder)
         {
             if (id != discountOrder.DisId)
             {
