@@ -12,8 +12,8 @@ public partial class Stock
     public int ProId { get; set; }
     [Required]
     public int? Quantity { get; set; }
-
+    [ForeignKey("ProId")]
     public virtual Product Pro { get; set; } = null!;
-
+    [ForeignKey("StoreId")]
     public virtual Store Store { get; set; } = null!;
 }
