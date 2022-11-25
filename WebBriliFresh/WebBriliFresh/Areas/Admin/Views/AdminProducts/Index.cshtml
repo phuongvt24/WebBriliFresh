@@ -5,7 +5,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 <div class="page-header">
-    <h2 class="header-title">Orders List</h2>
+    <h2 class="header-title">Brili Fresh</h2>
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
             <a asp-area="Admin" asp-controller="Home" asp-action="index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
@@ -38,10 +38,10 @@
                 </div>
             </div>
             <div class="col-lg-4 text-right">
-                <button class="btn btn-primary">
+                <a asp-area="Admin" asp-controller="AdminProducts" asp-action="Create" class="btn btn-primary">
                     <i class="anticon anticon-plus-circle m-r-5"></i>
                     <span>Add Product</span>
-                </button>
+                </a>
             </div>
         </div>
         <div class="table-responsive">
@@ -53,39 +53,49 @@
                         <th>Loại</th>
                         <th>Đơn vị</th>
                         <th>Giá bán</th>
-                        <th>Status</th>
+                        <th>Nguồn gốc</th>
+                        <th>Trạng thái</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            #31
-                        </td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <img class="img-fluid rounded" src="assets/images/others/thumb-9.jpg" style="max-width: 60px" alt="">
-                                <h6 class="m-b-0 m-l-10">Gray Sofa</h6>
-                            </div>
-                        </td>
-                        <td>Home Decoration</td>
-                        <td>$912.00</td>
-                        <td>20</td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <div class="badge badge-success badge-dot m-r-10"></div>
-                                <div>In Stock</div>
-                            </div>
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
-                                <i class="anticon anticon-edit"></i>
-                            </button>
-                            <button class="btn btn-icon btn-hover btn-sm btn-rounded">
-                                <i class="anticon anticon-delete"></i>
-                            </button>
-                        </td>
-                    </tr>
+                    @if (Model != null)
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.ProId)</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img class="img-fluid rounded" src="~/Adminassets/images/others/thumb-9.jpg" style="max-width: 60px" alt="">
+                                        <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.ProName)</h6>
+                                    </div>
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.Type.SubType)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Unit)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Source)</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="badge badge-success badge-dot m-r-10"></div>
+                                        <div>Còn hàng</div>
+                                    </div>
+                                </td>
+
+                                <td class="text-right">
+                                    <a asp-controller="AdminProducts" asp-action="Edit" asp-route-id="@item.ProId" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                        <i class="anticon anticon-edit"></i>
+                                    </a>
+                                    <a asp-controller="AdminProducts" asp-action="Delete" asp-route-id="@item.ProId" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                        <i class="anticon anticon-delete"></i>
+                                    </a>
+                                    <a style="padding: 12px 20px;" asp-controller="AdminProducts" asp-action="Details" asp-route-id="@item.ProId">
+                                        Xem chi tiết
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
                 </tbody>
             </table>
         </div>
