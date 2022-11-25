@@ -15,5 +15,7 @@ public partial class DiscountType
 
     public DateTime? EndDate { get; set; }
 
+    public int? Status { get; set; }
+
     public virtual Type? Type { get; set; }
 }

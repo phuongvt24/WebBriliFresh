@@ -22,8 +22,8 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/AdminProducts
         public async Task<IActionResult> Index()
         {
-            var briliFreshDbContext = _context.Products.Include(p => p.Type);
-            return View(await briliFreshDbContext.ToListAsync());
+            var products = _context.Products.Where(p => p.IsDelet == 0);
+            return View(await products.ToListAsync());
         }
 
         // GET: Admin/AdminProducts/Details/5

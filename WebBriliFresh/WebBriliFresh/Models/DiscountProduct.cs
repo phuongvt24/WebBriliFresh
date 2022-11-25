@@ -15,5 +15,7 @@ public partial class DiscountProduct
 
     public DateTime? EndDate { get; set; }
 
+    public int? Status { get; set; }
+
     public virtual Product? Pro { get; set; }
 }
