@@ -22,7 +22,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/AdminProducts
         public async Task<IActionResult> Index()
         {
-            var products = _context.Products.Where(p => p.IsDelet == 0);
+            var products = _context.Products.Where(p => p.IsDeleted == 0);
             return View(await products.ToListAsync());
         }
 
@@ -48,9 +48,10 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/AdminProducts/Create
         public IActionResult Create()
         {
-            ViewData["TypeId"] = new SelectList(_context.Types, "TypeId", "TypeId");
+            ViewData["TypeId"] = new SelectList(_context.Types, "TypeId", "TypeId");  
             return View();
         }
+     
 
         // POST: Admin/AdminProducts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
