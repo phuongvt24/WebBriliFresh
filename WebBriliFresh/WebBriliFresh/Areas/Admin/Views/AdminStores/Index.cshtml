@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<WebBriliFresh.Models.Store>
 
 @{
-    ViewData["Title"] = "Quản lý cửa hàng";
+    ViewData["Title"] = "Index";
 }
 
     <!-- Content Wrapper START -->
@@ -22,11 +22,6 @@
                             <div class="m-b-10 m-r-15">
                                 <select id="city" class="custom-select" style="min-width: 180px;">
                                     <option value="" selected>Tỉnh/Thành</option>
-                                </select>
-                            </div>
-                            <div class="m-b-10">
-                                <select id="district" class="custom-select" style="min-width: 180px;">
-                                    <option value="" selected>Quận/Huyện</option>
                                 </select>
                             </div>
                         </div>
@@ -85,7 +80,6 @@
 <script>
     $(document).ready(function () {
         var citis = document.getElementById("city");
-        var districts = document.getElementById("district");
         var Parameter = {
             url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
             method: "GET",
@@ -101,14 +95,9 @@
                 citis.options[citis.options.length] = new Option(x.Name, x.Id);
             }
             citis.onchange = function () {
-                district.length = 1;
-                if (this.value != "") {
-                    const result = data.filter(n => n.Id === this.value);
-
-                    for (const k of result[0].Districts) {
-                        districts.options[districts.options.length] = new Option(k.Name, k.Id);
-                    }
-                }
+                var url = '@Html.Raw(Url.Action("Index", "AdminStores", new { City = "__city__"}))';
+                var params = url.replace('__city__', this.options[this.selectedIndex].value);
+                window.location.href = params;
             };
         }
     })
