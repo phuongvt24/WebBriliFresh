@@ -20,10 +20,7 @@ public partial class DiscountOrder
 
     [Range(1,3)]
     public int? CusType { get; set; }
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
     public int? Status { get; set; }
 
     public virtual ICollection<Order> Orders { get; } = new List<Order>();
