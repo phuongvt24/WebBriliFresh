@@ -14,6 +14,7 @@ public partial class Store
     public string? Ward { get; set; }
 
     public string? SpecificAddress { get; set; }
+    public int isDeleted { get; set; }
 
     public int? IsDeleted { get; set; }
 

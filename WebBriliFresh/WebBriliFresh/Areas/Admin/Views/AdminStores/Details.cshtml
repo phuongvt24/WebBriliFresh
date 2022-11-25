@@ -4,39 +4,66 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a asp-action="Index" class="breadcrumb-item">Quản lý cửa hàng</a>
+            <span class="breadcrumb-item active">Chi tiết</span>
+        </nav>
+    </div>
+</div>
+<div class="page-header no-gutters has-tab">
+    <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+        <div class="media align-items-center m-b-15">
+            <div class="m-l-15">
+                <h4 class="m-b-0">Cửa hàng</h4>
+                <p class="text-dark font-weight-semibold">ID: @Html.DisplayFor(model => model.StoreId)</p>
+            </div>
+        </div>
+        <div class="m-b-15">
+            <button asp-action="Edit" asp-route-id="@Model.StoreId" class="btn btn-primary">
+                <i class="anticon anticon-edit"></i>
+                <span>Sửa</span>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="tab-content m-t-15">
+        <div class="tab-pane fade show active" id="product-overview">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Thông tin chi tiết</h4>
+                    <div class="table-responsive">
+                        <table class="product-info-table m-t-20">
+                            <tbody>
+                                <tr>
+                                    <td class="text-dark font-weight-semibold">Địa chỉ:</td>
+                                    <td>@Html.DisplayFor(model => model.SpecificAddress)</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-dark font-weight-semibold">Phường/Xã:</td>
+                                    <td>@Html.DisplayFor(model => model.Ward)</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-dark font-weight-semibold">Quận/Huyện:</td>
+                                    <td>@Html.DisplayFor(model => model.District)</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-dark font-weight-semibold">Tỉnh/Thành:</td>
+                                    <td>@Html.DisplayFor(model => model.City)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div>
-    <h4>Store</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.City)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.District)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.District)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Ward)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Ward)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SpecificAddress)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SpecificAddress)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.StoreId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
 </div>

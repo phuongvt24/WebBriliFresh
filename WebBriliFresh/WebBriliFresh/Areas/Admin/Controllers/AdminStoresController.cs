@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using WebBriliFresh.Models;
 
 namespace WebBriliFresh.Areas.Admin.Controllers
@@ -22,7 +23,20 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/AdminStores
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Stores.ToListAsync());
+            var stores = _context.Stores.Where(x => x.isDeleted == 0);
+            return View(await stores.ToListAsync());
+        }
+
+        [HttpPost, ActionName("SearchIndex")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SearchIndex(int? city)
+        {
+            var stores = _context.Stores.Where(x => x.isDeleted == 0);
+            if (city != null)
+            {
+                stores = stores.Where(x => x.City == city.ToString());
+            }
+            return View(await stores.ToListAsync());
         }
 
         // GET: Admin/AdminStores/Details/5
@@ -54,10 +68,11 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StoreId,City,District,Ward,SpecificAddress")] Store store)
+        public async Task<IActionResult> Create([Bind("StoreId,City,District,Ward,SpecificAddress,isDeleted")] Store store)
         {
             if (ModelState.IsValid)
             {
+                store.isDeleted = 0;
                 _context.Add(store);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -146,7 +161,8 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             var store = await _context.Stores.FindAsync(id);
             if (store != null)
             {
-                _context.Stores.Remove(store);
+                //_context.Stores.Remove(store);
+                store.isDeleted = 1;
             }
             
             await _context.SaveChangesAsync();
@@ -157,5 +173,6 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         {
           return _context.Stores.Any(e => e.StoreId == id);
         }
+
     }
 }
