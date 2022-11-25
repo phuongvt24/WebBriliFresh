@@ -1,48 +1,123 @@
 ﻿@model WebBriliFresh.Models.Store
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Thêm mới cửa hàng";
 }
 
-<h1>Create</h1>
-
-<h4>Store</h4>
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a asp-action="Index" class="breadcrumb-item">Quản lý cửa hàng</a>
+            <span class="breadcrumb-item active">Thêm mới</span>
+        </nav>
+    </div>
+</div>
+<h3>Thêm mới cửa hàng</h3>
 <hr />
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
+                <label asp-for="City" class="control-label">Tỉnh/Thành</label>
+                <input asp-for="City" id="selected_city" type="hidden" value="" />
+                <select id="city" class="form-control">
+                    <option value="" selected>Chọn Tỉnh/Thành</option>
+                </select>
                 <span asp-validation-for="City" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="District" class="control-label"></label>
-                <input asp-for="District" class="form-control" />
+                <label asp-for="District" class="control-label">Quận/Huyện</label>
+                <input asp-for="District" id="selected_district" type="hidden" value="" />
+                <select id="district" class="form-control">
+                    <option value="" selected>Chọn Quận/Huyện</option>
+                </select>
                 <span asp-validation-for="District" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Ward" class="control-label"></label>
-                <input asp-for="Ward" class="form-control" />
+                <label asp-for="Ward" class="control-label">Phường/Xã</label>
+                <input asp-for="Ward" id="selected_ward" type="hidden" value="" />
+                <select id="ward" class="form-control">
+                    <option value="" selected>Chọn Phường/Xã</option>
+                </select>
                 <span asp-validation-for="Ward" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SpecificAddress" class="control-label"></label>
-                <input asp-for="SpecificAddress" class="form-control" />
+                <label asp-for="SpecificAddress" class="control-label">Địa chỉ</label>
+                <textarea asp-for="SpecificAddress" class="form-control" placeholder="Số nhà/Tên đường/Tên tòa/..."></textarea>
                 <span asp-validation-for="SpecificAddress" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input id="create-btn" type="submit" value="Thêm mới" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var citis = document.getElementById("city");
+        var districts = document.getElementById("district");
+        var wards = document.getElementById("ward");
+        var Parameter = {
+            url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+            method: "GET",
+            responseType: "application/json",
+        };
+        var promise = axios(Parameter);
+        promise.then(function (result) {
+            renderCity(result.data);
+        });
+
+        function renderCity(data) {
+            for (const x of data) {
+                citis.options[citis.options.length] = new Option(x.Name, x.Id);
+            }
+            citis.onchange = function () {
+                district.length = 1;
+                ward.length = 1;
+                if (this.value != "") {
+                    const result = data.filter(n => n.Id === this.value);
+
+                    for (const k of result[0].Districts) {
+                        districts.options[districts.options.length] = new Option(k.Name, k.Id);
+                    }
+                }
+            };
+            districts.onchange = function () {
+                ward.length = 1;
+                const dataCity = data.filter((n) => n.Id === citis.value);
+                if (this.value != "") {
+                    const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+
+                    for (const w of dataWards) {
+                        wards.options[wards.options.length] = new Option(w.Name, w.Id);
+                    }
+                }
+            };
+        }
+
+        $("#city").prop('required', true);
+        $("#district").prop('required', true);
+        $("#ward").prop('required', true);
+        
+        $("#create-btn").click(function () {
+            var city = $("#city").find("option:selected").text();
+            $("#selected_city").val(city);
+            var district = $("#district").find("option:selected").text();
+            $("#selected_district").val(district);
+            var ward = $("#ward").find("option:selected").text();
+            $("#selected_ward").val(ward);
+        })
+        
+    })
+
+</script>
