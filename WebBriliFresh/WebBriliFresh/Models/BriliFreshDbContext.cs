@@ -293,7 +293,6 @@ public partial class BriliFreshDbContext : DbContext
             entity.ToTable("Product");
 
             entity.Property(e => e.ProId).HasColumnName("ProID");
-            entity.Property(e => e.IsDelet).HasColumnName("isDelet");
             entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.StartDate).HasColumnType("datetime");
             entity.Property(e => e.TypeId).HasColumnName("TypeID");
