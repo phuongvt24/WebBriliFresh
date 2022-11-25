@@ -28,7 +28,14 @@
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
+<<<<<<< Updated upstream
             
+=======
+            <div class="form-group">
+                <label asp-for="TypeId" class="control-label"></label>
+                <select asp-for="TypeId" class="form-control" asp-items="ViewBag.TypeId"></select>
+            </div>
+>>>>>>> Stashed changes
             <div class="form-group">
                 <label asp-for="Source" class="control-label"></label>
                 <input asp-for="Source" class="form-control" />
@@ -64,4 +71,11 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+
 
