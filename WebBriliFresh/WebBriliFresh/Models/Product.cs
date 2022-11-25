@@ -21,7 +21,7 @@ public partial class Product
 
     public string? Unit { get; set; }
 
-    public int? IsDelet { get; set; }
+    public int? isDeleted { get; set; }
 
     public virtual ICollection<DiscountProduct> DiscountProducts { get; } = new List<DiscountProduct>();
 

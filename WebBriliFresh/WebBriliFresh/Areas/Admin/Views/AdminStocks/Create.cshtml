@@ -10,32 +10,29 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" >
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="StoreId" class="control-label"></label>
+                <label asp-for="StoreId" class="control-label">ID cửa hàng</label>
                 <select asp-for="StoreId" class ="form-control" asp-items="ViewBag.StoreId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="ProId" class="control-label"></label>
+                <label asp-for="ProId" class="control-label">ID sản phẩm</label>
                 <select asp-for="ProId" class ="form-control" asp-items="ViewBag.ProId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="Quantity" class="control-label"></label>
+                <label asp-for="Quantity" class="control-label">Số lượng</label>
                 <input asp-for="Quantity" class="form-control" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Thêm mới" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
