@@ -48,7 +48,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/AdminProducts/Create
         public IActionResult Create()
         {
-            ViewData["TypeId"] = new SelectList(_context.Types, "SubType", "SubType");
+            ViewData["TypeId"] = new SelectList(_context.Types, "TypeId", "TypeId");
             return View();
         }
 
