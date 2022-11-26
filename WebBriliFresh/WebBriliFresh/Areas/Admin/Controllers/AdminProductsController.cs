@@ -48,7 +48,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/AdminProducts/Create
         public IActionResult Create()
         {
-            ViewData["TypeId"] = new SelectList(_context.Types, "TypeId", "TypeId");  
+            ViewData["TypeId"] = new SelectList(_context.Types, "TypeId", "SubType");  
             return View();
         }
      
@@ -58,7 +58,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProId,ProName,Price,TypeId,Source,StartDate,Des,Unit,IsDelet")] Product product)
+        public async Task<IActionResult> Create([Bind("ProId,ProName,Price,TypeId,Source,StartDate,Des,Unit,IsDeleted")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +92,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProId,ProName,Price,TypeId,Source,StartDate,Des,Unit,IsDelet")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProId,ProName,Price,TypeId,Source,StartDate,Des,Unit,IsDeleted")] Product product)
         {
             if (id != product.ProId)
             {

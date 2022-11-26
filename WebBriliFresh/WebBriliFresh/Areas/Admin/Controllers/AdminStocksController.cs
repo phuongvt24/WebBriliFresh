@@ -22,14 +22,14 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/AdminStocks
         public async Task<IActionResult> Index()
         {
-            var briliFreshDbContext = _context.Stocks.Include(s => s.Pro).Include(s => s.Store);
+            var briliFreshDbContext = _context.Stocks.Include(s => s.Pro).Where(s => s.Pro.IsDeleted == 0).Include(s => s.Store).Where(s => s.Store.isDeleted == 0); ; ;
             return View(await briliFreshDbContext.ToListAsync());
         }
 
         // GET: Admin/AdminStocks/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, int? id1)
         {
-            if (id == null || _context.Stocks == null)
+            if (id == null || id1 == null || _context.Stocks == null)
             {
                 return NotFound();
             }
@@ -38,7 +38,11 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 .Include(s => s.Pro)
                 .Include(s => s.Store)
                 .FirstOrDefaultAsync(m => m.StoreId == id);
-            if (stock == null)
+            var stock1 = await _context.Stocks
+                .Include(s => s.Pro)
+                .Include(s => s.Store)
+                .FirstOrDefaultAsync(m => m.ProId == id1);
+            if (stock == null || stock1 == null)
             {
                 return NotFound();
             }
@@ -49,8 +53,8 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/AdminStocks/Create
         public IActionResult Create()
         {
-            ViewData["ProId"] = new SelectList(_context.Products, "ProId", "ProId");
-            ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "StoreId");
+            ViewData["ProId"] = new SelectList(_context.Products.Where(x => x.IsDeleted == 0), "ProId", "ProId");
+            ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "StoreId");
             return View();
         }
 
@@ -67,26 +71,26 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProId"] = new SelectList(_context.Products, "ProId", "ProId", stock.ProId);
-            ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "StoreId", stock.StoreId);
+            ViewData["ProId"] = new SelectList(_context.Products.Where(x => x.IsDeleted == 0), "ProId", "ProId", stock.ProId);
+            ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "StoreId", stock.StoreId);
             return View(stock);
         }
 
         // GET: Admin/AdminStocks/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int? id1)
         {
-            if (id == null || _context.Stocks == null)
+            if (id == null || id1 == null || _context.Stocks == null)
             {
                 return NotFound();
             }
 
-            var stock = await _context.Stocks.FindAsync(id);
+            var stock = await _context.Stocks.FindAsync(new object[] { id, id1 });
             if (stock == null)
             {
                 return NotFound();
             }
-            ViewData["ProId"] = new SelectList(_context.Products, "ProId", "ProId", stock.ProId);
-            ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "StoreId", stock.StoreId);
+            ViewData["ProId"] = new SelectList(_context.Products.Where(x => x.IsDeleted == 0), "ProId", "ProId", stock.ProId);
+            ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "StoreId", stock.StoreId);
             return View(stock);
         }
 
@@ -95,9 +99,9 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StoreId,ProId,Quantity")] Stock stock)
+        public async Task<IActionResult> Edit(int id, int id1, [Bind("StoreId,ProId,Quantity")] Stock stock)
         {
-            if (id != stock.StoreId)
+            if (id != stock.StoreId || id1 != stock.ProId)
             {
                 return NotFound();
             }
@@ -111,7 +115,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StockExists(stock.StoreId))
+                    if (!StockExists(stock.StoreId, stock.ProId))
                     {
                         return NotFound();
                     }
@@ -122,15 +126,15 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProId"] = new SelectList(_context.Products, "ProId", "ProId", stock.ProId);
-            ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "StoreId", stock.StoreId);
+            ViewData["ProId"] = new SelectList(_context.Products.Where(x => x.IsDeleted == 0), "ProId", "ProId", stock.ProId);
+            ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "StoreId", stock.StoreId);
             return View(stock);
         }
 
         // GET: Admin/AdminStocks/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, int? id1)
         {
-            if (id == null || _context.Stocks == null)
+            if (id == null || id1 == null || _context.Stocks == null)
             {
                 return NotFound();
             }
@@ -139,7 +143,11 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 .Include(s => s.Pro)
                 .Include(s => s.Store)
                 .FirstOrDefaultAsync(m => m.StoreId == id);
-            if (stock == null)
+            var stock1 = await _context.Stocks
+                .Include(s => s.Pro)
+                .Include(s => s.Store)
+                .FirstOrDefaultAsync(m => m.ProId == id1);
+            if (stock == null || stock1 == null)
             {
                 return NotFound();
             }
@@ -150,7 +158,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // POST: Admin/AdminStocks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, int? id1)
         {
             if (_context.Stocks == null)
             {
@@ -166,9 +174,17 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StockExists(int id)
+        private bool StockExists(int id, int id1)
         {
-          return _context.Stocks.Any(e => e.StoreId == id);
+            if (_context.Stocks.Any(e => e.StoreId == id))
+            {
+                if (_context.Stocks.Any(e => e.ProId == id1))
+                    return true;
+                else
+                    return false;
+            }
+            else
+                return false;
         }
     }
 }
