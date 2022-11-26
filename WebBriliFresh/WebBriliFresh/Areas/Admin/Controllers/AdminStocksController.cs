@@ -53,6 +53,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/AdminStocks/Create
         public IActionResult Create()
         {
+            ViewData["ProId"] = new SelectList(_context.Products.Where(x => x.IsDeleted == 0), "ProId", "ProId");
             ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "StoreId");
             return View();
         }
@@ -70,6 +71,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ProId"] = new SelectList(_context.Products.Where(x => x.IsDeleted == 0), "ProId", "ProId", stock.ProId);
             ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "StoreId", stock.StoreId);
             return View(stock);
         }
@@ -87,6 +89,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            ViewData["ProId"] = new SelectList(_context.Products.Where(x => x.IsDeleted == 0), "ProId", "ProId", stock.ProId);
             ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "StoreId", stock.StoreId);
             return View(stock);
         }
@@ -123,6 +126,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ProId"] = new SelectList(_context.Products.Where(x => x.IsDeleted == 0), "ProId", "ProId", stock.ProId);
             ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "StoreId", stock.StoreId);
             return View(stock);
         }
