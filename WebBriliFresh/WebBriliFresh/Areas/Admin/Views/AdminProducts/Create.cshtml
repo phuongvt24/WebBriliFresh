@@ -20,12 +20,12 @@
                 <span asp-validation-for="ProName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TypeId" class="control-label">Loại</label>
-                <select asp-for="TypeId" class="form-control" asp-items="ViewBag.TypeId"></select>
+                <label asp-for="Type.MainType" class="control-label">Loại chính</label>
+                <select asp-for="Type.MainType" class="form-control" asp-items="ViewBag.MainType"></select>
             </div>
             <div class="form-group">
                 <label asp-for="TypeId" class="control-label">Loại</label>
-                <select asp-for="TypeId" class="form-control" asp-items="ViewBag.TypeId"></select>
+                <select asp-for="TypeId" class="form-control" asp-items="ViewBag.TypeId1"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Price" class="control-label">Giá bán</label>
@@ -39,8 +39,8 @@
                 <span asp-validation-for="Source" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" asp-format="{dd/MM/yyyy}"  class="form-control" />
+                <label asp-for="StartDate" class="control-label">Ngày</label>
+                <input asp-for="StartDate" type="date" id="myID" class="form-control" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -68,10 +68,26 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
+ <script type="text/javascript" >
+    $(document).ready(function () {
+        flatpickr("#myID", {
+            dateFormat: "d/m/Y",
+        });
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script>
+        var maintype = $("#Type_MainType");
+        var subtype = $("#Type_MainType");
+
+        $("#Type_MainType").change(function () {
+            if (maintype.find(":selected").val() === 'Rau củ') {
+                subtype.setAttribute("asp-items", "ViewBag.TypeId1")
+            } else if (maintype.find(":selected").val() === 'Thịt cá') {
+                subtype.setAttribute("asp-items", "ViewBag.TypeId2")
+            } else {
+                subtype.setAttribute("asp-items", "ViewBag.TypeId3")
+            }
+        })
+    })
 
 </script>
