@@ -6,14 +6,12 @@ namespace WebBriliFresh.Models;
 
 public partial class Stock
 {
-    [Key, Column(Order = 1)]
+    [Key] [Column(Order = 0)]
     public int StoreId { get; set; }
-    [Key, Column(Order = 2)]
+    [Key] [Column(Order = 1)]
     public int ProId { get; set; }
     [Required]
     public int? Quantity { get; set; }
-    [ForeignKey("ProId")]
     public virtual Product Pro { get; set; } = null!;
-    [ForeignKey("StoreId")]
     public virtual Store Store { get; set; } = null!;
 }

@@ -4,46 +4,107 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<!-- Content Wrapper START -->
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <span class="breadcrumb-item active">Quản lý kho</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row m-b-30">
+            <div class="col-lg-8">
+                <div class="d-md-flex">
+                    <div class="m-b-10 m-r-15">
+                        <label class="control-label">ID cửa hàng</label>
+                        <select id="store" class="form-control" asp-items="ViewBag.StoreId" onChange="search(this);">
+                            <option value="" selected>Tất cả cửa hàng</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 text-right">
+                <button class="btn btn-primary" id="createbtn">
+                    <i class="anticon anticon-plus-circle m-r-5"></i>
+                    <span>Thêm mới kho</span>
+                </button>
+            </div>
+        </div>
+        <div style="float: right;">
+            <div>
+                <span style="background-color: #FFFFFF; height: 20px; width: 20px; border-radius: 50%; border: 1px solid; display: inline-block;"></span>
+                <label style="float: right; margin-left: 8px; margin-bottom: 4px;" class="text-dark font-weight-semibold">Còn hàng</label>
+            </div>
+            <div>
+                <span style="background-color: #ffa8a8; height: 20px; width: 20px; border-radius: 50%; border: 1px solid; display: inline-block;"></span>
+                <label style="float: right; margin-left: 8px;" class="text-dark font-weight-semibold">Hết hàng</label>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover e-commerce-table">
+                <thead>
+                    <tr>
+                        <th>ID cửa hàng</th>
+                        <th>ID sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr class="rowitem">
+                                <td>@Html.DisplayFor(modelItem => item.StoreId)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Pro.ProId)</td>
+                                <td class="quantity"> @Html.DisplayFor(modelItem => item.Quantity)</td>
 
-<p>
-    <a asp-action="Create">Thêm mới</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Store)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Pro)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Store.StoreId)
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.Pro.ProId)
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.StoreId, id1=item.ProId}) |
-                    @Html.ActionLink("Details", "Details", new { id=item.StoreId, id1=item.ProId}) |
-                    @Html.ActionLink("Delete", "Delete", new { id=item.StoreId, id1=item.ProId})
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                                <td class="text-right">
+                                    <a asp-controller="AdminStocks" asp-action="Edit" asp-route-id="@item.StoreId" asp-route-id1="@item.ProId" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                        <i class="anticon anticon-edit"></i>
+                                    </a>
+                                    <a asp-controller="AdminStocks" asp-action="Delete" asp-route-id="@item.StoreId" asp-route-id1="@item.ProId" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                        <i class="anticon anticon-delete"></i>
+                                    </a>
+                                    <a style="padding: 12px 20px;" asp-controller="AdminStocks" asp-action="Details" asp-route-id="@item.StoreId" asp-route-id1="@item.ProId">
+                                        Xem chi tiết
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Content Wrapper END -->
+<script>
+    function search(a) {
+        window.location.href = "/Admin/AdminStocks/Index/" + a.options[a.selectedIndex].value;
+    }
+
+    $('#createbtn').click(function () {
+        var a = $('#store').val();
+        window.location.href = "/Admin/AdminStocks/Create/" + a;
+    })
+    
+    $(document).ready(function() {
+        var path = location.pathname;
+        path = path.replace('/Admin/AdminStocks/Index/','');
+        $('#store option[value=' + path + ']').attr('selected', true);
+    })
+
+    for (var i = 0; i < $('.quantity').length; i++) {
+        //alert($('.quantity')[i].innerHTML);
+        if ($('.quantity')[i].innerHTML == 0) {
+            $('.rowitem')[i].style.backgroundColor="#ffa8a8";
+            $('.rowitem')[i].style.color="#FFFFFF";
+        }
+    }
+</script>

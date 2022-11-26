@@ -3,14 +3,23 @@
 @{
     ViewData["Title"] = "Edit";
 }
-
-<h1>Chỉnh sửa thông tin</h1>
-
-<h4>Kho</h4>
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a asp-action="Index" class="breadcrumb-item">Quản lý kho</a>
+            <span class="breadcrumb-item active">Chỉnh sửa</span>
+        </nav>
+    </div>
+</div>
+<h3>Chỉnh sửa thông tin kho</h3>
+<p class="text-dark font-weight-semibold">ID cửa hàng: @Html.DisplayFor(model => model.StoreId)</p>
+<p class="text-dark font-weight-semibold">ID sản phẩm: @Html.DisplayFor(model => model.ProId)</p>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" asp-route-id="@Model.StoreId" asp-route-id1="@Model.ProId" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="StoreId" />
             <input type="hidden" asp-for="ProId" />
