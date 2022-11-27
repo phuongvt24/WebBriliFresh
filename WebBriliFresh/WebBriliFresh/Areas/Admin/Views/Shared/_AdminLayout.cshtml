@@ -22,7 +22,7 @@
 
     <!-- Core css -->
     <link href="~/adminassets/css/app.min.css" rel="stylesheet">
-
+    @RenderSection("Scripts",false/*required*/)
 
 </head>
 
@@ -231,11 +231,11 @@
 
     <!-- Core JS -->
     <script src="~/adminassets/js/app.min.js"></script>
-    <script type="text/javascript">
+@*    <script type="text/javascript">
         $(function () {
-            $('#datepicker').datepicker();
+            $('#datepicker').datepicker();  
         });
-    </script>
+    </script>*@
 
 
 </body>
