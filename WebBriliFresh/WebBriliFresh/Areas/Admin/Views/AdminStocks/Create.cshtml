@@ -4,9 +4,17 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>Stock</h4>
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a asp-action="Index" class="breadcrumb-item">Quản lý kho</a>
+            <span class="breadcrumb-item active">Thêm mới</span>
+        </nav>
+    </div>
+</div>
+<h3>Thêm mới kho</h3>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,15 +22,19 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="StoreId" class="control-label">ID cửa hàng</label>
-                <select asp-for="StoreId" class ="form-control" asp-items="ViewBag.StoreId"></select>
+                <select id="store" asp-for="StoreId" class ="form-control" asp-items="ViewBag.StoreId">
+                    <option value="" selected>Chọn mã cửa hàng</option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="ProId" class="control-label">ID sản phẩm</label>
-                <select asp-for="ProId" class ="form-control" asp-items="ViewBag.ProId"></select>
+                <select asp-for="ProId" class ="form-control" asp-items="ViewBag.ProId">
+                    <option value="" selected>Chọn mã sản phẩm</option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Quantity" class="control-label">Số lượng</label>
-                <input asp-for="Quantity" class="form-control" />
+                <input asp-for="Quantity" class="form-control" placeholder="Nhập số lượng sản phẩm" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -35,3 +47,14 @@
 <div>
     <a asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
 </div>
+
+<script>
+
+    $(document).ready(function () {
+        var path = location.pathname;
+        path = path.replace('/Admin/AdminStocks/Create/', '');
+        $('#store option[value=' + path + ']').attr('selected', true);
+    })
+
+</script>
+

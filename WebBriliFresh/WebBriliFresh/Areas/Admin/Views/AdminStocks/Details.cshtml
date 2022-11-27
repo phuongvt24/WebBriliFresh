@@ -4,34 +4,55 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Thông tin chi tiết</h1>
-
-<div>
-    <h4>Kho</h4>
-    <hr />
-    <dl class="row">  
-        <dt class = "col-sm-2">
-            Cửa hàng
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Store.StoreId)
-        </dd>
-        <dt class="col-sm-2">
-            Sản phẩm
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Pro.ProId)
-        </dd>
-        <dt class="col-sm-2">
-           Số lượng
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-    </dl>
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a asp-action="Index" class="breadcrumb-item">Quản lý kho</a>
+            <span class="breadcrumb-item active">Chi tiết</span>
+        </nav>
+    </div>
 </div>
-<div>
-    @Html.ActionLink("Sửa", "Edit", new { id = Model.StoreId, id1 = Model.ProId }) |
+<div class="page-header no-gutters has-tab">
+    <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+        <div class="media align-items-center m-b-15">
+            <div class="m-l-15">
+                <h4 class="m-b-0">Kho</h4>
+                <p class="text-dark font-weight-semibold">ID cửa hàng: @Html.DisplayFor(model => model.StoreId)</p>
+                <p class="text-dark font-weight-semibold">ID sản phẩm: @Html.DisplayFor(model => model.ProId)</p>
+            </div>
+        </div>
+        <div class="m-b-15">
+            <button asp-action="Edit" asp-route-id="@Model.StoreId" asp-route-id1="@Model.ProId" class="btn btn-primary">
+                <i class="anticon anticon-edit"></i>
+                <span>Sửa</span>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="tab-content m-t-15">
+        <div class="tab-pane fade show active" id="product-overview">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Thông tin chi tiết</h4>
+                    <div class="table-responsive">
+                        <table class="product-info-table m-t-20">
+                            <tbody>
+                                <tr>
+                                    <td class="text-dark font-weight-semibold">Số lượng:</td>
+                                    <td>@Html.DisplayFor(model => model.Quantity)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div>
     <a asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
 </div>
