@@ -1,0 +1,63 @@
+﻿@model WebBriliFresh.Models.DiscountOrder
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>DiscountOrder</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DisCode" class="control-label"></label>
+                <input asp-for="DisCode" class="form-control" />
+                <span asp-validation-for="DisCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DisRate" class="control-label"></label>
+                <input asp-for="DisRate" class="form-control" />
+                <span asp-validation-for="DisRate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaxDis" class="control-label"></label>
+                <input asp-for="MaxDis" class="form-control" />
+                <span asp-validation-for="MaxDis" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CusType" class="control-label"></label>
+                <input asp-for="CusType" class="form-control" />
+                <span asp-validation-for="CusType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

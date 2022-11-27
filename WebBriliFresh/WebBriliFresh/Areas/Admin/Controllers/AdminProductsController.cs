@@ -48,7 +48,13 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/AdminProducts/Create
         public IActionResult Create()
         {
-            ViewData["TypeId"] = new SelectList(_context.Types, "TypeId", "SubType");  
+            ViewData["TypeId1"] = new SelectList(_context.Types.Where(x=> x.MainType == "Rau củ"), "TypeId", "SubType");
+            ViewData["TypeId2"] = new SelectList(_context.Types.Where(x => x.MainType == "Thịt cá"), "TypeId", "SubType");
+            ViewData["TypeId3"] = new SelectList(_context.Types.Where(x => x.MainType == "Trái cây 4 mùa"), "TypeId", "SubType");
+
+
+            ViewData["MainType"] = new SelectList(_context.Types.GroupBy(p => p.MainType)
+                                                                .Select(x => new { MainType = x.Key }), "MainType", "MainType");
             return View();
         }
      
@@ -62,6 +68,9 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                Console.WriteLine(product.StartDate);
+
+
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
