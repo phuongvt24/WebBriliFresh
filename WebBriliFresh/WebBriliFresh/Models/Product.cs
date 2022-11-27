@@ -16,7 +16,7 @@ public partial class Product
 
     public string? Source { get; set; }
     [DataType(DataType.Date)]
-    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+    [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
     public DateTime? StartDate { get; set; }
 
     public string? Des { get; set; }
