@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebBriliFresh.Models;
 
@@ -17,6 +18,7 @@ public partial class DiscountOrder
 
     public DateTime? EndDate { get; set; }
 
+    [Range(1,3)]
     public int? CusType { get; set; }
 
     public bool? Status { get; set; }
