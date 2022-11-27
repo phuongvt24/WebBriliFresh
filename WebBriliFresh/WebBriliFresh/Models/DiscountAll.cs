@@ -13,5 +13,5 @@ public partial class DiscountAll
 
     public DateTime? EndDate { get; set; }
 
-    public int? Status { get; set; }
+    public bool? Status { get; set; }
 }

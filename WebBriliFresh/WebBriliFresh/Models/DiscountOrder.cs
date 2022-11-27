@@ -19,7 +19,7 @@ public partial class DiscountOrder
 
     public int? CusType { get; set; }
 
-    public int? Status { get; set; }
+    public bool? Status { get; set; }
 
     public virtual ICollection<Order> Orders { get; } = new List<Order>();
 }
