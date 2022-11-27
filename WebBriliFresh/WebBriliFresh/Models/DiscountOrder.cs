@@ -10,6 +10,7 @@ public partial class DiscountOrder
 {
     public int DisId { get; set; }
 
+    [Remote(action: "VerifyDisCode", controller: "DiscountOrders", ErrorMessage = "Mã đã tồn tại!")]
     [DisplayName("Mã Giảm Giá")]
     public string? DisCode { get; set; }
 

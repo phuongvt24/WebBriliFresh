@@ -176,5 +176,18 @@ namespace WebBriliFresh.Areas.Admin.Controllers
 
             return Json(true);
         }
+
+
+        [AcceptVerbs("GET", "POST")]
+        public IActionResult VerifyDisCode(string disCode)
+        {
+
+            foreach(DiscountOrder obj in _context.DiscountOrders)
+            {
+                if(obj.DisCode == disCode)
+                    return Json(false);
+            }
+                return Json(true);
+        }
     }
 }
