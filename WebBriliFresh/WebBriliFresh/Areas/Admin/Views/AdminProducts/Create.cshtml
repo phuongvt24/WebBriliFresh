@@ -4,7 +4,6 @@
     ViewData["Title"] = "Create";
 
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
-
 }
 
 <h1>Thêm mới sản phẩm</h1>
@@ -21,11 +20,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="Type.MainType" class="control-label">Loại chính</label>
-                <select asp-for="Type.MainType" class="form-control" asp-items="ViewBag.MainType"></select>
+                <select asp-for="Type.MainType" class="form-control" asp-items=ViewBag.MainType></select>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="id_subtypeid">
                 <label asp-for="TypeId" class="control-label">Loại</label>
-                <select asp-for="TypeId" class="form-control" asp-items="ViewBag.TypeId1"></select>
+                <select asp-for="TypeId" class="form-control" asp-items=ViewBag.MainType></select>
             </div>
             <div class="form-group">
                 <label asp-for="Price" class="control-label">Giá bán</label>
@@ -40,7 +39,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label">Ngày</label>
-                <input asp-for="StartDate" type="date" id="myID" class="form-control" />
+                <input asp-for="StartDate"  id="myID" class="form-control" />
+                @*<input asp-for="StartDate" id="myID" class="form-control" />*@
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -73,19 +73,21 @@
  <script type="text/javascript" >
     $(document).ready(function () {
         flatpickr("#myID", {
+            altInput: true,
+            altFormat: "d/m/y",
             dateFormat: "m/d/y",
         });
 
         var maintype = $("#Type_MainType");
-        var subtype = $("#Type_MainType");
+        var subtype = $("#id_subtypeid");
 
         $("#Type_MainType").change(function () {
             if (maintype.find(":selected").val() === 'Rau củ') {
-                subtype.setAttribute("asp-items", "ViewBag.TypeId1")
+                subtype.append("<select asp -for= \"TypeId\" class= \"form-control\" asp - items= ViewBag.TypeId1 > </select>")
             } else if (maintype.find(":selected").val() === 'Thịt cá') {
-                subtype.setAttribute("asp-items", "ViewBag.TypeId2")
+                subtype.append("<select asp -for= \"TypeId\" class= \"form-control\" asp - items= ViewBag.TypeId2 > </select>")
             } else {
-                subtype.setAttribute("asp-items", "ViewBag.TypeId3")
+                subtype.append("<select asp -for= \"TypeId\" class= \"form-control\" asp - items= ViewBag.TypeId3 > </select>")
             }
         })
     })

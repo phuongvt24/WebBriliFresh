@@ -66,15 +66,15 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ProId,ProName,Price,TypeId,Source,StartDate,Des,Unit,IsDeleted")] Product product)
         {
-            //if (ModelState.IsValid)
-            //{
-            product.StartDate = (DateTime)product.StartDate;
+            if (ModelState.IsValid)
+            {
+    
             _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            //}
-            //ViewData["TypeId"] = new SelectList(_context.Types, "TypeId", "TypeId", product.TypeId);
-            //return View(product);
+            }
+            ViewData["TypeId"] = new SelectList(_context.Types, "TypeId", "TypeId", product.TypeId);
+            return View(product);
         }
 
         // GET: Admin/AdminProducts/Edit/5
