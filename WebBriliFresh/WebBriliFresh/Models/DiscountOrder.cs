@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -18,9 +19,11 @@ public partial class DiscountOrder
     [DisplayName("Tối Đa")]
     public decimal? MaxDis { get; set; }
 
+    [Remote(action: "VerifyDate", controller: "DiscountOrders", AdditionalFields = nameof(EndDate), ErrorMessage = "Không thể kết thúc trước khi bắt đầu!")]
     [DisplayName("Bắt Đầu")]
     public DateTime? StartDate { get; set; }
 
+    [Remote(action: "VerifyDate", controller: "DiscountOrders", AdditionalFields = nameof(StartDate), ErrorMessage ="Không thể kết thúc trước khi bắt đầu!")]
     [DisplayName("Kết Thúc")]
     public DateTime? EndDate { get; set; }
 
