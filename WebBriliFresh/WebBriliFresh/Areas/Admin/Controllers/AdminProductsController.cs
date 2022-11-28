@@ -22,7 +22,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/AdminProducts
         public async Task<IActionResult> Index()
         {
-            var products = _context.Products.Where(p => p.IsDeleted == 0);
+            var products = _context.Products.Include(s => s.Type).Where(x => x.IsDeleted == 0);
             return View(await products.ToListAsync());
         }
 
@@ -48,7 +48,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/AdminProducts/Create
         public IActionResult Create()
         {
-            ViewData["TypeId1"] = new SelectList(_context.Types.Where(x=> x.MainType == "Rau củ"), "TypeId", "SubType");
+            ViewData["TypeId1"] = new SelectList(_context.Types.Where(x => x.MainType == "Rau củ"), "TypeId", "SubType");
             ViewData["TypeId2"] = new SelectList(_context.Types.Where(x => x.MainType == "Thịt cá"), "TypeId", "SubType");
             ViewData["TypeId3"] = new SelectList(_context.Types.Where(x => x.MainType == "Trái cây 4 mùa"), "TypeId", "SubType");
 
@@ -57,24 +57,31 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                                                                 .Select(x => new { MainType = x.Key }), "MainType", "MainType");
             return View();
         }
-     
+
 
         // POST: Admin/AdminProducts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProId,ProName,Price,TypeId,Source,StartDate,Des,Unit,IsDeleted")] Product product)
+        public async Task<IActionResult> Create([Bind("ProId,ProName,Price,PriceString,TypeId,Source,StartDate,Des,Unit,IsDeleted")] Product product)
         {
-            //if (ModelState.IsValid)
-            //{
-            product.StartDate = (DateTime)product.StartDate;
-            _context.Add(product);
+            if (ModelState.IsValid)
+            {   
+                product.IsDeleted = 0;
+                _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            //}
-            //ViewData["TypeId"] = new SelectList(_context.Types, "TypeId", "TypeId", product.TypeId);
-            //return View(product);
+            }
+            ViewData["TypeId"] = new SelectList(_context.Types, "TypeId", "TypeId", product.TypeId);
+            ViewData["TypeId1"] = new SelectList(_context.Types.Where(x => x.MainType == "Rau củ"), "TypeId", "SubType");
+            ViewData["TypeId2"] = new SelectList(_context.Types.Where(x => x.MainType == "Thịt cá"), "TypeId", "SubType");
+            ViewData["TypeId3"] = new SelectList(_context.Types.Where(x => x.MainType == "Trái cây 4 mùa"), "TypeId", "SubType");
+
+
+            ViewData["MainType"] = new SelectList(_context.Types.GroupBy(p => p.MainType)
+                                                                .Select(x => new { MainType = x.Key }), "MainType", "MainType");
+            return  View(product);
         }
 
         // GET: Admin/AdminProducts/Edit/5

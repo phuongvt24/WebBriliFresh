@@ -5,10 +5,57 @@
 
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 
+    var data = new object[]{
+        new{
+            ten = "Sản phẩm của Brili Fresh",
+            giatri = "Sản phẩm của Brili Fresh"
+        },
+        new{
+            ten = "Sản phẩm nhập khẩu",
+            giatri = "Sản phẩm nhập khẩu"
+        }
+    };
+
+    var list = new SelectList(data, "giatri", "ten");
 }
 
 <h1>Thêm mới sản phẩm</h1>
-
+<div class="d-md-flex m-b-15 align-items-center ">
+    <div class="media align-items-center m-b-15">
+        <div class="avatar avatar-image rounded" style="height: 140px; width: 140px">
+            <img src="assets/images/others/thumb-16.jpg" alt="">
+        </div>
+    </div>
+    <div class="m-b-15" style="padding-left: 268px">
+        <button class="btn btn-primary">
+            <i class="anticon anticon-save"></i>
+            <span>Ảnh đại diện</span>
+        </button>
+    </div>
+</div>
+<div class="d-md-flex m-b-15 align-items-center ">
+    <div class="media align-items-center m-b-15" style="padding-right:32px">
+        <div class="avatar avatar-image rounded" style="height: 70px; width: 70px">
+            <img src="assets/images/others/thumb-16.jpg" alt="">
+        </div>
+    </div>
+    <div class="media align-items-center m-b-15" style="padding-right:32px">
+        <div class="avatar avatar-image rounded" style="height: 70px; width: 70px">
+            <img src="assets/images/others/thumb-16.jpg" alt="">
+        </div>
+    </div>
+    <div class="media align-items-center m-b-15" style="padding-right:32px">
+        <div class="avatar avatar-image rounded" style="height: 70px; width: 70px">
+            <img src="assets/images/others/thumb-16.jpg" alt="">
+        </div>
+    </div>
+    <div class="m-b-15" style="padding-left: 100px">
+        <button class="btn btn-primary">
+            <i class="anticon anticon-save"></i>
+            <span>Ảnh chi tiết</span>
+        </button>
+    </div>
+</div>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -19,42 +66,57 @@
                 <input asp-for="ProName" class="form-control" />
                 <span asp-validation-for="ProName" class="text-danger"></span>
             </div>
+
+
+
             <div class="form-group">
-                <label asp-for="Type.MainType" class="control-label">Loại chính</label>
-                <select asp-for="Type.MainType" class="form-control" asp-items="ViewBag.MainType"></select>
+                <label asp-for="Type.MainType" class="control-label">Danh mục sản phẩm</label>
+                <select asp-for="Type.MainType" class="form-control" asp-items=ViewBag.MainType></select>
             </div>
-            <div class="form-group">
+
+
+            <div class="form-group" id="sub1">
+                <label asp-for="TypeId" class="control-label">Loại sản phẩm</label>
+                <select asp-for="TypeId" id="type1" class="form-control" asp-items=ViewBag.TypeId1></select>
+            </div>
+            <div class="form-group" id="sub2">
                 <label asp-for="TypeId" class="control-label">Loại</label>
-                <select asp-for="TypeId" class="form-control" asp-items="ViewBag.TypeId1"></select>
+                <select asp-for="TypeId" id="type2" class="form-control" asp-items=ViewBag.TypeId2></select>
             </div>
+            <div class="form-group" id="sub3">
+                <label asp-for="TypeId" class="control-label">Loại</label>
+                <select asp-for="TypeId" id="type3" class="form-control" asp-items=ViewBag.TypeId3></select>
+            </div>
+
             <div class="form-group">
                 <label asp-for="Price" class="control-label">Giá bán</label>
                 <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
+                <span asp-validation-for="PriceString" class="text-danger"></span>
             </div>
             
             <div class="form-group">
-                <label asp-for="Source" class="control-label"></label>
-                <input asp-for="Source" class="form-control" />
+                <label asp-for="Source" class="control-label">Nguồn gốc</label>
+                <select asp-for="Source" class="form-control" asp-items=list></select>
                 <span asp-validation-for="Source" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StartDate" class="control-label">Ngày</label>
-                <input asp-for="StartDate" type="date" id="myID" class="form-control" />
+                <label asp-for="StartDate" class="control-label">Ngày tạo</label>
+                <input asp-for="StartDate"  id="myID" class="form-control" />
+                @*<input asp-for="StartDate" id="myID" class="form-control" />*@
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Des" class="control-label"></label>
-                <input asp-for="Des" class="form-control" />
+                <label asp-for="Des" class="control-label">Mô tả sản phẩm</label>
+                <textarea asp-for="Des" class="form-control"></textarea>
                 <span asp-validation-for="Des" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Unit" class="control-label"></label>
+                <label asp-for="Unit" class="control-label">Đơn vị bán</label>
                 <input asp-for="Unit" class="form-control" />
                 <span asp-validation-for="Unit" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="IsDeleted" class="control-label"></label>
+            <div class="form-group" hidden>
+                <label asp-for="IsDeleted"  class="control-label"></label>
                 <input asp-for="IsDeleted" class="form-control" />
                 <span asp-validation-for="IsDeleted" class="text-danger"></span>
             </div>
@@ -64,30 +126,113 @@
         </form>
     </div>
 </div>
-
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
  <script type="text/javascript" >
+
+    var s1 = $("#sub1")
+    var t1 = $("#type1")
+
+    var s2 = $("#sub2")
+    var t2 = $("#type2")
+
+    var s3 = $("#sub3")
+    var t3 = $("#type3")
+
+    var maintype = $("#Type_MainType");
+
+    t2.prop("disabled", true);
+    t3.prop("disabled", true);
+
+    s2.hide()
+    s3.hide()
+
+
+    maintype.change(function () {
+        if (maintype.find(":selected").val() === 'Rau củ') {
+            t2.prop("disabled", true);
+            t3.prop("disabled", true);
+            t1.prop("disabled", false);
+
+            s2.hide()
+            s3.hide()
+            s1.show()
+        } else if (maintype.find(":selected").val() === 'Thịt cá') {
+            t2.prop("disabled", false);
+            t3.prop("disabled", true);
+            t1.prop("disabled", true);
+
+            s2.show()
+            s3.hide()
+            s1.hide()
+        } else {
+            t2.prop("disabled", true);
+            t3.prop("disabled", false);
+            t1.prop("disabled", true);
+
+            s2.hide()
+            s3.show()
+            s1.hide()
+        }
+    })
+
+
     $(document).ready(function () {
+
         flatpickr("#myID", {
+            altInput: true,
+            altFormat: "d/m/y",
             dateFormat: "m/d/y",
         });
 
-        var maintype = $("#Type_MainType");
-        var subtype = $("#Type_MainType");
+        //var s1 = $("#sub1")
+        //var t1 = $("#type1")
 
-        $("#Type_MainType").change(function () {
+        //var s2 = $("#sub2")
+        //var t2 = $("#type2")
+
+        //var s3 = $("#sub3")
+        //var t3 = $("#type3")
+
+        //var maintype = $("#Type_MainType");
+
+        t2.prop("disabled", true);
+        t3.prop("disabled", true);
+
+        s2.hide()
+        s3.hide()
+
+
+        maintype.change(function () {
             if (maintype.find(":selected").val() === 'Rau củ') {
-                subtype.setAttribute("asp-items", "ViewBag.TypeId1")
+                t2.prop("disabled", true);
+                t3.prop("disabled", true);
+                t1.prop("disabled", false);
+
+                s2.hide()
+                s3.hide()
+                s1.show()
             } else if (maintype.find(":selected").val() === 'Thịt cá') {
-                subtype.setAttribute("asp-items", "ViewBag.TypeId2")
+                t2.prop("disabled", false);
+                t3.prop("disabled", true);
+                t1.prop("disabled", true);
+
+                s2.show()
+                s3.hide()
+                s1.hide()
             } else {
-                subtype.setAttribute("asp-items", "ViewBag.TypeId3")
+                t2.prop("disabled", true);
+                t3.prop("disabled", false);
+                t1.prop("disabled", true);
+
+                s2.hide()
+                s3.show()
+                s1.hide()
             }
         })
     })
-
+   
 </script>
