@@ -15,81 +15,74 @@
     <title>Enlink - Admin Dashboard Template</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="~/adminassets/images/logo/favicon.png">
+    <link rel="shortcut icon" href="assets/images/logo/favicon.png">
 
     <!-- page css -->
     <!-- Core css -->
     <link href="~/adminassets/css/app.min.css" rel="stylesheet">
-
 </head>
 
 <body>
     <div class="app">
-        <div class="container-fluid p-0 h-100">
-            <div class="row no-gutters h-100 full-height">
-                <div class="col-lg-4 d-none d-lg-flex bg" style="background-image:url('assets/images/others/login-1.jpg')">
-                    <div class="d-flex h-100 p-h-40 p-v-15 flex-column justify-content-between">
-                        <div>
-                            <img src="~/adminassets/images/logo/logo.png" alt="Logo">
-                        </div>
-                        <div>
-                            <h1 class="text-white m-b-20 font-weight-normal">Exploring Enlink</h1>
-                            <p class="text-white font-size-16 lh-2 w-80 opacity-08">Climb leg rub face on everything give attitude nap all day for under the bed. Chase mice attack feet but rub face on everything hopped up.</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <span class="text-white">© 2019 ThemeNate</span>
-                            <ul class="list-inline">
-                                <li class="list-inline-item">
-                                    <a class="text-white text-link" href="">Legal</a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a class="text-white text-link" href="">Privacy</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-8 bg-white">
-                    <div class="container h-100">
-                        <div class="row no-gutters h-100 align-items-center">
-                            <div class="col-md-8 col-lg-7 col-xl-6 mx-auto">
-                                <h2>Sign In</h2>
-                                <p class="m-b-30">Enter your credential to get access</p>
-                                @using (Html.BeginForm("Login", "AdminLogin", FormMethod.Post))
-                                 {
-                                     @Html.ValidationSummary(false,"",new{@class="text-danger"})
-                                     <div class="form-group">
-                                        <label class="font-weight-semibold" for="userName">Username:</label>
-                                        <div class="input-affix">
-                                            <i class="prefix-icon anticon anticon-user"></i>
-                                            @Html.TextBoxFor(model=>model.UserName , new{@class="form-control", @autofocus="autofocus"})
-                                        </div>
+        <div class="container-fluid p-h-0 p-v-20 bg full-height d-flex" style="background-image: url('https://img.freepik.com/free-vector/hand-drawn-delicious-food-background_52683-16136.jpg?w=1060&t=st=1669652102~exp=1669652702~hmac=d40da13c577671f4f11e040ea9aa2d3038136dd3e7a1023457764f005532ce4f')">
+            <div class="d-flex flex-column justify-content-between w-100">
+                <div class="container d-flex h-100">
+                    <div class="row align-items-center w-100">
+                        <div class="col-md-7 col-lg-5 m-h-auto">
+                            <div class="card shadow-lg">
+                                <div class="card-body" style="background-color : #eff5f5">
+                                    <div class="d-flex align-items-center justify-content-between m-b-30">
+                                        <img class="img-fluid" alt="" src="~/adminassets/images/logo/logo.png">
+                                        <h2 class="m-b-0">Sign In</h2>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="font-weight-semibold" for="password">Password:</label>
-                                        <a class="float-right font-size-13 text-muted" href="">Forget Password?</a>
-                                        <div class="input-affix m-b-10">
-                                            <i class="prefix-icon anticon anticon-lock"></i>
-                                            @Html.TextBoxFor(model=>model.PassWord , new{@class="form-control", @autofocus="autofocus"})
+                                    @using (Html.BeginForm("Login", "AdminLogin", FormMethod.Post))
+                                    {
+                                        @Html.ValidationSummary(false,"",new{@class="text-danger"})
+                                        <div class="form-group">
+                                            <label class="font-weight-semibold" for="userName">Username:</label>
+                                            <div class="input-affix">
+                                                <i class="prefix-icon anticon anticon-user"></i>
+                                                @Html.TextBoxFor(model=>model.UserName , new{@class="form-control", @autofocus="autofocus"})
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <span class="font-size-13 text-muted">
-                                                Don't have an account?
-                                                <a class="small" href=""> Signup</a>
-                                            </span>
-                                            <button type="submit" class="btn btn-primary">Sign In</button>
+                                        <div class="form-group">
+                                            <label class="font-weight-semibold" for="password">Password:</label>
+                                            <a class="float-right font-size-13 text-muted" href="">Forget Password?</a>
+                                            <div class="input-affix m-b-10">
+                                                <i class="prefix-icon anticon anticon-lock"></i>
+                                                @Html.TextBoxFor(model=>model.PassWord , new{@class="form-control", @autofocus="autofocus",@type="password"})
+                                            </div>
                                         </div>
-                                    </div>
-                                }
+                                        <div class="form-group">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span class="font-size-13 text-muted">
+                                                    Don't have an account?
+                                                    <a class="small" href=""> Signup</a>
+                                                </span>
+                                                <button type="submit" class="btn btn-primary">Sign In</button>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="d-none d-md-flex p-h-40 justify-content-between">
+                    <span class="">© 2022 Brili</span>
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <a class="text-dark text-link" href="">Legal</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a class="text-dark text-link" href="">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
+
 
     <!-- Core Vendors JS -->
     <script src="~/adminassets/js/vendors.min.js"></script>

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using WebBriliFresh.Models;
 
 namespace WebBriliFresh.Areas.Admin.Controllers
@@ -14,99 +13,85 @@ namespace WebBriliFresh.Areas.Admin.Controllers
     [Area("Admin")]
     [Authorize(Policy = "AdminOnly")]
 
-    public class AdminStoresController : Controller
+    public class AdminAccountController : Controller
     {
         private readonly BriliFreshDbContext _context;
 
-        public AdminStoresController(BriliFreshDbContext context)
+        public AdminAccountController(BriliFreshDbContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/AdminStores
+        // GET: Admin/AdminAccount
         public async Task<IActionResult> Index()
         {
-            var stores = _context.Stores.Where(x => x.IsDeleted == 0);
-            return View(await stores.ToListAsync());
+              return View(await _context.Users.ToListAsync());
         }
 
-        [HttpPost, ActionName("SearchIndex")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SearchIndex(int? city)
-        {
-            var stores = _context.Stores.Where(x => x.IsDeleted == 0);
-            if (city != null)
-            {
-                stores = stores.Where(x => x.City == city.ToString());
-            }
-            return View(await stores.ToListAsync());
-        }
-
-        // GET: Admin/AdminStores/Details/5
+        // GET: Admin/AdminAccount/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Stores == null)
+            if (id == null || _context.Users == null)
             {
                 return NotFound();
             }
 
-            var store = await _context.Stores
-                .FirstOrDefaultAsync(m => m.StoreId == id);
-            if (store == null)
+            var user = await _context.Users
+                .FirstOrDefaultAsync(m => m.UserId == id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return View(store);
+            return View(user);
         }
 
-        // GET: Admin/AdminStores/Create
+        // GET: Admin/AdminAccount/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/AdminStores/Create
+        // POST: Admin/AdminAccount/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StoreId,City,District,Ward,SpecificAddress,isDeleted")] Store store)
+        public async Task<IActionResult> Create([Bind("UserId,UserName,UserPassword,UserRole,Avatar")] User user)
         {
             if (ModelState.IsValid)
             {
-                store.IsDeleted = 0;
-                _context.Add(store);
+                _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(store);
+            return View(user);
         }
 
-        // GET: Admin/AdminStores/Edit/5
+        // GET: Admin/AdminAccount/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Stores == null)
+            if (id == null || _context.Users == null)
             {
                 return NotFound();
             }
 
-            var store = await _context.Stores.FindAsync(id);
-            if (store == null)
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
             {
                 return NotFound();
             }
-            return View(store);
+            return View(user);
         }
 
-        // POST: Admin/AdminStores/Edit/5
+        // POST: Admin/AdminAccount/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StoreId,City,District,Ward,SpecificAddress")] Store store)
+        public async Task<IActionResult> Edit(int id, [Bind("UserId,UserName,UserPassword,UserRole,Avatar")] User user)
         {
-            if (id != store.StoreId)
+            if (id != user.UserId)
             {
                 return NotFound();
             }
@@ -115,12 +100,12 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(store);
+                    _context.Update(user);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StoreExists(store.StoreId))
+                    if (!UserExists(user.UserId))
                     {
                         return NotFound();
                     }
@@ -131,51 +116,49 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(store);
+            return View(user);
         }
 
-        // GET: Admin/AdminStores/Delete/5
+        // GET: Admin/AdminAccount/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Stores == null)
+            if (id == null || _context.Users == null)
             {
                 return NotFound();
             }
 
-            var store = await _context.Stores
-                .FirstOrDefaultAsync(m => m.StoreId == id);
-            if (store == null)
+            var user = await _context.Users
+                .FirstOrDefaultAsync(m => m.UserId == id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return View(store);
+            return View(user);
         }
 
-        // POST: Admin/AdminStores/Delete/5
+        // POST: Admin/AdminAccount/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Stores == null)
+            if (_context.Users == null)
             {
-                return Problem("Entity set 'BriliFreshDbContext.Stores'  is null.");
+                return Problem("Entity set 'BriliFreshDbContext.Users'  is null.");
             }
-            var store = await _context.Stores.FindAsync(id);
-            if (store != null)
+            var user = await _context.Users.FindAsync(id);
+            if (user != null)
             {
-                //_context.Stores.Remove(store);
-                store.IsDeleted = 1;
+                _context.Users.Remove(user);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StoreExists(int id)
+        private bool UserExists(int id)
         {
-          return _context.Stores.Any(e => e.StoreId == id);
+          return _context.Users.Any(e => e.UserId == id);
         }
-
     }
 }

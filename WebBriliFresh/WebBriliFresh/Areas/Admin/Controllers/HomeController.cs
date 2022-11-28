@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using WebBriliFresh.Common;
 using WebBriliFresh.Models;
 
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize(Policy = "AdminOnly")]
+    [Authorize(Policy = "AdminOnly")]
     public class HomeController : Controller
     {
         public int s_userid;
@@ -25,14 +27,25 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             BriliFreshDbContext db = new BriliFreshDbContext();
             HttpContext.Session.SetInt32("ADMIN_SESSION_USERID", UserID);
             HttpContext.Session.SetInt32("ADMIN_SESSION_EMPID", EmpID);
-            this.s_userid = UserID;
-            this.s_empid = EmpID;
+            //this.s_userid = UserID;
+            //this.s_empid = EmpID;
+            //var employee = (from emp in db.Employees where emp.UserId == UserID select emp).FirstOrDefault();
+
+            //var f_name = employee.FirstName;
+            //var l_name = employee.LastName;
+
+            //HttpContext.Session.SetInt32(AdminSession.ADMIN_SESSION_USERID, UserID);
+            //HttpContext.Session.SetInt32(AdminSession.ADMIN_SESSION_EMPID, EmpID);
+
             var employee = (from emp in db.Employees where emp.UserId == UserID select emp).FirstOrDefault();
-           
+
             var f_name = employee.FirstName;
             var l_name = employee.LastName;
             HttpContext.Session.SetString("ADMIN_SESSION_FIRSTNAME", f_name);
             HttpContext.Session.SetString("ADMIN_SESSION_LASTNAME", l_name);
+            //HttpContext.Session.SetString(AdminSession.ADMIN_SESSION_FIRSTNAME, f_name);
+            //HttpContext.Session.SetString(AdminSession.ADMIN_SESSION_LASTNAME, l_name);
+
 
 
 

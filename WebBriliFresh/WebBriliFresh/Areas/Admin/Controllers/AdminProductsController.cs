@@ -12,6 +12,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
     //[Authorize]
+    [Authorize(Policy = "AdminOnly")]
 
     public class AdminProductsController : Controller
     {
@@ -23,7 +24,6 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         }
 
         // GET: Admin/AdminProducts
-        [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> Index()
         {
             var products = _context.Products.Where(p => p.IsDeleted == 0);

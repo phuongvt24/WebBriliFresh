@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,8 @@ using WebBriliFresh.Models;
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Policy = "AdminOnly")]
+
     public class AdminEditController : Controller
     {
         private readonly BriliFreshDbContext _context;
@@ -87,8 +90,8 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             }
             ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "StoreId", employee.StoreId);
             ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", employee.UserId);
-            HttpContext.Session.SetInt32("ADMIN_SESSION_USERID", (int)id);
-            HttpContext.Session.SetInt32("ADMIN_SESSION_EMPID", id2);
+            //HttpContext.Session.SetInt32("ADMIN_SESSION_USERID", (int)id);
+            //HttpContext.Session.SetInt32("ADMIN_SESSION_EMPID", id2);
             return View(employee);
         }
 

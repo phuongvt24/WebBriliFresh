@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Project;
 using WebBriliFresh.Areas.Admin.Models;
+using WebBriliFresh.Models;
 using WebBriliFresh.Common;
 using WebBriliFresh.Models.DAO;
 using System;
@@ -45,8 +46,8 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                         session.EmpId = (int)emp_id;
                         session.UserId = dao.getItem(model.UserName).UserId;
                         //HttpContext context = HttpContext.Current;
-                        HttpContext.Session.SetInt32(AdminSession.ADMIN_SESSION_USERID, session.UserId);
-                        HttpContext.Session.SetInt32(AdminSession.ADMIN_SESSION_EMPID, session.EmpId);
+                       
+                        
 
                         var claims = new List<Claim>() {
                             new Claim("Admin", "Admin"),
