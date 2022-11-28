@@ -1,12 +1,42 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using WebBriliFresh.Models;
 
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    //[Authorize(Policy = "AdminOnly")]
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public int s_userid;
+        public int s_empid;
+        public int getUserID()
         {
+            return s_userid;
+        }
+        public int getEmpID()
+        {
+            return s_empid;
+        }
+       
+        public IActionResult Index(int UserID, int EmpID)
+        {
+            BriliFreshDbContext db = new BriliFreshDbContext();
+            HttpContext.Session.SetInt32("ADMIN_SESSION_USERID", UserID);
+            HttpContext.Session.SetInt32("ADMIN_SESSION_EMPID", EmpID);
+            this.s_userid = UserID;
+            this.s_empid = EmpID;
+            var employee = (from emp in db.Employees where emp.UserId == UserID select emp).FirstOrDefault();
+           
+            var f_name = employee.FirstName;
+            var l_name = employee.LastName;
+            HttpContext.Session.SetString("ADMIN_SESSION_FIRSTNAME", f_name);
+            HttpContext.Session.SetString("ADMIN_SESSION_LASTNAME", l_name);
+
+
+
+
             return View();
         }
     }

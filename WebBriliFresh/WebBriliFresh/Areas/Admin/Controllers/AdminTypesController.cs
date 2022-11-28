@@ -2,103 +2,94 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebBriliFresh.Models;
+using Type = WebBriliFresh.Models.Type;
 
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize]
-
-    public class AdminProductsController : Controller
+    public class AdminTypesController : Controller
     {
         private readonly BriliFreshDbContext _context;
 
-        public AdminProductsController(BriliFreshDbContext context)
+        public AdminTypesController(BriliFreshDbContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/AdminProducts
-        [Authorize(Policy = "AdminOnly")]
+        // GET: Admin/AdminTypes
         public async Task<IActionResult> Index()
         {
-            var products = _context.Products.Where(p => p.IsDeleted == 0);
-            return View(await products.ToListAsync());
+              return View(await _context.Types.ToListAsync());
         }
 
-        // GET: Admin/AdminProducts/Details/5
+        // GET: Admin/AdminTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Products == null)
+            if (id == null || _context.Types == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .Include(p => p.Type)
-                .FirstOrDefaultAsync(m => m.ProId == id);
-            if (product == null)
+            var @type = await _context.Types
+                .FirstOrDefaultAsync(m => m.TypeId == id);
+            if (@type == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(@type);
         }
 
-        // GET: Admin/AdminProducts/Create
+        // GET: Admin/AdminTypes/Create
         public IActionResult Create()
         {
-            ViewData["TypeId"] = new SelectList(_context.Types, "TypeId", "SubType");  
             return View();
         }
-     
 
-        // POST: Admin/AdminProducts/Create
+        // POST: Admin/AdminTypes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProId,ProName,Price,TypeId,Source,StartDate,Des,Unit,IsDeleted")] Product product)
+        public async Task<IActionResult> Create([Bind("TypeId,SubType,MainType")] Type @type)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
+                _context.Add(@type);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TypeId"] = new SelectList(_context.Types, "TypeId", "TypeId", product.TypeId);
-            return View(product);
+            return View(@type);
         }
 
-        // GET: Admin/AdminProducts/Edit/5
+        // GET: Admin/AdminTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Products == null)
+            if (id == null || _context.Types == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            var @type = await _context.Types.FindAsync(id);
+            if (@type == null)
             {
                 return NotFound();
             }
-            ViewData["TypeId"] = new SelectList(_context.Types, "TypeId", "TypeId", product.TypeId);
-            return View(product);
+            return View(@type);
         }
 
-        // POST: Admin/AdminProducts/Edit/5
+        // POST: Admin/AdminTypes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProId,ProName,Price,TypeId,Source,StartDate,Des,Unit,IsDeleted")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("TypeId,SubType,MainType")] Type @type)
         {
-            if (id != product.ProId)
+            if (id != @type.TypeId)
             {
                 return NotFound();
             }
@@ -107,12 +98,12 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(product);
+                    _context.Update(@type);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.ProId))
+                    if (!TypeExists(@type.TypeId))
                     {
                         return NotFound();
                     }
@@ -123,51 +114,49 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TypeId"] = new SelectList(_context.Types, "TypeId", "TypeId", product.TypeId);
-            return View(product);
+            return View(@type);
         }
 
-        // GET: Admin/AdminProducts/Delete/5
+        // GET: Admin/AdminTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Products == null)
+            if (id == null || _context.Types == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .Include(p => p.Type)
-                .FirstOrDefaultAsync(m => m.ProId == id);
-            if (product == null)
+            var @type = await _context.Types
+                .FirstOrDefaultAsync(m => m.TypeId == id);
+            if (@type == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(@type);
         }
 
-        // POST: Admin/AdminProducts/Delete/5
+        // POST: Admin/AdminTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Products == null)
+            if (_context.Types == null)
             {
-                return Problem("Entity set 'BriliFreshDbContext.Products'  is null.");
+                return Problem("Entity set 'BriliFreshDbContext.Types'  is null.");
             }
-            var product = await _context.Products.FindAsync(id);
-            if (product != null)
+            var @type = await _context.Types.FindAsync(id);
+            if (@type != null)
             {
-                _context.Products.Remove(product);
+                _context.Types.Remove(@type);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductExists(int id)
+        private bool TypeExists(int id)
         {
-          return _context.Products.Any(e => e.ProId == id);
+          return _context.Types.Any(e => e.TypeId == id);
         }
     }
 }

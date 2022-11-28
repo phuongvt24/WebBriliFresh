@@ -15,7 +15,7 @@ public partial class Store
 
     public string? SpecificAddress { get; set; }
 
-    public int? isDeleted { get; set; }
+    public int? IsDeleted { get; set; }
 
     public virtual ICollection<DiscountStore> DiscountStores { get; } = new List<DiscountStore>();
 

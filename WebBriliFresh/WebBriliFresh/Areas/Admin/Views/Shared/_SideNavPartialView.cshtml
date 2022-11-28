@@ -1,8 +1,14 @@
-﻿<div class="side-nav">
+﻿@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+<div class="side-nav">
     <div class="side-nav-inner">
         <ul class="side-nav-menu scrollable">
             <li class="nav-item open">
-                <a class="dropdown-toggle" asp-area="Admin" asp-controller="Home" asp-action="index">
+@*                <a class="dropdown-toggle" asp-area="Admin" asp-controller="Home" asp-action="index">
+
+*@
+                <a href="/Admin?UserID=@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_USERID")&EmpID=@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_EMPID")">
+
                     <span class="icon-holder">
                         <i class="anticon anticon-dashboard"></i>
                     </span>

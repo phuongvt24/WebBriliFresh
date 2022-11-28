@@ -61,13 +61,13 @@ public partial class BriliFreshDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=34.87.162.37;Database=BriliFreshDB;user id=brilifreshdb;password=brilifreshdb;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Server=35.247.171.215;Database=BriliFreshDB;user id=brilifreshdb;password=brilifreshdb;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Address>(entity =>
         {
-            entity.HasKey(e => e.AddId).HasName("PK__Address__A0E1ADEE8C06D01E");
+            entity.HasKey(e => e.AddId).HasName("PK__Address__A0E1ADEE436D952D");
 
             entity.ToTable("Address");
 
@@ -81,7 +81,7 @@ public partial class BriliFreshDbContext : DbContext
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.CusId).HasName("PK__Customer__2F1871306FE55E5C");
+            entity.HasKey(e => e.CusId).HasName("PK__Customer__2F187130680D37E8");
 
             entity.ToTable("Customer");
 
@@ -100,7 +100,7 @@ public partial class BriliFreshDbContext : DbContext
 
         modelBuilder.Entity<DiscountAll>(entity =>
         {
-            entity.HasKey(e => e.DisId).HasName("PK__Discount__E2AA7E6453054235");
+            entity.HasKey(e => e.DisId).HasName("PK__Discount__E2AA7E643DBBFE91");
 
             entity.ToTable("Discount_All");
 
@@ -111,7 +111,7 @@ public partial class BriliFreshDbContext : DbContext
 
         modelBuilder.Entity<DiscountOrder>(entity =>
         {
-            entity.HasKey(e => e.DisId).HasName("PK__Discount__E2AA7E64CEE62B46");
+            entity.HasKey(e => e.DisId).HasName("PK__Discount__E2AA7E6498118C60");
 
             entity.ToTable("Discount_Order");
 
@@ -123,7 +123,7 @@ public partial class BriliFreshDbContext : DbContext
 
         modelBuilder.Entity<DiscountProduct>(entity =>
         {
-            entity.HasKey(e => e.DisId).HasName("PK__Discount__E2AA7E6439AA332E");
+            entity.HasKey(e => e.DisId).HasName("PK__Discount__E2AA7E641A86981A");
 
             entity.ToTable("Discount_Product");
 
@@ -139,7 +139,7 @@ public partial class BriliFreshDbContext : DbContext
 
         modelBuilder.Entity<DiscountStore>(entity =>
         {
-            entity.HasKey(e => e.DisId).HasName("PK__Discount__E2AA7E6479A57619");
+            entity.HasKey(e => e.DisId).HasName("PK__Discount__E2AA7E647E3FC99D");
 
             entity.ToTable("Discount_Store");
 
@@ -155,7 +155,7 @@ public partial class BriliFreshDbContext : DbContext
 
         modelBuilder.Entity<DiscountType>(entity =>
         {
-            entity.HasKey(e => e.DisId).HasName("PK__Discount__E2AA7E643D97A3AE");
+            entity.HasKey(e => e.DisId).HasName("PK__Discount__E2AA7E64DA9A3388");
 
             entity.ToTable("Discount_Type");
 
@@ -171,7 +171,7 @@ public partial class BriliFreshDbContext : DbContext
 
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.EmpId).HasName("PK__Employee__AF2DBA792CB51C3A");
+            entity.HasKey(e => e.EmpId).HasName("PK__Employee__AF2DBA7947EC3456");
 
             entity.ToTable("Employee");
 
@@ -192,7 +192,7 @@ public partial class BriliFreshDbContext : DbContext
 
         modelBuilder.Entity<Feedback>(entity =>
         {
-            entity.HasKey(e => e.FbId).HasName("PK__Feedback__36769D6C2791ACA4");
+            entity.HasKey(e => e.FbId).HasName("PK__Feedback__36769D6C43E0781B");
 
             entity.ToTable("Feedback");
 
@@ -222,7 +222,7 @@ public partial class BriliFreshDbContext : DbContext
 
         modelBuilder.Entity<FeedbackImage>(entity =>
         {
-            entity.HasKey(e => e.FbImgId).HasName("PK__Feedback__05FB6A303377AB86");
+            entity.HasKey(e => e.FbImgId).HasName("PK__Feedback__05FB6A3068ECF86D");
 
             entity.ToTable("Feedback_Image");
 
@@ -236,7 +236,7 @@ public partial class BriliFreshDbContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Order__C3905BAF63CBAE89");
+            entity.HasKey(e => e.OrderId).HasName("PK__Order__C3905BAF7D943865");
 
             entity.ToTable("Order");
 
@@ -268,7 +268,7 @@ public partial class BriliFreshDbContext : DbContext
 
         modelBuilder.Entity<OrderDetail>(entity =>
         {
-            entity.HasKey(e => new { e.OrderId, e.ProId }).HasName("PK__Order_De__D5B072F08E7BFFE2");
+            entity.HasKey(e => new { e.OrderId, e.ProId }).HasName("PK__Order_De__D5B072F0D5BB7DB8");
 
             entity.ToTable("Order_Details");
 
@@ -288,11 +288,12 @@ public partial class BriliFreshDbContext : DbContext
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.ProId).HasName("PK__Product__620295F0DBE36931");
+            entity.HasKey(e => e.ProId).HasName("PK__Product__620295F09F4A3C4C");
 
             entity.ToTable("Product");
 
             entity.Property(e => e.ProId).HasColumnName("ProID");
+            entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
             entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.StartDate).HasColumnType("datetime");
             entity.Property(e => e.TypeId).HasColumnName("TypeID");
@@ -304,7 +305,7 @@ public partial class BriliFreshDbContext : DbContext
 
         modelBuilder.Entity<ProductImage>(entity =>
         {
-            entity.HasKey(e => e.ImgId).HasName("PK__Product___352F54138D385757");
+            entity.HasKey(e => e.ImgId).HasName("PK__Product___352F54135B1A2EE1");
 
             entity.ToTable("Product_Image");
 
@@ -318,7 +319,7 @@ public partial class BriliFreshDbContext : DbContext
 
         modelBuilder.Entity<QnA>(entity =>
         {
-            entity.HasKey(e => e.QnAid).HasName("PK__QnA__C4DF8B2972FC6710");
+            entity.HasKey(e => e.QnAid).HasName("PK__QnA__C4DF8B29DC32B582");
 
             entity.ToTable("QnA");
 
@@ -343,7 +344,7 @@ public partial class BriliFreshDbContext : DbContext
 
         modelBuilder.Entity<QnAImage>(entity =>
         {
-            entity.HasKey(e => e.QnAimgId).HasName("PK__QnA_Imag__1924FF465F3922FB");
+            entity.HasKey(e => e.QnAimgId).HasName("PK__QnA_Imag__1924FF461DA17EA4");
 
             entity.ToTable("QnA_Image");
 
@@ -357,7 +358,7 @@ public partial class BriliFreshDbContext : DbContext
 
         modelBuilder.Entity<Reward>(entity =>
         {
-            entity.HasKey(e => e.RewardId).HasName("PK__Reward__82501599D5A11103");
+            entity.HasKey(e => e.RewardId).HasName("PK__Reward__82501599EDA1696D");
 
             entity.ToTable("Reward");
 
@@ -367,7 +368,7 @@ public partial class BriliFreshDbContext : DbContext
 
         modelBuilder.Entity<Stock>(entity =>
         {
-            entity.HasKey(e => new { e.StoreId, e.ProId }).HasName("PK__Stock__2DA2D9BE0AE7767A");
+            entity.HasKey(e => new { e.StoreId, e.ProId }).HasName("PK__Stock__2DA2D9BE62591758");
 
             entity.ToTable("Stock");
 
@@ -387,17 +388,16 @@ public partial class BriliFreshDbContext : DbContext
 
         modelBuilder.Entity<Store>(entity =>
         {
-            entity.HasKey(e => e.StoreId).HasName("PK__Store__3B82F0E1546637CA");
+            entity.HasKey(e => e.StoreId).HasName("PK__Store__3B82F0E1679BD097");
 
             entity.ToTable("Store");
 
             entity.Property(e => e.StoreId).HasColumnName("StoreID");
-            entity.Property(e => e.isDeleted).HasColumnName("isDeleted");
         });
 
         modelBuilder.Entity<Transport>(entity =>
         {
-            entity.HasKey(e => e.TransId).HasName("PK__Transpor__9E5DDB1C67E9AE3C");
+            entity.HasKey(e => e.TransId).HasName("PK__Transpor__9E5DDB1CF6370C83");
 
             entity.ToTable("Transport");
 
@@ -408,7 +408,7 @@ public partial class BriliFreshDbContext : DbContext
 
         modelBuilder.Entity<Type>(entity =>
         {
-            entity.HasKey(e => e.TypeId).HasName("PK__Type__516F0395B12BF657");
+            entity.HasKey(e => e.TypeId).HasName("PK__Type__516F039521306063");
 
             entity.ToTable("Type");
 
@@ -417,7 +417,7 @@ public partial class BriliFreshDbContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__User__1788CCACA38D91FB");
+            entity.HasKey(e => e.UserId).HasName("PK__User__1788CCAC99AAA6F9");
 
             entity.ToTable("User");
 
