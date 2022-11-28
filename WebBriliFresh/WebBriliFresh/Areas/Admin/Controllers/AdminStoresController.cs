@@ -101,6 +101,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             {
                 try
                 {
+                    store.isDeleted = 0;
                     _context.Update(store);
                     await _context.SaveChangesAsync();
                 }
