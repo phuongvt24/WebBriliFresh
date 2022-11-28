@@ -5,94 +5,90 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using WebBriliFresh.Models;
 
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class AdminStoresController : Controller
+    public class DiscountOrdersController : Controller
     {
         private readonly BriliFreshDbContext _context;
 
-        public AdminStoresController(BriliFreshDbContext context)
+        public DiscountOrdersController(BriliFreshDbContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/AdminStores
+        // GET: Admin/DiscountOrders
         public async Task<IActionResult> Index()
         {
-            var stores = _context.Stores.Where(x => x.isDeleted == 0);
-            return View(await stores.ToListAsync());
+            return View(await _context.DiscountOrders.ToListAsync());
         }
 
-
-        // GET: Admin/AdminStores/Details/5
+        // GET: Admin/DiscountOrders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Stores == null)
+            if (id == null || _context.DiscountOrders == null)
             {
                 return NotFound();
             }
 
-            var store = await _context.Stores
-                .FirstOrDefaultAsync(m => m.StoreId == id);
-            if (store == null)
+            var discountOrder = await _context.DiscountOrders
+                .FirstOrDefaultAsync(m => m.DisId == id);
+            if (discountOrder == null)
             {
                 return NotFound();
             }
 
-            return View(store);
+            return View(discountOrder);
         }
 
-        // GET: Admin/AdminStores/Create
+        // GET: Admin/DiscountOrders/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/AdminStores/Create
+        // POST: Admin/DiscountOrders/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StoreId,City,District,Ward,SpecificAddress,isDeleted")] Store store)
+        public async Task<IActionResult> Create([Bind("DisId,DisCode,DisRate,MaxDis,StartDate,EndDate,CusType,Status")] DiscountOrder discountOrder)
         {
             if (ModelState.IsValid)
             {
-                store.isDeleted = 0;
-                _context.Add(store);
+                _context.Add(discountOrder);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(store);
+            return View(discountOrder);
         }
 
-        // GET: Admin/AdminStores/Edit/5
+        // GET: Admin/DiscountOrders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Stores == null)
+            if (id == null || _context.DiscountOrders == null)
             {
                 return NotFound();
             }
 
-            var store = await _context.Stores.FindAsync(id);
-            if (store == null)
+            var discountOrder = await _context.DiscountOrders.FindAsync(id);
+            if (discountOrder == null)
             {
                 return NotFound();
             }
-            return View(store);
+            return View(discountOrder);
         }
 
-        // POST: Admin/AdminStores/Edit/5
+        // POST: Admin/DiscountOrders/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StoreId,City,District,Ward,SpecificAddress")] Store store)
+        public async Task<IActionResult> Edit(int id, [Bind("DisId,DisCode,DisRate,MaxDis,StartDate,EndDate,CusType,Status")] DiscountOrder discountOrder)
         {
-            if (id != store.StoreId)
+            if (id != discountOrder.DisId)
             {
                 return NotFound();
             }
@@ -101,13 +97,12 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             {
                 try
                 {
-                    store.isDeleted = 0;
-                    _context.Update(store);
+                    _context.Update(discountOrder);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StoreExists(store.StoreId))
+                    if (!DiscountOrderExists(discountOrder.DisId))
                     {
                         return NotFound();
                     }
@@ -118,51 +113,49 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(store);
+            return View(discountOrder);
         }
 
-        // GET: Admin/AdminStores/Delete/5
+        // GET: Admin/DiscountOrders/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Stores == null)
+            if (id == null || _context.DiscountOrders == null)
             {
                 return NotFound();
             }
 
-            var store = await _context.Stores
-                .FirstOrDefaultAsync(m => m.StoreId == id);
-            if (store == null)
+            var discountOrder = await _context.DiscountOrders
+                .FirstOrDefaultAsync(m => m.DisId == id);
+            if (discountOrder == null)
             {
                 return NotFound();
             }
 
-            return View(store);
+            return View(discountOrder);
         }
 
-        // POST: Admin/AdminStores/Delete/5
+        // POST: Admin/DiscountOrders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Stores == null)
+            if (_context.DiscountOrders == null)
             {
-                return Problem("Entity set 'BriliFreshDbContext.Stores'  is null.");
+                return Problem("Entity set 'BriliFreshDbContext.DiscountOrders'  is null.");
             }
-            var store = await _context.Stores.FindAsync(id);
-            if (store != null)
+            var discountOrder = await _context.DiscountOrders.FindAsync(id);
+            if (discountOrder != null)
             {
-                //_context.Stores.Remove(store);
-                store.isDeleted = 1;
+                _context.DiscountOrders.Remove(discountOrder);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StoreExists(int id)
+        private bool DiscountOrderExists(int id)
         {
-          return _context.Stores.Any(e => e.StoreId == id);
+            return _context.DiscountOrders.Any(e => e.DisId == id);
         }
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebBriliFresh.Models;
 
@@ -14,7 +15,8 @@ public partial class Product
     public int? TypeId { get; set; }
 
     public string? Source { get; set; }
-
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
     public DateTime? StartDate { get; set; }
 
     public string? Des { get; set; }

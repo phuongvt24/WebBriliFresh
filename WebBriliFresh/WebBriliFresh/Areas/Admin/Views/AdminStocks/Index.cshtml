@@ -49,7 +49,9 @@
                 <thead>
                     <tr>
                         <th>ID cửa hàng</th>
+                        <th>Địa chỉ</th>
                         <th>ID sản phẩm</th>
+                        <th>Tên sản phẩm</th>
                         <th>Số lượng</th>
                         <th></th>
                     </tr>
@@ -60,18 +62,21 @@
                         @foreach (var item in Model)
                         {
                             <tr class="rowitem">
-                                <td>@Html.DisplayFor(modelItem => item.StoreId)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Store.StoreId)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Store.SpecificAddress), @Html.DisplayFor(modelItem => item.Store.Ward), @Html.DisplayFor(modelItem => item.Store.District), @Html.DisplayFor(modelItem => item.Store.City)</td>
+                              
                                 <td>@Html.DisplayFor(modelItem => item.Pro.ProId)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Pro.ProName)</td>
                                 <td class="quantity"> @Html.DisplayFor(modelItem => item.Quantity)</td>
 
-                                <td class="text-right">
+                                <td class="text-left">
                                     <a asp-controller="AdminStocks" asp-action="Edit" asp-route-id="@item.StoreId" asp-route-id1="@item.ProId" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
                                         <i class="anticon anticon-edit"></i>
                                     </a>
                                     <a asp-controller="AdminStocks" asp-action="Delete" asp-route-id="@item.StoreId" asp-route-id1="@item.ProId" class="btn btn-icon btn-hover btn-sm btn-rounded">
                                         <i class="anticon anticon-delete"></i>
                                     </a>
-                                    <a style="padding: 12px 20px;" asp-controller="AdminStocks" asp-action="Details" asp-route-id="@item.StoreId" asp-route-id1="@item.ProId">
+                                    <a style="display: block" asp-controller="AdminStocks" asp-action="Details" asp-route-id="@item.StoreId" asp-route-id1="@item.ProId">
                                         Xem chi tiết
                                     </a>
                                 </td>
