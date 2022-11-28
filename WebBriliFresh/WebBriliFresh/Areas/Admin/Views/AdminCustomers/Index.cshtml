@@ -1,71 +1,361 @@
 ﻿@model IEnumerable<WebBriliFresh.Models.Customer>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Danh sách khách hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <span class="breadcrumb-item active">Danh sách khách hàng</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row m-b-30">
+            <div class="col-lg-8">
+                <div class="d-md-flex">
+                    <div class="m-b-10 m-r-15">
+                        <select class="custom-select" style="min-width: 180px;">
+                            <option selected>Catergory</option>
+                            <option value="all">All</option>
+                            <option value="homeDeco">Home Decoration</option>
+                            <option value="eletronic">Eletronic</option>
+                            <option value="jewellery">Jewellery</option>
+                        </select>
+                    </div>
+                    <div class="m-b-10">
+                        <select class="custom-select" style="min-width: 180px;">
+                            <option selected>Status</option>
+                            <option value="all">All</option>
+                            <option value="inStock">In Stock </option>
+                            <option value="outOfStock">Out of Stock</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 text-right">
+                <button class="btn btn-primary">
+                    <i class="anticon anticon-plus-circle m-r-5"></i>
+                    <span>Add Product</span>
+                </button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover e-commerce-table">
+                <thead>
+                    <tr>
+                        @*<th>
+                            <div class="checkbox">
+                                <input id="checkAll" type="checkbox">
+                                <label for="checkAll" class="m-b-0"></label>
+                            </div>
+                        </th>*@
+                        <th>Mã khách hàng</th>
+                        <th>Mã user</th>
+                        <th>Họ và tên</th>
+                        <th>Giới tính </th>
+                        <th>Số điện thoại</th>
+                        <th>Email</th>
+                        <th>Mã thưởng (Reward ID)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                @*<td>
+                                    <div class="checkbox">
+                                        <input id="check-item-1" type="checkbox">
+                                        <label for="check-item-1" class="m-b-0"></label>
+                                    </div>
+                                </td>*@
+                                <td>@Html.DisplayFor(modelItem => item.CusId)</td>
+                                <td>@Html.DisplayFor(modelItem => item.UserId)</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img class="img-fluid rounded" src="~/Adminassets/images/others/thumb-9.jpg" style="max-width: 60px" alt="">
+                                        <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.LastName)</h6>
+                                        <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.FirstName)</h6>
+                                    </div>
+                                </td>
 
-<h1>Index</h1>
+                                @if (item.Gender == 1)
+                                {
+                                    <td>Nam</td>
+                                }
+                                else if (item.Gender == 2)
+                                {
+                                    <td>Nữ</td>
+                                }
+                                else
+                                {
+                                    <td>Khác</td>
+                                }
+                                <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                                <td>@Html.DisplayFor(modelItem => item.RewardId)</td>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gender)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Reward)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Reward.RewardId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.UserId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CusId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CusId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CusId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+                                <td class="text-right">
+                                    <a asp-controller="AdminCustomers" asp-action="Edit" asp-route-id="@item.CusId" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                        <i class="anticon anticon-edit"></i>
+                                    </a>
+                                    <a asp-controller="AdminCustomers" asp-action="Delete" asp-route-id="@item.CusId" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                        <i class="anticon anticon-delete"></i>
+                                    </a>
+                                    <a style="padding: 12px 20px;" asp-controller="AdminCustomers" asp-action="Details" asp-route-id="@item.CusId">
+                                        Xem chi tiết
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    @*                    <tr>
+                    <td>
+                    <div class="checkbox">
+                    <input id="check-item-1" type="checkbox">
+                    <label for="check-item-1" class="m-b-0"></label>
+                    </div>
+                    </td>
+                    <td>
+                    #31
+                    </td>
+                    <td>
+                    <div class="d-flex align-items-center">
+                    <img class="img-fluid rounded" src="assets/images/others/thumb-9.jpg" style="max-width: 60px" alt="">
+                    <h6 class="m-b-0 m-l-10">Gray Sofa</h6>
+                    </div>
+                    </td>
+                    <td>Home Decoration</td>
+                    <td>$912.00</td>
+                    <td>20</td>
+                    <td>
+                    <div class="d-flex align-items-center">
+                    <div class="badge badge-success badge-dot m-r-10"></div>
+                    <div>In Stock</div>
+                    </div>
+                    </td>
+                    <td class="text-right">
+                    <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                    <i class="anticon anticon-edit"></i>
+                    </button>
+                    <button class="btn btn-icon btn-hover btn-sm btn-rounded">
+                    <i class="anticon anticon-delete"></i>
+                    </button>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td>
+                    <div class="checkbox">
+                    <input id="check-item-2" type="checkbox">
+                    <label for="check-item-2" class="m-b-0"></label>
+                    </div>
+                    </td>
+                    <td>
+                    #32
+                    </td>
+                    <td>
+                    <div class="d-flex align-items-center">
+                    <img class="img-fluid rounded" src="assets/images/others/thumb-10.jpg" style="max-width: 60px" alt="">
+                    <h6 class="m-b-0 m-l-10">Beat Headphone</h6>
+                    </div>
+                    </td>
+                    <td>Eletronic</td>
+                    <td>$137.00</td>
+                    <td>56</td>
+                    <td>
+                    <div class="d-flex align-items-center">
+                    <div class="badge badge-success badge-dot m-r-10"></div>
+                    <div>In Stock</div>
+                    </div>
+                    </td>
+                    <td class="text-right">
+                    <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                    <i class="anticon anticon-edit"></i>
+                    </button>
+                    <button class="btn btn-icon btn-hover btn-sm btn-rounded">
+                    <i class="anticon anticon-delete"></i>
+                    </button>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td>
+                    <div class="checkbox">
+                    <input id="check-item-3" type="checkbox">
+                    <label for="check-item-3" class="m-b-0"></label>
+                    </div>
+                    </td>
+                    <td>
+                    #33
+                    </td>
+                    <td>
+                    <div class="d-flex align-items-center">
+                    <img class="img-fluid rounded" src="assets/images/others/thumb-11.jpg" style="max-width: 60px" alt="">
+                    <h6 class="m-b-0 m-l-10">Wooden Rhino</h6>
+                    </div>
+                    </td>
+                    <td>Home Decoration</td>
+                    <td>$912.00</td>
+                    <td>12</td>
+                    <td>
+                    <div class="d-flex align-items-center">
+                    <div class="badge badge-success badge-dot m-r-10"></div>
+                    <div>In Stock</div>
+                    </div>
+                    </td>
+                    <td class="text-right">
+                    <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                    <i class="anticon anticon-edit"></i>
+                    </button>
+                    <button class="btn btn-icon btn-hover btn-sm btn-rounded">
+                    <i class="anticon anticon-delete"></i>
+                    </button>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td>
+                    <div class="checkbox">
+                    <input id="check-item-4" type="checkbox">
+                    <label for="check-item-4" class="m-b-0"></label>
+                    </div>
+                    </td>
+                    <td>
+                    #34
+                    </td>
+                    <td>
+                    <div class="d-flex align-items-center">
+                    <img class="img-fluid rounded" src="assets/images/others/thumb-12.jpg" style="max-width: 60px" alt="">
+                    <h6 class="m-b-0 m-l-10">Red Chair</h6>
+                    </div>
+                    </td>
+                    <td>Home Decoration</td>
+                    <td>$128.00</td>
+                    <td>0</td>
+                    <td>
+                    <div class="d-flex align-items-center">
+                    <div class="badge badge-danger badge-dot m-r-10"></div>
+                    <div>Out of Stock</div>
+                    </div>
+                    </td>
+                    <td class="text-right">
+                    <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                    <i class="anticon anticon-edit"></i>
+                    </button>
+                    <button class="btn btn-icon btn-hover btn-sm btn-rounded">
+                    <i class="anticon anticon-delete"></i>
+                    </button>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td>
+                    <div class="checkbox">
+                    <input id="check-item-5" type="checkbox">
+                    <label for="check-item-5" class="m-b-0"></label>
+                    </div>
+                    </td>
+                    <td>
+                    #35
+                    </td>
+                    <td>
+                    <div class="d-flex align-items-center">
+                    <img class="img-fluid rounded" src="assets/images/others/thumb-13.jpg" style="max-width: 60px" alt="">
+                    <h6 class="m-b-0 m-l-10">Wristband</h6>
+                    </div>
+                    </td>
+                    <td>Eletronic</td>
+                    <td>$776.00</td>
+                    <td>0</td>
+                    <td>
+                    <div class="d-flex align-items-center">
+                    <div class="badge badge-danger badge-dot m-r-10"></div>
+                    <div>Out of Stock</div>
+                    </div>
+                    </td>
+                    <td class="text-right">
+                    <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                    <i class="anticon anticon-edit"></i>
+                    </button>
+                    <button class="btn btn-icon btn-hover btn-sm btn-rounded">
+                    <i class="anticon anticon-delete"></i>
+                    </button>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td>
+                    <div class="checkbox">
+                    <input id="check-item-6" type="checkbox">
+                    <label for="check-item-6" class="m-b-0"></label>
+                    </div>
+                    </td>
+                    <td>
+                    #36
+                    </td>
+                    <td>
+                    <div class="d-flex align-items-center">
+                    <img class="img-fluid rounded" src="assets/images/others/thumb-14.jpg" style="max-width: 60px" alt="">
+                    <h6 class="m-b-0 m-l-10">Charging Cable</h6>
+                    </div>
+                    </td>
+                    <td>Eletronic</td>
+                    <td>$119.00</td>
+                    <td>37</td>
+                    <td>
+                    <div class="d-flex align-items-center">
+                    <div class="badge badge-success badge-dot m-r-10"></div>
+                    <div>In Stock</div>
+                    </div>
+                    </td>
+                    <td class="text-right">
+                    <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                    <i class="anticon anticon-edit"></i>
+                    </button>
+                    <button class="btn btn-icon btn-hover btn-sm btn-rounded">
+                    <i class="anticon anticon-delete"></i>
+                    </button>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td>
+                    <div class="checkbox">
+                    <input id="check-item-7" type="checkbox">
+                    <label for="check-item-7" class="m-b-0"></label>
+                    </div>
+                    </td>
+                    <td>
+                    #37
+                    </td>
+                    <td>
+                    <div class="d-flex align-items-center">
+                    <img class="img-fluid rounded" src="assets/images/others/thumb-15.jpg" style="max-width: 60px" alt="">
+                    <h6 class="m-b-0 m-l-10">Three Legs</h6>
+                    </div>
+                    </td>
+                    <td>Home Decoration</td>
+                    <td>$199.00</td>
+                    <td>17</td>
+                    <td>
+                    <div class="d-flex align-items-center">
+                    <div class="badge badge-success badge-dot m-r-10"></div>
+                    <div>In Stock</div>
+                    </div>
+                    </td>
+                    <td class="text-right">
+                    <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                    <i class="anticon anticon-edit"></i>
+                    </button>
+                    <button class="btn btn-icon btn-hover btn-sm btn-rounded">
+                    <i class="anticon anticon-delete"></i>
+                    </button>
+                    </td>
+                    </tr>*@
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
