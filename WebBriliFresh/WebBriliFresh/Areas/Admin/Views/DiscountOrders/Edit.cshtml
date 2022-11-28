@@ -1,4 +1,5 @@
 ﻿@model WebBriliFresh.Models.DiscountOrder
+@Html.Hidden("initialDisCode", Model.DisCode)
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,12 +11,12 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <EditForm asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="DisId" />
             <div class="form-group">
                 <label asp-for="DisCode" class="control-label"></label>
-                <input asp-for="DisCode" class="form-control" />
+                <input asp-for="DisCode" class="form-control" readonly/>
                 <span asp-validation-for="DisCode" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -51,7 +52,8 @@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
-        </form>
+
+        </EditForm>
     </div>
 </div>
 

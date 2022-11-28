@@ -3,14 +3,18 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebBriliFresh.Models;
 
 public partial class DiscountOrder
 {
+    [NotMapped]
+    public string? InitialDiscode { get; set; }
+
     public int DisId { get; set; }
 
-    [Remote(action: "VerifyDisCode", controller: "DiscountOrders", ErrorMessage = "Mã đã tồn tại!")]
+    [Remote(action: "VerifyDisCode", controller: "DiscountOrders", AdditionalFields = nameof(InitialDiscode), ErrorMessage = "Mã đã tồn tại!")]
     [DisplayName("Mã Giảm Giá")]
     public string? DisCode { get; set; }
 
@@ -33,7 +37,7 @@ public partial class DiscountOrder
     public int? CusType { get; set; }
 
     [DisplayName("Trạng Thái")]
-    public bool? Status { get; set; }
+    public bool? Status { get; set; } = false;
 
     public virtual ICollection<Order> Orders { get; } = new List<Order>();
 }

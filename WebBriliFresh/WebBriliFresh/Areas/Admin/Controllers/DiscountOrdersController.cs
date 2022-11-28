@@ -55,7 +55,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DisId,DisCode,DisRate,MaxDis,StartDate,EndDate,CusType,Status")] DiscountOrder discountOrder)
+        public async Task<IActionResult> Create([Bind("DisId,DisCode,DisRate,MaxDis,StartDate,EndDate,CusType,Status", "PageMode")] DiscountOrder discountOrder)
         {
             if (ModelState.IsValid)
             {
@@ -69,6 +69,9 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/DiscountOrders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            string mode = "edit";
+            ViewData["mode"] = mode;
+
             if (id == null || _context.DiscountOrders == null)
             {
                 return NotFound();
@@ -179,15 +182,26 @@ namespace WebBriliFresh.Areas.Admin.Controllers
 
 
         [AcceptVerbs("GET", "POST")]
-        public IActionResult VerifyDisCode(string disCode)
+        public IActionResult VerifyDisCode(string disCode, string initialDisCode)
         {
 
-            foreach(DiscountOrder obj in _context.DiscountOrders)
+            if(disCode == initialDisCode)
             {
-                if(obj.DisCode == disCode)
-                    return Json(false);
-            }
                 return Json(true);
+            }
+
+            //foreach (DiscountOrder obj in _context.DiscountOrders)
+            //{
+            //    if (obj.DisCode == disCode)
+            //        return Json(false);
+            //}
+            var discountCode = _context.DiscountOrders.SingleOrDefault(m => m.DisCode == disCode);
+            if(discountCode == null)
+            {
+                return Json(true);
+            }
+
+            return Json(false);
         }
     }
 }
