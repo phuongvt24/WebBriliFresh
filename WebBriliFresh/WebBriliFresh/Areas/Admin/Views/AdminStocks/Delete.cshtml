@@ -40,7 +40,7 @@
        
     </dl>
 
-    <form asp-action="Delete" asp-route-id="@Model.Store.StoreId" asp-route-id1="@Model.Pro.ProId">
+    <form asp-action="Delete" asp-route-id="@Model.Store.StoreId" asp-route-id1="@Model.Pro.ProId" method="post">
         <input type="hidden" asp-for="StoreId" />
         <input type="hidden" asp-for="ProId" />
         <input type="submit" value="Xóa" class="btn btn-danger"/> 

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore;
 using WebBriliFresh.Models;
 
@@ -75,16 +70,32 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("StoreId,ProId,Quantity")] Stock stock)
         {
-            //if (ModelState.IsValid)
-            //{
-                _context.Add(stock);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            //}
-
-            //ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "StoreId");
-            //ViewData["ProId"] = new SelectList(_context.Products.Where(x => x.IsDeleted == 0), "ProId", "ProId");
-            //return View(stock);
+            var stock1 = await _context.Stocks
+                .Include(s => s.Pro)
+                .Include(s => s.Store)
+                .FirstOrDefaultAsync(m => m.StoreId == stock.StoreId && m.ProId == stock.ProId);
+            if (stock.Quantity != null && stock.Quantity >= 0)
+            {
+                if (stock1 != null)
+                {
+                    stock1.Quantity += stock.Quantity;
+                    _context.Update(stock1);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    _context.Add(stock);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            else
+            {
+                ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "StoreId");
+                ViewData["ProId"] = new SelectList(_context.Products.Where(x => x.IsDeleted == 0), "ProId", "ProId");
+                return View(stock);
+            }
         }
 
         // GET: Admin/AdminStocks/Edit/5
@@ -116,11 +127,8 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            _context.Update(stock);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-            /*
-            if (ModelState.IsValid)
+
+            if (stock.Pro == null && stock.Store == null && stock.Quantity != null && stock.Quantity >= 0)
             {
                 try
                 {
@@ -138,11 +146,11 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                         throw;
                     }
                 }
+                return RedirectToAction(nameof(Index));
             }
             ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "StoreId");
             ViewData["ProId"] = new SelectList(_context.Products.Where(x => x.IsDeleted == 0), "ProId", "ProId");
             return View(stock);
-            */
         }
 
         // GET: Admin/AdminStocks/Delete/5
@@ -175,12 +183,12 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             {
                 return Problem("Entity set 'BriliFreshDbContext.Stocks'  is null.");
             }
-            var stock = await _context.Stocks.FindAsync(new object[] { id, id1 });
+            var stock = await _context.Stocks.FindAsync( id, id1 );
 
             if (stock != null)
             {
                 _context.Stocks.Remove(stock);
-                return View(stock);
+                //return View(stock);
             }
             
             await _context.SaveChangesAsync();

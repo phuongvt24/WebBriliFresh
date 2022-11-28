@@ -25,12 +25,14 @@
                 <select id="store" asp-for="StoreId" class ="form-control" asp-items="ViewBag.StoreId">
                     <option value="" selected>Chọn mã cửa hàng</option>
                 </select>
+                <span asp-validation-for="StoreId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ProId" class="control-label">ID sản phẩm</label>
                 <select asp-for="ProId" class ="form-control" asp-items="ViewBag.ProId">
                     <option value="" selected>Chọn mã sản phẩm</option>
                 </select>
+                <span asp-validation-for="ProId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Quantity" class="control-label">Số lượng</label>
