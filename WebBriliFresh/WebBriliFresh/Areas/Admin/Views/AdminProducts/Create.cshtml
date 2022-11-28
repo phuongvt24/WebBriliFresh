@@ -4,7 +4,6 @@
     ViewData["Title"] = "Create";
 
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
-
 }
 
 <h1>Thêm mới sản phẩm</h1>
@@ -19,14 +18,30 @@
                 <input asp-for="ProName" class="form-control" />
                 <span asp-validation-for="ProName" class="text-danger"></span>
             </div>
+
+
+
             <div class="form-group">
                 <label asp-for="Type.MainType" class="control-label">Loại chính</label>
-                <select asp-for="Type.MainType" class="form-control" asp-items="ViewBag.MainType"></select>
+                <select asp-for="Type.MainType" class="form-control" asp-items=ViewBag.MainType></select>
             </div>
-            <div class="form-group">
+
+
+            <div class="form-group" id="sub1">
                 <label asp-for="TypeId" class="control-label">Loại</label>
-                <select asp-for="TypeId" class="form-control" asp-items="ViewBag.TypeId1"></select>
+                <select asp-for="TypeId" id="type1" class="form-control" asp-items=ViewBag.TypeId1></select>
             </div>
+            <div class="form-group" id="sub2">
+                <label asp-for="TypeId" class="control-label">Loại</label>
+                <select asp-for="TypeId" id="type2" class="form-control" asp-items=ViewBag.TypeId2></select>
+            </div>
+            <div class="form-group" id="sub3">
+                <label asp-for="TypeId" class="control-label">Loại</label>
+                <select asp-for="TypeId" id="type3" class="form-control" asp-items=ViewBag.TypeId3></select>
+            </div>
+
+
+
             <div class="form-group">
                 <label asp-for="Price" class="control-label">Giá bán</label>
                 <input asp-for="Price" class="form-control" />
@@ -40,7 +55,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label">Ngày</label>
-                <input asp-for="StartDate" type="date" id="myID" class="form-control" />
+                <input asp-for="StartDate"  id="myID" class="form-control" />
+                @*<input asp-for="StartDate" id="myID" class="form-control" />*@
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -72,22 +88,57 @@
 
  <script type="text/javascript" >
     $(document).ready(function () {
+
         flatpickr("#myID", {
-            dateFormat: "d/m/Y",
+            altInput: true,
+            altFormat: "d/m/y",
+            dateFormat: "m/d/y",
         });
 
-        var maintype = $("#Type_MainType");
-        var subtype = $("#Type_MainType");
+        var s1 = $("#sub1")
+        var t1 = $("#type1")
 
-        $("#Type_MainType").change(function () {
+        var s2 = $("#sub2")
+        var t2 = $("#type2")
+
+        var s3 = $("#sub3")
+        var t3 = $("#type3")
+
+        var maintype = $("#Type_MainType");
+
+        t2.prop("disabled", true);
+        t3.prop("disabled", true);
+
+        s2.hide()
+        s3.hide()
+
+
+        maintype.change(function () {
             if (maintype.find(":selected").val() === 'Rau củ') {
-                subtype.setAttribute("asp-items", "ViewBag.TypeId1")
+                t2.prop("disabled", true);
+                t3.prop("disabled", true);
+                t1.prop("disabled", false);
+
+                s2.hide()
+                s3.hide()
+                s1.show()
             } else if (maintype.find(":selected").val() === 'Thịt cá') {
-                subtype.setAttribute("asp-items", "ViewBag.TypeId2")
+                t2.prop("disabled", false);
+                t3.prop("disabled", true);
+                t1.prop("disabled", true);
+
+                s2.show()
+                s3.hide()
+                s1.hide()
             } else {
-                subtype.setAttribute("asp-items", "ViewBag.TypeId3")
+                t2.prop("disabled", true);
+                t3.prop("disabled", false);
+                t1.prop("disabled", true);
+
+                s2.hide()
+                s3.show()
+                s1.hide()
             }
         })
     })
-
 </script>

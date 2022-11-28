@@ -48,7 +48,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/AdminProducts/Create
         public IActionResult Create()
         {
-            ViewData["TypeId1"] = new SelectList(_context.Types.Where(x=> x.MainType == "Rau củ"), "TypeId", "SubType");
+            ViewData["TypeId1"] = new SelectList(_context.Types.Where(x => x.MainType == "Rau củ"), "TypeId", "SubType");
             ViewData["TypeId2"] = new SelectList(_context.Types.Where(x => x.MainType == "Thịt cá"), "TypeId", "SubType");
             ViewData["TypeId3"] = new SelectList(_context.Types.Where(x => x.MainType == "Trái cây 4 mùa"), "TypeId", "SubType");
 
@@ -57,7 +57,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                                                                 .Select(x => new { MainType = x.Key }), "MainType", "MainType");
             return View();
         }
-     
+
 
         // POST: Admin/AdminProducts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -67,10 +67,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         public async Task<IActionResult> Create([Bind("ProId,ProName,Price,TypeId,Source,StartDate,Des,Unit,IsDeleted")] Product product)
         {
             if (ModelState.IsValid)
-            {
-                Console.WriteLine(product.StartDate);
-
-
+            {   
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
