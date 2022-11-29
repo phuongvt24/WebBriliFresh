@@ -16,7 +16,9 @@
 </div>
 <h3>Chỉnh sửa thông tin kho</h3>
 <p class="text-dark font-weight-semibold">ID cửa hàng: @Html.DisplayFor(model => model.StoreId)</p>
+<p class="text-dark font-weight-semibold">Địa chỉ: @Html.DisplayFor(model => model.Store.SpecificAddress), @Html.DisplayFor(model => model.Store.Ward), @Html.DisplayFor(model => model.Store.District), @Html.DisplayFor(model => model.Store.City)</p>
 <p class="text-dark font-weight-semibold">ID sản phẩm: @Html.DisplayFor(model => model.ProId)</p>
+<p class="text-dark font-weight-semibold">Tên sản phẩm: @Html.DisplayFor(model => model.Pro.ProName)</p>
 
 <hr />
 <div class="row">
