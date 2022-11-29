@@ -16,10 +16,13 @@ namespace WebBriliFresh.Areas.Admin.Controllers
     public class AdminAccountController : Controller
     {
         private readonly BriliFreshDbContext _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public AdminAccountController(BriliFreshDbContext context)
+        public AdminAccountController(BriliFreshDbContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            this._hostEnvironment = hostEnvironment; 
+
         }
 
         // GET: Admin/AdminAccount
@@ -89,8 +92,9 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,UserName,UserPassword,UserRole,Avatar")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("UserId,ImageFile,UserName,UserPassword,UserRole")] User user)
         {
+
             if (id != user.UserId)
             {
                 return NotFound();
@@ -100,7 +104,16 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    string wwwRootPath = _hostEnvironment.WebRootPath;
+                    string fileName = Path.GetFileNameWithoutExtension(user.ImageFile.FileName);
+                    string extension = Path.GetExtension(user.ImageFile.FileName);
+                    user.Avatar = fileName = fileName + DateTime.Now.ToString("yymmssff") + extension;
+                    string path = Path.Combine(wwwRootPath + "/ImageUser/", fileName);
+                    using (var fileStream = new FileStream(path, FileMode.Create)) { 
+                        await user.ImageFile.CopyToAsync(fileStream);
+                    }
+
+                        _context.Update(user);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -114,7 +127,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return View(user);
             }
             return View(user);
         }
