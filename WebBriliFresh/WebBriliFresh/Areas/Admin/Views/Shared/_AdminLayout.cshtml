@@ -22,8 +22,6 @@
 
     <!-- Core css -->
     <link href="~/adminassets/css/app.min.css" rel="stylesheet">
-    @RenderSection("Scripts",false/*required*/)
-
 </head>
 
 <body>
@@ -234,6 +232,7 @@
     @await  Component.InvokeAsync("Notyf")
     @await  RenderSectionAsync("Scripts", required: false)
 
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 
 </body>
 
