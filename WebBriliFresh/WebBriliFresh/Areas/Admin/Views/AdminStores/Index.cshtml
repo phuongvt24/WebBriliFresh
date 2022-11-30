@@ -31,44 +31,44 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                            <table class="table table-hover e-commerce-table">
-                                <thead>
+                    <table class="table table-hover e-commerce-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Địa chỉ</th>
+                                <th>Phường/Xã</th>
+                                <th>Quận/Huyện</th>
+                                <th>Tỉnh/Thành</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                @foreach (var item in Model)
+                                {
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Địa chỉ</th>
-                                        <th>Phường/Xã</th>
-                                        <th>Quận/Huyện</th>
-                                        <th>Tỉnh/Thành</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if (Model != null)
-                                    {
-                                        @foreach (var item in Model)
-                                        {
-                                            <tr>
-                                                <td>@Html.DisplayFor(modelItem => item.StoreId)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.SpecificAddress)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.Ward)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.District)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.City)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.StoreId)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.SpecificAddress)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Ward)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.District)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.City)</td>
                                         
-                                                <td class="text-right">
-                                                    <a asp-controller="AdminStores" asp-action="Edit" asp-route-id="@item.StoreId"  class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
-                                                    <i class="anticon anticon-edit"></i>
-                                                    </a>
-                                                    <a asp-controller="AdminStores" asp-action="Delete" asp-route-id="@item.StoreId"  class="btn btn-icon btn-hover btn-sm btn-rounded">
-                                                    <i class="anticon anticon-delete"></i>
-                                                    </a>
-                                                    <a style="padding: 12px 20px;" asp-controller="AdminStores" asp-action="Details" asp-route-id="@item.StoreId">Xem chi tiết
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                </tbody>
-                            </table>
+                                        <td class="text-right">
+                                            <a asp-controller="AdminStores" asp-action="Edit" asp-route-id="@item.StoreId"  class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                            <i class="anticon anticon-edit"></i>
+                                            </a>
+                                            <a asp-controller="AdminStores" asp-action="Delete" asp-route-id="@item.StoreId"  class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                            <i class="anticon anticon-delete"></i>
+                                            </a>
+                                            <a style="padding: 12px 20px;" asp-controller="AdminStores" asp-action="Details" asp-route-id="@item.StoreId">Xem chi tiết
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

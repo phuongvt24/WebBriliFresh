@@ -22,8 +22,6 @@
 
     <!-- Core css -->
     <link href="~/adminassets/css/app.min.css" rel="stylesheet">
-    @RenderSection("Scripts",false/*required*/)
-
 </head>
 
 <body>
@@ -231,12 +229,10 @@
 
     <!-- Core JS -->
     <script src="~/adminassets/js/app.min.js"></script>
-@*    <script type="text/javascript">
-        $(function () {
-            $('#datepicker').datepicker();  
-        });
-    </script>*@
+    @await  Component.InvokeAsync("Notyf")
+    @await  RenderSectionAsync("Scripts", required: false)
 
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 
 </body>
 

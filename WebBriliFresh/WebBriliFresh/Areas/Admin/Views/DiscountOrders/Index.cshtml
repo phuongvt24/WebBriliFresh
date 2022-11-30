@@ -20,11 +20,10 @@
                 <div class="d-md-flex">
                     <div class="m-b-10 m-r-15">
                         <select class="custom-select" style="min-width: 180px;">
-                            <option selected>Catergory</option>
+                            <option selected>Trạng Thái</option>
                             <option value="all">All</option>
-                            <option value="homeDeco">Home Decoration</option>
-                            <option value="eletronic">Eletronic</option>
-                            <option value="jewellery">Jewellery</option>
+                            <option value="Đã Sử Dụng">Đã Sử Dụng</option>
+                            <option value="Chưa Sử Dụng">Chưa Sử Dụng</option>
                         </select>
                     </div>
                     @*                    <div class="m-b-10">
@@ -54,23 +53,28 @@
                                 <label for="checkAll" class="m-b-0"></label>
                             </div>
                         </th>
-                        <th>Mã Giảm Giá</th>
                         <th>
-                            Tỉ Lệ Giảm
+                            @Html.DisplayNameFor(model => model.DisCode)
                         </th>
                         <th>
-                            Giảm Tối Đa
+                            @Html.DisplayNameFor(model => model.DisRate)
                         </th>
                         <th>
-                            Bắt Đầu
+                            @Html.DisplayNameFor(model => model.MaxDis)
                         </th>
                         <th>
-                            Kết Thúc
+                            @Html.DisplayNameFor(model => model.StartDate)
+
                         </th>
                         <th>
-                            Loại Khách Hàng
+                            @Html.DisplayNameFor(model => model.EndDate)
                         </th>
-                        <th></th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CusType)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Status)
+                        </th>
                         <th></th>
                     </tr>
                 </thead>
