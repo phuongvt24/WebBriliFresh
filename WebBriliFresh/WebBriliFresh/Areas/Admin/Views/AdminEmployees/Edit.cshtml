@@ -1,0 +1,193 @@
+﻿@model WebBriliFresh.Models.Employee
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a asp-action="Index" class="breadcrumb-item">Quản lý nhân viên</a>
+            <span class="breadcrumb-item active">Chỉnh sửa</span>
+        </nav>
+    </div>
+</div>
+<h1>Chỉnh sửa</h1>
+<h4>Nhân viên</h4>
+<p class="text-dark font-weight-semibold">ID nhân viên: @Html.DisplayFor(model => model.EmpId)</p>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="EmpId" />
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label">Mã tài khoản</label>
+                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StoreId" class="control-label">Mã cửa hàng</label>
+                <select asp-for="StoreId" class="form-control" asp-items="ViewBag.StoreId"></select>
+                <span asp-validation-for="StoreId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label">Tên</label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label">Họ</label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label">Giới tính</label>
+                <select id="gender" class="form-control" asp-for="Gender">
+                    <option value="" selected>Chọn giới tính</option>
+                    <option value="1">Nam</option>
+                    <option value="2">Nữ</option>
+                    <option value="0">Khác</option>
+                </select>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="City" class="control-label">Chỉnh sửa địa chỉ</label>
+            </div>
+            <div class="form-group">              
+                <label asp-for="City" class="control-label">Tỉnh/Thành</label>
+                <input asp-for="City" id="selected_city" type="hidden" value="" />
+                <select id="city" class="form-control">
+                    <option value="" selected>Chọn Tỉnh/Thành</option>
+                </select>
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="District" class="control-label">Quận/Huyện</label>
+                <input asp-for="District" id="selected_district" type="hidden" value="" />
+                <select id="district" class="form-control">
+                    <option value="" selected>Chọn Quận/Huyện</option>
+                </select>
+                <span asp-validation-for="District" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ward" class="control-label">Phường/Xã</label>
+                <input asp-for="Ward" id="selected_ward" type="hidden" value="" />
+                <select id="ward" class="form-control">
+                    <option value="" selected>Chọn Phường/Xã</option>
+                </select>
+                <span asp-validation-for="Ward" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SpecificAddress" class="control-label">Địa chỉ</label>
+                <input asp-for="SpecificAddress" class="form-control" />
+                <span asp-validation-for="SpecificAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label">Ngày vào làm</label>
+                <input asp-for="StartDate" class="id-date" class="form-control" />
+                <span asp-validation-for="StartDate"  class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label">Ngày kết thúc</label>
+                <input asp-for="EndDate" class="id-date" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label">Số điện thoại</label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label">Email</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input id="save-btn" type="submit" value="Lưu" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Quay lại danh sách</a>
+</div>
+
+@*@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+*@
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    flatpickr(".id-date", {
+        altInput: true,
+        altFormat: "d/m/Y",
+        dateFormat: "m/d/y",
+    });
+
+    //flatpickr("#id-enddate", {
+    //    altinput: true,
+    //    altformat: "d/m/y",
+    //    dateformat: "m/d/y",
+    //});
+
+    $(document).ready(function () {
+        var citis = document.getElementById("city");
+        var districts = document.getElementById("district");
+        var wards = document.getElementById("ward");
+        var Parameter = {
+            url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+            method: "GET",
+            responseType: "application/json",
+        };
+        var promise = axios(Parameter);
+        promise.then(function (result) {
+            renderCity(result.data);
+        });
+        function renderCity(data) {
+            for (const x of data) {
+                citis.options[citis.options.length] = new Option(x.Name, x.Id);
+            }
+            citis.onchange = function () {
+                district.length = 1;
+                ward.length = 1;
+                if (this.value != "") {
+                    const result = data.filter(n => n.Id === this.value);
+
+                    for (const k of result[0].Districts) {
+                        districts.options[districts.options.length] = new Option(k.Name, k.Id);
+                    }
+                }
+            };
+            districts.onchange = function () {
+                ward.length = 1;
+                const dataCity = data.filter((n) => n.Id === citis.value);
+                if (this.value != "") {
+                    const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+
+                    for (const w of dataWards) {
+                        wards.options[wards.options.length] = new Option(w.Name, w.Id);
+                    }
+                }
+            };
+        }
+        $("#city").prop('required', true);
+        $("#district").prop('required', true);
+        $("#ward").prop('required', true);
+        $("#save-btn").click(function () {
+            var city = $("#city").find("option:selected").text();
+            $("#selected_city").val(city);
+            var district = $("#district").find("option:selected").text();
+            $("#selected_district").val(district);
+            var ward = $("#ward").find("option:selected").text();
+            $("#selected_ward").val(ward);
+            var gender = $("#gender").find("option:selected").text();
+            $("#gender").key(gender);
+        })
+    })
+
+</script>
