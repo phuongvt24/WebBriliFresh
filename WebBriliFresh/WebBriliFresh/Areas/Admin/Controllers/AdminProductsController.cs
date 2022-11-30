@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using AspNetCoreHero.ToastNotification.Abstractions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing.Constraints;
@@ -17,9 +16,6 @@ using RequiredAttribute = System.ComponentModel.DataAnnotations.RequiredAttribut
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize]
-    [Authorize(Policy = "AdminOnly")]
-
     public class AdminProductsController : Controller
     {
         private readonly BriliFreshDbContext _context;
