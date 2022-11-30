@@ -1,4 +1,6 @@
+using AspNetCoreHero.ToastNotification;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using WebBriliFresh.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,7 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddDbContext<BriliFreshDbContext>(options => options.UseSqlServer(
 builder.Configuration.GetConnectionString("BriliFreshDB")
 ));
+builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -20,6 +23,14 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseStaticFiles(new StaticFileOptions()
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(),"Uploads")
+        ),
+    RequestPath = "/contents"
+});
 
 app.UseRouting();
 

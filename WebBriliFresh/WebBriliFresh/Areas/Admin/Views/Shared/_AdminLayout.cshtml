@@ -231,11 +231,8 @@
 
     <!-- Core JS -->
     <script src="~/adminassets/js/app.min.js"></script>
-@*    <script type="text/javascript">
-        $(function () {
-            $('#datepicker').datepicker();  
-        });
-    </script>*@
+    @await  Component.InvokeAsync("Notyf")
+    @await  RenderSectionAsync("Scripts", required: false)
 
 
 </body>
