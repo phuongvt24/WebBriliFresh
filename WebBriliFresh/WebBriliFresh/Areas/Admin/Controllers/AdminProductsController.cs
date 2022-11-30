@@ -68,7 +68,8 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProId,ProName,Price,PriceString,TypeId,Source,StartDate,Des,Unit,IsDeleted,File,Files")] Product product)
+        //[Consumes("multipart/form-data")]
+        public async Task<IActionResult> Create([Bind("ProId,ProName,Price,TypeId,Source,StartDate,Des,Unit,IsDeleted,File,Files")] Product product)
             {
 
             if (ModelState.IsValid)
