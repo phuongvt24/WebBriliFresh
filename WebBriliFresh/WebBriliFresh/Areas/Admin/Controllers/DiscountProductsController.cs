@@ -164,5 +164,24 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         {
           return _context.DiscountProducts.Any(e => e.DisId == id);
         }
+
+        [AcceptVerbs("GET", "POST")]
+        public IActionResult VerifyDate(DateTime? startDate, DateTime? endDate)
+        {
+            if (startDate != null && endDate != null)
+            {
+                DateTime StartDate = startDate ?? DateTime.MinValue;
+                DateTime EndDate = endDate ?? DateTime.MinValue;
+                int result = DateTime.Compare(StartDate, EndDate);
+                if (result >= 0)
+                {
+                    return Json(false);
+                }
+
+            }
+
+            return Json(true);
+        }
+
     }
 }
