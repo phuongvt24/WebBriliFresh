@@ -9,7 +9,7 @@
             <h2 class="header-title">Brili Fresh</h2>
             <div class="header-sub-title">
                 <nav class="breadcrumb breadcrumb-dash">
-                    <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+                    <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
                     <span class="breadcrumb-item active">Quản lý cửa hàng</span>
                 </nav>
             </div>
@@ -20,9 +20,6 @@
                     <div class="col-lg-8">
                         <div class="d-md-flex">
                             <div class="m-b-10 m-r-15">
-                                <select id="city" class="custom-select" style="min-width: 180px;">
-                                    <option value="" selected>Tỉnh/Thành</option>
-                                </select>
                             </div>
                         </div>
                     </div>
@@ -34,71 +31,45 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                            <table class="table table-hover e-commerce-table">
-                                <thead>
+                    <table class="table table-hover e-commerce-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Địa chỉ</th>
+                                <th>Phường/Xã</th>
+                                <th>Quận/Huyện</th>
+                                <th>Tỉnh/Thành</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                @foreach (var item in Model)
+                                {
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Địa chỉ</th>
-                                        <th>Phường/Xã</th>
-                                        <th>Quận/Huyện</th>
-                                        <th>Tỉnh/Thành</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if (Model != null)
-                                    {
-                                        @foreach (var item in Model)
-                                        {
-                                            <tr>
-                                                <td>@Html.DisplayFor(modelItem => item.StoreId)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.SpecificAddress)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.Ward)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.District)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.City)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.StoreId)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.SpecificAddress)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Ward)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.District)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.City)</td>
                                         
-                                                <td class="text-right">
-                                                    <a asp-controller="AdminStores" asp-action="Edit" asp-route-id="@item.StoreId"  class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
-                                                    <i class="anticon anticon-edit"></i>
-                                                    </a>
-                                                    <a asp-controller="AdminStores" asp-action="Delete" asp-route-id="@item.StoreId"  class="btn btn-icon btn-hover btn-sm btn-rounded">
-                                                    <i class="anticon anticon-delete"></i>
-                                                    </a>
-                                                    <a style="padding: 12px 20px;" asp-controller="AdminStores" asp-action="Details" asp-route-id="@item.StoreId">Xem chi tiết
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                </tbody>
-                            </table>
+                                        <td class="text-right">
+                                            <a asp-controller="AdminStores" asp-action="Edit" asp-route-id="@item.StoreId"  class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                            <i class="anticon anticon-edit"></i>
+                                            </a>
+                                            <a asp-controller="AdminStores" asp-action="Delete" asp-route-id="@item.StoreId"  class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                            <i class="anticon anticon-delete"></i>
+                                            </a>
+                                            <a style="padding: 12px 20px;" asp-controller="AdminStores" asp-action="Details" asp-route-id="@item.StoreId">Xem chi tiết
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     <!-- Content Wrapper END -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-<script>
-    $(document).ready(function () {
-        var citis = document.getElementById("city");
-        var Parameter = {
-            url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-            method: "GET",
-            responseType: "application/json",
-        };
-        var promise = axios(Parameter);
-        promise.then(function (result) {
-            renderCity(result.data);
-        });
-
-        function renderCity(data) {
-            for (const x of data) {
-                citis.options[citis.options.length] = new Option(x.Name, x.Id);
-            }
-            citis.onchange = function () {
-                var url = '@Html.Raw(Url.Action("Index", "AdminStores", new { City = "__city__"}))';
-                var params = url.replace('__city__', this.options[this.selectedIndex].value);
-                window.location.href = params;
-            };
-        }
-    })
-</script>

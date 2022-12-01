@@ -1,4 +1,5 @@
 ﻿@model WebBriliFresh.Models.Store
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
     ViewData["Title"] = "Details";
@@ -8,7 +9,7 @@
     <h2 class="header-title">Brili Fresh</h2>
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
-            <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
             <a asp-action="Index" class="breadcrumb-item">Quản lý cửa hàng</a>
             <span class="breadcrumb-item active">Chi tiết</span>
         </nav>
@@ -23,10 +24,10 @@
             </div>
         </div>
         <div class="m-b-15">
-            <button asp-action="Edit" asp-route-id="@Model.StoreId" class="btn btn-primary">
+            <a asp-controller="AdminStores" asp-action="Edit" asp-route-id="@Model.StoreId" class="btn btn-primary">
                 <i class="anticon anticon-edit"></i>
                 <span>Sửa</span>
-            </button>
+            </a>
         </div>
     </div>
 </div>

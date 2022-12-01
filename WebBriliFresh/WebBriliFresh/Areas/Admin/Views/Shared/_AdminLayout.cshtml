@@ -16,11 +16,16 @@
     <!-- page css -->
     <link href="~/adminassets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
     <link href="~/adminassets/vendors/datatables/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="datepicker/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="datepicker/css/datepicker.css" rel="stylesheet" />
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <script src="js/jquery-1.11.1.min.js"></script>
 
     <!-- Core css -->
     <link href="~/adminassets/css/app.min.css" rel="stylesheet">
-
 </head>
 
 <body>
@@ -225,15 +230,18 @@
     <script src="~/adminassets/js/pages/dashboard-e-commerce.js"></script>
     <script src="~/adminassets/js/pages/e-commerce-order-list.js"></script>
 
+    <script src="js/jquery-1.11.1.min.js"></script>
     <script src="~/adminassets/vendors/datatables/jquery.dataTables.min.js"></script>
     <script src="~/adminassets/vendors/datatables/dataTables.bootstrap.min.js"></script>
     <script src="~/adminassets/js/pages/e-commerce-order-list.js"></script>
 
     <!-- Core JS -->
     <script src="~/adminassets/js/app.min.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
 
+    @await  Component.InvokeAsync("Notyf")
+    @await  RenderSectionAsync("Scripts", required: false)
 
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 
 </body>
 
