@@ -63,11 +63,13 @@
                     {
                         @foreach (var item in Model)
                         {
+                            var a = item.ProductImages.Where(x => x.ProId == item.ProId).Select(p => p.ImgData).FirstOrDefault();
+                            var b = item.Stocks.Where(x => x.ProId == item.ProId).Sum(i => i.Quantity);
                             <tr>
-                                <td>@Html.DisplayFor(modelItem =>  item.ProName)</td>
+                                <td>@Html.DisplayFor(modelItem =>  item.ProId)</td>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img class="img-fluid rounded" src="~/Adminassets/images/others/thumb-9.jpg" style="max-width: 60px" alt="">
+                                        <img class="img-fluid rounded" src="~/ImageProduct/@Html.DisplayFor(m=>a )" style="max-width: 60px" alt="">
                                         <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.ProName)</h6>
                                     </div>
                                 </td>
@@ -81,15 +83,26 @@
                                 </td>
                                 <td>@Html.DisplayFor(modelItem => item.Source)</td>
                                 <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="badge badge-success badge-dot m-r-10"></div>
-                                        <div>Còn hàng</div>
-                                    </div>
+                                    @if(b>0)
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <div class="badge badge-success badge-dot m-r-10"></div>
+                                            <div>Còn hàng</div>
+                                        </div>
+                                    }else
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <div class="badge badge-danger badge-dot m-r-10"></div>
+                                            <div>Hết hàng</div>
+                                        </div>
+                                    }
+                                    
                                 </td>
 
                                 <td class="text-right">
                                     <a asp-controller="AdminProducts" asp-action="Edit" asp-route-id="@item.ProId" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
                                         <i class="anticon anticon-edit"></i>
+                                        
                                     </a>
                                     <a asp-controller="AdminProducts" asp-action="Delete" asp-route-id="@item.ProId" class="btn btn-icon btn-hover btn-sm btn-rounded">
                                         <i class="anticon anticon-delete"></i>
@@ -106,6 +119,9 @@
         </div>
     </div>
 </div>
+
+
+
 
 <script>
     for(var i =0 ; i < $(".price").length; i++){

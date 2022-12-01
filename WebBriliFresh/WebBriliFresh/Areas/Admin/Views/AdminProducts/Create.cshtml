@@ -18,21 +18,21 @@
 
     var list = new SelectList(data, "giatri", "ten");
 }
-
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a asp-area="Admin" asp-controller="AdminProducts" asp-action="index" class="breadcrumb-item">Danh sách sản phẩm</a>
+            <span class="breadcrumb-item active">Thêm mới sản phẩm</span>
+        </nav>
+    </div>
+</div>
 <h1>Thêm mới sản phẩm</h1>
-
-
-
-<form enctype="multipart/form-data">
-    
-</form>
-
-
-
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data>
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="d-md-flex m-b-15 align-items-center ">
                 <div class="media align-items-center m-b-15">
@@ -237,7 +237,7 @@
 
         flatpickr("#myID", {
             altInput: true,
-            altFormat: "d/m/y",
+            altFormat: " d/m/Y ",
             dateFormat: "m/d/y",
         });
 
