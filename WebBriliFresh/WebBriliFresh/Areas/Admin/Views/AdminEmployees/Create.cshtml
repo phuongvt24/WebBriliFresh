@@ -23,11 +23,11 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="UserId" class="control-label">Mã tài khoản</label>
-                <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
+                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="StoreId" class="control-label">Mã cửa hàng</label>
-                <select asp-for="StoreId" class ="form-control" asp-items="ViewBag.StoreId"></select>
+                <select asp-for="StoreId" class="form-control" asp-items="ViewBag.StoreId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label">Tên</label>
@@ -41,12 +41,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Gender" class="control-label">Giới tính</label>
-@*                <input asp-for="Gender" id="selected_gender" type="hidden" value="" />
-              *@<select id="gender" class="form-control" asp-for="Gender">
+                @*                <input asp-for="Gender" id="selected_gender" type="hidden" value="" />
+                *@<select id="gender" class="form-control" asp-for="Gender">
                     <option value="" selected>Chọn giới tính</option>
-                    <option value="1" >Nam</option>
-                    <option value="2" >Nữ</option>
-                    <option value="0" >Khác</option>
+                    <option value="1">Nam</option>
+                    <option value="2">Nữ</option>
+                    <option value="0">Khác</option>
                 </select>
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
@@ -61,8 +61,9 @@
                 </select>
                 <span asp-validation-for="City" class="text-danger"></span>
 
-@*                <input asp-for="City" class="form-control" />
-*@            </div>
+                @*                <input asp-for="City" class="form-control" />
+                *@
+            </div>
             <div class="form-group">
                 <label asp-for="District" class="control-label">Quận/Huyện</label>
                 <input asp-for="District" id="selected_district" type="hidden" value="" />
@@ -90,9 +91,9 @@
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
+            <label asp-for="EndDate" class="control-label"></label>
+            <input asp-for="EndDate" class="form-control" />
+            <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>*@
             <div class="form-group">
                 <label asp-for="Phone" class="control-label">Số điện thoại</label>
@@ -124,7 +125,7 @@
 <script>
     flatpickr("#id-startdate", {
         altInput: true,
-        altFormat: "d/m/y",
+        altFormat: "d/m/Y",
         dateFormat: "m/d/y",
     });
 

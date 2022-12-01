@@ -31,8 +31,7 @@ public partial class Employee
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
     public DateTime? EndDate { get; set; }
-    [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+
     public string? Phone { get; set; }
 
     public string? Email { get; set; }

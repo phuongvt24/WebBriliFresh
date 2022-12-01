@@ -161,14 +161,14 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             {
                 _context.Employees.Remove(employee);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool EmployeeExists(int id)
         {
-          return _context.Employees.Any(e => e.EmpId == id);
+            return _context.Employees.Any(e => e.EmpId == id);
         }
     }
 }
