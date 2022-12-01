@@ -43,6 +43,7 @@ public partial class DiscountOrder
     [DisplayName("Loại KH")]
     public int? CusType { get; set; }
 
+
     [Required(ErrorMessage = "Vui lòng điền đầy đủ thông tin")]
     [DisplayName("Trạng Thái")]
     public bool? Status { get; set; } = false;
