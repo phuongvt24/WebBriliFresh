@@ -6,107 +6,93 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using WebBriliFresh.Models;
+using Type = WebBriliFresh.Models.Type;
 
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Policy = "AdminOnly")]
 
-    public class AdminStoresController : Controller
+    public class AdminTypesController : Controller
     {
         private readonly BriliFreshDbContext _context;
 
-        public AdminStoresController(BriliFreshDbContext context)
+        public AdminTypesController(BriliFreshDbContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/AdminStores
+        // GET: Admin/AdminTypes
         public async Task<IActionResult> Index()
         {
-            var stores = _context.Stores.Where(x => x.IsDeleted == 0);
-            return View(await stores.ToListAsync());
+              return View(await _context.Types.ToListAsync());
         }
 
-        [HttpPost, ActionName("SearchIndex")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SearchIndex(int? city)
-        {
-            var stores = _context.Stores.Where(x => x.IsDeleted == 0);
-            if (city != null)
-            {
-                stores = stores.Where(x => x.City == city.ToString());
-            }
-            return View(await stores.ToListAsync());
-        }
-
-        // GET: Admin/AdminStores/Details/5
+        // GET: Admin/AdminTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Stores == null)
+            if (id == null || _context.Types == null)
             {
                 return NotFound();
             }
 
-            var store = await _context.Stores
-                .FirstOrDefaultAsync(m => m.StoreId == id);
-            if (store == null)
+            var @type = await _context.Types
+                .FirstOrDefaultAsync(m => m.TypeId == id);
+            if (@type == null)
             {
                 return NotFound();
             }
 
-            return View(store);
+            return View(@type);
         }
 
-        // GET: Admin/AdminStores/Create
+        // GET: Admin/AdminTypes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/AdminStores/Create
+        // POST: Admin/AdminTypes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StoreId,City,District,Ward,SpecificAddress,isDeleted")] Store store)
+        public async Task<IActionResult> Create([Bind("TypeId,SubType,MainType")] Type @type)
         {
             if (ModelState.IsValid)
             {
-                store.IsDeleted = 0;
-                _context.Add(store);
+                _context.Add(@type);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(store);
+            return View(@type);
         }
 
-        // GET: Admin/AdminStores/Edit/5
+        // GET: Admin/AdminTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Stores == null)
+            if (id == null || _context.Types == null)
             {
                 return NotFound();
             }
 
-            var store = await _context.Stores.FindAsync(id);
-            if (store == null)
+            var @type = await _context.Types.FindAsync(id);
+            if (@type == null)
             {
                 return NotFound();
             }
-            return View(store);
+            return View(@type);
         }
 
-        // POST: Admin/AdminStores/Edit/5
+        // POST: Admin/AdminTypes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StoreId,City,District,Ward,SpecificAddress")] Store store)
+        public async Task<IActionResult> Edit(int id, [Bind("TypeId,SubType,MainType")] Type @type)
         {
-            if (id != store.StoreId)
+            if (id != @type.TypeId)
             {
                 return NotFound();
             }
@@ -115,13 +101,12 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             {
                 try
                 {
-                    store.isDeleted = 0;
-                    _context.Update(store);
+                    _context.Update(@type);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StoreExists(store.StoreId))
+                    if (!TypeExists(@type.TypeId))
                     {
                         return NotFound();
                     }
@@ -132,51 +117,49 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(store);
+            return View(@type);
         }
 
-        // GET: Admin/AdminStores/Delete/5
+        // GET: Admin/AdminTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Stores == null)
+            if (id == null || _context.Types == null)
             {
                 return NotFound();
             }
 
-            var store = await _context.Stores
-                .FirstOrDefaultAsync(m => m.StoreId == id);
-            if (store == null)
+            var @type = await _context.Types
+                .FirstOrDefaultAsync(m => m.TypeId == id);
+            if (@type == null)
             {
                 return NotFound();
             }
 
-            return View(store);
+            return View(@type);
         }
 
-        // POST: Admin/AdminStores/Delete/5
+        // POST: Admin/AdminTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Stores == null)
+            if (_context.Types == null)
             {
-                return Problem("Entity set 'BriliFreshDbContext.Stores'  is null.");
+                return Problem("Entity set 'BriliFreshDbContext.Types'  is null.");
             }
-            var store = await _context.Stores.FindAsync(id);
-            if (store != null)
+            var @type = await _context.Types.FindAsync(id);
+            if (@type != null)
             {
-                //_context.Stores.Remove(store);
-                store.IsDeleted = 1;
+                _context.Types.Remove(@type);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StoreExists(int id)
+        private bool TypeExists(int id)
         {
-          return _context.Stores.Any(e => e.StoreId == id);
+          return _context.Types.Any(e => e.TypeId == id);
         }
-
     }
 }
