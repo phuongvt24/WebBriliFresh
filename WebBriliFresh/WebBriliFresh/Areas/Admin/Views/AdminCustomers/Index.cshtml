@@ -3,6 +3,21 @@
 @{
     ViewData["Title"] = "Danh sách khách hàng";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    var data = new object[]{
+        new{
+            ten = "Vàng",
+            giatri = 1
+        },
+        new{
+            ten = "Bạc",
+            giatri = 2
+        },
+        new{
+            ten = "Đồng",
+            giatri = 3
+        }
+        };
+    var list = new SelectList(data, "giatri", "ten");
 }
 <div class="page-header">
     <div class="header-sub-title">
@@ -14,13 +29,13 @@
 </div>
 <div class="card">
     <div class="card-body">
-        <div class="row m-b-30">
+        <div class="row m-b-30">    
             <div class="col-lg-8">
                 <div class="d-md-flex">
                     <div class="m-b-10 m-r-15">
                         <label class="control-label">Chọn loại khách hàng</label>
-                        <select class="custom-select" id="id-filter-reward" name="id-filter-reward" style="min-width: 100px;" asp-items="ViewBag.RewardId" onChange="search(this);">
-                            <option value="all" selected>Tất cả</option>
+                        <select class="custom-select" asp-items="list" id="id-filter-reward" name="id-filter-reward" style="min-width: 100px;" onChange="search(this);">
+                            <option value="" selected>Tất cả</option>
                         </select>
                     </div>
                 </div>
@@ -94,3 +109,16 @@
         </div>
     </div>
 </div>
+
+<script>
+    function search(a) {
+        window.location.href = "/Admin/AdminCustomers/Index/" + a.options[a.selectedIndex].key;
+    }
+
+    $(document).ready(function () {
+        var path = location.pathname;
+        path = path.replace('/Admin/AdminCustomers/Index/', '');
+        $('#store option[value=' + path + ']').attr('selected', true);
+    })
+
+</script>
