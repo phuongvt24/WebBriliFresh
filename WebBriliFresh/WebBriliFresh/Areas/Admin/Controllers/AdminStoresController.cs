@@ -27,6 +27,17 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             return View(await stores.ToListAsync());
         }
 
+        [HttpPost, ActionName("SearchIndex")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SearchIndex(int? city)
+        {
+            var stores = _context.Stores.Where(x => x.IsDeleted == 0);
+            if (city != null)
+            {
+                stores = stores.Where(x => x.City == city.ToString());
+            }
+            return View(await stores.ToListAsync());
+        }
 
         // GET: Admin/AdminStores/Details/5
         public async Task<IActionResult> Details(int? id)

@@ -1,31 +1,32 @@
 ﻿@model WebBriliFresh.Models.DiscountOrder
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Chỉnh Sửa";
 }
 
-<h1>Edit</h1>
+<h1>Chỉnh Sửa</h1>
 
-<h4>DiscountOrder</h4>
+<h4>MÃ GIẢM GIÁ THEO ĐƠN HÀNG</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
+            @Html.Hidden("InitialDisCode", Model.DisCode)
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="DisId" />
             <div class="form-group">
                 <label asp-for="DisCode" class="control-label"></label>
-                <input asp-for="DisCode" class="form-control" />
+                <input asp-for="DisCode" class="form-control" readonly/>
                 <span asp-validation-for="DisCode" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DisRate" class="control-label"></label>
-                <input asp-for="DisRate" class="form-control" />
+                <input asp-for="DisRate" class="form-control" type="number" />
                 <span asp-validation-for="DisRate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="MaxDis" class="control-label"></label>
-                <input asp-for="MaxDis" class="form-control" />
+                <input asp-for="MaxDis" class="form-control" min="0" type="number" />
                 <span asp-validation-for="MaxDis" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -44,21 +45,21 @@
                 <span asp-validation-for="CusType" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
-                <span asp-validation-for="Status" class="text-danger"></span>
+                <label asp-for="Status" class="control-label"></label><br />
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="true">Chưa Sử Dụng </label>
+                    <input asp-for="Status" class="form-check-inline ml-2" type="radio" value="false" id="false" />
+                    <label class="form-check-label" for="false">Đã Sử Dụng </label>
+                    <input asp-for="Status" class="form-check-inline ml-2" type="radio" value="true" id="true" />
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+ 
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Trở lại</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

@@ -28,6 +28,7 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Uploads\Images\ProductImages\" />
     <Folder Include="wwwroot\ImageProduct\" />
+    <Folder Include="wwwroot\ImageUser\" />
   </ItemGroup>
 
 </Project>
