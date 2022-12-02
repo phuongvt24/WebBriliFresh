@@ -1,67 +1,172 @@
 ﻿@model WebBriliFresh.Models.Product
 
 @{
-    //ViewData["Title"] = "Details";
-    //Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-
-<h1>Details</h1>
+<hr />
 
 <div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Source)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Source)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Des)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Des)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Unit)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Unit)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Type.TypeId)
-        </dd>
-    </dl>
+    <div class="page-header no-gutters has-tab">
+        <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+            <div class="media align-items-center m-b-15">
+                <div class="avatar avatar-image rounded" style="height: 70px; width: 70px">
+                    <img src="assets/images/others/thumb-16.jpg" alt="">
+                </div>
+                <div class="m-l-15">
+                    <h4 class="m-b-0">Skinny Men Blazer</h4>
+                    <p class="text-muted m-b-0">Code: #5325</p>
+                </div>
+            </div>
+            <div class="m-b-15">
+                <button class="btn btn-primary">
+                    <i class="anticon anticon-edit"></i>
+                    <span>Edit</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="tab-content m-t-15">
+            <div class="tab-pane fade show active" id="product-overview">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="media align-items-center">
+                                    <i class="font-size-40 text-success anticon anticon-smile"></i>
+                                    <div class="m-l-15">
+                                        <p class="m-b-0 text-muted">10 ratings</p>
+                                        <div class="star-rating m-t-5">
+                                            <input type="radio" id="star3-5" name="rating-3" value="5" checked disabled /><label for="star3-5" title="5 star"></label>
+                                            <input type="radio" id="star3-4" name="rating-3" value="4" disabled /><label for="star3-4" title="4 star"></label>
+                                            <input type="radio" id="star3-3" name="rating-3" value="3" disabled /><label for="star3-3" title="3 star"></label>
+                                            <input type="radio" id="star3-2" name="rating-3" value="2" disabled /><label for="star3-2" title="2 star"></label>
+                                            <input type="radio" id="star3-1" name="rating-3" value="1" disabled /><label for="star3-1" title="1 star"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="media align-items-center">
+                                    <i class="font-size-40 text-primary anticon anticon-shopping-cart"></i>
+                                    <div class="m-l-15">
+                                        <p class="m-b-0 text-muted">Sales</p>
+                                        <h3 class="m-b-0 ls-1">1,521</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="media align-items-center">
+                                    <i class="font-size-40 text-primary anticon anticon-message"></i>
+                                    <div class="m-l-15">
+                                        <p class="m-b-0 text-muted">Reviews</p>
+                                        <h3 class="m-b-0 ls-1">27</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="media align-items-center">
+                                    <i class="font-size-40 text-primary anticon anticon-stock"></i>
+                                    <div class="m-l-15">
+                                        <p class="m-b-0 text-muted">Available Stock</p>
+                                        <h3 class="m-b-0 ls-1">152</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Basic Info</h4>
+                        <div class="table-responsive">
+                            <table class="product-info-table m-t-20">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-dark font-weight-semibold">Mã sản phẩm</td>
+                                        <td>@Html.DisplayFor(model => model.ProId)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-dark font-weight-semibold">Tên sản phẩm</td>
+                                        <td>@Html.DisplayFor(model => model.ProName)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-dark font-weight-semibold">Danh mục</td>
+                                        <td>@Html.DisplayFor(model => model.Type.MainType)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-dark font-weight-semibold">Loại</td>
+                                        <td>@Html.DisplayFor(model => model.Type.SubType)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-dark font-weight-semibold">Giá bán</td>
+                                        <input type="hidden" class="price" value="@Html.DisplayFor(modelItem => modelItem.PriceString)">
+                                        <td class="main">@Html.DisplayFor(model => model.Price)</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="text-dark font-weight-semibold">Nguồn gốc</td>
+                                        <td>@Html.DisplayFor(model => model.Source)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-dark font-weight-semibold">Ngày nhập</td>
+                                        <td>@Html.DisplayFor(model => model.StartDate)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-dark font-weight-semibold">Mô tả</td>
+                                        <td>@Html.DisplayFor(model => model.Des)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-dark font-weight-semibold">Đơn vị bán</td>
+                                        <td>@Html.DisplayFor(model => model.Unit)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="product-images">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img class="img-fluid" src="assets/images/others/product-1.jpg" alt="">
+                            </div>
+                            <div class="col-md-3">
+                                <img class="img-fluid" src="assets/images/others/product-2.jpg" alt="">
+                            </div>
+                            <div class="col-md-3">
+                                <img class="img-fluid" src="assets/images/others/product-3.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.ProId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+<script>
+    for (var i = 0; i < $(".price").length; i++) {
+        var a = $(".price")[i].value;
+        a = a.replace('.00', '');
+        $(".main")[i].innerHTML = a;
+    }
+</script>

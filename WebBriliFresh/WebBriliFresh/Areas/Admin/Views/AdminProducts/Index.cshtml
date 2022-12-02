@@ -63,13 +63,32 @@
                     {
                         @foreach (var item in Model)
                         {
-                            var a = item.ProductImages.Where(x => x.ProId == item.ProId).Select(p => p.ImgData).FirstOrDefault();
+                            int x = 0;
+                            var a = item.ProductImages.Where(x => x.ProId == item.ProId).Select(p => p.ImgData).ToList();
+                            if(a.Count>=1){
+                                for (int i = 0; i < a.Count; i++)
+                                {
+                                    if (a[i].Contains("is_avt"))
+                                    {
+                                        x = i;
+                                    }
+                                }
+                            }
+
                             var b = item.Stocks.Where(x => x.ProId == item.ProId).Sum(i => i.Quantity);
                             <tr>
                                 <td>@Html.DisplayFor(modelItem =>  item.ProId)</td>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img class="img-fluid rounded" src="~/ImageProduct/@Html.DisplayFor(m=>a )" style="max-width: 60px" alt="">
+                                        
+                                       @if (a.Count >=1)
+                                        {
+                                            <img class="img-fluid rounded" src="~/ImageProduct/@Html.DisplayFor(m=>a[x] )" style="max-width: 60px" alt="">
+                                        }
+                                        else
+                                        {
+                                            <img class="img-fluid rounded" src="~/ImageProduct/ )" style="max-width: 60px" alt="">
+                                        }
                                         <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.ProName)</h6>
                                     </div>
                                 </td>

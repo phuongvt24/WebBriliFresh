@@ -87,7 +87,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 if (product.File != null)
                 {
                     string wwwRootPath = _hostEnvironment.WebRootPath;
-                    string file1 = Path.GetFileNameWithoutExtension(Path.GetRandomFileName())
+                    string file1 = "is_avt"+Path.GetFileNameWithoutExtension(Path.GetRandomFileName())
                                + Path.GetExtension(product.File.FileName);
                     string file2 = Path.Combine(wwwRootPath + "/ImageProduct/", file1);
 
@@ -185,38 +185,69 @@ namespace WebBriliFresh.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                var arr = _context.ProductImages.Where(x => x.ProId == product.ProId).Select(p => p.ImgId).ToList();
+
+                var arrdata = _context.ProductImages.Where(x => x.ProId == product.ProId).Select(p => p.ImgData).ToList();
+
+                var len = arr.Count;
+                string wwwRootPath = _hostEnvironment.WebRootPath;
                 try
                 {
                     if (product.File != null)
                     {
-                        var arr = _context.ProductImages.Where(x => x.ProId == product.ProId).Select(p => p.ImgId).ToList();
-                        var len = arr.Count;
-                        if(len >= 1)
+                        if (len >= 1)
                         {
-                            string wwwRootPath = _hostEnvironment.WebRootPath;
-                            var file1 = Path.GetFileNameWithoutExtension(Path.GetRandomFileName())
-                                       + Path.GetExtension(product.File.FileName);
-                            var file2 = Path.Combine(wwwRootPath + "/ImageProduct/", file1);
-
-                            using (var filesream = new FileStream(file2, FileMode.Create))
+                            bool isAvt = false;
+                            for (int i = 0; i < len; i++)
                             {
-                                await product.File.CopyToAsync(filesream);
+                                if (arrdata[i].Contains("is_avt"))
+                                {
+                                    //string wwwRootPath = _hostEnvironment.WebRootPath;
+                                    string file1 = "is_avt" + Path.GetFileNameWithoutExtension(Path.GetRandomFileName())
+                                               + Path.GetExtension(product.File.FileName);
+                                    string file2 = Path.Combine(wwwRootPath + "/ImageProduct/", file1);
+
+                                    using (var filesream = new FileStream(file2, FileMode.Create))
+                                    {
+                                        await product.File.CopyToAsync(filesream);
+                                    }
+
+
+                                    _context.Update(new ProductImage()
+                                    {
+                                        ImgId = arr[i],
+                                        ProId = product.ProId,
+                                        ImgData = file1
+                                    });
+                                    await _context.SaveChangesAsync();
+                                    isAvt = true;
+                                }
                             }
-
-                           
-                            _context.Update(new ProductImage()
+                            if (isAvt == false)
                             {
-                                ImgId = arr[0],
-                                ProId = id,
-                                ImgData = file1
-                            });
-                            await _context.SaveChangesAsync();
+                                //string wwwRootPath = _hostEnvironment.WebRootPath;
+                                string file1 = "is_avt" + Path.GetFileNameWithoutExtension(Path.GetRandomFileName())
+                                            + Path.GetExtension(product.File.FileName);
+                                string file2 = Path.Combine(wwwRootPath + "/ImageProduct/", file1);
+
+                                using (var filesream = new FileStream(file2, FileMode.Create))
+                                {
+                                    await product.File.CopyToAsync(filesream);
+                                }
+
+                                _context.Add(new ProductImage()
+                                {
+                                    ProId = product.ProId,
+                                    ImgData = file1
+                                });
+                                await _context.SaveChangesAsync();
+                            }
                         }
                         else
                         {
-                            string wwwRootPath = _hostEnvironment.WebRootPath;
-                            string file1 = Path.GetFileNameWithoutExtension(Path.GetRandomFileName())
-                                       + Path.GetExtension(product.File.FileName);
+                            //string wwwRootPath = _hostEnvironment.WebRootPath;
+                            string file1 = "is_avt" + Path.GetFileNameWithoutExtension(Path.GetRandomFileName())
+                                        + Path.GetExtension(product.File.FileName);
                             string file2 = Path.Combine(wwwRootPath + "/ImageProduct/", file1);
 
                             using (var filesream = new FileStream(file2, FileMode.Create))
@@ -231,31 +262,66 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                             });
                             await _context.SaveChangesAsync();
                         }
-                        
                     }
-
+                    
                     if (product.Files != null)
                     {
-                        string wwwRootPath = _hostEnvironment.WebRootPath;
-                        for (int i = 0; i <= product.Files.Count; i++)
+                        int[] arr_id = new int[10];
+                        int isdetail = 0;
+                        for(int i = 0; i < len; i++)
                         {
-                            var file1 = Path.GetFileNameWithoutExtension(Path.GetRandomFileName())
-                                   + Path.GetExtension(product.Files[i].FileName);
-                            var file2 = Path.Combine(wwwRootPath + "/ImageProduct/", file1);
-
-                            using (var filesream = new FileStream(file2, FileMode.Create))
+                            if (!(arrdata[i].Contains("is_avt")))
                             {
-                                await product.Files[i].CopyToAsync(filesream);
+                                
+                                arr_id[isdetail] = arr[i];
+                                isdetail++;
                             }
-
-                            _context.Update(new ProductImage()
-                            {
-                                ProId = id,
-                                ImgData = file1
-                            });
-                            await _context.SaveChangesAsync();
                         }
+                        
+                        for (int i = 0; i < product.Files.Count; i++)
+                        {
+                            
+                            if (i<isdetail)
+                            {
+                                
+                                string file1 = Path.GetFileNameWithoutExtension(Path.GetRandomFileName())
+                                           + Path.GetExtension(product.Files[i].FileName);
+                                string file2 = Path.Combine(wwwRootPath + "/ImageProduct/", file1);
 
+                                using (var filesream = new FileStream(file2, FileMode.Create))
+                                {
+                                    await product.Files[i].CopyToAsync(filesream);
+                                }
+
+
+                                _context.Update(new ProductImage()
+                                {
+                                    ImgId = arr_id[i],
+                                    ProId = product.ProId,
+                                    ImgData = file1
+                                });
+                                await _context.SaveChangesAsync();
+                            }
+                            else
+                            {
+                                string file1 = Path.GetFileNameWithoutExtension(Path.GetRandomFileName())
+                                           + Path.GetExtension(product.Files[i].FileName);
+                                string file2 = Path.Combine(wwwRootPath + "/ImageProduct/", file1);
+
+                                using (var filesream = new FileStream(file2, FileMode.Create))
+                                {
+                                    await product.Files[i].CopyToAsync(filesream);
+                                }
+
+
+                                _context.Add(new ProductImage()
+                                {
+                                    ProId = product.ProId,
+                                    ImgData = file1
+                                });
+                                await _context.SaveChangesAsync();
+                            }
+                        }
                     }
                     _context.Update(product);
                     await _context.SaveChangesAsync();
