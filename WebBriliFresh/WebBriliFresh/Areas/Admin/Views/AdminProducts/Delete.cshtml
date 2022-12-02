@@ -2,7 +2,16 @@
 
 @{
     ViewData["Title"] = "Delete";
-    //Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    var a = @Model.ProductImages.Where(x => x.ProId == @Model.ProId).Select(p => p.ImgData).ToList();
+
+    var b = @Model.Stocks.Where(x => x.ProId == @Model.ProId).Sum(i => i.Quantity);
+    var c = @Model.ProductImages.Where(x => x.ProId == @Model.ProId).Select(p => p.ImgData).ToList();
+    var d = c.Count();
+
+    int x = 0;
+    int[] y = new int[3];
+    int z = 0;
 }
 
 <h1>Delete</h1>
@@ -12,59 +21,71 @@
     <h4>Product</h4>
     <hr />
     <dl class="row">
+        <dt class="col-sm-2">
+            Mã sản phẩm
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ProId)
+        </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProName)
+            Tên sản phẩm
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ProName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
+            Danh mục
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Type.MainType)
+        </dd>
+        <dt class = "col-sm-2">
+           Loại
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Type.SubType)
+        </dd>
+        <dt class = "col-sm-2">
+           Giá bán
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Price)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Source)
+            Nguồn gốc
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Source)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
+            Ngày nhập
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.StartDate)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Des)
+            Mô tả
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Des)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Unit)
+            Đơn vị bán
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Unit)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsDeleted)
+        <dt class="col-sm-2">
+            Tồn kho
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Type.TypeId)
+        <dd class="col-sm-10">
+            @b
         </dd>
     </dl>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="ProId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Xóa" class="btn btn-danger" />
+        <a style="margin-left:20px;" asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
     </form>
 </div>

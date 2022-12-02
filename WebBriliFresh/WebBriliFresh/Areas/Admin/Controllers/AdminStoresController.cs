@@ -31,7 +31,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SearchIndex(int? city)
         {
-            var stores = _context.Stores.Where(x => x.IsDeleted == 0);
+            var stores = _context.Stores.Where(x => x.isDeleted == 0);
             if (city != null)
             {
                 stores = stores.Where(x => x.City == city.ToString());

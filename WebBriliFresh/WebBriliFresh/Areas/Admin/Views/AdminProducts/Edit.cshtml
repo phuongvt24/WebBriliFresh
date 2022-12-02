@@ -26,6 +26,17 @@
     int[] y = new int[3];
     int z = 0;
 }
+
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a asp-area="Admin" asp-controller="AdminProducts" asp-action="index" class="breadcrumb-item">Danh sách sản phẩm</a>
+            <span class="breadcrumb-item active">Chỉnh sửa sản phẩm</span>
+        </nav>
+    </div>
+</div>
     <hr />
 
     <form asp-action="Edit" enctype="multipart/form-data">
@@ -46,7 +57,7 @@
                     <div class=" m-b-15 align-items-center ">
                         <div class="media align-items-center m-b-15">
                             <div class="avatar avatar-image rounded"  style="height: 140px; width: 140px">
-                                @if(d>=1){
+                             @if(d>=1){
                                     <img id="blah" src="~/ImageProduct/@Html.DisplayFor(m=>a[x])" alt="your image" style='width: 100%;max-height: 100%'>
                             }
                             else{
@@ -56,7 +67,7 @@
                         </div>
                         <div class="m-b-15">
                             <input asp-for="File" type="file" id="image_submit" class="btn btn-primary" accept="image/gif, image/jpeg, image/png" style="display:none;" />
-                            <label asp-for="File" id="choose_image" for="image_submit" class="btn-primary btn"> <i class="anticon anticon-save"></i> Sửa đại diện</label>
+                            <label asp-for="File" id="choose_image" for="image_submit" class="btn-primary btn"> <i class="anticon anticon-save"></i> Đổi ảnh chính</label>
                             <span asp-validation-for="File" class="text-danger"></span>
                         </div>
                     </div>
@@ -84,41 +95,41 @@
                                 <div class="media align-items-center m-b-15" id="img1" style="padding-right: 32px">
                                     @if (d >= 2)
                                 {
-                                    <img src="~/ImageProduct/@Html.DisplayFor(m=>a[y[0]])" alt="your image" style="width: 140px; max-height: 140px" />
+                                    <img src="~/ImageProduct/@Html.DisplayFor(m=>a[y[0]])" alt="your image" style="width: 280px; height: auto" />
                                 }
                                 else
                                 {
-                                        <div class="avatar avatar-image rounded" style="height: 140px; width: 140px">
+                                    <div class="avatar avatar-image rounded" style="width: 280px; height: auto">
                                         </div>
                                 }
                                 </div>
                                 <div class="media align-items-center m-b-15" id="img2" style="padding-right: 32px">
                                     @if (d >= 3)
                                 {
-                                        <img src="~/ImageProduct/@Html.DisplayFor(m=>a[y[1]])" alt="your image" style="width: 140px; max-height: 140px" />
+                                    <img src="~/ImageProduct/@Html.DisplayFor(m=>a[y[1]])" alt="your image" style="width: 280px; height: auto" />
                                 }
                                 else
                                 {
-                                        <div class="avatar avatar-image rounded" style="height: 140px; width: 140px">
+                                    <div class="avatar avatar-image rounded" style="width: 280px; height: auto">
                                         </div>
                                 }
                                 </div>
                                 <div class="media align-items-center m-b-15" id="img3" style="padding-right: 32px">
                                     @if (d >= 4)
                                 {
-                                    <img src="~/ImageProduct/@Html.DisplayFor(m=>a[y[2]])" alt="your image" style="width: 140px; max-height: 140px" />
+                                    <img src="~/ImageProduct/@Html.DisplayFor(m=>a[y[2]])" alt="your image" style="width: 280px; height: auto" />
                                 }
                                 else
                                 {
-                                        <div class="avatar avatar-image rounded" style="height: 140px; width: 140px">
+                                    <div class="avatar avatar-image rounded" style="width: 280px; height: auto">
                                         </div>
                                 }
                                 </div>
 
                             </div>
-                            <div class="m-b-15" style="padding-left: 100px; padding-top:98px;">
+                            <div class="m-b-15" style="padding-left: 40px; padding-top:110px;">
                                 <input asp-for="Files" type="file" id="image_submit_2" class="btn btn-primary" multiple accept="image/gif, image/jpeg, image/png" style="display: none" />
-                                <label asp-for="Files" id="choose_image" for="image_submit_2" class="btn-primary btn"> <i class="anticon anticon-save"></i>Ảnh chi tiết</label>
+                                <label asp-for="Files" id="choose_image" for="image_submit_2" class="btn-primary btn"> <i class="anticon anticon-save"></i> Đổi chi tiết</label>
                                 <span asp-validation-for="Files" class="text-danger"></span>
                             </div>
                         </div>
@@ -186,11 +197,32 @@
                                     <input asp-for="IsDeleted" class="form-control" />
                                     <span asp-validation-for="IsDeleted" class="text-danger"></span>
                                 </div>
-                                <div class="m-b-15">
+                            <div class="form-group">
+                                <tr>
+                                    <td class="text-dark font-weight-semibold">Trạng thái</td>
+                                    @if (b > 0)
+                                    {
+                                        <td>
+                                            <span class="badge badge-pill badge-green">Còn hàng</span>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <span class="badge badge-pill badge-red" style="font-size:12px; margin-left:36px">Hết hàng</span>
+                                        </td>
+                                    }
+                                </tr>
+                            </div>
+                           
+                            <div class="m-b-15 d-flex" style="justify-content: space-between;">
                                     <button asp-action="Edit" class="btn btn-primary">
                                         <i class="anticon anticon-save"></i>
-                                        <span>Save</span>
+                                        <span>Lưu thay đổi</span>
                                     </button>
+                                <div>
+                                    <a asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -201,9 +233,7 @@
         
     </form>
 
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>
+   
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 

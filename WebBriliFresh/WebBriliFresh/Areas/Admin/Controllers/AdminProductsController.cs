@@ -49,6 +49,8 @@ namespace WebBriliFresh.Areas.Admin.Controllers
 
             var product = await _context.Products
                 .Include(p => p.Type)
+                .Include(x=>x.ProductImages)
+                .Include(c => c.Stocks)
                 .FirstOrDefaultAsync(m => m.ProId == id);
             if (product == null)
             {
@@ -357,6 +359,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
 
             var product = await _context.Products
                 .Include(p => p.Type)
+                .Include(a=>a.ProductImages)
                 .FirstOrDefaultAsync(m => m.ProId == id);
             if (product == null)
             {
@@ -378,7 +381,8 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             var product = await _context.Products.FindAsync(id);
             if (product != null)
             {
-                _context.Products.Remove(product);
+                product.IsDeleted = 1;
+                _context.Products.Update(product);
             }
             
             await _context.SaveChangesAsync();
