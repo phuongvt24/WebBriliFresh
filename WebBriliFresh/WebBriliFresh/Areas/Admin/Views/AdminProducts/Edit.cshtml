@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 
-     var data = new object[]{
+    var data = new object[]{
         new{
             ten = "Sản phẩm của Brili Fresh",
             giatri = "Sản phẩm của Brili Fresh"
@@ -16,166 +16,157 @@
     };
 
     var list = new SelectList(data, "giatri", "ten");
+    var a = @Model.ProductImages.Where(x => x.ProId == @Model.ProId).Select(p => p.ImgData).FirstOrDefault();
+    var b = @Model.Stocks.Where(x => x.ProId == @Model.ProId).Sum(i => i.Quantity);
+    var c = @Model.ProductImages.Where(x => x.ProId == @Model.ProId).Select(p => p.ImgData).ToList();
+    var d = c.Count();
+
 }
 <hr />
-<form>
+
+<form asp-action="Edit" enctype="multipart/form-data">
     <div class="page-header no-gutters has-tab">
         <div class="d-md-flex m-b-15 align-items-center justify-content-between">
             <div class="media align-items-center m-b-15">
                 <div class=" m-b-15 align-items-center ">
-                                    <div class="media align-items-center m-b-15">
-                                        <div class="avatar avatar-image rounded" style="height: 140px; width: 140px">
-                                            <img id="blah" src="#" alt="your image" style='width: 100%;max-height: 100%'>
-                                        </div>
-                                    </div>
-                                    <div class="m-b-15">
-                                        <input asp-for="File" type="file" id="image_submit" class="btn btn-primary" accept="image/gif, image/jpeg, image/png" style="display:none;" />
-                                        <label asp-for="File" id="choose_image" for="image_submit" class="btn-primary btn"> <i class="anticon anticon-save"></i> Sửa đại diện</label>
-                                        <span asp-validation-for="File" class="text-danger"></span>
-                                    </div>
-                                </div>
+                    <div class="media align-items-center m-b-15">
+                        <div class="avatar avatar-image rounded"  style="height: 140px; width: 140px">
+                            @if(d>=1){
+                                <img id="blah" src="~/ImageProduct/@Html.DisplayFor(m=>a)" alt="your image" style='width: 100%;max-height: 100%'>
+                            }
+                            else{
+                                <img id="blah" src="#" alt="your image" style='width: 100%;max-height: 100%'>
+                            }
+                        </div>
+                    </div>
+                    <div class="m-b-15">
+                        <input asp-for="File" type="file" id="image_submit" class="btn btn-primary" accept="image/gif, image/jpeg, image/png" style="display:none;" />
+                        <label asp-for="File" id="choose_image" for="image_submit" class="btn-primary btn"> <i class="anticon anticon-save"></i> Sửa đại diện</label>
+                        <span asp-validation-for="File" class="text-danger"></span>
+                    </div>
+                </div>
                 <div class="m-l-15">
-                    <h4 class="m-b-0">Skinny Men Blazer</h4>
-                    <p class="text-muted m-b-0">Mã sản phẩm: #5325</p>
+                    <p class="text-muted m-b-0">Mã sản phẩm: @Model.ProId</p>
                 </div>
             </div>
             
         </div>
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" id="one_tab" data-toggle="tab" href="#product-edit-basic">Basic Info</a>
+                <a class="nav-link " id="one_tab" data-toggle="tab" href="#product-edit-basic">Basic Info</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="one_tab_2" data-toggle="tab" href="#product-images">Option Info</a>
             </li>
         </ul>
     </div>
-    <div class="tab-content m-t-15">
+  <div class="tab-content m-t-15">
         <div class="tab-pane fade" id="product-edit-basic">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4">
-                            <form asp-action="Create" enctype="multipart/form-data">
-                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                @*<div class="d-md-flex m-b-15 align-items-center ">
-                                    <div class="media align-items-center m-b-15">
-                                        <div class="avatar avatar-image rounded" style="height: 140px; width: 140px">
-                                            <img id="blah" src="#" alt="your image" style='width: 100%;max-height: 100%'>
-                                        </div>
-                                    </div>
-                                    <div class="m-b-15" style="padding-left: 268px">
-                                        <input asp-for="File" type="file" id="image_submit" class="btn btn-primary" accept="image/gif, image/jpeg, image/png" style="display:none;" />
-                                        <label asp-for="File" id="choose_image" for="image_submit" class="btn-primary btn"> <i class="anticon anticon-save"></i>Ảnh đại diện</label>
-                                        <span asp-validation-for="File" class="text-danger"></span>
-                                    </div>
-                                </div>*@
-
-                                @*<div class="d-md-flex m-b-15 align-items-center">
-                                    <div class="media align-items-center m-b-15" id="img1" style="padding-right: 32px">
-                                        <div class="avatar avatar-image rounded" style="height: 140px; width: 140px"></div>
-                                    </div>
-                                    <div class="media align-items-center m-b-15" id="img2" style="padding-right: 32px">
-                                        <div class="avatar avatar-image rounded" style="height: 140px; width: 140px"></div>
-                                    </div>
-                                    <div class="media align-items-center m-b-15" id="img3" style="padding-right: 32px">
-                                        <div class="avatar avatar-image rounded" style="height: 140px; width: 140px"></div>
-                                    </div>
-                                    <div class="m-b-15" style="padding-left: 100px">
-                                        <input asp-for="Files" type="file" id="image_submit_2" class="btn btn-primary" multiple accept="image/gif, image/jpeg, image/png" style="display: none" />
-                                        <label asp-for="Files" id="choose_image" for="image_submit_2" class="btn-primary btn"> <i class="anticon anticon-save"></i>Ảnh chi tiết</label>
-                                        <span asp-validation-for="Files" class="text-danger"></span>
-                                    </div>
-                                </div>*@
-
-
-
-                                <div class="form-group">
-                                    <label asp-for="ProName" class="control-label">Tên sản phẩm</label>
-                                    <input asp-for="ProName" class="form-control" />
-                                    <span asp-validation-for="ProName" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="Type.MainType" class="control-label">Danh mục sản phẩm</label>
-                                    <select asp-for="Type.MainType" class="form-control" asp-items=ViewBag.MainType></select>
-                                </div>
-
-
-                                <div class="form-group" id="sub1">
-                                    <label asp-for="TypeId" class="control-label">Loại sản phẩm</label>
-                                    <select asp-for="TypeId" id="type1" class="form-control" asp-items=ViewBag.TypeId1></select>
-                                </div>
-                                <div class="form-group" id="sub2">
-                                    <label asp-for="TypeId" class="control-label">Loại</label>
-                                    <select asp-for="TypeId" id="type2" class="form-control" asp-items=ViewBag.TypeId2></select>
-                                </div>
-                                <div class="form-group" id="sub3">
-                                    <label asp-for="TypeId" class="control-label">Loại</label>
-                                    <select asp-for="TypeId" id="type3" class="form-control" asp-items=ViewBag.TypeId3></select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label asp-for="Price" class="control-label">Giá bán</label>
-                                    <input asp-for="Price" class="form-control" />
-                                    <span asp-validation-for="PriceString" class="text-danger"></span>
-                                </div>
-
-                                <div class="form-group">
-                                    <label asp-for="Source" class="control-label">Nguồn gốc</label>
-                                    <select asp-for="Source" class="form-control" asp-items=list></select>
-                                    <span asp-validation-for="Source" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label  class="control-label">Ngày tạo</label>
-                                    <input class="form-control"  value="@Html.DisplayFor(model => model.StartDate)" />                                   
-                                </div>
-                                @*<div class="form-group">
-                                    <label asp-for="StartDate" class="control-label">Ngày tạo</label>
-                                    <input asp-for="StartDate" id="myID" class="form-control" />
-                                    <span asp-validation-for="StartDate" class="text-danger"></span>
-                                </div>*@
-                                <div class="form-group">
-                                    <label asp-for="Des" class="control-label">Mô tả sản phẩm</label>
-                                    <textarea asp-for="Des" class="form-control"></textarea>
-                                    <span asp-validation-for="Des" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="Unit" class="control-label">Đơn vị bán</label>
-                                    <input asp-for="Unit" class="form-control"/>
-                                    <span asp-validation-for="Unit" class="text-danger"></span>
-                                </div>
-                                <div class="form-group" hidden>
-                                    <label asp-for="IsDeleted" class="control-label"></label>
-                                    <input asp-for="IsDeleted" class="form-control" />
-                                    <span asp-validation-for="IsDeleted" class="text-danger"></span>
-                                </div>
-                                <div class="m-b-15">
-                                    <button class="btn btn-primary">
-                                        <i class="anticon anticon-save"></i>
-                                        <span>Save</span>
-                                    </button>
-                                </div>
-                            </form>
+                     
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>     
+                            <input type="hidden" asp-for="ProId" />
+                            <div class="form-group">
+                                <label asp-for="ProName" class="control-label">Tên sản phẩm</label>
+                                <input asp-for="ProName" class="form-control" />
+                                <span asp-validation-for="ProName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Type.MainType" class="control-label">Danh mục sản phẩm</label>
+                                <select asp-for="Type.MainType" class="form-control" asp-items=ViewBag.MainType></select>
+                            </div>
+                            <div class="form-group" id="sub1">
+                                <label asp-for="TypeId" class="control-label">Loại sản phẩm</label>
+                                <select asp-for="TypeId" id="type1" class="form-control" asp-items=ViewBag.TypeId1></select>
+                            </div>
+                            <div class="form-group" id="sub2">
+                                <label asp-for="TypeId" class="control-label">Loại sản phẩm</label>
+                                <select asp-for="TypeId" id="type2" class="form-control" asp-items=ViewBag.TypeId2></select>
+                            </div>
+                            <div class="form-group" id="sub3">
+                                <label asp-for="TypeId" class="control-label">Loại sản phẩm</label>
+                                <select asp-for="TypeId" id="type3" class="form-control" asp-items=ViewBag.TypeId3></select>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Price" class="control-label">Giá bán</label>
+                                <input asp-for="Price" class="form-control" value="@Model.PriceString" />
+                                <span asp-validation-for="PriceString" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Source" class="control-label">Nguồn gốc</label>
+                                <select asp-for="Source" class="form-control" asp-items=list></select>
+                                <span asp-validation-for="Source" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="StartDate" class="control-label">Ngày tạo</label>
+                                <input asp-for="StartDate" id="myID" class="form-control" value="@Model.StartDate" />
+                                <span asp-validation-for="StartDate" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Des" class="control-label">Mô tả sản phẩm</label>
+                                <textarea asp-for="Des" class="form-control"></textarea>
+                                <span asp-validation-for="Des" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Unit" class="control-label">Đơn vị bán</label>
+                                <input asp-for="Unit" class="form-control"/>
+                                <span asp-validation-for="Unit" class="text-danger"></span>
+                            </div>
+                            <div class="form-group" hidden>
+                                <label asp-for="IsDeleted" class="control-label"></label>
+                                <input asp-for="IsDeleted" class="form-control" />
+                                <span asp-validation-for="IsDeleted" class="text-danger"></span>
+                            </div>
+                            <div class="m-b-15">
+                                <button asp-action="Edit" class="btn btn-primary">
+                                    <i class="anticon anticon-save"></i>
+                                    <span>Save</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div>
                 </div>
             </div>
         </div>
-    </div>
+  </div>
         <div class="tab-pane fade" id="product-images">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
                         <div class="d-md-flex m-b-15 align-items-center">
                             <div class="media align-items-center m-b-15" id="img1" style="padding-right: 32px">
-                                <div class="avatar avatar-image rounded" style="height: 140px; width: 140px"></div>
+                                @if(d>=2){
+                                    <img src="~/ImageProduct/@Html.DisplayFor(m=>c[1])" alt="your image" style="width: 140px; max-height: 140px" />
+                                }
+                                else
+                                {
+                                    <div class="avatar avatar-image rounded" style="height: 140px; width: 140px">
+                                    </div>
+                                }
                             </div>
                             <div class="media align-items-center m-b-15" id="img2" style="padding-right: 32px">
-                                <div class="avatar avatar-image rounded" style="height: 140px; width: 140px"></div>
+                                @if (d >= 3)
+                                {
+                                    <img src="~/ImageProduct/@Html.DisplayFor(m=>c[2])" alt="your image" style="width: 140px; max-height: 140px" />
+                                }
+                                else
+                                {
+                                    <div class="avatar avatar-image rounded" style="height: 140px; width: 140px">
+                                    </div>
+                                }
                             </div>
                             <div class="media align-items-center m-b-15" id="img3" style="padding-right: 32px">
-                                <div class="avatar avatar-image rounded" style="height: 140px; width: 140px"></div>
+                                @if (d >= 4)
+                                {
+                                    <img src="~/ImageProduct/@Html.DisplayFor(m=>c[3])" alt="your image" style="width: 140px; max-height: 140px" />
+                                }
+                                else{
+                                    <div class="avatar avatar-image rounded" style="height: 140px; width: 140px">
+                                    </div>
+                                }
                             </div>
                             
                         </div>
@@ -197,6 +188,9 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
  <script type="text/javascript" >
+    $("#one_tab_2").click();
+    $("#one_tab").click();
+    
 
     var s1 = $("#sub1")
     var t1 = $("#type1")
@@ -208,6 +202,7 @@
     var t3 = $("#type3")
 
     var maintype = $("#Type_MainType");
+    $("#Type_MainType").click();
 
     t2.prop("disabled", true);
     t3.prop("disabled", true);
@@ -217,7 +212,7 @@
 
     
 
-    maintype.change(function () {
+    maintype.click(function () {
         if (maintype.find(":selected").val() === 'Rau củ') {
             t2.prop("disabled", true);
             t3.prop("disabled", true);
@@ -253,8 +248,8 @@
             reader.onload = function (e) {
                 $('#blah')
                     .attr('src', e.target.result)
-                    .width(150)
-                    .height(200);
+                    .width(140)
+                    .height(140);
             };
 
             reader.readAsDataURL(this.files[0]);
@@ -300,8 +295,8 @@
 
         flatpickr("#myID", {
             altInput: true,
-            altFormat: " d/m/Y",
-            dateFormat: "m/d/y",
+            altFormat: "d/m/Y",
+            dateFormat: "m/d/Y",
         });
 
 
@@ -312,7 +307,7 @@
         s3.hide()
 
 
-        maintype.change(function () {
+        maintype.click(function () {
             if (maintype.find(":selected").val() === 'Rau củ') {
                 t2.prop("disabled", true);
                 t3.prop("disabled", true);
@@ -341,8 +336,9 @@
         })
         $("#one_tab_2").click();
         $("#one_tab").click();
+        $("#Type_MainType").click();
     })
-   
+    
 </script>
 
          

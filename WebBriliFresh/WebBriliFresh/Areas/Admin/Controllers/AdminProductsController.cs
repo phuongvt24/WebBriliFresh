@@ -136,7 +136,8 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 ViewData["TypeId"] = new SelectList(_context.Types, "TypeId", "TypeId", product.TypeId);
                 ViewData["TypeId1"] = new SelectList(_context.Types.Where(x => x.MainType == "Rau củ"), "TypeId", "SubType");
                 ViewData["TypeId2"] = new SelectList(_context.Types.Where(x => x.MainType == "Thịt cá"), "TypeId", "SubType");
-                ViewData["TypeId3"] = new SelectList(_context.Types.Where(x => x.MainType == "Trái cây 4 mùa"), "TypeId", "SubType"); ViewData["MainType"] = new SelectList(_context.Types.GroupBy(p => p.MainType).Select(x => new { MainType = x.Key }), "MainType", "MainType");
+                ViewData["TypeId3"] = new SelectList(_context.Types.Where(x => x.MainType == "Trái cây 4 mùa"), "TypeId", "SubType");
+                ViewData["MainType"] = new SelectList(_context.Types.GroupBy(p => p.MainType).Select(x => new { MainType = x.Key }), "MainType", "MainType");
                 return View();
             }
             
@@ -151,7 +152,11 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products.Include(s => s.Type)
+                                                 .Include(p => p.ProductImages)
+                                                 .Include(a => a.Stocks)
+                                                 .FirstOrDefaultAsync(i => i.ProId == id.Value);
+
             if (product == null)
             {
                 return NotFound();
@@ -161,6 +166,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             ViewData["TypeId3"] = new SelectList(_context.Types.Where(x => x.MainType == "Trái cây 4 mùa"), "TypeId", "SubType");
             ViewData["MainType"] = new SelectList(_context.Types.GroupBy(p => p.MainType).Select(x => new { MainType = x.Key }), "MainType", "MainType");
             ViewData["TypeId"] = new SelectList(_context.Types, "TypeId", "TypeId", product.TypeId);
+            
             return View(product);
         }
 
@@ -170,9 +176,9 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         
-        public async Task<IActionResult> Edit(int id, [Bind("ProId,ProName,Price,TypeId,Source,StartDate,Des,Unit,IsDeleted")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProId,ProName,Price,TypeId,Source,StartDate,Des,Unit,IsDeleted,File,Files")] Product product)
         {
-            if (id != product.ProId)
+            if (id != product.ProId)                  
             {
                 return NotFound();
             }
@@ -181,6 +187,76 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             {
                 try
                 {
+                    if (product.File != null)
+                    {
+                        var arr = _context.ProductImages.Where(x => x.ProId == product.ProId).Select(p => p.ImgId).ToList();
+                        var len = arr.Count;
+                        if(len >= 1)
+                        {
+                            string wwwRootPath = _hostEnvironment.WebRootPath;
+                            var file1 = Path.GetFileNameWithoutExtension(Path.GetRandomFileName())
+                                       + Path.GetExtension(product.File.FileName);
+                            var file2 = Path.Combine(wwwRootPath + "/ImageProduct/", file1);
+
+                            using (var filesream = new FileStream(file2, FileMode.Create))
+                            {
+                                await product.File.CopyToAsync(filesream);
+                            }
+
+                           
+                            _context.Update(new ProductImage()
+                            {
+                                ImgId = arr[0],
+                                ProId = id,
+                                ImgData = file1
+                            });
+                            await _context.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            string wwwRootPath = _hostEnvironment.WebRootPath;
+                            string file1 = Path.GetFileNameWithoutExtension(Path.GetRandomFileName())
+                                       + Path.GetExtension(product.File.FileName);
+                            string file2 = Path.Combine(wwwRootPath + "/ImageProduct/", file1);
+
+                            using (var filesream = new FileStream(file2, FileMode.Create))
+                            {
+                                await product.File.CopyToAsync(filesream);
+                            }
+
+                            _context.Add(new ProductImage()
+                            {
+                                ProId = product.ProId,
+                                ImgData = file1
+                            });
+                            await _context.SaveChangesAsync();
+                        }
+                        
+                    }
+
+                    if (product.Files != null)
+                    {
+                        string wwwRootPath = _hostEnvironment.WebRootPath;
+                        for (int i = 0; i <= product.Files.Count; i++)
+                        {
+                            var file1 = Path.GetFileNameWithoutExtension(Path.GetRandomFileName())
+                                   + Path.GetExtension(product.Files[i].FileName);
+                            var file2 = Path.Combine(wwwRootPath + "/ImageProduct/", file1);
+
+                            using (var filesream = new FileStream(file2, FileMode.Create))
+                            {
+                                await product.Files[i].CopyToAsync(filesream);
+                            }
+
+                            _context.Update(new ProductImage()
+                            {
+                                ProId = id,
+                                ImgData = file1
+                            });
+                            await _context.SaveChangesAsync();
+                        }
+
+                    }
                     _context.Update(product);
                     await _context.SaveChangesAsync();
                 }
