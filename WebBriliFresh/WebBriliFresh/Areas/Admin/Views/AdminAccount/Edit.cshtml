@@ -1,0 +1,59 @@
+﻿@model WebBriliFresh.Models.User
+@using Microsoft.AspNetCore.Http;
+@using WebBriliFresh.Common;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Account Setting</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <h4>@HttpContextAccessor.HttpContext.Session.GetString("ADMIN_SESSION_FIRSTNAME") @HttpContextAccessor.HttpContext.Session.GetString("ADMIN_SESSION_LASTNAME")</h4>
+        <div class="media align-items-center mb-2">
+            <div class="avatar avatar-image  m-h-10 m-r-15" style="height: 80px; width: 80px">
+                <img src="@("~/ImageUser/"+Model.Avatar)" asp-append-version="true" width="150px" height="150px" alt="">
+            </div>
+        </div>
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UserId" />
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile" class="form-control" accept="image/*" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" disabled />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserPassword" class="control-label"></label>
+                <input asp-for="UserPassword" class="form-control" />
+                <span asp-validation-for="UserPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserRole" class="control-label"></label>
+                <input asp-for="UserRole" class="form-control" />
+                <span asp-validation-for="UserRole" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @*<a asp-action="Index">Back to List</a>*@
+    <a href="/Admin?UserID=@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_USERID")&EmpID=@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_EMPID")">Back to Home</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
