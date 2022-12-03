@@ -26,7 +26,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/AdminStores
         public async Task<IActionResult> Index()
         {
-            var stores = _context.Stores.Where(x => x.IsDeleted == 0);
+            var stores = _context.Stores.Where(x => x.isDeleted == 0);
             return View(await stores.ToListAsync());
         }
 
@@ -34,7 +34,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SearchIndex(int? city)
         {
-            var stores = _context.Stores.Where(x => x.IsDeleted == 0);
+            var stores = _context.Stores.Where(x => x.isDeleted == 0);
             if (city != null)
             {
                 stores = stores.Where(x => x.City == city.ToString());
@@ -75,7 +75,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                store.IsDeleted = 0;
+                store.isDeleted = 0;
                 _context.Add(store);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -166,7 +166,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             if (store != null)
             {
                 //_context.Stores.Remove(store);
-                store.IsDeleted = 1;
+                store.isDeleted = 1;
             }
             
             await _context.SaveChangesAsync();

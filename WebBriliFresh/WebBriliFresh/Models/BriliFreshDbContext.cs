@@ -410,7 +410,7 @@ public partial class BriliFreshDbContext : DbContext
             entity.HasKey(e => e.StoreId).HasName("PK__Store__3B82F0E1CFE80ADD");
 
             entity.ToTable("Store");
-
+            entity.Property(e => e.isDeleted).HasColumnName("isDeleted");
             entity.Property(e => e.StoreId).HasColumnName("StoreID");
         });
 
