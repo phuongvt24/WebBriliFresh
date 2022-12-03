@@ -113,7 +113,10 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var stock = await _context.Stocks.FindAsync(new object[] { id, id1 });
+            var stock = await _context.Stocks
+                .Include(s => s.Pro)
+                .Include(s => s.Store)
+                .FirstOrDefaultAsync(m => m.StoreId == id && m.ProId == id1);
             if (stock == null)
             {
                 return NotFound();
@@ -135,7 +138,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            if (stock.Pro == null && stock.Store == null && stock.Quantity != null && stock.Quantity >= 0)
+            if (stock.Quantity != null && stock.Quantity >= 0)
             {
                 try
                 {
