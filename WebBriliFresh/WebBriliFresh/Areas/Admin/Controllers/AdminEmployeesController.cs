@@ -69,7 +69,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             }
             ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "City", employee.StoreId);
 
-            ViewData["StoreId1"] = new SelectList(_context.Stores, "StoreId", "District", employee.StoreId);
+            ViewBag.Address = _context.Stores.ToList();
 
             ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", employee.UserId);
             return View(employee);
