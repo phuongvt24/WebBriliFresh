@@ -1,19 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WebBriliFresh.Common;
-using WebBriliFresh.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Policy = "AdminOnly")]
     public class HomeController : Controller
     {
-        public int s_userid;
-        public int s_empid;
-        public int getUserID()
+        public IActionResult Index()
         {
             return s_userid;
         }

@@ -1,17 +1,8 @@
-﻿@using Microsoft.AspNetCore.Http;
-@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
-@using WebBriliFresh.Common;
-
-<div class="side-nav">
+﻿<div class="side-nav">
     <div class="side-nav-inner">
         <ul class="side-nav-menu scrollable">
             <li class="nav-item open">
-@*                <a class="dropdown-toggle" asp-area="Admin" asp-controller="Home" asp-action="index">
-
-*@
-                <a href="/Admin?UserID=@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_USERID")&EmpID=@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_EMPID")">
-
-
+                <a class="dropdown-toggle" asp-area="Admin" asp-controller="Home" asp-action="index">
                     <span class="icon-holder">
                         <i class="anticon anticon-dashboard"></i>
                     </span>
@@ -146,13 +137,7 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="form-elements.html">ccccc</a>
-                    </li>
-                    <li>
-                        <a href="form-layouts.html">Form Layouts</a>
-                    </li>
-                    <li>
-                        <a href="form-validation.html">Form Validation</a>
+                        <a asp-area="Admin" asp-controller="AdminEmployees" asp-action="Index">Danh sách nhân viên</a>
                     </li>
                 </ul>
             </li>
@@ -195,7 +180,7 @@
                 </ul>
             </li>
             <li class="nav-item dropdown">
-                <a class="dropdown-toggle"asp-area="Admin" asp-controller="AdminStores" asp-action="Index">
+                <a class="dropdown-toggle" asp-area="Admin" asp-controller="AdminStores" asp-action="Index">
                     <span class="icon-holder">
                         <i class="anticon anticon-file"></i>
                     </span>
