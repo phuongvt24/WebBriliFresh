@@ -412,6 +412,7 @@ public partial class BriliFreshDbContext : DbContext
             entity.ToTable("Store");
 
             entity.Property(e => e.StoreId).HasColumnName("StoreID");
+            entity.Property(e => e.isDeleted).HasColumnName("isDeleted");
         });
 
         modelBuilder.Entity<Transport>(entity =>
