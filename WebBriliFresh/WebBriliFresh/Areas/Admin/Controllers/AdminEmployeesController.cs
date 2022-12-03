@@ -68,6 +68,9 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "City", employee.StoreId);
+
+            ViewData["StoreId1"] = new SelectList(_context.Stores, "StoreId", "District", employee.StoreId);
+
             ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", employee.UserId);
             return View(employee);
         }

@@ -39,6 +39,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
 
             var employee = (from emp in db.Employees where emp.UserId == UserID select emp).FirstOrDefault();
 
+
             var f_name = employee.FirstName;
             var l_name = employee.LastName;
             HttpContext.Session.SetString("ADMIN_SESSION_FIRSTNAME", f_name);
