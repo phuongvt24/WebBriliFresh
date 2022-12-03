@@ -29,11 +29,12 @@
             <input type="hidden" asp-for="ProId" />
             <div class="form-group">
                 <label asp-for="Quantity" class="control-label">Số lượng</label>
-                <input asp-for="Quantity" class="form-control" />
-                <span asp-validation-for="Quantity" class="text-danger"></span>
+                <input id="quantity" asp-for="Quantity" class="form-control" required/>
+                <span class="text-danger" id="quantity-message" style="display:none">Vui lòng nhập Số lượng!</span>
+                <span class="text-danger" id="quantity-message1" style="display:none">Số lượng sản phẩm không thể âm!</span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Lưu" class="btn btn-primary" />
+                <input id="save-btn" type="submit" value="Lưu" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -42,3 +43,21 @@
 <div>
     <a asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
 </div>
+
+<script>
+    $("#save-btn").click(function (e) {
+            if ($("#quantity").is(':invalid')) {
+                $("#quantity-message").show();
+            }
+            if ($("#quantity").val() < 0) {
+                e.preventDefault();
+                $("#quantity-message1").show();
+            }
+
+        })
+        //Bỏ thông báo yêu cầu chọn/nhập
+        $("#quantity").keyup(function(){
+            $("#quantity-message").hide();
+            $("#quantity-message1").hide();
+        })
+</script>
