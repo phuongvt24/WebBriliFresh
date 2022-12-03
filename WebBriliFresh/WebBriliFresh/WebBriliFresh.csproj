@@ -30,4 +30,12 @@
     <Folder Include="Uploads\Images\ProductImages\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Areas\Admin\Views\AdminProducts\Create.cshtml" />
+    <None Include="Areas\Admin\Views\AdminProducts\Delete.cshtml" />
+    <None Include="Areas\Admin\Views\AdminProducts\Details.cshtml" />
+    <None Include="Areas\Admin\Views\AdminProducts\Edit.cshtml" />
+    <None Include="Areas\Admin\Views\AdminProducts\Index.cshtml" />
+  </ItemGroup>
+
 </Project>
