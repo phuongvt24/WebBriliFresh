@@ -112,7 +112,6 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                     using (var fileStream = new FileStream(path, FileMode.Create)) { 
                         await user.ImageFile.CopyToAsync(fileStream);
                     }
-
                         _context.Update(user);
                     await _context.SaveChangesAsync();
                 }
