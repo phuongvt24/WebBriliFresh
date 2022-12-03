@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebBriliFresh.Models;
 
@@ -35,7 +36,12 @@ public partial class Employee
     public string? Phone { get; set; }
 
     public string? Email { get; set; }
-
+    [NotMapped]
+    public string? UserName { get; set; }
+    [NotMapped]
+    public string? UserPassword { get; set; }
+    [NotMapped]
+    public int? UserRole { get; set; }
     public virtual Store? Store { get; set; }
 
     public virtual User? User { get; set; }

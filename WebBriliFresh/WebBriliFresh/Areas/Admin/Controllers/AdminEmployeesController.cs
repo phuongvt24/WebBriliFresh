@@ -91,12 +91,22 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EmpId,UserId,StoreId,FirstName,LastName,Gender,City,District,Ward,SpecificAddress,StartDate,EndDate,Phone,Email")] Employee employee)
+        public async Task<IActionResult> Create([Bind("EmpId,UserId,StoreId,FirstName,LastName,Gender,City,District,Ward,SpecificAddress,StartDate,EndDate,Phone,Email,UserName,UserPassword")] Employee employee)
         {
             if (ModelState.IsValid)
             {
+
+                var model = new User();
+                model.UserName = employee.UserName;
+                model.UserPassword = employee.UserPassword;
+                model.UserRole = 2;
+                _context.Add(model);
+                await _context.SaveChangesAsync();
+                int userid = model.UserId;
+                employee.UserId = userid;
                 _context.Add(employee);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "City", employee.StoreId);
