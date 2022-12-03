@@ -46,10 +46,42 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             return View(employee);
         }
 
+
+        public class AddressStore { 
+            public int id { get; set; }
+            public string address { get; set; }
+
+
+            public AddressStore(int Id, string address)
+            {
+                this.id = Id;
+                this.address = address;
+
+            }
+        }
+
+
         // GET: Admin/AdminEmployees/Create
         public IActionResult Create()
         {
+            List<string> a = _context.Stores.Select(x => x.City).ToList();
+            List<string> b = _context.Stores.Select(x => x.District).ToList();
+            List<string> d = _context.Stores.Select(x => x.Ward).ToList();
+
+            List<int> c = _context.Stores.Select(x => x.StoreId).ToList();
+
+            List<AddressStore> addresses = new List<AddressStore>();
+
+            
+            for (int i =0; i<a.Count; i++)
+            {
+                addresses.Add(new AddressStore(c[i], d[i]+", "+ b[i] + ", " + a[i]));
+            }
+
             ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "City");
+
+            ViewData["AddressStore"] = new SelectList(addresses, "id", "address");
+
             ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId");
             return View();
         }
@@ -68,8 +100,6 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "City", employee.StoreId);
-
-            ViewBag.Address = _context.Stores.ToList();
 
             ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", employee.UserId);
             return View(employee);

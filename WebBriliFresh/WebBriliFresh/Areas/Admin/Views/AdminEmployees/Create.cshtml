@@ -1,8 +1,9 @@
 ﻿@model WebBriliFresh.Models.Employee
 
 @{
-    ViewData["Title"] = "Create";
-}
+    ViewData["Title"] = "Create";  
+  }
+   
 <div class="page-header">
     <h2 class="header-title">Brili Fresh</h2>
     <div class="header-sub-title">
@@ -18,6 +19,7 @@
 <h4>Nhân viên</h4>
 <hr />
 <div class="row">
+
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -28,7 +30,7 @@
     
             <div class="form-group">
                 <label asp-for="StoreId" class="control-label">Mã cửa hàng</label>
-                <select asp-for="StoreId" class="form-control" asp-items="ViewBag.StoreId"></select>
+                <select asp-for="StoreId" class="form-control" asp-items="ViewBag.AddressStore"></select>
             </div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label">Tên</label>
