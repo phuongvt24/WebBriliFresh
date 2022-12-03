@@ -24,6 +24,7 @@
         <select id="city" class="form-control">
             <option value="" selected></option>
         </select>
+        <span class="text-danger" id="city-message" style="display:none">Vui lòng chọn Tỉnh/Thành!</span>
     </div>
     <div class="form-group">
         <label for="district">Quận/Huyện</label>
@@ -31,6 +32,7 @@
         <select id="district" class="form-control">
             <option value="" selected></option>
         </select>
+        <span class="text-danger" id="district-message" style="display:none">Vui lòng chọn Quận/Huyện!</span>
     </div>
     <div class="form-group">
         <label for="ward">Phường/Xã</label>
@@ -38,6 +40,7 @@
         <select id="ward" class="form-control">
             <option value="" selected></option>
         </select>
+        <span class="text-danger" id="ward-message" style="display:none">Vui lòng chọn Phường/Xã!</span>
     </div>
     <div class="form-group">
         <label for="specialaddress">Địa chỉ</label>
@@ -112,12 +115,32 @@
         $('#ward option[value=""]').text($("#selected_ward").val());
 
         $("#save-btn").click(function () {
+            if ($("#city").is(':invalid')) {
+                $("#city-message").show();
+            }
+            if ($("#district").is(':invalid')) {
+                $("#district-message").show();
+            }
+            if ($("#ward").is(':invalid')) {
+                $("#ward-message").show();
+            }
+
             var city = $("#city").find("option:selected").text();
             $("#selected_city").val(city);
             var district = $("#district").find("option:selected").text();
             $("#selected_district").val(district);
             var ward = $("#ward").find("option:selected").text();
             $("#selected_ward").val(ward);
+        })
+        //Bỏ thông báo yêu cầu chọn
+        $("#city").change(function () {
+            $("#city-message").hide();
+        })
+        $("#district").change(function () {
+            $("#district-message").hide();
+        })
+        $("#ward").change(function () {
+            $("#ward-message").hide();
         })
     })
 </script>
