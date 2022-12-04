@@ -28,14 +28,14 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         {
             if (id == null)
             {
-                ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "StoreId");
-                var briliFreshDbContext = _context.Stocks.Include(s => s.Pro).Where(s => s.Pro.IsDeleted == 0).Include(s => s.Store).Where(s => s.Store.IsDeleted == 0); ; ;
+                ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "StoreId");
+                var briliFreshDbContext = _context.Stocks.Include(s => s.Pro).Where(s => s.Pro.IsDeleted == 0).Include(s => s.Store).Where(s => s.Store.isDeleted == 0); ; ;
                 return View(await briliFreshDbContext.ToListAsync());
             }
             else
             {
-                ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "StoreId");
-                var briliFreshDbContext = _context.Stocks.Include(s => s.Pro).Where(s => s.Pro.IsDeleted == 0).Include(s => s.Store).Where(s => s.Store.IsDeleted == 0 && s.Store.StoreId == id); ; ;
+                ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "StoreId");
+                var briliFreshDbContext = _context.Stocks.Include(s => s.Pro).Where(s => s.Pro.IsDeleted == 0).Include(s => s.Store).Where(s => s.Store.isDeleted == 0 && s.Store.StoreId == id); ; ;
                 return View(await briliFreshDbContext.ToListAsync());
             }
             
@@ -65,8 +65,13 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/AdminStocks/Create
         public IActionResult Create(int? id)
         {
-            ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "StoreId");
+            ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "StoreId");
+            ViewData["SpecificAddress"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "SpecificAddress");
+            ViewData["Ward"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "Ward");
+            ViewData["District"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "District");
+            ViewData["City"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "City");
             ViewData["ProId"] = new SelectList(_context.Products.Where(x => x.IsDeleted == 0), "ProId", "ProId");
+            ViewData["ProName"] = new SelectList(_context.Products.Where(x => x.IsDeleted == 0), "ProId", "ProName");
             return View();
         }
 
@@ -99,7 +104,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             }
             else
             {
-                ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "StoreId");
+                ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "StoreId");
                 ViewData["ProId"] = new SelectList(_context.Products.Where(x => x.IsDeleted == 0), "ProId", "ProId");
                 return View(stock);
             }
@@ -113,7 +118,10 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var stock = await _context.Stocks.FindAsync(new object[] { id, id1 });
+            var stock = await _context.Stocks
+                .Include(s => s.Pro)
+                .Include(s => s.Store)
+                .FirstOrDefaultAsync(m => m.StoreId == id && m.ProId == id1);
             if (stock == null)
             {
                 return NotFound();
@@ -135,7 +143,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            if (stock.Pro == null && stock.Store == null && stock.Quantity != null && stock.Quantity >= 0)
+            if (stock.Quantity != null && stock.Quantity >= 0)
             {
                 try
                 {
