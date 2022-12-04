@@ -49,13 +49,13 @@
 
             <div class="d-md-flex m-b-15 align-items-center">
                 <div class="media align-items-center m-b-15" id="img1" style="padding-right: 32px">
-                    <div class="avatar avatar-image rounded" style="height: 140px; width: 140px"></div>
+                    <div class="avatar avatar-image rounded" style="height: 280px; min-width: 240px"></div>
                 </div>
                 <div class="media align-items-center m-b-15" id="img2" style="padding-right: 32px">
-                    <div class="avatar avatar-image rounded" style="height: 140px; width: 140px"></div>
+                    <div class="avatar avatar-image rounded" style="height: 280px; min-width: 240px"></div>
                 </div>
                 <div class="media align-items-center m-b-15" id="img3" style="padding-right: 32px">
-                    <div class="avatar avatar-image rounded" style="height: 140px; width: 140px"></div>
+                    <div class="avatar avatar-image rounded" style="height: 280px; min-width: 240px"></div>
                 </div>
                 <div class="m-b-15" style="padding-left: 100px">
                     <input asp-for="Files" type="file" id="image_submit_2" class="btn btn-primary" multiple accept="image/gif, image/jpeg, image/png" style="display: none" />
@@ -222,21 +222,21 @@
         var picReader1 = new FileReader();
         picReader1.addEventListener("load", function (event) {
             var picFile1 = event.target;
-            outfile1.innerHTML = `<img src="${picFile1.result}" alt="your image" style="width: 140px; max-height: 140px" />`;
+            outfile1.innerHTML = `<img src="${picFile1.result}" alt="your image" style="width: 280px; max-height: auto" />`;
         });
         picReader1.readAsDataURL(file1);
 
         var picReader2 = new FileReader();
         picReader2.addEventListener("load", function (event) {
             var picFile2 = event.target;
-            outfile2.innerHTML = `<img src="${picFile2.result}" alt="your image" style="width: 140px; max-height: 140px" />`;
+            outfile2.innerHTML = `<img src="${picFile2.result}" alt="your image" style="width: 280px; max-height: auto" />`;
         });
         picReader2.readAsDataURL(file2);
 
         var picReader3 = new FileReader();
         picReader3.addEventListener("load", function (event) {
             var picFile3 = event.target;
-            outfile3.innerHTML = `<img src="${picFile3.result}" alt="your image" style="width: 140px; max-height: 140px" />`;
+            outfile3.innerHTML = `<img src="${picFile3.result}" alt="your image" style="width: 280px; max-height: auto" />`;
         });
         picReader3.readAsDataURL(file3);
     });

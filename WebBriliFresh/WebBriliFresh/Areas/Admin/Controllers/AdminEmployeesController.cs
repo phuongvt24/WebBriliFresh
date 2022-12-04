@@ -60,7 +60,6 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             }
         }
 
-
         // GET: Admin/AdminEmployees/Create
         public IActionResult Create()
         {
@@ -91,12 +90,23 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EmpId,UserId,StoreId,FirstName,LastName,Gender,City,District,Ward,SpecificAddress,StartDate,EndDate,Phone,Email")] Employee employee)
+        public async Task<IActionResult> Create([Bind("EmpId,UserId,StoreId,FirstName,LastName,Gender,City,District,Ward,SpecificAddress,StartDate,EndDate,Phone,Email,UserName,UserPassword")] Employee employee)
         {
             if (ModelState.IsValid)
             {
+
+                var model = new User();
+                model.UserName = employee.UserName;
+                model.UserPassword = employee.UserPassword;
+                model.UserRole = 2;
+                _context.Add(model);
+                await _context.SaveChangesAsync();
+                int userid = model.UserId;
+                employee.UserId = userid;
+                employee.IsDeleted = 0;
                 _context.Add(employee);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "City", employee.StoreId);
@@ -190,9 +200,15 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 return Problem("Entity set 'BriliFreshDbContext.Employees'  is null.");
             }
             var employee = await _context.Employees.FindAsync(id);
+
+            var user = await _context.Users.Where(x => x.UserId == employee.UserId).FirstOrDefaultAsync();
             if (employee != null)
             {
-                _context.Employees.Remove(employee);
+                employee.IsDeleted = 1;
+                user.IsDeleted = 1;
+
+                _context.Employees.Update(employee);
+                _context.Users.Update(user);
             }
 
             await _context.SaveChangesAsync();

@@ -28,7 +28,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/AdminAccount
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Users.ToListAsync());
+              return View(await _context.Users.Include(x=>x.Employees).Include(a=>a.Customers).Where(s=>s.IsDeleted==0).ToListAsync());
         }
 
         // GET: Admin/AdminAccount/Details/5
@@ -60,10 +60,11 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,UserName,UserPassword,UserRole,Avatar")] User user)
+        public async Task<IActionResult> Create([Bind("UserId,UserName,UserPassword,UserRole,IsDeleted,Avatar")] User user)
         {
             if (ModelState.IsValid)
             {
+                user.IsDeleted = 0;
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -159,9 +160,13 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 return Problem("Entity set 'BriliFreshDbContext.Users'  is null.");
             }
             var user = await _context.Users.FindAsync(id);
+            var emp = await _context.Employees.Where(x => x.UserId == user.UserId).FirstOrDefaultAsync();
             if (user != null)
             {
-                _context.Users.Remove(user);
+                user.IsDeleted = 1;
+                emp.IsDeleted = 1;
+                _context.Users.Update(user);
+                _context.Employees.Update(emp);
             }
             
             await _context.SaveChangesAsync();
