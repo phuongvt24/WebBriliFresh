@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.WebPages;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -54,7 +55,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DisId,DisCode,DisRate,MaxDis,StartDate,EndDate,CusType,Status")] DiscountOrder discountOrder)
+        public async Task<IActionResult> Create([Bind("DisId,DisCode,DisRate,MaxDis,StartDate,EndDate,CusType,Status", "PageMode")] DiscountOrder discountOrder)
         {
             if (ModelState.IsValid)
             {
@@ -68,6 +69,9 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/DiscountOrders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            string mode = "edit";
+            ViewData["mode"] = mode;
+
             if (id == null || _context.DiscountOrders == null)
             {
                 return NotFound();
@@ -156,6 +160,48 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         private bool DiscountOrderExists(int id)
         {
             return _context.DiscountOrders.Any(e => e.DisId == id);
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        public IActionResult VerifyDate(DateTime? startDate, DateTime? endDate)
+        {
+            if (startDate != null && endDate != null)
+            {
+                DateTime StartDate = startDate ?? DateTime.MinValue;
+                DateTime EndDate = endDate ?? DateTime.MinValue;
+                int result = DateTime.Compare(StartDate, EndDate);
+                if (result >= 0)
+                {
+                    return Json(false);
+                }
+
+            }
+
+            return Json(true);
+        }
+
+
+        [AcceptVerbs("GET", "POST")]
+        public IActionResult VerifyDisCode(string disCode, string initialDisCode)
+        {
+
+            if(disCode == initialDisCode)
+            {
+                return Json(true);
+            }
+
+            //foreach (DiscountOrder obj in _context.DiscountOrders)
+            //{
+            //    if (obj.DisCode == disCode)
+            //        return Json(false);
+            //}
+            var discountCode = _context.DiscountOrders.SingleOrDefault(m => m.DisCode == disCode);
+            if(discountCode == null)
+            {
+                return Json(true);
+            }
+
+            return Json(false);
         }
     }
 }

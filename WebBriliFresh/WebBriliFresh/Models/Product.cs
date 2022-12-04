@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebBriliFresh.Models;
 
@@ -30,6 +31,10 @@ public partial class Product
     public string? Unit { get; set; }
 
     public int? IsDeleted { get; set; }
+    [NotMapped]
+    public  IFormFile? File { get; set; }
+    [NotMapped]
+    public  IList<IFormFile>? Files { get; set; }
 
     public virtual ICollection<DiscountProduct> DiscountProducts { get; } = new List<DiscountProduct>();
 

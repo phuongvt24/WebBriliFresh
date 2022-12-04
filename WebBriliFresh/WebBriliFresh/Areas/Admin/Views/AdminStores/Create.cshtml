@@ -24,7 +24,7 @@
             <div class="form-group">
                 <label asp-for="City" class="control-label">Tỉnh/Thành</label>
                 <input asp-for="City" id="selected_city" type="hidden" value="" />
-                <select id="city" class="form-control">
+                <select id="city" class="form-control" required>
                     <option value="" selected>Chọn Tỉnh/Thành</option>
                 </select>
                 <span class="text-danger" id="city-message" style="display:none">Vui lòng chọn Tỉnh/Thành!</span>
@@ -32,7 +32,7 @@
             <div class="form-group">
                 <label asp-for="District" class="control-label">Quận/Huyện</label>
                 <input asp-for="District" id="selected_district" type="hidden" value="" />
-                <select id="district" class="form-control">
+                <select id="district" class="form-control" required>
                     <option value="" selected>Chọn Quận/Huyện</option>
                 </select>
                 <span class="text-danger" id="district-message" style="display:none">Vui lòng chọn Quận/Huyện!</span>
@@ -40,7 +40,7 @@
             <div class="form-group">
                 <label asp-for="Ward" class="control-label">Phường/Xã</label>
                 <input asp-for="Ward" id="selected_ward" type="hidden" value="" />
-                <select id="ward" class="form-control">
+                <select id="ward" class="form-control" required>
                     <option value="" selected>Chọn Phường/Xã</option>
                 </select>
                 <span class="text-danger" id="ward-message" style="display:none">Vui lòng chọn Phường/Xã!</span>
@@ -104,28 +104,32 @@
                 }
             };
         }
-
-        $("#city").prop('required', true);
-        $("#district").prop('required', true);
-        $("#ward").prop('required', true);
         
-        $("#create-btn").click(function () {
+        $("#create-btn").click(function (e) {
+            var isFullFill = 1;
             if ($("#city").is(':invalid')) {
                 $("#city-message").show();
+                isFullFill = 0;
             }
             if ($("#district").is(':invalid')) {
                 $("#district-message").show();
+                isFullFill = 0;
             }
             if ($("#ward").is(':invalid')) {
                 $("#ward-message").show();
+                isFullFill = 0;
             }
 
-            var city = $("#city").find("option:selected").text();
-            $("#selected_city").val(city);
-            var district = $("#district").find("option:selected").text();
-            $("#selected_district").val(district);
-            var ward = $("#ward").find("option:selected").text();
-            $("#selected_ward").val(ward);
+            if (isFullFill == 0){
+                e.preventDefault();
+            } else {
+                var city = $("#city").find("option:selected").text();
+                $("#selected_city").val(city);
+                var district = $("#district").find("option:selected").text();
+                $("#selected_district").val(district);
+                var ward = $("#ward").find("option:selected").text();
+                $("#selected_ward").val(ward);
+            }
         })
         //Bỏ thông báo yêu cầu chọn
         $("#city").change(function () {

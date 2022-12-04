@@ -1,0 +1,120 @@
+﻿@model IEnumerable<WebBriliFresh.Models.User>
+@using Microsoft.AspNetCore.Http;
+@using WebBriliFresh.Common;
+@using WebBriliFresh.Models;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="AdminAccount" asp-action="index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <span class="breadcrumb-item active">Danh sách tài khoản</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row m-b-30">
+            <div class="col-lg-8">
+                <div class="d-md-flex">
+                    <div class="m-b-10 m-r-15">
+                        <select class="custom-select" style="min-width: 180px;">
+                            <option selected>Catergory</option>
+                            <option value="all">All</option>
+                            <option value="homeDeco">Home Decoration</option>
+                            <option value="eletronic">Eletronic</option>
+                            <option value="jewellery">Jewellery</option>
+                        </select>
+                    </div>
+                    <div class="m-b-10">
+                        <select class="custom-select" style="min-width: 180px;">
+                            <option selected>Status</option>
+                            <option value="all">All</option>
+                            <option value="inStock">In Stock </option>
+                            <option value="outOfStock">Out of Stock</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 text-right">
+                <a asp-area="Admin" asp-controller="AdminAccount" asp-action="Create" class="btn btn-primary">
+                    <i class="anticon anticon-plus-circle m-r-5"></i>
+                    <span>Tài khoản mới</span>
+                </a>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover e-commerce-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên đăng nhập</th>
+                        <th>Mật khẩu</th>
+                        <th>Loại tài khoản</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem =>  item.UserId)</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+
+                                       @* @if (a.Count >= 1)
+                                        {
+                                            <img class="img-fluid rounded" src="~/ImageProduct/@Html.DisplayFor(m=>a[x] )" style="max-width: 60px" alt="">
+                                        }
+                                        else
+                                        {
+                                            <img class="img-fluid rounded" src="~/ImageProduct/ )" style="max-width: 60px" alt="">
+                                        }*@
+                                        <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.UserName)</h6>
+                                    </div>
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.UserPassword)</td>
+                                <td>
+                                    @if (item.UserRole == 0)
+                                    {
+                                        <div>Khách hàng</div>
+                                    }
+                                    @if (item.UserRole == 1)
+                                    {
+                                        <div>Nhân viên</div>
+                                    }
+                                    @if (item.UserRole == 2)
+                                    {
+                                        <div>Quản lý</div>
+                                    }
+                                </td>
+
+                                <td class="text-right">
+                                    
+                                    <a asp-controller="AdminAccount" asp-action="Delete" asp-route-id="@item.UserId" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                        <i class="anticon anticon-delete"></i>
+                                    </a>
+                                    <a style="padding: 12px 20px;" asp-controller="AdminAccount" asp-action="Details" asp-route-id="@item.UserId">
+                                        Xem chi tiết
+                                    </a>
+                                   @* <a asp-area="Admin" asp-controller="AdminAccount" asp-action="Edit" asp-route-id="@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_USERID")">
+                                        <i class="anticon anticon-edit"></i>
+                                    </a>*@
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+

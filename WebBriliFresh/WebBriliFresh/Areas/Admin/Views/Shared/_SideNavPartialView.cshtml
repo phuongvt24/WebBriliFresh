@@ -1,8 +1,17 @@
-﻿<div class="side-nav">
+﻿@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@using WebBriliFresh.Common;
+
+<div class="side-nav">
     <div class="side-nav-inner">
         <ul class="side-nav-menu scrollable">
             <li class="nav-item open">
-                <a class="dropdown-toggle" asp-area="Admin" asp-controller="Home" asp-action="index">
+@*                <a class="dropdown-toggle" asp-area="Admin" asp-controller="Home" asp-action="index">
+
+*@
+                <a href="/Admin?UserID=@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_USERID")&EmpID=@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_EMPID")">
+
+
                     <span class="icon-holder">
                         <i class="anticon anticon-dashboard"></i>
                     </span>
@@ -97,31 +106,7 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="accordion.html">Accordion</a>
-                    </li>
-                    <li>
-                        <a href="carousel.html">Carousel</a>
-                    </li>
-                    <li>
-                        <a href="dropdown.html">Dropdown</a>
-                    </li>
-                    <li>
-                        <a href="modals.html">Modals</a>
-                    </li>
-                    <li>
-                        <a href="toasts.html">Toasts</a>
-                    </li>
-                    <li>
-                        <a href="popover.html">Popover</a>
-                    </li>
-                    <li>
-                        <a href="slider-progress.html">Slider & Progress</a>
-                    </li>
-                    <li>
-                        <a href="tabs.html">Tabs</a>
-                    </li>
-                    <li>
-                        <a href="tooltips.html">Tooltips</a>
+                        <a asp-area="Admin" asp-controller="AdminCustomers" asp-action="Index">Danh sách khách hàng</a>
                     </li>
                 </ul>
             </li>
@@ -137,13 +122,7 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="form-elements.html">ccccc</a>
-                    </li>
-                    <li>
-                        <a href="form-layouts.html">Form Layouts</a>
-                    </li>
-                    <li>
-                        <a href="form-validation.html">Form Validation</a>
+                        <a asp-area="Admin" asp-controller="AdminEmployees" asp-action="Index">Danh sách nhân viên</a>
                     </li>
                 </ul>
             </li>
@@ -159,7 +138,7 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="basic-table.html">Quản lý tài khoản</a>
+                        <a asp-area="Admin" asp-controller="AdminAccount" asp-action="index">Quản lý tài khoản</a>
                     </li>
                     <li>
                         <a href="data-table.html">Quản lý pages</a>
@@ -186,7 +165,7 @@
                 </ul>
             </li>
             <li class="nav-item dropdown">
-                <a class="dropdown-toggle"asp-area="Admin" asp-controller="AdminStores" asp-action="Index">
+                <a class="dropdown-toggle" asp-area="Admin" asp-controller="AdminStores" asp-action="Index">
                     <span class="icon-holder">
                         <i class="anticon anticon-file"></i>
                     </span>

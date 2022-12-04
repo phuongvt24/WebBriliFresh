@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebBriliFresh.Models;
 
@@ -13,7 +15,12 @@ public partial class User
 
     public int? UserRole { get; set; }
 
+    [DisplayName("Image Name")]
     public string? Avatar { get; set; }
+
+    [NotMapped]
+    [DisplayName("Upload File")]
+    public IFormFile? ImageFile { get; set; }
 
     public virtual ICollection<Customer> Customers { get; } = new List<Customer>();
 

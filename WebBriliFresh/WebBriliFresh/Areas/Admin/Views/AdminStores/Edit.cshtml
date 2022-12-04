@@ -114,23 +114,31 @@
         $('#district option[value=""]').text($("#selected_district").val());
         $('#ward option[value=""]').text($("#selected_ward").val());
 
-        $("#save-btn").click(function () {
+        $("#save-btn").click(function (e) {
+            var isFullFill = 1;
             if ($("#city").is(':invalid')) {
                 $("#city-message").show();
+                isFullFill = 0;
             }
             if ($("#district").is(':invalid')) {
                 $("#district-message").show();
+                isFullFill = 0;
             }
             if ($("#ward").is(':invalid')) {
                 $("#ward-message").show();
+                isFullFill = 0;
             }
 
-            var city = $("#city").find("option:selected").text();
-            $("#selected_city").val(city);
-            var district = $("#district").find("option:selected").text();
-            $("#selected_district").val(district);
-            var ward = $("#ward").find("option:selected").text();
-            $("#selected_ward").val(ward);
+            if (isFullFill == 0) {
+                e.preventDefault();
+            } else {
+                var city = $("#city").find("option:selected").text();
+                $("#selected_city").val(city);
+                var district = $("#district").find("option:selected").text();
+                $("#selected_district").val(district);
+                var ward = $("#ward").find("option:selected").text();
+                $("#selected_ward").val(ward);
+            }
         })
         //Bỏ thông báo yêu cầu chọn
         $("#city").change(function () {
