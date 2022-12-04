@@ -60,7 +60,6 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             }
         }
 
-
         // GET: Admin/AdminEmployees/Create
         public IActionResult Create()
         {
@@ -104,6 +103,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 int userid = model.UserId;
                 employee.UserId = userid;
+                employee.IsDeleted = 0;
                 _context.Add(employee);
                 await _context.SaveChangesAsync();
 
@@ -200,9 +200,15 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 return Problem("Entity set 'BriliFreshDbContext.Employees'  is null.");
             }
             var employee = await _context.Employees.FindAsync(id);
+
+            var user = await _context.Users.Where(x => x.UserId == employee.UserId).FirstOrDefaultAsync();
             if (employee != null)
             {
-                _context.Employees.Remove(employee);
+                employee.IsDeleted = 1;
+                user.IsDeleted = 1;
+
+                _context.Employees.Update(employee);
+                _context.Users.Update(user);
             }
 
             await _context.SaveChangesAsync();

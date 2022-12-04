@@ -42,6 +42,7 @@ public partial class Employee
     public string? UserPassword { get; set; }
     [NotMapped]
     public int? UserRole { get; set; }
+    public int? IsDeleted { get; set; }
     public virtual Store? Store { get; set; }
 
     public virtual User? User { get; set; }

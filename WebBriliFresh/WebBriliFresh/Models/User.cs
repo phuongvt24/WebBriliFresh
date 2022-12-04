@@ -22,6 +22,8 @@ public partial class User
     [DisplayName("Upload File")]
     public IFormFile? ImageFile { get; set; }
 
+    public int? IsDeleted { get; set; }
+
     public virtual ICollection<Customer> Customers { get; } = new List<Customer>();
 
     public virtual ICollection<Employee> Employees { get; } = new List<Employee>();
