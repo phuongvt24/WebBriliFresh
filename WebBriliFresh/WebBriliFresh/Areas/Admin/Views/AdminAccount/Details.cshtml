@@ -20,13 +20,13 @@
             Tên đăng nhập
         </dt>
         <dd class = "col-sm-10">
-            Mật khẩu
+            @Html.DisplayFor(model => model.UserName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserRole)
+            Mật khẩu
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserRole)
+            @Html.DisplayFor(model => model.UserPassword)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Avatar)

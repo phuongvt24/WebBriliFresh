@@ -74,14 +74,12 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             
             for (int i =0; i<a.Count; i++)
             {
-                addresses.Add(new AddressStore(c[i], d[i]+", "+ b[i] + ", " + a[i]));
+                addresses.Add(new AddressStore(c[i], c[i] + ", "+d[i]+", "+ b[i] + ", " + a[i]));
             }
-
-            ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "City");
-
             ViewData["AddressStore"] = new SelectList(addresses, "id", "address");
 
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId");
+            ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "City");
+             ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId");
             return View();
         }
 
