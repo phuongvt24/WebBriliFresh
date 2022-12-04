@@ -28,11 +28,41 @@
                 <span class="text-danger" id="store-message" style="display:none">Vui lòng chọn Mã cửa hàng!</span>
             </div>
             <div class="form-group">
+                <label class="control-label">Địa chỉ</label>
+                <select id="specificAddress" class="form-control" asp-items="ViewBag.SpecificAddress" disabled>
+                    <option value="" selected></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Phường/Xã</label>
+                <select id="ward" class="form-control" asp-items="ViewBag.Ward" disabled>
+                    <option value="" selected></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Quận/Huyện</label>
+                <select id="district" class="form-control" asp-items="ViewBag.District" disabled>
+                    <option value="" selected></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Tỉnh/Thành</label>
+                <select id="city" class="form-control" asp-items="ViewBag.City" disabled>
+                    <option value="" selected></option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label asp-for="ProId" class="control-label">ID sản phẩm</label>
                 <select id="pro_id" asp-for="ProId" class="form-control" asp-items="ViewBag.ProId" required>
                     <option value="" selected>Chọn mã sản phẩm</option>
                 </select>
                 <span class="text-danger" id="pro-message" style="display:none">Vui lòng chọn Mã sản phẩm!</span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Tên sản phẩm</label>
+                <select id="proName" asp-for="ProId" class="form-control" asp-items="ViewBag.ProName" disabled>
+                    <option value="" selected></option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Quantity" class="control-label">Số lượng</label>
@@ -52,7 +82,6 @@
 </div>
 
 <script>
-
     $(document).ready(function () {
         var path = location.pathname;
         path = path.replace('/Admin/AdminStocks/Create/', '');
@@ -79,9 +108,16 @@
     //Bỏ thông báo yêu cầu chọn/nhập
     $("#store_id").change(function () {
         $("#store-message").hide();
+        var $storeId = $(this).val();
+        $("#specificAddress option[value='"+ $storeId + "']").prop('selected', true);
+        $("#ward option[value='" + $storeId + "']").prop('selected', true);
+        $("#district option[value='" + $storeId + "']").prop('selected', true);
+        $("#city option[value='" + $storeId + "']").prop('selected', true);
     })
     $("#pro_id").change(function () {
         $("#pro-message").hide();
+        var $proId = $(this).val();
+        $("#proName option[value='" + $proId + "']").prop('selected', true);
     })
     $("#quantity").keyup(function () {
         $("#quantity-message").hide();

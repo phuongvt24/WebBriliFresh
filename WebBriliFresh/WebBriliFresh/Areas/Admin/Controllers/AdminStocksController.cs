@@ -59,7 +59,12 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         public IActionResult Create(int? id)
         {
             ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "StoreId");
+            ViewData["SpecificAddress"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "SpecificAddress");
+            ViewData["Ward"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "Ward");
+            ViewData["District"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "District");
+            ViewData["City"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "City");
             ViewData["ProId"] = new SelectList(_context.Products.Where(x => x.IsDeleted == 0), "ProId", "ProId");
+            ViewData["ProName"] = new SelectList(_context.Products.Where(x => x.IsDeleted == 0), "ProId", "ProName");
             return View();
         }
 
