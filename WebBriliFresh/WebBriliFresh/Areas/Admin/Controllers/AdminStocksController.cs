@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebBriliFresh.Models;
@@ -12,8 +7,6 @@ using WebBriliFresh.Models;
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Policy = "AdminOnly")]
-
     public class AdminStocksController : Controller
     {
         private readonly BriliFreshDbContext _context;
@@ -65,8 +58,13 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/AdminStocks/Create
         public IActionResult Create(int? id)
         {
-            ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "StoreId");
+            ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "StoreId");
+            ViewData["SpecificAddress"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "SpecificAddress");
+            ViewData["Ward"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "Ward");
+            ViewData["District"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "District");
+            ViewData["City"] = new SelectList(_context.Stores.Where(x => x.isDeleted == 0), "StoreId", "City");
             ViewData["ProId"] = new SelectList(_context.Products.Where(x => x.IsDeleted == 0), "ProId", "ProId");
+            ViewData["ProName"] = new SelectList(_context.Products.Where(x => x.IsDeleted == 0), "ProId", "ProName");
             return View();
         }
 
