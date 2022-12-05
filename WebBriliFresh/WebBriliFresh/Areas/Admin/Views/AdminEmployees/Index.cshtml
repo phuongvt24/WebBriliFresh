@@ -70,20 +70,20 @@
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.Store.City)</h6>
                                         <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.Store.SpecificAddress)</h6>
+                                        <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.Store.Ward)</h6>
                                     </div>
                                 </td>
                                 <td>@Html.DisplayFor(modelItem => item.StartDate)</td>
                                 <td class="text-right">
-                                    <a asp-controller="AdminEmployees" asp-action="Edit" asp-route-id="@item.EmpId" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                    @*<a asp-controller="AdminEmployees" asp-action="Edit" asp-route-id="@item.EmpId" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
                                         <i class="anticon anticon-edit"></i>
+                                    </a>*@
+                                    <a style="padding: 12px 20px;" asp-controller="AdminEmployees" asp-action="Details" asp-route-id="@item.EmpId">
+                                        Xem chi tiết
                                     </a>
                                     <a asp-controller="AdminEmployees" asp-action="Delete" asp-route-id="@item.EmpId" class="btn btn-icon btn-hover btn-sm btn-rounded">
                                         <i class="anticon anticon-delete"></i>
-                                    </a>
-                                    <a style="padding: 12px 20px;" asp-controller="AdminEmployees" asp-action="Details" asp-route-id="@item.EmpId">
-                                        Xem chi tiết
                                     </a>
                                 </td>
                             </tr>

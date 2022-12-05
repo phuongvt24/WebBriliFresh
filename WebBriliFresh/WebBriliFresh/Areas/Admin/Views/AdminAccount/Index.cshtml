@@ -41,18 +41,20 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 text-right">
+            @*<div class="col-lg-4 text-right">
                 <a asp-area="Admin" asp-controller="AdminAccount" asp-action="Create" class="btn btn-primary">
                     <i class="anticon anticon-plus-circle m-r-5"></i>
                     <span>Tài khoản mới</span>
                 </a>
-            </div>
+            </div>*@
         </div>
         <div class="table-responsive">
             <table class="table table-hover e-commerce-table">
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Mã NV/KH</th>
+                        <th>Họ tên</th>
                         <th>Tên đăng nhập</th>
                         <th>Mật khẩu</th>
                         <th>Loại tài khoản</th>
@@ -64,33 +66,57 @@
                     {
                         @foreach (var item in Model)
                         {
+                            List <int> a;
+                            List <string> b;
+                            List <string> c;
+                            @if (item.UserRole == 1)
+                            {
+                                a = item.Customers.Where(x => x.UserId == item.UserId).Select(x => x.CusId).ToList();
+
+                                b = item.Customers.Where(x => x.UserId == item.UserId).Select(x => x.LastName+" ").ToList();
+
+                                c = item.Customers.Where(x => x.UserId == item.UserId).Select(x => x.FirstName).ToList();
+
+                            }
+                            else
+                            {
+                                a = item.Employees.Where(x => x.UserId == item.UserId).Select(x => x.EmpId).ToList();
+
+                                b = item.Employees.Where(x => x.UserId == item.UserId).Select(x => x.LastName + " ").ToList();
+
+                                c = item.Employees.Where(x => x.UserId == item.UserId).Select(x => x.FirstName).ToList();
+                            }
                             <tr>
                                 <td>@Html.DisplayFor(modelItem =>  item.UserId)</td>
+                                
+                                <td>
+                                    @for (int i = 0; i < a.Count; i++) {
+                                        <div>@a[i]</div>
+                                    }
+                                </td>
+                                <td>
+                                    @for (int i = 0; i < b.Count; i++)
+                                    {
+                                        @b[i]  @c[i] 
+
+                                    }
+                                </td>
                                 <td>
                                     <div class="d-flex align-items-center">
-
-                                       @* @if (a.Count >= 1)
-                                        {
-                                            <img class="img-fluid rounded" src="~/ImageProduct/@Html.DisplayFor(m=>a[x] )" style="max-width: 60px" alt="">
-                                        }
-                                        else
-                                        {
-                                            <img class="img-fluid rounded" src="~/ImageProduct/ )" style="max-width: 60px" alt="">
-                                        }*@
                                         <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.UserName)</h6>
                                     </div>
                                 </td>
                                 <td>@Html.DisplayFor(modelItem => item.UserPassword)</td>
                                 <td>
-                                    @if (item.UserRole == 0)
+                                    @if (item.UserRole == 1)
                                     {
                                         <div>Khách hàng</div>
                                     }
-                                    @if (item.UserRole == 1)
+                                    @if (item.UserRole == 2)
                                     {
                                         <div>Nhân viên</div>
                                     }
-                                    @if (item.UserRole == 2)
+                                    @if (item.UserRole == 3)
                                     {
                                         <div>Quản lý</div>
                                     }
@@ -101,9 +127,9 @@
                                     <a asp-controller="AdminAccount" asp-action="Delete" asp-route-id="@item.UserId" class="btn btn-icon btn-hover btn-sm btn-rounded">
                                         <i class="anticon anticon-delete"></i>
                                     </a>
-                                    <a style="padding: 12px 20px;" asp-controller="AdminAccount" asp-action="Details" asp-route-id="@item.UserId">
+                                    @*<a style="padding: 12px 20px;" asp-controller="AdminAccount" asp-action="Details" asp-route-id="@item.UserId">
                                         Xem chi tiết
-                                    </a>
+                                    </a>*@
                                    @* <a asp-area="Admin" asp-controller="AdminAccount" asp-action="Edit" asp-route-id="@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_USERID")">
                                         <i class="anticon anticon-edit"></i>
                                     </a>*@

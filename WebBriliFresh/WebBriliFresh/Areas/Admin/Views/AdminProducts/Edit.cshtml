@@ -222,8 +222,8 @@
                                     </button>
                                 <div>
                                     <a asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
-                                    </div>
-                                </div>
+                                 </div>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -319,21 +319,21 @@
             var picReader1 = new FileReader();
             picReader1.addEventListener("load", function (event) {
                 var picFile1 = event.target;
-                outfile1.innerHTML = `<img src="${picFile1.result}" alt="your image" style="width: 140px; max-height: 140px" />`;
+                outfile1.innerHTML = `<img src="${picFile1.result}" alt="your image" style="width: 280px; height: auto" />`;
             });
             picReader1.readAsDataURL(file1);
 
             var picReader2 = new FileReader();
             picReader2.addEventListener("load", function (event) {
                 var picFile2 = event.target;
-                outfile2.innerHTML = `<img src="${picFile2.result}" alt="your image" style="width: 140px; max-height: 140px" />`;
+            outfile2.innerHTML = `<img src="${picFile2.result}" alt="your image" style="width: 280px; height: auto" />`;
             });
             picReader2.readAsDataURL(file2);
 
             var picReader3 = new FileReader();
             picReader3.addEventListener("load", function (event) {
                 var picFile3 = event.target;
-                outfile3.innerHTML = `<img src="${picFile3.result}" alt="your image" style="width: 140px; max-height: 140px" />`;
+            outfile3.innerHTML = `<img src="${picFile3.result}" alt="your image" style="width: 280px; height: auto" />`;
             });
             picReader3.readAsDataURL(file3);
         });
@@ -388,5 +388,6 @@
         })
         
     </script>
+
 
          

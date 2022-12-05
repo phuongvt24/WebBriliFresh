@@ -25,6 +25,10 @@
             <option value="" selected></option>
         </select>
     </div>
+
+
+
+
     <div class="form-group">
         <label for="district">Quận/Huyện</label>
         <input asp-for="District" id="selected_district" type="hidden" />
@@ -32,6 +36,10 @@
             <option value="" selected></option>
         </select>
     </div>
+
+
+
+
     <div class="form-group">
         <label for="ward">Phường/Xã</label>
         <input asp-for="Ward" id="selected_ward" type="hidden" />
@@ -111,6 +119,7 @@
         $('#district option[value=""]').text($("#selected_district").val());
         $('#ward option[value=""]').text($("#selected_ward").val());
 
+<<<<<<< HEAD
         $("#save-btn").click(function () {
             var city = $("#city").find("option:selected").text();
             $("#selected_city").val(city);
@@ -118,6 +127,33 @@
             $("#selected_district").val(district);
             var ward = $("#ward").find("option:selected").text();
             $("#selected_ward").val(ward);
+=======
+        $("#save-btn").click(function (e) {
+            var isFullFill = 1;
+            if ($("#city").is(':invalid')) {
+                $("#city-message").show();
+                isFullFill = 0;
+            }
+            if ($("#district").is(':invalid')) {
+                $("#district-message").show();
+                isFullFill = 0;
+            }
+            if ($("#ward").is(':invalid')) {
+                $("#ward-message").show();
+                isFullFill = 0;
+            }
+
+            if (isFullFill == 0) {
+                e.preventDefault();
+            } else {
+                var city = $("#city").find("option:selected").text();
+                $("#selected_city").val(city);
+                var district = $("#district").find("option:selected").text();
+                $("#selected_district").val(district);
+                var ward = $("#ward").find("option:selected").text();
+                $("#selected_ward").val(ward);
+            }
+>>>>>>> origin/new_develop
         })
     })
 </script>

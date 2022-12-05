@@ -39,13 +39,21 @@ namespace WebBriliFresh.Areas.Admin.Controllers
 
             var employee = (from emp in db.Employees where emp.UserId == UserID select emp).FirstOrDefault();
 
+
             var f_name = employee.FirstName;
             var l_name = employee.LastName;
             HttpContext.Session.SetString("ADMIN_SESSION_FIRSTNAME", f_name);
             HttpContext.Session.SetString("ADMIN_SESSION_LASTNAME", l_name);
             var u_avatar = (from user in db.Users where user.UserId == UserID select user).FirstOrDefault();
             string avatar = u_avatar.Avatar;
-            HttpContext.Session.SetString("ADMIN_SESSION_AVATAR", avatar);
+            if (avatar != null)
+            {
+                HttpContext.Session.SetString("ADMIN_SESSION_AVATAR", avatar);
+            }
+            else { HttpContext.Session.SetString("ADMIN_SESSION_AVATAR", ""); }
+
+
+
             //HttpContext.Session.SetString(AdminSession.ADMIN_SESSION_FIRSTNAME, f_name);
             //HttpContext.Session.SetString(AdminSession.ADMIN_SESSION_LASTNAME, l_name);
 
