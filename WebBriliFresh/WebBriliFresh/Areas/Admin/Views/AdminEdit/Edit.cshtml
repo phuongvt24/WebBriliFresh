@@ -23,15 +23,16 @@
     <div class="col-md-4">
         <form asp-action="Edit" asp-route-id="@Model.EmpId" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="EmpId"/>
-            <input type="hidden" asp-for="StoreId" />
-            <input type="hidden" asp-for="UserId" />
+           
             @*<div class="form-group" style="font-size:18px">
                 <label asp-for="StoreId" class="control-label">Cửa hàng làm việc</label>
                 <input asp-for="StoreId" disabled class="form-control" />
                 <span asp-validation-for="StoreId" class="text-danger"></span>
             </div>*@
             <div class="form-group">
+                <input type="hidden" asp-for="EmpId" />
+                <input type="hidden" asp-for="StoreId" />
+                <input type="hidden" asp-for="UserId" />
                 <label asp-for="LastName" class="control-label">Họ</label>
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
@@ -53,12 +54,12 @@
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <input type="hidden" asp-for="StoreId" />
                 <label for="city">Tỉnh/Thành</label>
                 <input asp-for="City" id="selected_city" type="hidden" />
                 <select id="city" class="form-control">
                     <option value="" selected></option>
                 </select>
-                <span class="text-danger" id="city-message" style="display:none">Vui lòng chọn Tỉnh/Thành!</span>
             </div>
             <div class="form-group">
                 <label for="district">Quận/Huyện</label>
@@ -66,7 +67,6 @@
                 <select id="district" class="form-control">
                     <option value="" selected></option>
                 </select>
-                <span class="text-danger" id="district-message" style="display:none">Vui lòng chọn Quận/Huyện!</span>
             </div>
             <div class="form-group">
                 <label for="ward">Phường/Xã</label>
@@ -74,12 +74,10 @@
                 <select id="ward" class="form-control">
                     <option value="" selected></option>
                 </select>
-                <span class="text-danger" id="ward-message" style="display:none">Vui lòng chọn Phường/Xã!</span>
             </div>
             <div class="form-group">
-                <label asp-for="SpecificAddress" class="control-label">Địa chỉ</label>
-                <input asp-for="SpecificAddress" class="form-control" />
-                <span asp-validation-for="SpecificAddress" class="text-danger"></span>
+                <label for="specialaddress">Địa chỉ</label>
+                <textarea class="form-control" id="specialaddress" asp-for="SpecificAddress" placeholder="Số nhà/Tên đường/Tên tòa/..."></textarea>
             </div>
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label">Ngày tạo</label>
@@ -109,7 +107,7 @@
                 <span asp-validation-for="IsDeleted" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" id="save_btn"  value="Save" class="btn btn-primary" />
+                <input type="submit" id="save-btn" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -118,7 +116,7 @@
 <div>
 
     <a href="/Admin?UserID=@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_USERID")&EmpID=@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_EMPID")">Back to Home</a>
- 
+ </div>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
@@ -128,105 +126,96 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-       flatpickr("#myID", {
-                altInput: true,
-                altFormat: "d/m/Y",
-                dateFormat: "m/d/Y",
-       });
+flatpickr("#myID", {
+    altInput: true,
+    altFormat: "d/m/Y",
+    dateFormat: "m/d/Y",
+});
 
-            $(document).ready(function () {
-                var citis = document.getElementById("city");
-                var districts = document.getElementById("district");
-                var wards = document.getElementById("ward");
-                var Parameter = {
-                    url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-                    method: "GET",
-                    responseType: "application/json",
-                };
-                var promise = axios(Parameter);
-                promise.then(function (result) {
-                    renderCity(result.data);
-                });
-
-                function renderCity(data) {
-                    for (const x of data) {
-                        citis.options[citis.options.length] = new Option(x.Name, x.Id);
-                    }
-                    citis.onchange = function () {
-                        district.length = 1;
-                        ward.length = 1;
-                        if (this.value != "") {
-                            const result = data.filter(n => n.Id === this.value);
-
-                            for (const k of result[0].Districts) {
-                                districts.options[districts.options.length] = new Option(k.Name, k.Id);
-                            }
-                        }
-                        $('#city option[value=""]').text("Chọn Tỉnh/Thành phố");
-                        $('#district option[value=""]').text("Chọn Quận/Huyện");
-                        $('#ward option[value=""]').text("Chọn Phường/Xã");
-
-                        $("#city").prop('required', true);
-                        $("#district").prop('required', true);
-                        $("#ward").prop('required', true);
-                    };
-                    districts.onchange = function () {
-                        ward.length = 1;
-                        const dataCity = data.filter((n) => n.Id === citis.value);
-                        if (this.value != "") {
-                            const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
-
-                            for (const w of dataWards) {
-                                wards.options[wards.options.length] = new Option(w.Name, w.Id);
-                            }
-                        }
-                    };
+        $(document).ready(function () {
+            var citis = document.getElementById("city");
+            var districts = document.getElementById("district");
+            var wards = document.getElementById("ward");
+            var Parameter = {
+                url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+                method: "GET",
+                responseType: "application/json",
+            };
+            var promise = axios(Parameter);
+            promise.then(function (result) {
+                renderCity(result.data);
+            });
+            function renderCity(data) {
+                for (const x of data) {
+                    citis.options[citis.options.length] = new Option(x.Name, x.Id);
                 }
-
-                $("#city").prop('required', false);
-                $("#district").prop('required', false);
-                $("#ward").prop('required', false);
-
-                $('#city option[value=""]').text($("#selected_city").val());
-                $('#district option[value=""]').text($("#selected_district").val());
-                $('#ward option[value=""]').text($("#selected_ward").val());
-
-                $("#save-btn").click(function (e) {
-                    var isFullFill = 1;
-                    if ($("#city").is(':invalid')) {
-                        $("#city-message").show();
-                        isFullFill = 0;
+                citis.onchange = function () {
+                    district.length = 1;
+                    ward.length = 1;
+                    if (this.value != "") {
+                        const result = data.filter(n => n.Id === this.value);
+                        for (const k of result[0].Districts) {
+                            districts.options[districts.options.length] = new Option(k.Name, k.Id);
+                        }
                     }
-                    if ($("#district").is(':invalid')) {
-                        $("#district-message").show();
-                        isFullFill = 0;
+                    $('#city option[value=""]').text("Chọn Tỉnh/Thành phố");
+                    $('#district option[value=""]').text("Chọn Quận/Huyện");
+                    $('#ward option[value=""]').text("Chọn Phường/Xã");
+                    $("#city").prop('required', true);
+                    $("#district").prop('required', true);
+                    $("#ward").prop('required', true);
+                };
+                districts.onchange = function () {
+                    ward.length = 1;
+                    const dataCity = data.filter((n) => n.Id === citis.value);
+                    if (this.value != "") {
+                        const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+                        for (const w of dataWards) {
+                            wards.options[wards.options.length] = new Option(w.Name, w.Id);
+                        }
                     }
-                    if ($("#ward").is(':invalid')) {
-                        $("#ward-message").show();
-                        isFullFill = 0;
-                    }
-
-                    if (isFullFill == 0) {
-                        e.preventDefault();
-                    } else {
-                        var city = $("#city").find("option:selected").text();
-                        $("#selected_city").val(city);
-                        var district = $("#district").find("option:selected").text();
-                        $("#selected_district").val(district);
-                        var ward = $("#ward").find("option:selected").text();
-                        $("#selected_ward").val(ward);
-                    }
-                })
-                //Bỏ thông báo yêu cầu chọn
-                $("#city").change(function () {
-                    $("#city-message").hide();
-                })
-                $("#district").change(function () {
-                    $("#district-message").hide();
-                })
-                $("#ward").change(function () {
-                    $("#ward-message").hide();
-                })
+                };
+            }
+            $("#city").prop('required', false);
+            $("#district").prop('required', false);
+            $("#ward").prop('required', false);
+            $('#city option[value=""]').text($("#selected_city").val());
+            $('#district option[value=""]').text($("#selected_district").val());
+            $('#ward option[value=""]').text($("#selected_ward").val());
+            $("#save-btn").click(function (e) {
+                var isFullFill = 1;
+                if ($("#city").is(':invalid')) {
+                    $("#city-message").show();
+                    isFullFill = 0;
+                }
+                if ($("#district").is(':invalid')) {
+                    $("#district-message").show();
+                    isFullFill = 0;
+                }
+                if ($("#ward").is(':invalid')) {
+                    $("#ward-message").show();
+                    isFullFill = 0;
+                }
+                if (isFullFill == 0) {
+                    e.preventDefault();
+                } else {
+                    var city = $("#city").find("option:selected").text();
+                    $("#selected_city").val(city);
+                    var district = $("#district").find("option:selected").text();
+                    $("#selected_district").val(district);
+                    var ward = $("#ward").find("option:selected").text();
+                    $("#selected_ward").val(ward);
+                }
             })
-
+            //Bỏ thông báo yêu cầu chọn
+            $("#city").change(function () {
+                $("#city-message").hide();
+            })
+            $("#district").change(function () {
+                $("#district-message").hide();
+            })
+            $("#ward").change(function () {
+                $("#ward-message").hide();
+            })
+        })
     </script>

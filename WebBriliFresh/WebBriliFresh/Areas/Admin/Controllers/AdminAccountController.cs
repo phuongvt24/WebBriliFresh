@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebBriliFresh.Models;
+using static WebBriliFresh.Areas.Admin.Controllers.AdminEmployeesController;
 
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
@@ -17,12 +19,14 @@ namespace WebBriliFresh.Areas.Admin.Controllers
     {
         private readonly BriliFreshDbContext _context;
         private readonly IWebHostEnvironment _hostEnvironment;
+        public INotyfService _notifyService { get; }
 
-        public AdminAccountController(BriliFreshDbContext context, IWebHostEnvironment hostEnvironment)
+        public AdminAccountController(BriliFreshDbContext context, IWebHostEnvironment hostEnvironment, INotyfService notyfService)
         {
             _context = context;
+            _notifyService = notyfService;
             this._hostEnvironment = hostEnvironment; 
-
+           
         }
 
         // GET: Admin/AdminAccount
@@ -93,42 +97,54 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,ImageFile,UserName,UserPassword,UserRole")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("UserId,ImageFile,UserName,UserPassword,UserRole,Avatar")] User user)
         {
-
             if (id != user.UserId)
             {
                 return NotFound();
             }
 
+            var a = _context.Users.Where(x => x.UserId == id).Select(p=>p.Avatar).ToList();
+            user.Avatar = a[0];
+
             if (ModelState.IsValid)
             {
-                try
+                if (user.ImageFile != null)
                 {
-                    string wwwRootPath = _hostEnvironment.WebRootPath;
-                    string fileName = Path.GetFileNameWithoutExtension(user.ImageFile.FileName);
-                    string extension = Path.GetExtension(user.ImageFile.FileName);
-                    user.Avatar = fileName = fileName + DateTime.Now.ToString("yymmssff") + extension;
-                    string path = Path.Combine(wwwRootPath + "/ImageUser/", fileName);
-                    using (var fileStream = new FileStream(path, FileMode.Create)) { 
-                        await user.ImageFile.CopyToAsync(fileStream);
-                    }
+                    try
+                    {
+                        string wwwRootPath = _hostEnvironment.WebRootPath;
+                        string fileName = Path.GetFileNameWithoutExtension(user.ImageFile.FileName);
+                        string extension = Path.GetExtension(user.ImageFile.FileName);
+                        user.Avatar = fileName = fileName + DateTime.Now.ToString("yymmssff") + extension;
+                        string path = Path.Combine(wwwRootPath + "/ImageUser/", fileName);
+                        using (var fileStream = new FileStream(path, FileMode.Create))
+                        {
+                            await user.ImageFile.CopyToAsync(fileStream);
+                        }
                         _context.Update(user);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UserExists(user.UserId))
-                    {
-                        return NotFound();
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!UserExists(user.UserId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Edit));
                 }
-                return View(user);
+                
+                _context.Update(user);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Edit));
             }
+            await _context.SaveChangesAsync();
+            _context.Update(user);
             return View(user);
         }
 
