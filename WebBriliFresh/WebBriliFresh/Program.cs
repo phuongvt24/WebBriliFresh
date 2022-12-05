@@ -30,7 +30,9 @@ builder.Services.AddAuthentication(options =>
 {
     options.LoginPath = "/Admin/AdminLogin";
     options.LogoutPath = "/Home/Index";
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(5000);
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+    options.Cookie.MaxAge = options.ExpireTimeSpan; // optional
+    options.SlidingExpiration = true;
 });
 
 builder.Services.AddAuthorization(options =>
