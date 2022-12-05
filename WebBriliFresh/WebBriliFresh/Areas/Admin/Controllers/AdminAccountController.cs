@@ -109,6 +109,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                user.IsDeleted = 0;
                 if (user.ImageFile != null)
                 {
                     try
