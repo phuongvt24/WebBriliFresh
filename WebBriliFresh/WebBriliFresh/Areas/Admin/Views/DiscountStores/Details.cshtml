@@ -38,7 +38,7 @@
             @Html.DisplayNameFor(model => model.Store)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Store.City)
+            @Html.DisplayFor(model =>model.Store.SpecificAddress), @Html.DisplayFor(model =>model.Store.Ward), @Html.DisplayFor(model =>model.Store.District), @Html.DisplayFor(model =>model.Store.City)
         </dd>
     </dl>
 </div>
