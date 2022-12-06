@@ -123,16 +123,13 @@
                                 </td>
 
                                 <td class="text-right">
-                                    
-                                    <a asp-controller="AdminAccount" asp-action="Delete" asp-route-id="@item.UserId" class="btn btn-icon btn-hover btn-sm btn-rounded">
-                                        <i class="anticon anticon-delete"></i>
-                                    </a>
-                                    @*<a style="padding: 12px 20px;" asp-controller="AdminAccount" asp-action="Details" asp-route-id="@item.UserId">
-                                        Xem chi tiết
-                                    </a>*@
-                                   @* <a asp-area="Admin" asp-controller="AdminAccount" asp-action="Edit" asp-route-id="@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_USERID")">
-                                        <i class="anticon anticon-edit"></i>
-                                    </a>*@
+
+                                    @if (item.UserRole == 2)
+                                    {
+                                        <a asp-controller="AdminAccount" asp-action="Delete" asp-route-id="@item.UserId" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                            <i class="anticon anticon-delete"></i>
+                                        </a>
+                                    }
                                 </td>
                             </tr>
                         }

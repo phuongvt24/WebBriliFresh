@@ -23,12 +23,6 @@
     <div class="col-md-4">
         <form asp-action="Edit" asp-route-id="@Model.EmpId" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-           
-            @*<div class="form-group" style="font-size:18px">
-                <label asp-for="StoreId" class="control-label">Cửa hàng làm việc</label>
-                <input asp-for="StoreId" disabled class="form-control" />
-                <span asp-validation-for="StoreId" class="text-danger"></span>
-            </div>*@
             <div class="form-group">
                 <input type="hidden" asp-for="EmpId" />
                 <input type="hidden" asp-for="StoreId" />
@@ -111,9 +105,6 @@
                     <i class="anticon anticon-save"></i>
                     <span>Lưu thay đổi</span>
                 </button>
-            @*    <div>
-                    <a asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
-                </div>*@
             </div>
         </form>
     </div>

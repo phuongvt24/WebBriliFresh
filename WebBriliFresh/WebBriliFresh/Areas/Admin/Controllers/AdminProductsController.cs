@@ -277,7 +277,6 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                         {
                             if (!(arrdata[i].Contains("is_avt")))
                             {
-                                
                                 arr_id[isdetail] = arr[i];
                                 isdetail++;
                             }

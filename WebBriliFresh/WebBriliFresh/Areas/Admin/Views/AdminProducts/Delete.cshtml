@@ -4,7 +4,6 @@
     ViewData["Title"] = "Delete";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
     var a = @Model.ProductImages.Where(x => x.ProId == @Model.ProId).Select(p => p.ImgData).ToList();
-
     var b = @Model.Stocks.Where(x => x.ProId == @Model.ProId).Sum(i => i.Quantity);
     var c = @Model.ProductImages.Where(x => x.ProId == @Model.ProId).Select(p => p.ImgData).ToList();
     var d = c.Count();
@@ -19,8 +18,8 @@
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
             <a asp-area="Admin" asp-controller="Home" asp-action="index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
-            <a asp-area="Admin" asp-controller="AdminProducts" asp-action="index" class="breadcrumb-item">Xóa sản phẩm</a>
-            <span class="breadcrumb-item active">Thêm mới sản phẩm</span>
+            <a asp-area="Admin" asp-controller="AdminProducts" asp-action="index" class="breadcrumb-item">Danh sách sản phẩm</a>
+            <span class="breadcrumb-item active">Xóa sản phẩm</span>
         </nav>
     </div>
 </div>

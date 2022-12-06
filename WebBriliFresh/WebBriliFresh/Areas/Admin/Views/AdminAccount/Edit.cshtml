@@ -50,7 +50,7 @@
             </div>
 
             <div class="m-b-15 d-flex" style="justify-content: space-between;">
-                <button asp-action="Edit" class="btn btn-primary">
+                <button asp-action="Edit" id="save_edit" class="btn btn-primary">
                     <i class="anticon anticon-save"></i>
                     <span>Lưu thay đổi</span>
                 </button>
@@ -66,51 +66,6 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
-
-    //<script>
-    //            $("#image_submit").change(function () {
-    //                if (this.files && this.files[0]) {
-    //                    var reader = new FileReader();
-    //                    reader.onload = function (e) {
-    //                        $('#blah')
-    //                            .attr('src', e.target.result)
-    //                            .width(80)
-    //                            .height(80);
-    //                    };
-    //                    reader.readAsDataURL(this.files[0]);
-    //                }
-    //            })
-
-    //            function loadphoto() {
-    //                var box = $(".avatar-image")[0];
-    //                var box2 = $("#get_id");
-
-    //                var userid = box2.data("id");
-
-    //                var formdata = new FormData();
-    //                formdata.append("id", userid);
-    //                var urlphoto = "@Url.Action("Avtphoto")";
-
-                    
-
-    //                $.ajax({
-    //                    data: formdata,
-    //                    cache: false,
-    //                    url: urlphoto,
-    //                    type: "POST",
-    //                    contentType: false,
-    //                    processData: false,
-    //                    success: function (data) {
-    //                        box.html(`<img src="~/ImageUser/` + data.urlavt + `" asp - append - version="true" alt = "" >)`;
-    //                    console.log(`<img src="~/ImageUser/` + data.urlavt + `" asp - append - version="true" alt = "" >)`
-    //                    }
-    //                });
-    //            }
-
-    //            $(document).ready(function () {
-    //                loadphoto();
-    //            })
-    //</script>
 }
 }
 
@@ -128,36 +83,10 @@
             }
         })
 
-        //function loadphoto() {
-        //    var box = $(".avatar-image")[0];
-        //    var box2 = $("#get_id");
-
-        //    var userid = box2.data("id");
-
-        //    var formdata = new FormData();
-        //    formdata.append("id", userid);
-        //    var urlphoto = "@Url.Action("Avtphoto")";
-
-
-
-        //    $.ajax({
-        //        data: formdata,
-        //        cache: false,
-        //        url: urlphoto,
-        //        type: "POST",
-        //        contentType: false,
-        //        processData: false,
-        //        success: function (data) {
-        //            //box.html(`<img src="~/ImageUser/` + data.urlavt + `" asp - append - version="true" alt = "" >`;
-        //          var a= document.getElementById("get_url");
-        //            a.innerHTML = `<img src="~/ImageUser${data.urlavt@HttpContextAccessor.HttpContext.Session.GetString("ADMIN_SESSION_AVATAR")
-        //        }" alt="">`;
-        //        }
-        //    });
-        //}
-
-        //$(document).ready(function () {
-        //    loadphoto();
-        //})
+        $("#save_edit").change(function () {
+            
+        })
     </script>
+
+
 
