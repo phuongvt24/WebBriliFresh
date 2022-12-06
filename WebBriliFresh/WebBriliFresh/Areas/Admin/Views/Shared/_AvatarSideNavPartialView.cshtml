@@ -7,6 +7,6 @@
 @using WebBriliFresh.Common;
 @using WebBriliFresh.Models;
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
-<div class="avatar avatar-image  m-h-10 m-r-15">
+<div class="avatar avatar-image  m-h-10 m-r-15" data-id="" id="get_url">
     <img src="~/ImageUser/@HttpContextAccessor.HttpContext.Session.GetString("ADMIN_SESSION_AVATAR")" asp-append-version="true" alt="">
 </div>

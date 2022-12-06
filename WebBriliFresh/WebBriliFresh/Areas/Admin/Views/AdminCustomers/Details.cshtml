@@ -14,56 +14,62 @@
     </div>
 </div>
 <h1>Thông tin khách hàng</h1>
-<p class="text-dark font-weight-semibold">Mã khách hàng: @Html.DisplayFor(model => model.CusId)</p>
-
 <div>
-
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Gender)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Gender)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Reward)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Reward.RewardId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.UserId)
-        </dd>
-    </dl>
+    <div class="table-responsive">
+        <table class="product-info-table m-t-20">
+            <tbody>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Mã khách hàng</td>
+                    <td>@Html.DisplayFor(model => model.CusId)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Họ và tên</td>
+                    <td>@Html.DisplayFor(model => model.LastName) @Html.DisplayFor(model => model.FirstName)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Giới tính</td>
+                    @if (Model.Gender == 1)
+                    {
+                        <td>Nam</td>
+                    }
+                    else if (Model.Gender == 1)
+                    {
+                        <td>Nữ</td>
+                    }
+                    else
+                    {
+                        <td>khác</td>
+                    }
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Số điện thoại</td>
+                    <td>@Html.DisplayFor(model => model.Phone)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Email</td>
+                    <td>@Html.DisplayFor(model => model.Email)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Loại khách hàng</td>
+                    @if (Model.Reward.CusType == 1)
+                    {
+                        <td class="main">Vàng</td>
+                    }
+                    else if (Model.Reward.CusType == 2)
+                    {
+                        <td class="main">Bạc</td>
+                    }
+                    else
+                    {
+                        <td class="main">Đồng</td>
+                    }
+                    
+                </tr>
+              
+            </tbody>
+        </table>
+    </div>
 </div>
 <div>
-    <a asp-action="Index">Quay lại danh sách</a>
+    <a asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
 </div>

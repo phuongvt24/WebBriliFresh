@@ -6,6 +6,7 @@ using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 using WebBriliFresh.Models;
 using static WebBriliFresh.Areas.Admin.Controllers.AdminEmployeesController;
@@ -194,5 +195,30 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         {
           return _context.Users.Any(e => e.UserId == id);
         }
+        [HttpPost]
+        public IActionResult Avtphoto(int id)
+        {
+            var avt = _context.Users.Where(x => x.UserId == id).Select(p => p.Avatar).FirstOrDefault();
+            if (avt == null)
+            {
+                return Json(
+                    new
+                    {
+                        success = 0,
+                        message = "Không thấy ảnh sản phẩm"
+
+                    }
+               );
+            }
+
+            var photo = "/" + avt;
+            return Json(new
+            {
+                success = 1,
+                urlavt = photo
+
+            });
+        }
+        
     }
 }
