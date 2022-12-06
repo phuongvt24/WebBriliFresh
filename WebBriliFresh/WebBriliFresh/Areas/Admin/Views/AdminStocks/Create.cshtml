@@ -22,56 +22,25 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="StoreId" class="control-label">ID cửa hàng</label>
-                <select id="store_id" asp-for="StoreId" class="form-control" asp-items="ViewBag.StoreId" required>
+                <select id="store" asp-for="StoreId" class ="form-control" asp-items="ViewBag.StoreId">
                     <option value="" selected>Chọn mã cửa hàng</option>
                 </select>
-                <span class="text-danger" id="store-message" style="display:none">Vui lòng chọn Mã cửa hàng!</span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Địa chỉ</label>
-                <select id="specificAddress" class="form-control" asp-items="ViewBag.SpecificAddress" disabled>
-                    <option value="" selected></option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Phường/Xã</label>
-                <select id="ward" class="form-control" asp-items="ViewBag.Ward" disabled>
-                    <option value="" selected></option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Quận/Huyện</label>
-                <select id="district" class="form-control" asp-items="ViewBag.District" disabled>
-                    <option value="" selected></option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Tỉnh/Thành</label>
-                <select id="city" class="form-control" asp-items="ViewBag.City" disabled>
-                    <option value="" selected></option>
-                </select>
+                <span asp-validation-for="StoreId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ProId" class="control-label">ID sản phẩm</label>
-                <select id="pro_id" asp-for="ProId" class="form-control" asp-items="ViewBag.ProId" required>
+                <select asp-for="ProId" class ="form-control" asp-items="ViewBag.ProId">
                     <option value="" selected>Chọn mã sản phẩm</option>
                 </select>
-                <span class="text-danger" id="pro-message" style="display:none">Vui lòng chọn Mã sản phẩm!</span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Tên sản phẩm</label>
-                <select id="proName" asp-for="ProId" class="form-control" asp-items="ViewBag.ProName" disabled>
-                    <option value="" selected></option>
-                </select>
+                <span asp-validation-for="ProId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Quantity" class="control-label">Số lượng</label>
-                <input id="quantity" asp-for="Quantity" class="form-control" placeholder="Nhập số lượng sản phẩm" required />
-                <span class="text-danger" id="quantity-message" style="display:none">Vui lòng nhập Số lượng!</span>
-                <span class="text-danger" id="quantity-message1" style="display:none">Số lượng sản phẩm không thể âm!</span>
+                <input asp-for="Quantity" class="form-control" placeholder="Nhập số lượng sản phẩm" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input id="create-btn" type="submit" value="Thêm mới" class="btn btn-primary" />
+                <input type="submit" value="Thêm mới" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -82,46 +51,11 @@
 </div>
 
 <script>
+
     $(document).ready(function () {
         var path = location.pathname;
         path = path.replace('/Admin/AdminStocks/Create/', '');
-        $('#store_id option[value=' + path + ']').attr('selected', true);
-    })
-
-    $("#create-btn").click(function (e) {
-        if ($("#store_id").is(':invalid')) {
-            $("#store-message").show();
-        }
-        if ($("#pro_id").is(':invalid')) {
-            $("#pro-message").show();
-        }
-        if ($("#quantity").is(':invalid')) {
-            $("#quantity-message").show();
-        }
-        if ($("#quantity").val() < 0) {
-            e.preventDefault();
-            $("#quantity-message1").show();
-
-        }
-
-    })
-    //Bỏ thông báo yêu cầu chọn/nhập
-    $("#store_id").change(function () {
-        $("#store-message").hide();
-        var $storeId = $(this).val();
-        $("#specificAddress option[value='"+ $storeId + "']").prop('selected', true);
-        $("#ward option[value='" + $storeId + "']").prop('selected', true);
-        $("#district option[value='" + $storeId + "']").prop('selected', true);
-        $("#city option[value='" + $storeId + "']").prop('selected', true);
-    })
-    $("#pro_id").change(function () {
-        $("#pro-message").hide();
-        var $proId = $(this).val();
-        $("#proName option[value='" + $proId + "']").prop('selected', true);
-    })
-    $("#quantity").keyup(function () {
-        $("#quantity-message").hide();
-        $("#quantity-message1").hide();
+        $('#store option[value=' + path + ']').attr('selected', true);
     })
 
 </script>

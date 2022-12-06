@@ -59,12 +59,14 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         public IActionResult Create(int? id)
         {
             ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "StoreId");
+<<<<<<< HEAD
+=======
             ViewData["SpecificAddress"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "SpecificAddress");
             ViewData["Ward"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "Ward");
             ViewData["District"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "District");
             ViewData["City"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "City");
+>>>>>>> origin/new_develop
             ViewData["ProId"] = new SelectList(_context.Products.Where(x => x.IsDeleted == 0), "ProId", "ProId");
-            ViewData["ProName"] = new SelectList(_context.Products.Where(x => x.IsDeleted == 0), "ProId", "ProName");
             return View();
         }
 
@@ -111,10 +113,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var stock = await _context.Stocks
-                .Include(s => s.Pro)
-                .Include(s => s.Store)
-                .FirstOrDefaultAsync(m => m.StoreId == id && m.ProId == id1);
+            var stock = await _context.Stocks.FindAsync(new object[] { id, id1 });
             if (stock == null)
             {
                 return NotFound();
@@ -136,7 +135,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            if (stock.Quantity != null && stock.Quantity >= 0)
+            if (stock.Pro == null && stock.Store == null && stock.Quantity != null && stock.Quantity >= 0)
             {
                 try
                 {

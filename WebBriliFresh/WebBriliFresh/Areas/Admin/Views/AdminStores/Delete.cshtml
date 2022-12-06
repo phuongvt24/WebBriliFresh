@@ -18,36 +18,31 @@
 <h3>Bạn có chắc muốn xóa cửa hàng?</h3>
 <div>
     <hr />
+    <h4>ID: @Html.DisplayFor(model => model.StoreId)</h4>
     <dl class="row">
-        <dt class="col-sm-2">
-            ID
+        <dt class = "col-sm-2">
+            Tỉnh/Thành
         </dt>
-        <dd class="col-sm-10">
-            <h3> @Html.DisplayFor(model => model.StoreId)</h3>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.City)
+        </dd>
+        <dt class = "col-sm-2">
+            Quận/Huyện
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.District)
+        </dd>
+        <dt class = "col-sm-2">
+            Phường/Xã
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Ward)
         </dd>
         <dt class = "col-sm-2">
             Địa chỉ
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.SpecificAddress)
-        </dd>
-        <dt class="col-sm-2">
-            Phường/Xã
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Ward)
-        </dd>
-        <dt class="col-sm-2">
-            Quận/Huyện
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.District)
-        </dd>
-        <dt class="col-sm-2">
-            Tỉnh/Thành
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.City)
         </dd>
     </dl>
     

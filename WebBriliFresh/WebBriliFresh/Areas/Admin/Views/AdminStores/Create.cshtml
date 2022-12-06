@@ -27,7 +27,7 @@
                 <select id="city" class="form-control" required>
                     <option value="" selected>Chọn Tỉnh/Thành</option>
                 </select>
-                <span class="text-danger" id="city-message" style="display:none">Vui lòng chọn Tỉnh/Thành!</span>
+                <span asp-validation-for="City" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="District" class="control-label">Quận/Huyện</label>
@@ -35,7 +35,7 @@
                 <select id="district" class="form-control" required>
                     <option value="" selected>Chọn Quận/Huyện</option>
                 </select>
-                <span class="text-danger" id="district-message" style="display:none">Vui lòng chọn Quận/Huyện!</span>
+                <span asp-validation-for="District" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Ward" class="control-label">Phường/Xã</label>
@@ -43,7 +43,7 @@
                 <select id="ward" class="form-control" required>
                     <option value="" selected>Chọn Phường/Xã</option>
                 </select>
-                <span class="text-danger" id="ward-message" style="display:none">Vui lòng chọn Phường/Xã!</span>
+                <span asp-validation-for="Ward" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SpecificAddress" class="control-label">Địa chỉ</label>
@@ -105,6 +105,15 @@
             };
         }
         
+<<<<<<< HEAD
+        $("#create-btn").click(function () {
+            var city = $("#city").find("option:selected").text();
+            $("#selected_city").val(city);
+            var district = $("#district").find("option:selected").text();
+            $("#selected_district").val(district);
+            var ward = $("#ward").find("option:selected").text();
+            $("#selected_ward").val(ward);
+=======
         $("#create-btn").click(function (e) {
             var isFullFill = 1;
             if ($("#city").is(':invalid')) {
@@ -130,16 +139,7 @@
                 var ward = $("#ward").find("option:selected").text();
                 $("#selected_ward").val(ward);
             }
-        })
-        //Bỏ thông báo yêu cầu chọn
-        $("#city").change(function () {
-            $("#city-message").hide();
-        })
-        $("#district").change(function () {
-            $("#district-message").hide();
-        })
-        $("#ward").change(function () {
-            $("#ward-message").hide();
+>>>>>>> origin/new_develop
         })
         
     })
