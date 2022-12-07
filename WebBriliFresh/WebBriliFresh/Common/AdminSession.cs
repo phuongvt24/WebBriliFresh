@@ -6,6 +6,5 @@
         public static string ADMIN_SESSION_EMPID="" ;
         public static string ADMIN_SESSION_FIRSTNAME = "";
         public static string ADMIN_SESSION_LASTNAME = "";
-
     }
 }
