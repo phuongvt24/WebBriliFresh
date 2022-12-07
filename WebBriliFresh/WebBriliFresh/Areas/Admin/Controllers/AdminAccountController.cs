@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 using WebBriliFresh.Models;
+using static WebBriliFresh.Areas.Admin.Controllers.AdminEmployeesController;
+
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
@@ -82,14 +84,13 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            
+
             var user = await _context.Users.FindAsync(id);
-            var user2 = _context.Users.Include(x => x.Employees).Where(s => s.IsDeleted == 0).ToListAsync();
-            if (user2 == null)
+            if (user == null)
             {
                 return NotFound();
             }
-            return View(user2);
+            return View(user);
         }
 
         // POST: Admin/AdminAccount/Edit/5
@@ -157,8 +158,9 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users
+            var user = await _context.Users.Include(x=>x.Employees)
                 .FirstOrDefaultAsync(m => m.UserId == id);
+
             if (user == null)
             {
                 return NotFound();
