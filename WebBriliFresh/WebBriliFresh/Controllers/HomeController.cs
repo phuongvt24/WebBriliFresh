@@ -5,7 +5,7 @@ using WebBriliFresh.Models;
 
 namespace WebBriliFresh.Controllers
 {
-    [Authorize(Policy = "AdminOnly")]
+    [Authorize(Policy = "CustomerOnly")]
 
     public class HomeController : Controller
     {
