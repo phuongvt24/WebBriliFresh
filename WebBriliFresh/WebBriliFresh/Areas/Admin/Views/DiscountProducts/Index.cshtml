@@ -1,15 +1,15 @@
-﻿@model IEnumerable<WebBriliFresh.Models.DiscountOrder>
+﻿@model IEnumerable<WebBriliFresh.Models.DiscountProduct>
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
+
 <div class="page-header">
     <h2 class="header-title">Danh sách khuyến mãi</h2>
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
             <a asp-area="Admin" asp-controller="Home" asp-action="index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
-            <span class="breadcrumb-item active">Khuyến Mãi Hóa Đơn</span>
+            <span class="breadcrumb-item active">Khuyến Mãi Sản Phẩm</span>
         </nav>
     </div>
 </div>
@@ -37,9 +37,9 @@
                 </div>
             </div>
             <div class="col-lg-4 text-right">
-                <a asp-area="Admin" asp-controller="DiscountOrders" asp-action="Create" class="btn btn-primary">
+                <a asp-area="Admin" asp-controller="DiscountProducts" asp-action="Create" class="btn btn-primary">
                     <i class="anticon anticon-plus-circle m-r-5"></i>
-                    <span>Tạo Mã</span>
+                    <span>Tạo Khuyến Mãi</span>
                 </a>
             </div>
         </div>
@@ -54,27 +54,20 @@
                             </div>
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.DisCode)
+                            @Html.DisplayNameFor(model => model.Pro.ProName)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.DisRate)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.MaxDis)
+                            @Html.DisplayNameFor(model => model.Value)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.StartDate)
-
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.EndDate)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.CusType)
-                        </th>
-                        <th>
                             @Html.DisplayNameFor(model => model.Status)
-                        </th>
+                        </th>                        
                         <th></th>
                     </tr>
                 </thead>
@@ -82,24 +75,12 @@
                     @foreach (var item in Model)
                     {
                         <tr>
+                            <td></td>
                             <td>
-                                <div class="checkbox">
-                                    <input id="check-item-1" type="checkbox">
-                                    <label for="check-item-1" class="m-b-0"></label>
-                                </div>
+                                @Html.DisplayFor(modelItem => item.Pro.ProName)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.DisCode)
-                            </td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <h6 class="m-b-0 m-l-10">
-                                        @Html.DisplayFor(modelItem => item.DisRate)
-                                    </h6>
-                                </div>
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.MaxDis)
+                                @Html.DisplayFor(modelItem => item.Value)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.StartDate)
@@ -107,30 +88,29 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.EndDate)
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CusType)
-                            </td>
-                            @if(item.Status == false){
+                            @if (item.Status == false)
+                            {
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <div class="badge badge-success badge-dot m-r-10"></div>
-                                        <div>Chưa Sử Dụng</div>
-                                    </div>
-                                </td>
-                            }else{
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="badge badge-danger badge-dot m-r-10"></div>
-                                        <div>Đã Sử Dụng</div>
+                                        <div>Hoạt Động</div>
                                     </div>
                                 </td>
                             }
-                      
+                            else
+                            {
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="badge badge-danger badge-dot m-r-10"></div>
+                                        <div>Không hoạt động</div>
+                                    </div>
+                                </td>
+                            }
                             <td class="text-right">
-                                <a asp-area="Admin" asp-controller="DiscountOrders" asp-action="Edit" asp-route-id="@item.DisId" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                <a asp-area="Admin" asp-controller="DiscountProducts" asp-action="Edit" asp-route-id="@item.DisId" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
                                     <i class="anticon anticon-edit"></i>
                                 </a>
-                                <a asp-area="Admin" asp-controller="DiscountOrders" asp-action="Delete" asp-route-id="@item.DisId" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                <a asp-area="Admin" asp-controller="DiscountProducts" asp-action="Delete" asp-route-id="@item.DisId" class="btn btn-icon btn-hover btn-sm btn-rounded">
                                     <i class="anticon anticon-delete"></i>
                                 </a>
                             </td>
@@ -141,3 +121,4 @@
         </div>
     </div>
 </div>
+

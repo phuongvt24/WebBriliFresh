@@ -40,3 +40,20 @@
 <div>
     <a asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
 </div>
+<script>
+    $("#save-btn").click(function (e) {
+            if ($("#quantity").is(':invalid')) {
+                $("#quantity-message").show();
+            }
+            if ($("#quantity").val() < 0) {
+                e.preventDefault();
+                $("#quantity-message1").show();
+            }
+
+        })
+        //Bỏ thông báo yêu cầu chọn/nhập
+        $("#quantity").keyup(function(){
+            $("#quantity-message").hide();
+            $("#quantity-message1").hide();
+        })
+</script>
