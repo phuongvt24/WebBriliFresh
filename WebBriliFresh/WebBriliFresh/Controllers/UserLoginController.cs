@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Project;
-using WebBriliFresh.Areas.Admin.Models;
 using WebBriliFresh.Models;
 using WebBriliFresh.Common;
 using WebBriliFresh.Models.DAO;
@@ -12,7 +11,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 
 namespace WebBriliFresh.Controllers
-{    public class UserLoginController : Controller
+{
+    public class UserLoginController : Controller
     {
         public IActionResult Index()
         {
@@ -26,6 +26,8 @@ namespace WebBriliFresh.Controllers
             //Redirect to home page    
             return LocalRedirect("/");
         }
+
+
         [HttpPost]
         public async Task<IActionResult> LoginAsync(LoginModel model)
         {
@@ -55,7 +57,7 @@ namespace WebBriliFresh.Controllers
                         var authProperties = new AuthenticationProperties
                         {
                             AllowRefresh = true,
-                            IsPersistent = true,
+                            IsPersistent = false,
 
                         };
                         await HttpContext.SignInAsync(

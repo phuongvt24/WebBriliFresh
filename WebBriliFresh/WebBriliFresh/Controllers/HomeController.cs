@@ -5,8 +5,6 @@ using WebBriliFresh.Models;
 
 namespace WebBriliFresh.Controllers
 {
-    [Authorize(Policy = "CustomerOnly")]
-
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -16,11 +14,13 @@ namespace WebBriliFresh.Controllers
             _logger = logger;
         }
 
+
         public IActionResult Index()
         {
             return View();
         }
 
+        [Authorize(Policy = "CustomerOnly")]
         public IActionResult Privacy()
         {
             return View();
