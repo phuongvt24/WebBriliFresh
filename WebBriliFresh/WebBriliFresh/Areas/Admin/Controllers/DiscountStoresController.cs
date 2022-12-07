@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebBriliFresh.Models;
+using static WebBriliFresh.Areas.Admin.Controllers.AdminEmployeesController;
 
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
@@ -48,6 +49,20 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/DiscountStores/Create
         public IActionResult Create()
         {
+            List<string> cityList = _context.Stores.Select(x => x.City).ToList();
+            List<string> districtList = _context.Stores.Select(x => x.District).ToList();
+            List<string> wardList = _context.Stores.Select(x => x.Ward).ToList();
+
+            List<int> storeIDList = _context.Stores.Select(x => x.StoreId).ToList();
+
+            List<AddressStore> addressList = new List<AddressStore>();
+
+
+            for (int i = 0; i < cityList.Count; i++)
+            {
+                addressList.Add(new AddressStore(storeIDList[i], storeIDList[i] + ". " + wardList[i] + ", " + districtList[i] + ", " + cityList[i]));
+            }
+            ViewData["AddressStore"] = new SelectList(addressList, "id", "address");
             ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "City");
             return View();
         }
@@ -65,6 +80,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            
             ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "City", discountStore.StoreId);
             return View(discountStore);
         }

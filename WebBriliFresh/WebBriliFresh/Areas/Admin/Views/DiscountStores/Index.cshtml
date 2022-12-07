@@ -48,10 +48,7 @@
                 <thead>
                     <tr>
                         <th>
-                            <div class="checkbox">
-                                <input id="checkAll" type="checkbox">
-                                <label for="checkAll" class="m-b-0"></label>
-                            </div>
+                            @Html.DisplayNameFor(model => model.DisId)
                         </th>
                         <th>
                             Tên cửa hàng
@@ -76,10 +73,12 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td></td>
                             <td>
-                                <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.Store.SpecificAddress)</h6>
-                                <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.Store.Ward)</h6>
+                                @Html.DisplayFor(modelItem => item.DisId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Store.SpecificAddress)
+                                @Html.DisplayFor(modelItem => item.Store.Ward)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Value)

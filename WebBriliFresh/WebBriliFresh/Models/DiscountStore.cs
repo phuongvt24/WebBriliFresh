@@ -8,6 +8,7 @@ namespace WebBriliFresh.Models;
 
 public partial class DiscountStore
 {
+    [DisplayName("ID")]
     public int DisId { get; set; }
 
     [Required(ErrorMessage = "Vui lòng điền đầy đủ thông tin")]
@@ -31,7 +32,7 @@ public partial class DiscountStore
 
     [DisplayName("Trạng thái")]
     [Required(ErrorMessage = "Vui lòng điền đầy đủ thông tin")]
-    public bool? Status { get; set; }
+    public bool? Status { get; set; } = false;
 
     public virtual Store? Store { get; set; }
 }
