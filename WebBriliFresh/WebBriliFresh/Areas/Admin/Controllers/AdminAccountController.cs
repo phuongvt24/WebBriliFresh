@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 using WebBriliFresh.Models;
-using static WebBriliFresh.Areas.Admin.Controllers.AdminEmployeesController;
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
