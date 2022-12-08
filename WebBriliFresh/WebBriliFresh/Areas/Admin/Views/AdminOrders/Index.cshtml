@@ -1,0 +1,151 @@
+﻿@model IEnumerable<WebBriliFresh.Models.Order>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <span class="breadcrumb-item">Quản lý đơn hàng</span>
+            <span class="breadcrumb-item active">Quản lý hóa đơn</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row m-b-30">
+            <div class="col-lg-8">
+                <h2>DANH SÁCH HÓA ĐƠN</h2>
+                <hr />
+                <div class="d-md-flex">
+                    <div class="m-b-10 m-r-15">
+                        <b>Mã cửa hàng</b>
+                        <select id="store" class="form-control" asp-items="ViewBag.StoreId" >
+                            <option value="" selected>Tất cả</option>
+                        </select>
+                    </div>
+                    <div class="m-b-10 m-r-15" style="margin-left: 12px">
+                        <b>Trạng thái thanh toán</b>
+                        <select id="paymentStatus" class="form-control">
+                            <option value="" selected>Tất cả</option>
+                            <option value="Chưa thanh toán">Chưa thanh toán</option>
+                            <option value="Đã thanh toán">Đã thanh toán</option>
+                        </select>
+                    </div>
+                    <div class="m-b-10 m-r-15" style="margin-left: 12px">
+                        <b>Trạng thái hóa đơn</b>
+                        <select id="status" class="form-control">
+                            <option value="">Tất cả</option>
+                            <option value="Đang xử lý">Đang xử lý</option>
+                            <option value="Thành công">Thành công</option>
+                            <option value="Thất bại">Thất bại</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="float: right;">
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover e-commerce-table">
+                <thead>
+                    <tr>
+                        <th>Mã hóa đơn</th>
+                        <th>Mã cửa hàng</th>
+                        <th>Tổng tiền</th>
+                        <th>Thanh toán</th>
+                        <th>Trạng thái</th>
+                        <th>Thời gian</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr class="rowitem">
+                                <td>@Html.DisplayFor(modelItem => item.OrderId)</td>
+                                <td><span class="storeId">@Html.DisplayFor(modelItem => item.StoreId)</span></td>
+                                <td>
+                                    <input type="hidden" class="orderTotal" value="@Html.DisplayFor(modelItem => item.OrderTotalString)" />
+                                    <span class="main">
+                                    </span>
+                                </td>
+                                <td>
+                                @if (@item.Status == 0) {
+                                        <div class="paymentStatus">Chưa thanh toán</div>
+                                }
+                                else {
+                                        <div class="paymentStatus">Đã thanh toán </div>
+                                }
+                                </td>
+                                <td>
+                                @if (@item.Trans.Status == 1 || @item.Trans.Status == 2 || @item.Trans.Status == 3 || @item.Trans.Status == 4)
+                                {
+                                    <div class="d-flex align-items-center">
+                                        <div style="background-color: yellow" class="badge badge-success badge-dot m-r-10"></div>
+                                            <div class="status">Đang xử lý</div>
+                                    </div>
+                                }
+                                else if (@item.Trans.Status == 5) {
+                                    <div class="d-flex align-items-center">
+                                        <div class="badge badge-success badge-dot m-r-10"></div>
+                                        <div class="status">Thành công</div>
+                                    </div>
+                                }
+                                else {
+                                    <div class="d-flex align-items-center">
+                                            <div class="badge badge-danger badge-dot m-r-10"></div>
+                                            <div class="status">Thất bại</div>
+                                    </div>
+                                }
+
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.OrderDate)</td>
+
+                                <td class="text-left">
+                                    <a asp-controller="AdminOrders" asp-action="Edit" asp-route-id="@item.OrderId" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                        <i class="anticon anticon-edit"></i>
+                                    </a>
+                                    <a asp-controller="AdminOrders" asp-action="Delete" asp-route-id="@item.OrderId" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                        <i class="anticon anticon-delete"></i>
+                                    </a>
+                                    <a style="display: block" asp-controller="AdminOrders" asp-action="Details" asp-route-id="@item.OrderId">
+                                        Xem chi tiết
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    for (var i = 0; i < $(".orderTotal").length; i++) {
+        var a = $(".orderTotal")[i].value;
+        a = a.replace('.00', '');
+        $(".main")[i].innerHTML = a;
+    }
+    $('#store, #paymentStatus, #status').change(function(){
+        var a = $('#store').val();
+        var b = $('#paymentStatus').val();
+        var c = $('#status').val();
+        $(".rowitem").show();
+        for (var i = 0; i < $(".storeId").length; i++) {
+            var d = $(".storeId")[i].innerText;
+            var e = $(".paymentStatus")[i].innerText;
+            var f = $(".status")[i].innerText;
+            if (((a != d) && (a != "")) || ((b != e) && (b!= "")) || ((c != f) && (c != ""))) {
+                $(".rowitem")[i].style.display = 'none';
+            }
+        }
+    })
+</script>
