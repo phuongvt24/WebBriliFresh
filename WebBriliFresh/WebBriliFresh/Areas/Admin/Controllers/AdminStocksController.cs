@@ -17,21 +17,11 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         }
 
         // GET: Admin/AdminStocks
-        public async Task<IActionResult> Index(int? id)
+        public async Task<IActionResult> Index()
         {
-            if (id == null)
-            {
-                ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "StoreId");
-                var briliFreshDbContext = _context.Stocks.Include(s => s.Pro).Where(s => s.Pro.IsDeleted == 0).Include(s => s.Store).Where(s => s.Store.IsDeleted == 0); ; ;
-                return View(await briliFreshDbContext.ToListAsync());
-            }
-            else
-            {
-                ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "StoreId");
-                var briliFreshDbContext = _context.Stocks.Include(s => s.Pro).Where(s => s.Pro.IsDeleted == 0).Include(s => s.Store).Where(s => s.Store.IsDeleted == 0 && s.Store.StoreId == id); ; ;
-                return View(await briliFreshDbContext.ToListAsync());
-            }
-            
+            ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "StoreId");
+            var briliFreshDbContext = _context.Stocks.Include(s => s.Pro).Where(s => s.Pro.IsDeleted == 0).Include(s => s.Store).Where(s => s.Store.IsDeleted == 0); 
+            return View(await briliFreshDbContext.ToListAsync());
         }
 
         // GET: Admin/AdminStocks/Details/5
