@@ -32,7 +32,7 @@ public partial class DiscountStore
 
     [DisplayName("Trạng thái")]
     [Required(ErrorMessage = "Vui lòng điền đầy đủ thông tin")]
-    public bool? Status { get; set; } = false;
+    public bool? Status { get; set; } = true;
 
     public virtual Store? Store { get; set; }
 }
