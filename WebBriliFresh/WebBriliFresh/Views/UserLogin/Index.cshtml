@@ -5,7 +5,7 @@
     Layout = null;
 }
 
-@model WebBriliFresh.Areas.Admin.Models.LoginModel;
+@model LoginModel;
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,7 +35,7 @@
                                         <img class="img-fluid" alt="" src="~/adminassets/images/logo/logo.png">
                                         <h2 class="m-b-0">Sign In</h2>
                                     </div>
-                                    @using (Html.BeginForm("Login", "AdminLogin", FormMethod.Post))
+                                    @using (Html.BeginForm("Login", "UserLogin", FormMethod.Post))
                                     {
                                         @Html.ValidationSummary(false,"",new{@class="text-danger"})
                                         <div class="form-group">

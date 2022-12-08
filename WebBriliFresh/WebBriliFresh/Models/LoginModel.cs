@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebBriliFresh.Areas.Admin.Models
+namespace WebBriliFresh.Models
 {
     public class LoginModel
     {
@@ -8,6 +8,6 @@ namespace WebBriliFresh.Areas.Admin.Models
         public string UserName { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập mật khẩu")]
         public string PassWord { get; set; }
-        
+
     }
 }
