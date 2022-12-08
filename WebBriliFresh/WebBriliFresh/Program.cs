@@ -28,7 +28,7 @@ builder.Services.AddAuthentication(options =>
 
 }).AddCookie(options =>
 {
-    options.LoginPath = "/Admin/AdminLogin";
+    options.LoginPath = "/UserLogin";
     options.LogoutPath = "/Home/Index";
     options.ExpireTimeSpan = TimeSpan.FromMinutes(5000);
 });
@@ -36,6 +36,8 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminOnly", policy => policy.RequireClaim("Admin"));
+    options.AddPolicy("CustomerOnly", policy => policy.RequireClaim("Customer"));
+
 });
 
 
