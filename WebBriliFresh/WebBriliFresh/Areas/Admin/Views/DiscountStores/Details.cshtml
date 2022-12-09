@@ -46,11 +46,15 @@
                     <td class="text-dark font-weight-semibold">@Html.DisplayNameFor(model => model.Status)</td>
                     @if (Model.Status == true)
                     {
-                        <td>Hoạt động</td>
+                        <td>
+                            <span class="badge badge-pill badge-green">Hoạt động</span>
+                        </td>
                     }
                     else
                     {
-                        <td>Không hoạt động</td>
+                        <td>
+                            <span class="badge badge-pill badge-red">Không hoạt động</span>
+                        </td>
                     }
                 </tr>
             </tbody>

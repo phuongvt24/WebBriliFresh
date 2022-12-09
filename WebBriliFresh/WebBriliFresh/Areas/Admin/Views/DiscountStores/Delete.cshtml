@@ -4,13 +4,29 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Xóa</h1>
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Quản lý khuyến mãi</a>
+            <a asp-action="Index" class="breadcrumb-item">Khuyến mãi theo cửa hàng</a>
+            <span class="breadcrumb-item active">Xóa</span>
+        </nav>
+    </div>
+</div>
 
-<h3>Bạn có chắc chắn muốn xóa?</h3>
+<h1>Xóa Khuyến Mãi</h1>
+<h3>Bạn có chắc chắn muốn xóa khuyến mãi này?</h3>
 <div>
-    <h4>GIẢM GIÁ CỬA HÀNG</h4>
     <hr />
     <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DisId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DisId)
+        </dd>
         <dt class="col-sm-2">
             Cửa hàng
         </dt>
@@ -40,17 +56,21 @@
         </dt>
         @if (Model.Status == true)
         {
-            <dd class="col-sm-10">Hoạt động</dd>
+            <dd class="col-sm-10">
+                <span class="badge badge-pill badge-green">Hoạt động</span>
+            </dd>
         }
         else
         {
-            <dd class="col-sm-10">Không hoạt động</dd>
+            <dd class="col-sm-10">
+                <span class="badge badge-pill badge-red">Không hoạt động</span>
+            </dd>
         }
     </dl>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="DisId" />
-        <input type="submit" value="Xóa" class="btn btn-danger" /> |
-        <a style="margin-left:20px;" asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
+        <input type="submit" value="Xóa" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
     </form>
 </div>
