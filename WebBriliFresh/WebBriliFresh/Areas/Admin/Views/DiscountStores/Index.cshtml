@@ -115,6 +115,9 @@
                                 <a asp-area="Admin" asp-controller="DiscountStores" asp-action="Delete" asp-route-id="@item.DisId" class="btn btn-icon btn-hover btn-sm btn-rounded">
                                     <i class="anticon anticon-delete"></i>
                                 </a>
+                                <a style="padding: 12px 20px;" asp-controller="DiscountStores" asp-action="Details" asp-route-id="@item.DisId">
+                                    Xem chi tiết
+                                </a>
                             </td>
                         </tr>
                     }
