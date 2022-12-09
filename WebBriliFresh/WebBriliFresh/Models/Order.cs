@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebBriliFresh.Models;
 
@@ -16,12 +17,14 @@ public partial class Order
     public int? StoreId { get; set; }
 
     public int? CusId { get; set; }
-
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
     public DateTime? OrderDate { get; set; }
 
     public decimal? SubTotal { get; set; }
 
     public decimal? OrderTotal { get; set; }
+    public string OrderTotalString => $"{OrderTotal:N}";
 
     public string? PayBy { get; set; }
 

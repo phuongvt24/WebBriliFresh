@@ -1,0 +1,187 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using WebBriliFresh.Models;
+
+namespace WebBriliFresh.Areas.Admin.Controllers
+{
+    [Area("Admin")]
+    public class AdminOrdersController : Controller
+    {
+        private readonly BriliFreshDbContext _context;
+
+        public AdminOrdersController(BriliFreshDbContext context)
+        {
+            _context = context;
+        }
+
+        // GET: Admin/AdminOrders
+        public async Task<IActionResult> Index()
+        {
+            ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "StoreId");
+            var briliFreshDbContext = _context.Orders.Include(o => o.Add).Include(o => o.Dis).Include(o => o.Store).Include(o => o.Trans).Where(o => o.Store.IsDeleted == 0); ;
+            return View(await briliFreshDbContext.ToListAsync());
+        }
+
+        // GET: Admin/AdminOrders/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null || _context.Orders == null)
+            {
+                return NotFound();
+            }
+
+            var order = await _context.Orders
+                .Include(o => o.Add)
+                .Include(o => o.Dis)
+                .Include(o => o.Store)
+                .Include(o => o.Trans)
+                .FirstOrDefaultAsync(m => m.OrderId == id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            return View(order);
+        }
+
+        // GET: Admin/AdminOrders/Create
+        public IActionResult Create()
+        {
+            ViewData["AddId"] = new SelectList(_context.Addresses, "AddId", "AddId");
+            ViewData["DisId"] = new SelectList(_context.DiscountOrders, "DisId", "DisCode");
+            ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "City");
+            ViewData["TransId"] = new SelectList(_context.Transports, "TransId", "TransId");
+            return View();
+        }
+
+        // POST: Admin/AdminOrders/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("OrderId,AddId,TransId,DisId,StoreId,OrderDate,SubTotal,OrderTotal,PayBy,Status")] Order order)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(order);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["AddId"] = new SelectList(_context.Addresses, "AddId", "AddId", order.AddId);
+            ViewData["DisId"] = new SelectList(_context.DiscountOrders, "DisId", "DisCode", order.DisId);
+            ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "City", order.StoreId);
+            ViewData["TransId"] = new SelectList(_context.Transports, "TransId", "TransId", order.TransId);
+            return View(order);
+        }
+
+        // GET: Admin/AdminOrders/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null || _context.Orders == null)
+            {
+                return NotFound();
+            }
+
+            var order = await _context.Orders.FindAsync(id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            ViewData["AddId"] = new SelectList(_context.Addresses, "AddId", "AddId", order.AddId);
+            ViewData["DisId"] = new SelectList(_context.DiscountOrders, "DisId", "DisCode", order.DisId);
+            ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "City", order.StoreId);
+            ViewData["TransId"] = new SelectList(_context.Transports, "TransId", "TransId", order.TransId);
+            return View(order);
+        }
+
+        // POST: Admin/AdminOrders/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("OrderId,AddId,TransId,DisId,StoreId,OrderDate,SubTotal,OrderTotal,PayBy,Status")] Order order)
+        {
+            if (id != order.OrderId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(order);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!OrderExists(order.OrderId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["AddId"] = new SelectList(_context.Addresses, "AddId", "AddId", order.AddId);
+            ViewData["DisId"] = new SelectList(_context.DiscountOrders, "DisId", "DisCode", order.DisId);
+            ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "City", order.StoreId);
+            ViewData["TransId"] = new SelectList(_context.Transports, "TransId", "TransId", order.TransId);
+            return View(order);
+        }
+
+        // GET: Admin/AdminOrders/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || _context.Orders == null)
+            {
+                return NotFound();
+            }
+
+            var order = await _context.Orders
+                .Include(o => o.Add)
+                .Include(o => o.Dis)
+                .Include(o => o.Store)
+                .Include(o => o.Trans)
+                .FirstOrDefaultAsync(m => m.OrderId == id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            return View(order);
+        }
+
+        // POST: Admin/AdminOrders/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_context.Orders == null)
+            {
+                return Problem("Entity set 'BriliFreshDbContext.Orders'  is null.");
+            }
+            var order = await _context.Orders.FindAsync(id);
+            if (order != null)
+            {
+                _context.Orders.Remove(order);
+            }
+            
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool OrderExists(int id)
+        {
+          return _context.Orders.Any(e => e.OrderId == id);
+        }
+    }
+}

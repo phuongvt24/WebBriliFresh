@@ -20,6 +20,8 @@ using RequiredAttribute = System.ComponentModel.DataAnnotations.RequiredAttribut
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Policy = "AdminOnly")]
+
     public class AdminProductsController : Controller
     {
         private readonly BriliFreshDbContext _context;
