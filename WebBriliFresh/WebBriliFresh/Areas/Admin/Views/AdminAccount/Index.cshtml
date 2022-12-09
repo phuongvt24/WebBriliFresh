@@ -82,7 +82,7 @@
                             {
                                 a = item.Employees.Where(x => x.UserId == item.UserId).Select(x => x.EmpId).ToList();
 
-                                b = item.Employees.Where(x => x.UserId == item.UserId).Select(x => x.LastName).ToList();
+                                b = item.Employees.Where(x => x.UserId == item.UserId).Select(x => x.LastName + " ").ToList();
 
                                 c = item.Employees.Where(x => x.UserId == item.UserId).Select(x => x.FirstName).ToList();
                             }

@@ -28,7 +28,7 @@ builder.Services.AddAuthentication(options =>
 
 }).AddCookie(options =>
 {
-    options.LoginPath = "/Admin/AdminLogin";
+    options.LoginPath = "/UserLogin";
     options.LogoutPath = "/Home/Index";
     options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
     options.Cookie.MaxAge = options.ExpireTimeSpan; // optional
@@ -38,10 +38,12 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminOnly", policy => policy.RequireClaim("Admin"));
+    options.AddPolicy("CustomerOnly", policy => policy.RequireClaim("Customer"));
+
 });
 
 
-builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
+builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

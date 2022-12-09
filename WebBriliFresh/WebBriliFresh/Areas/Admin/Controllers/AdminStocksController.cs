@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -24,21 +20,11 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         }
 
         // GET: Admin/AdminStocks
-        public async Task<IActionResult> Index(int? id)
+        public async Task<IActionResult> Index()
         {
-            if (id == null)
-            {
-                ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "StoreId");
-                var briliFreshDbContext = _context.Stocks.Include(s => s.Pro).Where(s => s.Pro.IsDeleted == 0).Include(s => s.Store).Where(s => s.Store.IsDeleted == 0); ; ;
-                return View(await briliFreshDbContext.ToListAsync());
-            }
-            else
-            {
-                ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "StoreId");
-                var briliFreshDbContext = _context.Stocks.Include(s => s.Pro).Where(s => s.Pro.IsDeleted == 0).Include(s => s.Store).Where(s => s.Store.IsDeleted == 0 && s.Store.StoreId == id); ; ;
-                return View(await briliFreshDbContext.ToListAsync());
-            }
-            
+            ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "StoreId");
+            var briliFreshDbContext = _context.Stocks.Include(s => s.Pro).Where(s => s.Pro.IsDeleted == 0).Include(s => s.Store).Where(s => s.Store.IsDeleted == 0); 
+            return View(await briliFreshDbContext.ToListAsync());
         }
 
         // GET: Admin/AdminStocks/Details/5
@@ -66,7 +52,12 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         public IActionResult Create(int? id)
         {
             ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "StoreId");
+            ViewData["SpecificAddress"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "SpecificAddress");
+            ViewData["Ward"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "Ward");
+            ViewData["District"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "District");
+            ViewData["City"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "City");
             ViewData["ProId"] = new SelectList(_context.Products.Where(x => x.IsDeleted == 0), "ProId", "ProId");
+            ViewData["ProName"] = new SelectList(_context.Products.Where(x => x.IsDeleted == 0), "ProId", "ProName");
             return View();
         }
 

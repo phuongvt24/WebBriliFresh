@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Project;
-using WebBriliFresh.Areas.Admin.Models;
 using WebBriliFresh.Models;
 using WebBriliFresh.Common;
 using WebBriliFresh.Models.DAO;
@@ -11,10 +10,9 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 
-namespace WebBriliFresh.Areas.Admin.Controllers
+namespace WebBriliFresh.Controllers
 {
-    [Area("Admin")]
-    public class AdminLoginController : Controller
+    public class UserLoginController : Controller
     {
         public IActionResult Index()
         {
@@ -28,27 +26,27 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             //Redirect to home page    
             return LocalRedirect("/");
         }
+
+
         [HttpPost]
-        public async Task<IActionResult> LoginAsync(LoginModel model) {
+        public async Task<IActionResult> LoginAsync(LoginModel model)
+        {
 
             if (ModelState.IsValid)
             {
 
                 if (ModelState.IsValid)
                 {
-                    var dao = new Admin_Dao();
+                    var dao = new UserDAO();
                     var result = dao.Login(model.UserName, model.PassWord);
                     if (result == 1)
                     {
-                        var emp_id = dao.getInfo(model.UserName);
+                        var emp_id = dao.getEmployeeInfo(model.UserName);
                         var session = new AdminLogin();
 
                         session.EmpId = (int)emp_id;
                         session.UserId = dao.getItem(model.UserName).UserId;
                         //HttpContext context = HttpContext.Current;
-                       
-                        
-
                         var claims = new List<Claim>() {
                             new Claim("Admin", "Admin"),
                     };
@@ -59,7 +57,41 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                         var authProperties = new AuthenticationProperties
                         {
                             AllowRefresh = true,
-                            IsPersistent =true,
+                            IsPersistent = false,
+
+                        };
+                        await HttpContext.SignInAsync(
+                             CookieAuthenticationDefaults.AuthenticationScheme,
+                                new ClaimsPrincipal(identity),
+                                authProperties);
+
+                        return RedirectToAction("Index", "Home", new
+                        {
+                            Area = "Admin",
+                            UserID = session.UserId,
+                            EmpID = session.EmpId
+                        });
+
+                    }
+                    else if (result == 3)
+                    {
+                        var cusId = dao.getCustomerInfo(model.UserName);
+                        var session = new CustomerLogin();
+
+                        session.CusId = (int)cusId;
+                        session.UserId = dao.getItem(model.UserName).UserId;
+                        //HttpContext context = HttpContext.Current;
+                        var claims = new List<Claim>() {
+                            new Claim("Customer", "Customer"),
+                    };
+                        //Initialize a new instance of the ClaimsIdentity with the claims and authentication scheme    
+                        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        //Initialize a new instance of the ClaimsPrincipal with ClaimsIdentity    
+                        //var principal = new ClaimsPrincipal(identity);
+                        var authProperties = new AuthenticationProperties
+                        {
+                            AllowRefresh = true,
+                            IsPersistent = false,
 
                         };
                         await HttpContext.SignInAsync(
@@ -70,22 +102,15 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                         return RedirectToAction("Index", "Home", new
                         {
                             UserID = session.UserId,
-                            EmpID = session.EmpId
+                            CusID = session.CusId
                         });
-                        //return RedirectToAction("Index", "Home");
-                        
-                         
-
                     }
-                    else if (result == 0)
+                    else if (result == 2)
                     {
-                        ModelState.AddModelError("", "Tài khoản không phải là tài khoản Admin");
-                    }
-                    else if (result == -1) {
                         ModelState.AddModelError("", "Mật khẩu không đúng, Vui lòng kiểm tra lại.");
 
                     }
-                    else if (result == -2)
+                    else if (result == null)
                     {
                         ModelState.AddModelError("", "Tài khoản không tồn tại");
 

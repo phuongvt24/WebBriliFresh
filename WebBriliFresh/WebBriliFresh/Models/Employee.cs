@@ -19,10 +19,11 @@ public partial class Employee
 
     public int? Gender { get; set; }
 
+    [Required(ErrorMessage = "Chưa chọn Tỉnh/Thành!")]
     public string? City { get; set; }
-
+    [Required(ErrorMessage = "Chưa chọn Quận/Huyện!")]
     public string? District { get; set; }
-
+    [Required(ErrorMessage = "Chưa chọn Phường/Xã!")]
     public string? Ward { get; set; }
 
     public string? SpecificAddress { get; set; }

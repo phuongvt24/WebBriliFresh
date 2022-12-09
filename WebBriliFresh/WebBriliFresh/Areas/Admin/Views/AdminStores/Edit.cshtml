@@ -26,6 +26,10 @@
         </select>
         <span class="text-danger" id="city-message" style="display:none">Vui lòng chọn Tỉnh/Thành!</span>
     </div>
+
+
+
+
     <div class="form-group">
         <label for="district">Quận/Huyện</label>
         <input asp-for="District" id="selected_district" type="hidden" />
@@ -34,6 +38,10 @@
         </select>
         <span class="text-danger" id="district-message" style="display:none">Vui lòng chọn Quận/Huyện!</span>
     </div>
+
+
+
+
     <div class="form-group">
         <label for="ward">Phường/Xã</label>
         <input asp-for="Ward" id="selected_ward" type="hidden" />
@@ -46,14 +54,12 @@
         <label for="specialaddress">Địa chỉ</label>
         <textarea class="form-control" id="specialaddress" asp-for="SpecificAddress" placeholder="Số nhà/Tên đường/Tên tòa/..."></textarea>
     </div>
-    <button id="save-btn" type="submit" class="btn btn-primary">Lưu thông tin</button>
+    <div>
+        <button id="save-btn" type="submit" class="btn btn-primary">Lưu thông tin</button>
+        <a asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
+    </div>
 </form>
 
-<br>
-<br>
-<div>
-    <a asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
-</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 <script>
