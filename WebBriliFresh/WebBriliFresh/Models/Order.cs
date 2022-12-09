@@ -22,11 +22,12 @@ public partial class Order
     public DateTime? OrderDate { get; set; }
 
     public decimal? SubTotal { get; set; }
+    public string SubTotalString => $"{SubTotal:N}";
 
     public decimal? OrderTotal { get; set; }
     public string OrderTotalString => $"{OrderTotal:N}";
 
-    public string? PayBy { get; set; }
+    public int? PayBy { get; set; }
 
     public int? Status { get; set; }
 

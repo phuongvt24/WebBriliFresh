@@ -23,7 +23,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "StoreId");
-            var briliFreshDbContext = _context.Orders.Include(o => o.Add).Include(o => o.Dis).Include(o => o.Store).Include(o => o.Trans).Where(o => o.Store.IsDeleted == 0); ;
+            var briliFreshDbContext = _context.Orders.Include(o => o.Add).Include(o => o.Dis).Include(o => o.Store).Include(o => o.Trans).Include(o => o.Cus); 
             return View(await briliFreshDbContext.ToListAsync());
         }
 
@@ -40,6 +40,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 .Include(o => o.Dis)
                 .Include(o => o.Store)
                 .Include(o => o.Trans)
+                .Include(o => o.Cus)
                 .FirstOrDefaultAsync(m => m.OrderId == id);
             if (order == null)
             {
