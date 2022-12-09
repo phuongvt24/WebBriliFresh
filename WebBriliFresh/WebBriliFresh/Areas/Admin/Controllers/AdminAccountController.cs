@@ -149,7 +149,6 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             _context.Update(user);
             return View(user);
         }
-
         // GET: Admin/AdminAccount/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
