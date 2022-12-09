@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebBriliFresh.Models.DiscountProduct>
+﻿@model IEnumerable<WebBriliFresh.Models.DiscountStore>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,7 +9,7 @@
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
             <a asp-area="Admin" asp-controller="Home" asp-action="index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
-            <span class="breadcrumb-item active">Khuyến Mãi Sản Phẩm</span>
+            <span class="breadcrumb-item active">Khuyến Mãi Theo Cửa Hàng</span>
         </nav>
     </div>
 </div>
@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="col-lg-4 text-right">
-                <a asp-area="Admin" asp-controller="DiscountProducts" asp-action="Create" class="btn btn-primary">
+                <a asp-area="Admin" asp-controller="DiscountStores" asp-action="Create" class="btn btn-primary">
                     <i class="anticon anticon-plus-circle m-r-5"></i>
                     <span>Tạo Khuyến Mãi</span>
                 </a>
@@ -48,13 +48,10 @@
                 <thead>
                     <tr>
                         <th>
-                            <div class="checkbox">
-                                <input id="checkAll" type="checkbox">
-                                <label for="checkAll" class="m-b-0"></label>
-                            </div>
+                            @Html.DisplayNameFor(model => model.DisId)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Pro.ProName)
+                            Tên cửa hàng
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Value)
@@ -67,7 +64,8 @@
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Status)
-                        </th>                        
+                        </th>
+                        
                         <th></th>
                     </tr>
                 </thead>
@@ -75,9 +73,12 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td></td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Pro.ProName)
+                                @Html.DisplayFor(modelItem => item.DisId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Store.SpecificAddress)
+                                @Html.DisplayFor(modelItem => item.Store.Ward)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Value)
@@ -88,6 +89,7 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.EndDate)
                             </td>
+                            
                             @if (item.Status == true)
                             {
                                 <td>
@@ -107,11 +109,14 @@
                                 </td>
                             }
                             <td class="text-right">
-                                <a asp-area="Admin" asp-controller="DiscountProducts" asp-action="Edit" asp-route-id="@item.DisId" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                <a asp-area="Admin" asp-controller="DiscountStores" asp-action="Edit" asp-route-id="@item.DisId" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
                                     <i class="anticon anticon-edit"></i>
                                 </a>
-                                <a asp-area="Admin" asp-controller="DiscountProducts" asp-action="Delete" asp-route-id="@item.DisId" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                <a asp-area="Admin" asp-controller="DiscountStores" asp-action="Delete" asp-route-id="@item.DisId" class="btn btn-icon btn-hover btn-sm btn-rounded">
                                     <i class="anticon anticon-delete"></i>
+                                </a>
+                                <a style="padding: 12px 20px;" asp-controller="DiscountStores" asp-action="Details" asp-route-id="@item.DisId">
+                                    Xem chi tiết
                                 </a>
                             </td>
                         </tr>
@@ -121,4 +126,3 @@
         </div>
     </div>
 </div>
-

@@ -15,6 +15,8 @@ public partial class Order
 
     public int? StoreId { get; set; }
 
+    public int? CusId { get; set; }
+
     public DateTime? OrderDate { get; set; }
 
     public decimal? SubTotal { get; set; }
@@ -36,4 +38,5 @@ public partial class Order
     public virtual Store? Store { get; set; }
 
     public virtual Transport? Trans { get; set; }
+    public virtual Customer? Cus { get; set; }
 }

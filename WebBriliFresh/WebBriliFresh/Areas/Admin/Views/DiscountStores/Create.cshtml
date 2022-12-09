@@ -1,0 +1,55 @@
+﻿@model WebBriliFresh.Models.DiscountStore
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Quản lý khuyến mãi</a>
+            <a asp-action="Index" class="breadcrumb-item">Khuyến mãi theo cửa hàng</a>
+            <span class="breadcrumb-item active">Thêm mới</span>
+        </nav>
+    </div>
+</div>
+<h3>Thêm mới khuyến mãi cửa hàng</h3>
+<hr>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="StoreId" class="control-label">Cửa hàng</label>
+                <select asp-for="StoreId" class="form-control" asp-items="ViewBag.AddressStore"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Value" class="control-label">Giá trị khuyến mãi</label>
+                <input asp-for="Value" class="form-control" />
+                <span asp-validation-for="Value" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label">Ngày bắt đầu</label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label">Ngày kết thúc</label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input id="create-btn" type="submit" value="Thêm mới" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

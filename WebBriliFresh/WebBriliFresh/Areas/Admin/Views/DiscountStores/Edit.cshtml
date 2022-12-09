@@ -1,0 +1,64 @@
+﻿@model WebBriliFresh.Models.DiscountStore
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Quản lý khuyến mãi</a>
+            <a asp-action="Index" class="breadcrumb-item">Khuyến mãi theo cửa hàng</a>
+            <span class="breadcrumb-item active">Chỉnh sửa</span>
+        </nav>
+    </div>
+</div>
+<h1>Chỉnh sửa khuyến mãi theo cửa hàng</h1>
+<h5 class="text-dark font-weight-semibold">ID Khuyến Mãi: @Html.DisplayFor(model => model.DisId)</h5>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="DisId" />
+            <div class="form-group">
+                <label asp-for="StoreId" class="control-label"></label>
+                <select asp-for="StoreId" class="form-control" asp-items="ViewBag.AddressStore"></select>
+                <span asp-validation-for="StoreId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Value" class="control-label"></label>
+                <input asp-for="Value" class="form-control" />
+                <span asp-validation-for="Value" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label><br />
+                <div class="form-check form-check-inline">
+                    <input asp-for="Status" class="form-check-inline ml-4 mr-1" type="radio" value="true" id="true" />
+                    <label class="form-check-label" for="true">Hoạt Động</label>
+                    <input asp-for="Status" class="form-check-inline ml-4 mr-1" type="radio" value="false" id="false" />
+                    <label class="form-check-label" for="false">Không Hoạt Động</label>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+            </div>
+
+            <button id="save-btn" type="submit" class="btn btn-primary">Lưu thông tin</button>
+            <a asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
