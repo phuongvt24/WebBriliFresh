@@ -27,6 +27,8 @@ public partial class Customer
 
     public virtual ICollection<QnA> QnAs { get; } = new List<QnA>();
 
+    public virtual ICollection<Order> Orders { get; } = new List<Order>();
+
     public virtual Reward? Reward { get; set; }
 
     public virtual User? User { get; set; }
