@@ -4,70 +4,279 @@
     ViewData["Title"] = "Details";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-
-<h1>Details</h1>
-
-<div>
-    <h4>Order</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.OrderDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.OrderDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SubTotal)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SubTotal)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.OrderTotal)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.OrderTotal)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PayBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PayBy)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Add)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Add.AddId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Dis)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Dis.DisCode)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Store)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Store.City)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Trans)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Trans.TransId)
-        </dd>
-    </dl>
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a class="breadcrumb-item">Quản lý đơn hàng</a>
+            <a asp-action="Index" class="breadcrumb-item">Quản lý hóa đơn</a>
+            <span class="breadcrumb-item active">Chi tiết</span>
+        </nav>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.OrderId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<hr />
+<!-- Content Wrapper START -->
+    <div class="page-header no-gutters has-tab">
+        <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+            <div class="media align-items-center m-b-15">
+                <div class="m-l-15">
+                    <h4 class="m-b-0">HÓA ĐƠN</h4>
+                    <p class="text-muted m-b-0">ID: @Html.DisplayFor(model => model.OrderId)</p>
+                </div>
+            </div>
+            <div class="m-b-15">
+                <button class="btn btn-warning m-r-5">
+                    <i class="anticon anticon-edit"></i>
+                    <span>Cập nhật tình trạng vận chuyển</span>
+                </button>
+            </div>
+        </div>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#product-overview">Thông tin hóa đơn</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#product-images">Thông tin vận chuyển</a>
+            </li>
+        </ul>
+    </div>
+    <div class="container-fluid">
+        <div class="tab-content m-t-15">
+            <div class="tab-pane fade show active" id="product-overview">
+                <div class="row">
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Thông tin cơ bản</h4>
+                        <div class="table-responsive">
+                            <table class="product-info-table m-t-20">
+                                <tbody>
+                                    <tr>
+                                        <td>Mã hóa đơn:</td>
+                                        <td>@Html.DisplayFor(model => model.OrderId)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mã cửa hàng:</td>
+                                        <td>
+                                            @Html.DisplayFor(model => model.StoreId)
+                                            <button class="btn btn-success btn-tone m-r-5" id="store-detail-btn" type="button" style="float:right">Xem thông tin</button>
+                                        </td>
+                                    </tr>
+                                    <tr class="storeInfo" style="background-color: #f2f2f2">
+                                        <td>Địa chỉ:</td>
+                                        <td>@Html.DisplayFor(model => model.Store.SpecificAddress), @Html.DisplayFor(model => model.Store.Ward), @Html.DisplayFor(model => model.Store.District), @Html.DisplayFor(model => model.Store.City)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mã khách hàng:</td>
+                                        <td>
+                                            @Html.DisplayFor(model => model.Add.CusId)
+                                        <button class="btn btn-success btn-tone m-r-5" id="cus-detail-btn" type="button" style="float:right">Xem thông tin</button>
+                                        </td>
+                                        </td>
+                                    </tr>
+                                    <tr class="cusInfo" style="background-color: #f2f2f2">
+                                        <td>Họ tên:</td>
+                                        <td>@Html.DisplayFor(model => model.Cus.LastName) @Html.DisplayFor(model => model.Cus.FirstName)</td>
+                                    </tr>
+                                    <tr class="cusInfo" style="background-color: #f2f2f2">
+                                        <td>Giới tính:</td>
+                                        <td>
+                                            @if (@Model.Cus.Gender == 1)
+                                                {
+                                                    <span>Nữ</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>Nam</span>
+                                                }
+                                        </td>
+                                    </tr>
+                                    <tr class="cusInfo" style="background-color: #f2f2f2">
+                                        <td>Điện thoại:</td>
+                                        <td>@Html.DisplayFor(model => model.Cus.Phone)</td>
+                                    </tr>
+                                    <tr class="cusInfo" style="background-color: #f2f2f2">
+                                        <td>Email:</td>
+                                        <td>@Html.DisplayFor(model => model.Cus.Email)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tổng tiền:</td>
+                                        <td  class="text-dark font-weight-semibold" id="orderTotal">@Html.DisplayFor(model => model.OrderTotalString)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ngày đặt:</td>
+                                        <td>@Html.DisplayFor(model => model.OrderDate)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Thanh toán:</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                @if (@Model.Status == 0)
+                                                {
+                                                    <span class="badge badge-pill badge-cyan">Chưa thanh toán</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-pill badge-cyan">Đã thanh toán</span>
+                                                }
+                                                @if (@Model.PayBy == 1)
+                                                {
+                                                    <div class="paymentStatus" style="margin-left: 12px">Thanh toán bằng tiền mặt</div>
+                                                }
+                                                else if (@Model.PayBy == 2)
+                                                {
+                                                    <div class="paymentStatus" style="margin-left: 12px">Thanh toán qua ví điện tử MoMo</div>
+                                                }
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Trạng thái:</td>
+                                        <td>
+                                            @if (@Model.Trans.Status == 1 || @Model.Trans.Status == 2 || @Model.Trans.Status == 3 || @Model.Trans.Status == 4)
+                                            {
+                                                <div class="d-flex align-items-center">
+                                                    <div style="background-color: yellow" class="badge badge-success badge-dot m-r-10"></div>
+                                                    <div class="status">Đang xử lý</div>
+                                                </div>
+                                            }
+                                            else if (@Model.Trans.Status == 5)
+                                            {
+                                                <div class="d-flex align-items-center">
+                                                    <div class="badge badge-success badge-dot m-r-10"></div>
+                                                    <div class="status">Thành công</div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="d-flex align-items-center">
+                                                    <div class="badge badge-danger badge-dot m-r-10"></div>
+                                                    <div class="status">Thất bại</div>
+                                                </div>
+                                            }
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Chi tiết hóa đơn</h4>
+                        <div class="table-responsive">
+                            <table class="product-info-table m-t-20">
+                                <tbody>
+                                    <tr>
+                                        <td>Sizes:</td>
+                                        <td>S, M, L, XL</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Colors:</td>
+                                        <td class="d-flex">
+                                            <span class="d-flex align-items-center m-r-20">
+                                                <span class="badge badge-dot product-color m-r-5" style="background-color: #4c4e69"></span>
+                                                <span>Dark Blue</span>
+                                            </span>
+                                            <span class="d-flex align-items-center m-r-20">
+                                                <span class="badge badge-dot product-color m-r-5" style="background-color: #868686"></span>
+                                                <span>Gray</span>
+                                            </span>
+                                            <span class="d-flex align-items-center m-r-20">
+                                                <span class="badge badge-dot product-color m-r-5" style="background-color: #8498c7"></span>
+                                                <span>Gray Blue</span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tạm tính:</td>
+                                        <td id="subTotal">@Html.DisplayFor(model => model.SubTotalString)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Giảm giá:</td>
+                                        <td id="discount">@(Model.OrderTotal - Model.SubTotal)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tổng tiền:</td>
+                                        <td class="text-dark font-weight-semibold" id="orderTotal1"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="tab-pane fade" id="product-images">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Chi tiết vận chuyển</h4>
+                        <div class="table-responsive">
+                            <table class="product-info-table m-t-20">
+                                <tbody>
+                                    <tr>
+                                        <td>Mã vận chuyển:</td>
+                                        <td class="text-dark font-weight-semibold">@Html.DisplayNameFor(model => model.OrderId)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Loại hình vận chuyển:</td>
+                                        <td>	Cloths</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Phí vận chuyển:</td>
+                                        <td>H&M</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Đơn vị vận chuyển:</td>
+                                        <td>10%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ngày giao:</td>
+                                        <td>
+                                            <span class="badge badge-pill badge-cyan">In Stock</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Trạng thái:</td>
+                                        <td>
+                                            <span class="badge badge-pill badge-cyan">In Stock</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div>
+    <a asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
+    </div>
+ <script>
+        var a = $("#orderTotal").text();
+        a = a.replace('.00', '');
+        $("#orderTotal").text(a + ' đ');
+        $("#orderTotal1").text(a + ' đ');
+        var b = $("#discount").text();
+        b = b.replace('.00', '');
+        b = Number(b).toLocaleString('en');
+        $("#discount").text(b + ' đ');
+        var c = $("#subTotal").text();
+        c = c.replace('.00', '');
+        $("#subTotal").text(c + ' đ');
+
+        $(".storeInfo").hide();
+        $(".cusInfo").hide();
+        //Nút Xem thông tin
+        $("#store-detail-btn").click(function () {
+            var txt = $(".storeInfo").is(":visible") ? 'Xem thông tin' : 'Rút gọn';
+            $(this).text(txt);
+            $(".storeInfo").toggle();
+        });
+        $("#cus-detail-btn").click(function () {
+            var txt = $(".cusInfo").is(":visible") ? 'Xem thông tin' : 'Rút gọn';
+            $(this).text(txt);
+            $(".cusInfo").toggle();
+        });
+</script>

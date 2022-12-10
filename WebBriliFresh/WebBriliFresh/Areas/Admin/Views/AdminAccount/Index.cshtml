@@ -42,10 +42,10 @@
                 </div>
             </div>
             @*<div class="col-lg-4 text-right">
-                <a asp-area="Admin" asp-controller="AdminAccount" asp-action="Create" class="btn btn-primary">
-                    <i class="anticon anticon-plus-circle m-r-5"></i>
-                    <span>Tài khoản mới</span>
-                </a>
+            <a asp-area="Admin" asp-controller="AdminAccount" asp-action="Create" class="btn btn-primary">
+            <i class="anticon anticon-plus-circle m-r-5"></i>
+            <span>Tài khoản mới</span>
+            </a>
             </div>*@
         </div>
         <div class="table-responsive">
@@ -66,14 +66,14 @@
                     {
                         @foreach (var item in Model)
                         {
-                            List <int> a;
-                            List <string> b;
-                            List <string> c;
+                            List<int> a;
+                            List<string> b;
+                            List<string> c;
                             @if (item.UserRole == 1)
                             {
                                 a = item.Customers.Where(x => x.UserId == item.UserId).Select(x => x.CusId).ToList();
 
-                                b = item.Customers.Where(x => x.UserId == item.UserId).Select(x => x.LastName+" ").ToList();
+                                b = item.Customers.Where(x => x.UserId == item.UserId).Select(x => x.LastName + " ").ToList();
 
                                 c = item.Customers.Where(x => x.UserId == item.UserId).Select(x => x.FirstName).ToList();
 
@@ -88,16 +88,17 @@
                             }
                             <tr>
                                 <td>@Html.DisplayFor(modelItem =>  item.UserId)</td>
-                                
+
                                 <td>
-                                    @for (int i = 0; i < a.Count; i++) {
+                                    @for (int i = 0; i < a.Count; i++)
+                                    {
                                         <div>@a[i]</div>
                                     }
                                 </td>
                                 <td>
                                     @for (int i = 0; i < b.Count; i++)
                                     {
-                                        @b[i]  @c[i] 
+                                        @b[i]  @c[i]
 
                                     }
                                 </td>
@@ -123,16 +124,13 @@
                                 </td>
 
                                 <td class="text-right">
-                                    
-                                    <a asp-controller="AdminAccount" asp-action="Delete" asp-route-id="@item.UserId" class="btn btn-icon btn-hover btn-sm btn-rounded">
-                                        <i class="anticon anticon-delete"></i>
-                                    </a>
-                                    @*<a style="padding: 12px 20px;" asp-controller="AdminAccount" asp-action="Details" asp-route-id="@item.UserId">
-                                        Xem chi tiết
-                                    </a>*@
-                                   @* <a asp-area="Admin" asp-controller="AdminAccount" asp-action="Edit" asp-route-id="@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_USERID")">
-                                        <i class="anticon anticon-edit"></i>
-                                    </a>*@
+
+                                    @if (item.UserRole == 2)
+                                    {
+                                        <a asp-controller="AdminAccount" asp-action="Delete" asp-route-id="@item.UserId" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                            <i class="anticon anticon-delete"></i>
+                                        </a>
+                                    }
                                 </td>
                             </tr>
                         }
@@ -142,5 +140,3 @@
         </div>
     </div>
 </div>
-
-
