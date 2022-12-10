@@ -47,7 +47,10 @@ namespace WebBriliFresh.Models.DAO
                 return 0; //Tai khoan khong ton tai
             }
             else {
-                return user.UserRole;
+                if (user.UserPassword == pass)
+                    return user.UserRole; // đúng hết
+                else
+                    return -1; //mật khẩu sai
             }
 
         }

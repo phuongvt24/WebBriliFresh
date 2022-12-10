@@ -12,7 +12,7 @@ using static WebBriliFresh.Areas.Admin.Controllers.AdminEmployeesController;
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Policy = "AdminOnly")]
+    [Authorize(Policy = "Employee")]
 
     public class AdminEditController : Controller
     {

@@ -8,7 +8,7 @@ using WebBriliFresh.Models;
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Policy = "AdminOnly")]
+    [Authorize(Policy = "Employee")]
     public class HomeController : Controller
     {
         public int s_userid;

@@ -3,6 +3,7 @@ using AspNetCoreHero.ToastNotification;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using WebBriliFresh.Models;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,13 +31,15 @@ builder.Services.AddAuthentication(options =>
 {
     options.LoginPath = "/UserLogin";
     options.LogoutPath = "/Home/Index";
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(5000);
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(3); //set cookie time to 3 min only to test
 });
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("AdminOnly", policy => policy.RequireClaim("Admin"));
-    options.AddPolicy("CustomerOnly", policy => policy.RequireClaim("Customer"));
+    options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.Role, "3"));
+    options.AddPolicy("Employee", policy => policy.RequireClaim(ClaimTypes.Role, "2", "3"));
+    options.AddPolicy("LoggedIn", policy => policy.RequireClaim(ClaimTypes.Role, "1", "2", "3"));
+
 
 });
 
