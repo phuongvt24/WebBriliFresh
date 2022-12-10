@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebBriliFresh.Controllers
 {
@@ -8,8 +9,11 @@ namespace WebBriliFresh.Controllers
         {
             return View();
         }
+
+        [Authorize(Policy = "LoggedIn")]
         public IActionResult Fruit()
         {
+
             return View();
         }
 
