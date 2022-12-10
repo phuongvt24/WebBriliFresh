@@ -4,6 +4,7 @@
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
+
 <div class="page-header">
     <h2 class="header-title">Orders List</h2>
     <div class="header-sub-title">
@@ -19,21 +20,13 @@
             <div class="col-lg-8">
                 <div class="d-md-flex">
                     <div class="m-b-10 m-r-15">
-                        <select class="custom-select" style="min-width: 180px;">
-                            <option selected>Trạng Thái</option>
-                            <option value="all">All</option>
-                            <option value="Đã Sử Dụng">Đã Sử Dụng</option>
-                            <option value="Chưa Sử Dụng">Chưa Sử Dụng</option>
+                        <b>Tình trạng khuyến mãi</b>
+                        <select id="statusSelect" style="min-width: 180px;">
+                            <option value="" selected>Tất cả</option>
+                            <option value="Hoạt động">Hoạt động</option>
+                            <option value="Không hoạt động">Không hoạt động</option>
                         </select>
                     </div>
-                    @*                    <div class="m-b-10">
-                    <select class="custom-select" style="min-width: 180px;">
-                    <option selected>Status</option>
-                    <option value="all">All</option>
-                    <option value="inStock">In Stock </option>
-                    <option value="outOfStock">Out of Stock</option>
-                    </select>
-                    </div>*@
                 </div>
             </div>
             <div class="col-lg-4 text-right">
@@ -48,10 +41,7 @@
                 <thead>
                     <tr>
                         <th>
-                            <div class="checkbox">
-                                <input id="checkAll" type="checkbox">
-                                <label for="checkAll" class="m-b-0"></label>
-                            </div>
+                            @Html.DisplayNameFor(model => model.DisId)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.DisCode)
@@ -81,12 +71,9 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                <div class="checkbox">
-                                    <input id="check-item-1" type="checkbox">
-                                    <label for="check-item-1" class="m-b-0"></label>
-                                </div>
+                        <tr class="rowTable">
+                            <td class="ManyDisId">
+                                @Html.DisplayFor(modelItem => item.DisId)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.DisCode)
@@ -110,18 +97,21 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.CusType)
                             </td>
-                            @if(item.Status == false){
+                            @if (item.Status == true)
+                            {
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <div class="badge badge-success badge-dot m-r-10"></div>
-                                        <div>Chưa Sử Dụng</div>
+                                        <div class="statusValue">Hoạt động</div>
                                     </div>
                                 </td>
-                            }else{
+                            }
+                            else
+                            {
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <div class="badge badge-danger badge-dot m-r-10"></div>
-                                        <div>Đã Sử Dụng</div>
+                                        <div class="statusValue">Không hoạt động</div>
                                     </div>
                                 </td>
                             }
@@ -133,6 +123,9 @@
                                 <a asp-area="Admin" asp-controller="DiscountOrders" asp-action="Delete" asp-route-id="@item.DisId" class="btn btn-icon btn-hover btn-sm btn-rounded">
                                     <i class="anticon anticon-delete"></i>
                                 </a>
+                                <a style="display: block" asp-controller="DiscountOrders" asp-action="Details" asp-route-id="@item.DisId">
+                                    Xem chi tiết
+                                </a>
                             </td>
                         </tr>
                     }
@@ -141,3 +134,16 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('#statusSelect').change(function () {
+        var status = $('#statusSelect').val();
+        $(".rowTable").show();
+        for (var i = 0; i < $(".ManyDisId").length; i++) {
+            var statusModel = $(".statusValue")[i].innerText;
+            if (status !== statusModel && status !== "") {
+                $(".rowTable")[i].style.display = 'none';
+            }
+        }
+    })
+</script>

@@ -12,6 +12,7 @@ public partial class DiscountOrder
     [NotMapped]
     public string? InitialDisCode { get; set; }
 
+    [DisplayName("ID")]
     public int DisId { get; set; }
 
     [Required(ErrorMessage ="Vui lòng điền đầy đủ thông tin")]
@@ -24,6 +25,7 @@ public partial class DiscountOrder
     [DisplayName("Tỉ Lệ Giảm")]
     public double? DisRate { get; set; }
 
+    [Range(1000, Int32.MaxValue, ErrorMessage = "Giá trị giảm giá tối thiểu phải lớn hơn hoặc bằng 1000")]
     [Required(ErrorMessage = "Vui lòng điền đầy đủ thông tin")]
     [DisplayName("Tối Đa")]
     public decimal? MaxDis { get; set; }
