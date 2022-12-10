@@ -20,7 +20,7 @@ using RequiredAttribute = System.ComponentModel.DataAnnotations.RequiredAttribut
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Policy = "AdminOnly")]
+    [Authorize(Policy = "Employee")]
 
     public class AdminProductsController : Controller
     {

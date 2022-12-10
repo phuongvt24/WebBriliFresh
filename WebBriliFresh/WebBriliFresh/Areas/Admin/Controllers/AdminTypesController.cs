@@ -12,7 +12,7 @@ using Type = WebBriliFresh.Models.Type;
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Policy = "AdminOnly")]
+    [Authorize(Policy = "Employee")]
 
     public class AdminTypesController : Controller
     {
