@@ -3,6 +3,7 @@ using AspNetCoreHero.ToastNotification;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using WebBriliFresh.Models;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,18 +29,22 @@ builder.Services.AddAuthentication(options =>
 
 }).AddCookie(options =>
 {
-    options.LoginPath = "/Admin/AdminLogin";
+    options.LoginPath = "/UserLogin";
     options.LogoutPath = "/Home/Index";
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(5000);
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(3); //set cookie time to 3 min only to test
 });
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("AdminOnly", policy => policy.RequireClaim("Admin"));
+    options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.Role, "3"));
+    options.AddPolicy("Employee", policy => policy.RequireClaim(ClaimTypes.Role, "2", "3"));
+    options.AddPolicy("LoggedIn", policy => policy.RequireClaim(ClaimTypes.Role, "1", "2", "3"));
+
+
 });
 
 
-builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
+builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

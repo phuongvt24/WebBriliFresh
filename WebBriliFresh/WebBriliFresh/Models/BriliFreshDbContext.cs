@@ -61,7 +61,7 @@ public partial class BriliFreshDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=34.412.200.143;Database=BriliFreshDB;user id=brilifreshdb;password=brilifreshdb;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Server=34.142.200.143;Database=BriliFreshDB;user id=brilifreshdb;password=brilifreshdb;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -259,6 +259,7 @@ public partial class BriliFreshDbContext : DbContext
             entity.Property(e => e.StoreId).HasColumnName("StoreID");
             entity.Property(e => e.SubTotal).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.TransId).HasColumnName("TransID");
+            entity.Property(e => e.CusId).HasColumnName("CusID");
 
             entity.HasOne(d => d.Add).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.AddId)
@@ -275,6 +276,10 @@ public partial class BriliFreshDbContext : DbContext
             entity.HasOne(d => d.Trans).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.TransId)
                 .HasConstraintName("fk_Order_2");
+
+            entity.HasOne(d => d.Cus).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.CusId)
+                .HasConstraintName("fk_Order_5");
         });
 
         modelBuilder.Entity<OrderDetail>(entity =>

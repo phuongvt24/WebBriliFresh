@@ -1,0 +1,75 @@
+﻿@model WebBriliFresh.Models.Employee
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a asp-action="Index" class="breadcrumb-item">Quản lý nhân viên</a>
+            <span class="breadcrumb-item active">Chi tiết</span>
+        </nav>
+    </div>
+</div>
+
+<div>
+    <div class="table-responsive">
+        <table class="product-info-table m-t-20">
+            <tbody>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Mã nhân viên</td>
+                    <td>@Html.DisplayFor(model => model.EmpId)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Mã tài khoản</td>
+                    <td>@Html.DisplayFor(model => model.UserId)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Họ và tên</td>
+                    <td>@Html.DisplayFor(model => model.LastName) @Html.DisplayFor(model => model.FirstName)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Giới tính</td>
+                    @if(Model.Gender==1){
+                        <td>Nam</td>
+                    }else if(Model.Gender==1){
+                        <td>Nữ</td>
+                    }else{
+                        <td>khác</td>
+                    }                  
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Số điện thoại</td>
+                    <td>@Html.DisplayFor(model => model.Phone)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Email</td>
+                    <td>@Html.DisplayFor(model => model.Email)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Nơi ở</td>
+                    <td class="main">@Html.DisplayFor(model =>model.SpecificAddress), @Html.DisplayFor(model =>model.Ward), @Html.DisplayFor(model =>model.District), @Html.DisplayFor(model =>model.City)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Ngày vào làm</td>
+                    <td class="main">@Html.DisplayFor(model =>model.StartDate)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Cửa hàng làm việc</td>
+                    <td class="main">Mã cửa hàng: @Html.DisplayFor(model =>model.StoreId)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold"></td>
+                    <td class="main">Địa chỉ cửa hàng: @Html.DisplayFor(model =>model.Store.SpecificAddress), @Html.DisplayFor(model =>model.Store.Ward), @Html.DisplayFor(model =>model.Store.District), @Html.DisplayFor(model =>model.Store.City)</td>
+                </tr>
+               
+            </tbody>
+        </table>
+    </div>
+</div>
+    <div>
+        <a asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
+    </div>

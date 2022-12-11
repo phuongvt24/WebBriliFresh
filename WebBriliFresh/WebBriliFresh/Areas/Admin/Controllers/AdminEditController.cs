@@ -7,11 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebBriliFresh.Models;
+using static WebBriliFresh.Areas.Admin.Controllers.AdminEmployeesController;
 
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Policy = "AdminOnly")]
+    [Authorize(Policy = "Employee")]
 
     public class AdminEditController : Controller
     {
@@ -88,6 +89,23 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+
+            //List<string> a = _context.Stores.Where(c=>c.StoreId==employee.StoreId).Select(x => x.City).ToList();
+            //List<string> b = _context.Stores.Where(c => c.StoreId == employee.StoreId).Select(x => x.District).ToList();
+            //List<string> d = _context.Stores.Where(c => c.StoreId == employee.StoreId).Select(x => x.Ward).ToList();
+
+            //List<int> c = _context.Stores.Select(x => x.StoreId).ToList();
+
+            //List<AddressStore> addresses = new List<AddressStore>();
+
+
+            //for (int i = 0; i < a.Count; i++)
+            //{
+            //    addresses.Add(new AddressStore(c[i], c[i] + ", " + d[i] + ", " + b[i] + ", " + a[i]));
+            //}
+            //ViewData["AddressStore"] = new SelectList(addresses, "id", "address");
+
+
             ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "StoreId", employee.StoreId);
             ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", employee.UserId);
             //HttpContext.Session.SetInt32("ADMIN_SESSION_USERID", (int)id);
@@ -111,6 +129,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             {
                 try
                 {
+                    employee.IsDeleted = 0;
                     _context.Update(employee);
                     await _context.SaveChangesAsync();
                 }
