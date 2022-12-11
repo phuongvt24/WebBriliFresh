@@ -1,0 +1,157 @@
+﻿@{
+    Layout = null;
+}
+
+<html lang="en">
+<head>
+    <title>Thông tin nhận hàng</title>
+    <link rel="icon" type="image/x-icon" href="./assets/images/logo.png">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" integrity="sha512-17egcferpgzkcm0j0feq1ycjuyawdz9kutv1ejvuaoz8pdnh/0nzxmu6bbxwaaxqoi9pqxnrwqlcdb027hgv9a==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" integrity="sha512-yhknp1/awr+yx26cb1y0cjvqumvea2pfzt1c9lls4prq5notzfwbhbig+x9g9eyw/8m0/4oxnx8pxj6z57x0dw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    @*<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">*@
+
+    <link rel="stylesheet" href="~/HomeAssets/asset/fonts/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="~/HomeAssets/homeheadermain.css" />
+    <link rel="stylesheet" href="~/HomeAssets/HomeFooter.css" />
+    <link rel="stylesheet" href="~/BuyAndPayAssets/delivery/deliveryInfo.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <form action="@Url.Action("PayInfo", "BuyAndPay")" method="GET" class="thongtinnhanhangform">
+        <div class="header">
+            @await Html.PartialAsync("~/Views/Shared/_HomeHeaderPartialView.cshtml")
+        </div>
+
+        <div class="content">
+            <div class="content__title">
+                <h3 class="content__headline"><center>THÔNG TIN NHẬN HÀNG</center></h3>
+            </div>
+
+            <div class="content__description">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <span><b>Chọn địa chỉ có sẵn bên dưới:</b></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button type="button" class="content__login-button">
+                            Đăng nhập hoặc Tạo tài khoản
+                            <span class="content__login-brand1">Brili</span>
+                            <span class="content__login-brand2">Fresh</span>
+                        </button>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <span><b>Chọn địa chỉ khác:</b></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <table id="addresstable" align="center">
+                            <tr>
+                                <td>
+                                    <span class="content__attitude">
+                                        <b>Họ tên</b>
+                                        <span class="content__required">(*)</span>
+                                    </span>
+                                </td>
+                                <td>
+                                    <input id="fullname" type="text">
+                                    <br>
+                                    <label class="content__message" id="fullname-message">Vui lòng nhập họ tên!</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="content__attitude">
+                                        <b>Điện thoại di động</b>
+                                        <span class="content__required">(*)</span>
+                                    </span>
+                                </td>
+                                <td>
+                                    <input id="phonenum" type="text">
+                                    <br>
+                                    <label class="content__message" id="phonenum-message">Vui lòng nhập số điện thoại!</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="content__attitude">
+                                        <b>Tỉnh/Thành phố</b>
+                                        <span class="content__required">(*)</span>
+                                    </span>
+                                </td>
+                                <td>
+                                    <select id="city">
+                                        <option value="" selected>Chọn Tỉnh/Thành phố</option>
+                                    </select>
+                                    <br>
+                                    <label class="content__message" id="city-message">Vui lòng chọn Tỉnh/Thành phố!</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="content__attitude">
+                                        <b>Quận/Huyện</b>
+                                        <span class="content__required">(*)</span>
+                                    </span>
+                                </td>
+                                <td>
+                                    <select id="district">
+                                        <option value="" selected>Chọn Quận/Huyện</option>
+                                    </select>
+                                    <br>
+                                    <label class="content__message" id="district-message">Vui lòng chọn Quận/Huyện!</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="content__attitude">
+                                        <b>Phường/Xã</b>
+                                        <span class="content__required">(*)</span>
+                                    </span>
+                                </td>
+                                <td>
+                                    <select id="ward">
+                                        <option value="" selected>Chọn Phường/Xã</option>
+                                    </select>
+                                    <br>
+                                    <label class="content__message" id="ward-message">Vui lòng chọn Phường/Xã!</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Địa chỉ</b></td>
+                                <td><textarea id="specificAddress" placeholder="Số nhà/Tên tòa/Tên đường/..."></textarea></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="content__continue">
+                <input class="content__continue-button" type="submit" value="Tiếp tục">
+            </div>
+
+            <div class="content__info">
+                <span>Bằng việc tiến hành Đặt Mua, khách hàng đồng ý với các Điều Kiện Giao Dịch Chung được ban hành bởi BriliFresh:</span>
+                <br>
+                <span>Quy chế hoạt động | Chính sách giải quyết khiếu nại | Chính sách bảo hành | Chính sách bảo mật thanh toán | Chính sách bảo mật thông tin cá nhân</span>
+                <br>
+                <span>© 2019 - Bản quyền của Công Ty Cổ Phần BriliFresh - BriliFresh.vn</span>
+            </div>
+        </div>
+        @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
+    </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script type="text/javascript" src="~/BuyAndPayAssets/delivery/deliveryInfo.js"></script>
+</body>
+</html>
