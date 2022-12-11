@@ -19,6 +19,7 @@
             <div class="col-lg-8">
                 <div class="d-md-flex">
                     <div class="m-b-10 m-r-15">
+                        <b>Tình trạng khuyến mãi</b>
                         <select id="statusSelect" style="min-width: 180px;">
                             <option value="" selected>Tất cả</option>
                             <option value="Hoạt động">Hoạt động</option>
@@ -108,6 +109,9 @@
                                 </a>
                                 <a asp-area="Admin" asp-controller="DiscountProducts" asp-action="Delete" asp-route-id="@item.DisId" class="btn btn-icon btn-hover btn-sm btn-rounded">
                                     <i class="anticon anticon-delete"></i>
+                                </a>
+                                <a style="display: block" asp-controller="DiscountProducts" asp-action="Details" asp-route-id="@item.DisId">
+                                    Xem chi tiết
                                 </a>
                             </td>
                         </tr>

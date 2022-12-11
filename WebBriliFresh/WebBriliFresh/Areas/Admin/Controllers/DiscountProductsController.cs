@@ -182,6 +182,5 @@ namespace WebBriliFresh.Areas.Admin.Controllers
 
             return Json(true);
         }
-
-    }
+    }    
 }
