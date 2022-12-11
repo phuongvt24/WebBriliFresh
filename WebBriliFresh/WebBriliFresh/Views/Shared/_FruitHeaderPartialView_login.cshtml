@@ -5,7 +5,7 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div class="logo-name ms-auto my-lg-2">
-                    <a class="navbar-brand" href="#">
+                    <a class="navbar-brand" href="#" >
                         <img id="logo" src="~/OverviewProductAssets/images/newlogo.png" class="position-start"></img>
                         <span class="firstName p-1">Brili<span class="lastName">Fresh</span></span>
                     </a>
@@ -40,12 +40,12 @@
                     <!-- <div class="vr mt-2"></div> -->
                     <div class="mt-2 " style="border-left:1px solid #8F8C8C;height:25px"></div>
                     <div class="d-flex nav-item mt-2 ms-3 align-item-center justify-content-center" style="margin-top: 0px !important;">
-                        <div class="i_cart_shoping">
+                        <div class="i_cart_shoping" onclick='window.location = "@Url.Action("CartInfo", "BuyAndPay")"'>
                             <i class="fa-solid fa-cart-shopping"></i>
                         </div>
                     </div>
-                    <div class="nav-item">
-                        <div class="nav-item count_product align-item-right ms-2 mt-2">
+                    <div class="nav-item" onclick='window.location = "@Url.Action("CartInfo", "BuyAndPay")"'>
+                        <div class="nav-item count_product align-item-right ms-2 mt-2" onclick='window.location = "@Url.Action("CartInfo", "BuyAndPay")"'>
                             <p class="bought_product pe-1">0</p>
                         </div>
                     </div>

@@ -5,6 +5,11 @@
 {
     font-family: 'Lexend',sans-serif !important;
 }*/
+.i_cart_shoping,
+.bought_product
+{
+    cursor: pointer;
+}
 
 #navbarSupportedContent
 {

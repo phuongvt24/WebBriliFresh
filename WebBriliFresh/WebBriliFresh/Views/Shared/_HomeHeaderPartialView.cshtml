@@ -28,14 +28,14 @@
             </ul>
             <ul class="header__navbar-list " style="margin-right: -52px;">
                 <li class="header__navbar-register">Đăng ký /</li>
-                <li class="header__navbar-login"> Đăng nhập</li>
+                <li class="header__navbar-login" > Đăng nhập</li>
             </ul>
             <div class="line">
             </div>
-            <div class="header__cart " style="margin-left: -32px;">
-                <i class="ti-shopping-cart"></i>
-                <div class="header__cart-number">
-                    <p class="number-item">
+            <div class="header__cart " style="margin-left: -32px;" onclick='window.location = "@Url.Action("CartInfoCheck", "BuyAndPay")"'>
+                <i class="ti-shopping-cart" onclick='window.location = "@Url.Action("CartInfoCheck", "BuyAndPay")"'></i>
+                <div class="header__cart-number" onclick='window.location = "@Url.Action("CartInfoCheck", "BuyAndPay")"'>
+                    <p class="number-item" onclick='window.location = "@Url.Action("CartInfoCheck", "BuyAndPay")"'>
                         9
                     </p>
                 </div>
