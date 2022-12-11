@@ -5,7 +5,7 @@
 }
 
 <div class="page-header">
-    <h2 class="header-title">Danh sách khuyến mãi</h2>
+    <h2 class="header-title">Orders List</h2>
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
             <a asp-area="Admin" asp-controller="Home" asp-action="index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
@@ -19,21 +19,12 @@
             <div class="col-lg-8">
                 <div class="d-md-flex">
                     <div class="m-b-10 m-r-15">
-                        <select class="custom-select" style="min-width: 180px;">
-                            <option selected>Trạng Thái</option>
-                            <option value="all">All</option>
-                            <option value="Đã Sử Dụng">Đã Sử Dụng</option>
-                            <option value="Chưa Sử Dụng">Chưa Sử Dụng</option>
+                        <select id="statusSelect" style="min-width: 180px;">
+                            <option value="" selected>Tất cả</option>
+                            <option value="Hoạt động">Hoạt động</option>
+                            <option value="Không hoạt động">Không hoạt động</option>
                         </select>
                     </div>
-                    @*                    <div class="m-b-10">
-                    <select class="custom-select" style="min-width: 180px;">
-                    <option selected>Status</option>
-                    <option value="all">All</option>
-                    <option value="inStock">In Stock </option>
-                    <option value="outOfStock">Out of Stock</option>
-                    </select>
-                    </div>*@
                 </div>
             </div>
             <div class="col-lg-4 text-right">
@@ -48,10 +39,10 @@
                 <thead>
                     <tr>
                         <th>
-                            <div class="checkbox">
-                                <input id="checkAll" type="checkbox">
-                                <label for="checkAll" class="m-b-0"></label>
-                            </div>
+                            @Html.DisplayNameFor(model => model.DisId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Pro.ProId)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Pro.ProName)
@@ -74,8 +65,13 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td></td>
+                        <tr class="rowTable">
+                            <td class="ManyDisId">
+                                @Html.DisplayFor(modelItem => item.DisId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Pro.ProId)
+                            </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Pro.ProName)
                             </td>
@@ -88,12 +84,12 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.EndDate)
                             </td>
-                            @if (item.Status == false)
+                            @if (item.Status == true)
                             {
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <div class="badge badge-success badge-dot m-r-10"></div>
-                                        <div>Hoạt Động</div>
+                                        <div class="statusValue">Hoạt động</div>
                                     </div>
                                 </td>
                             }
@@ -102,7 +98,7 @@
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <div class="badge badge-danger badge-dot m-r-10"></div>
-                                        <div>Không hoạt động</div>
+                                        <div class="statusValue">Không hoạt động</div>
                                     </div>
                                 </td>
                             }
@@ -121,4 +117,17 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('#statusSelect').change(function () {
+        var status = $('#statusSelect').val();
+        $(".rowTable").show();
+        for (var i = 0; i < $(".ManyDisId").length; i++) {
+            var statusModel = $(".statusValue")[i].innerText;
+            if (status !== statusModel && status !== "") {
+                $(".rowTable")[i].style.display = 'none';
+            }
+        }
+    })
+</script>
 
