@@ -35,10 +35,10 @@ namespace WebBriliFresh.Controllers
         {
             if (!ModelState.IsValid)
                 return View(model);
+
             var result = await _authService.LoginAsync(model);
 
-            ClaimsPrincipal currentUser = this.User;
-            bool isAdmin = currentUser.IsInRole("ADMIN");
+            bool isAdmin = User.IsInRole("ADMIN");
 
             if (result.StatusCode == 1 && isAdmin)
             {
