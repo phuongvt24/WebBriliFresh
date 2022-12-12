@@ -9,98 +9,207 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Edit</h1>
-
-<h4>Employee</h4>
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <span class="breadcrumb-item active">Chỉnh sửa thông tin cá nhân</span>
+        </nav>
+    </div>
+</div>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit" method="post" asp-route-id="@Model.EmpId">
+        <form asp-action="Edit" asp-route-id="@Model.EmpId" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="EmpId" />
             <div class="form-group">
-                <label asp-for="UserId" class="control-label" ></label>
-                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId" disabled></select>
-                <span asp-validation-for="UserId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StoreId" class="control-label"></label>
-                <select asp-for="StoreId" class="form-control" asp-items="ViewBag.StoreId"></select>
-                <span asp-validation-for="StoreId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
+                <input type="hidden" asp-for="EmpId" />
+                <input type="hidden" asp-for="StoreId" />
+                <input type="hidden" asp-for="UserId" />
+                <label asp-for="LastName" class="control-label">Họ</label>
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Gender" class="control-label"></label>
-                <input asp-for="Gender" class="form-control" />
+                <label asp-for="FirstName" class="control-label">Tên</label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label">Giới tính</label>
+                <select id="gender" class="form-control" asp-for="Gender">
+                    <option value="" selected>Chọn giới tính</option>
+                    <option value="1">Nam</option>
+                    <option value="2">Nữ</option>
+                    <option value="0">Khác</option>
+                </select>
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
-                <span asp-validation-for="City" class="text-danger"></span>
+                <input type="hidden" asp-for="StoreId" />
+                <label for="city">Tỉnh/Thành</label>
+                <input asp-for="City" id="selected_city" type="hidden" />
+                <select id="city" class="form-control">
+                    <option value="" selected></option>
+                </select>
+                <span class="text-danger" id="city-message" style="display:none">Vui lòng chọn Tỉnh/Thành!</span>
             </div>
             <div class="form-group">
-                <label asp-for="District" class="control-label"></label>
-                <input asp-for="District" class="form-control" />
-                <span asp-validation-for="District" class="text-danger"></span>
+                <label for="district">Quận/Huyện</label>
+                <input asp-for="District" id="selected_district" type="hidden" />
+                <select id="district" class="form-control">
+                    <option value="" selected></option>
+                </select>
+                <span class="text-danger" id="district-message" style="display:none">Vui lòng chọn Quận/Huyện!</span>
             </div>
             <div class="form-group">
-                <label asp-for="Ward" class="control-label"></label>
-                <input asp-for="Ward" class="form-control" />
-                <span asp-validation-for="Ward" class="text-danger"></span>
+                <label for="ward">Phường/Xã</label>
+                <input asp-for="Ward" id="selected_ward" type="hidden" />
+                <select id="ward" class="form-control">
+                    <option value="" selected></option>
+                </select>
+                <span class="text-danger" id="ward-message" style="display:none">Vui lòng chọn Phường/Xã!</span>
             </div>
             <div class="form-group">
-                <label asp-for="SpecificAddress" class="control-label"></label>
-                <input asp-for="SpecificAddress" class="form-control" />
-                <span asp-validation-for="SpecificAddress" class="text-danger"></span>
+                <label for="specialaddress">Địa chỉ</label>
+                <textarea class="form-control" id="specialaddress" asp-for="SpecificAddress" placeholder="Số nhà/Tên đường/Tên tòa/..."></textarea>
             </div>
             <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
+                <label asp-for="StartDate" class="control-label">Ngày tạo</label>
+                <input asp-for="StartDate" id="myID" class="form-control" value="@Model.StartDate" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" />
+
+            <div class="form-group" hidden>
+                <label asp-for="EndDate" class="control-label">Ngày vào làm</label>
+                <input asp-for="EndDate" hidden class="form-control" value="@Model.StartDate" />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
+                <label asp-for="Phone" class="control-label">Số điện thoại</label>
                 <input asp-for="Phone" class="form-control" />
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
+                <label asp-for="Email" class="control-label">Email</label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="form-group" hidden>
+                <label asp-for="IsDeleted" class="control-label"></label>
+                <input asp-for="IsDeleted" class="form-control" />
+                <span asp-validation-for="IsDeleted" class="text-danger"></span>
+            </div>
+            <div class="m-b-15 d-flex" style="justify-content: space-between;">
+                <button asp-action="Edit" class="btn btn-primary" id="save-btn">
+                    <i class="anticon anticon-save"></i>
+                    <span>Lưu thay đổi</span>
+                </button>
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    @*@using (Html.BeginForm("BackHome", "Home", FormMethod.Post))
-    {
-        <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
-        
-    
-    }*@
-    <a href="/Admin?UserID=@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_USERID")&EmpID=@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_EMPID")">Back to Home</a>
-    @*@Html.ActionLink("Back to previous page", null, null, null, new { href = @HttpContext.Request.UrlReferrer});*@
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+ }
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        flatpickr("#myID", {
+            altInput: true,
+            altFormat: "d/m/Y",
+            dateFormat: "m/d/Y",
+        });
+        $(document).ready(function () {
+            var citis = document.getElementById("city");
+            var districts = document.getElementById("district");
+            var wards = document.getElementById("ward");
+            var Parameter = {
+                url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+                method: "GET",
+                responseType: "application/json",
+            };
+            var promise = axios(Parameter);
+            promise.then(function (result) {
+                renderCity(result.data);
+            });
+            function renderCity(data) {
+                for (const x of data) {
+                    citis.options[citis.options.length] = new Option(x.Name, x.Id);
+                }
+                citis.onchange = function () {
+                    district.length = 1;
+                    ward.length = 1;
+                    if (this.value != "") {
+                        const result = data.filter(n => n.Id === this.value);
+                        for (const k of result[0].Districts) {
+                            districts.options[districts.options.length] = new Option(k.Name, k.Id);
+                        }
+                    }
+                    $('#city option[value=""]').text("Chọn Tỉnh/Thành phố");
+                    $('#district option[value=""]').text("Chọn Quận/Huyện");
+                    $('#ward option[value=""]').text("Chọn Phường/Xã");
+                    $("#city").prop('required', true);
+                    $("#district").prop('required', true);
+                    $("#ward").prop('required', true);
+                };
+                districts.onchange = function () {
+                    ward.length = 1;
+                    const dataCity = data.filter((n) => n.Id === citis.value);
+                    if (this.value != "") {
+                        const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+                        for (const w of dataWards) {
+                            wards.options[wards.options.length] = new Option(w.Name, w.Id);
+                        }
+                    }
+                };
+            }
+            $("#city").prop('required', false);
+            $("#district").prop('required', false);
+            $("#ward").prop('required', false);
+            $('#city option[value=""]').text($("#selected_city").val());
+            $('#district option[value=""]').text($("#selected_district").val());
+            $('#ward option[value=""]').text($("#selected_ward").val());
+            $("#save-btn").click(function (e) {
+                var isFullFill = 1;
+                if ($("#city").is(':invalid')) {
+                    $("#city-message").show();
+                    isFullFill = 0;
+                }
+                if ($("#district").is(':invalid')) {
+                    $("#district-message").show();
+                    isFullFill = 0;
+                }
+                if ($("#ward").is(':invalid')) {
+                    $("#ward-message").show();
+                    isFullFill = 0;
+                }
+                if (isFullFill == 0) {
+                    e.preventDefault();
+                } else {
+                    var city = $("#city").find("option:selected").text();
+                    $("#selected_city").val(city);
+                    var district = $("#district").find("option:selected").text();
+                    $("#selected_district").val(district);
+                    var ward = $("#ward").find("option:selected").text();
+                    $("#selected_ward").val(ward);
+                }
+            })
+            //Bỏ thông báo yêu cầu chọn
+            $("#city").change(function () {
+                $("#city-message").hide();
+            })
+            $("#district").change(function () {
+                $("#district-message").hide();
+            })
+            $("#ward").change(function () {
+                $("#ward-message").hide();
+            })
+        })
+</script>

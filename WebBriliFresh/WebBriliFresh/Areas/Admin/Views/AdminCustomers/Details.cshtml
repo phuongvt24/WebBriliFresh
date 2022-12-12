@@ -1,0 +1,75 @@
+﻿@model WebBriliFresh.Models.Customer
+
+@{
+    ViewData["Title"] = "Details";
+}
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a asp-action="Index" class="breadcrumb-item">Quản lý khách hàng</a>
+            <span class="breadcrumb-item active">Chi tiết</span>
+        </nav>
+    </div>
+</div>
+<h1>Thông tin khách hàng</h1>
+<div>
+    <div class="table-responsive">
+        <table class="product-info-table m-t-20">
+            <tbody>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Mã khách hàng</td>
+                    <td>@Html.DisplayFor(model => model.CusId)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Họ và tên</td>
+                    <td>@Html.DisplayFor(model => model.LastName) @Html.DisplayFor(model => model.FirstName)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Giới tính</td>
+                    @if (Model.Gender == 1)
+                    {
+                        <td>Nam</td>
+                    }
+                    else if (Model.Gender == 1)
+                    {
+                        <td>Nữ</td>
+                    }
+                    else
+                    {
+                        <td>khác</td>
+                    }
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Số điện thoại</td>
+                    <td>@Html.DisplayFor(model => model.Phone)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Email</td>
+                    <td>@Html.DisplayFor(model => model.Email)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Loại khách hàng</td>
+                    @if (Model.Reward.CusType == 1)
+                    {
+                        <td class="main">Vàng</td>
+                    }
+                    else if (Model.Reward.CusType == 2)
+                    {
+                        <td class="main">Bạc</td>
+                    }
+                    else
+                    {
+                        <td class="main">Đồng</td>
+                    }
+                    
+                </tr>
+              
+            </tbody>
+        </table>
+    </div>
+</div>
+<div>
+    <a asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
+</div>

@@ -12,7 +12,7 @@ using WebBriliFresh.Models;
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Policy = "AdminOnly")]
+    [Authorize(Policy = "Employee")]
 
     public class AdminStoresController : Controller
     {
@@ -115,7 +115,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             {
                 try
                 {
-                    store.isDeleted = 0;
+                    store.IsDeleted = 0;
                     _context.Update(store);
                     await _context.SaveChangesAsync();
                 }

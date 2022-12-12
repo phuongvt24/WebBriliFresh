@@ -3,57 +3,91 @@
 @using WebBriliFresh.Common;
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
 @{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "Edit";
+    var a = Model.Avatar;
 }
 
-<h1>Account Setting</h1>
+<h1>Thông tin tài khoản</h1>
 
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <h4>@HttpContextAccessor.HttpContext.Session.GetString("ADMIN_SESSION_FIRSTNAME") @HttpContextAccessor.HttpContext.Session.GetString("ADMIN_SESSION_LASTNAME")</h4>
+        <h1 hidden id="get_id" data-id="@Model.UserId"></h1>
+        <h4>@HttpContextAccessor.HttpContext.Session.GetString("ADMIN_SESSION_LASTNAME") @HttpContextAccessor.HttpContext.Session.GetString("ADMIN_SESSION_FIRSTNAME")</h4>
         <div class="media align-items-center mb-2">
             <div class="avatar avatar-image  m-h-10 m-r-15" style="height: 80px; width: 80px">
-                <img src="@("~/ImageUser/"+Model.Avatar)" asp-append-version="true" width="150px" height="150px" alt="">
+                @if (a == null)
+                {
+                    <img src="#" id="blah" asp-append-version="true" width="150px" height="150px" alt="">
+                }
+                else
+                {
+                    <img src="~/ImageUser/@a" id="blah" asp-append-version="true" width="150px" height="150px" alt="">
+                }
+
             </div>
+
         </div>
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="UserId" />
+            <input type="hidden" asp-for="UserName" />
+            <input type="hidden" asp-for="UserRole" />
             <div class="form-group">
-                <label asp-for="ImageFile" class="control-label"></label>
-                <input asp-for="ImageFile" class="form-control" accept="image/*" />
+                <input asp-for="ImageFile" type="file" id="image_submit" class="btn btn-primary" class="form-control" accept="image/*" style="display:none;" />
+                <label asp-for="ImageFile" id="choose_image" for="image_submit" class="btn btn-primary" class="control-label"><i class="anticon anticon-save"></i>Ảnh đại diện</label>
                 <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <hr />
+            <hr />
 
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" disabled />
-                <span asp-validation-for="UserName" class="text-danger"></span>
-            </div>
+            <label>Tên đăng nhập: @Model.UserName</label>
             <div class="form-group">
-                <label asp-for="UserPassword" class="control-label"></label>
+                <label asp-for="UserPassword" class="control-label">Mật khẩu</label>
                 <input asp-for="UserPassword" class="form-control" />
                 <span asp-validation-for="UserPassword" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UserRole" class="control-label"></label>
-                <input asp-for="UserRole" class="form-control" />
-                <span asp-validation-for="UserRole" class="text-danger"></span>
+                <label asp-for="UserRole" hidden class="control-label"></label>
             </div>
-            
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+            <div class="m-b-15 d-flex" style="justify-content: space-between;">
+                <button asp-action="Edit" id="save_edit" class="btn btn-primary">
+                    <i class="anticon anticon-save"></i>
+                    <span>Lưu thay đổi</span>
+                </button>
+                <div>
+                    <a href="/Admin?UserID=@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_USERID")&EmpID=@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_EMPID")" class="btn btn-success btn-tone m-r-5">Quay lại trang chủ</a>
+                </div>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    @*<a asp-action="Index">Back to List</a>*@
-    <a href="/Admin?UserID=@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_USERID")&EmpID=@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_EMPID")">Back to Home</a>
-</div>
+
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+
+    <script>
+        $("#image_submit").change(function () {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result)
+                        .width(80)
+                        .height(80);
+                };
+                reader.readAsDataURL(this.files[0]);
+            }
+        })
+
+        $("#save_edit").change(function () {
+
+        })
+    </script>

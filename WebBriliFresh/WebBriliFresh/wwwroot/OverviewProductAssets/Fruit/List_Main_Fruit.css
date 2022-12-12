@@ -1,0 +1,544 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100&family=Lexend:wght@300;500;700&family=Lora:ital,wght@1,400;1,500;1,600&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100&family=Lexend:wght@300;500;700&family=Lora:ital,wght@1,400;1,500;1,600&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,200;1,300;1,400&family=Poppins:ital@0,700;1&display=swap");
+
+.header
+{
+    height: 84px;
+    background-color: antiquewhite;
+}
+
+html,
+body
+{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Lexend !important;
+}
+
+body
+{
+    overflow-x: hidden;
+}
+
+
+
+.directory
+{
+    font-family: "Poppins", sans-serif;
+    /* font-style: normal; */
+    font-weight: 400;
+    font-size: 16px;
+    /* line-height: 36px; */
+    /* identical to box height */
+
+    color: #000000;
+}
+
+.breadcrumb a
+{
+    color: #000000;
+    text-decoration: none;
+}
+
+.breadcrumb li:last-child
+{
+    color: #b3001a;
+    text-decoration: none;
+}
+
+#logo
+{
+    height: 56px;
+    width: 75px;
+}
+
+.location-bar
+{
+    height: 54px;
+    line-height: 54px;
+}
+
+.breadcrumb li a
+{
+    color: #000000;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.breadcrumb li:last-child > a
+{
+    color: #f69708;
+    text-decoration: none;
+}
+
+.breadcrumb-item
+{
+    font-size: 16px;
+}
+
+.filter-heading
+{
+    display: inline-block;
+}
+
+.filter-heading-item
+{
+    font-weight: 600;
+    font-size: 20px;
+    width: fit-content;
+}
+
+.ti-angle-down-icon
+{
+    font-size: 14px;
+    font-weight: bold !important;
+    padding: 0 0.2px;
+}
+
+.filter-heading-icon-2,
+.filter-heading-icon
+{
+    display: inline-block;
+}
+
+.filter-heading-icon
+{
+    padding-left: 24px;
+}
+
+.filter-heading-icon-2
+{
+    padding-left: 185px;
+}
+
+.filter-heading
+{
+    padding-left: 12px;
+}
+
+.filter-heading-line
+{
+    border-bottom: 1px solid #ccc;
+    width: 250px;
+    height: 1px;
+    background-color: #ccc;
+}
+
+.filter-heading-check
+{
+    margin-left: 20px;
+}
+
+.form-check
+{
+    padding: 8px 0;
+}
+
+.form-check-label
+{
+    font-size: 16px;
+    color: #333333;
+    font-weight: 400;
+}
+
+.form-check-input
+{
+    font-size: 16px;
+}
+
+.slider-labels
+{
+    margin-top: 10px;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+::selection
+{
+    color: #fff;
+    background: #17a2b8;
+}
+
+header h2
+{
+    font-size: 24px;
+    font-weight: 600;
+}
+
+header p
+{
+    margin-top: 5px;
+    font-size: 16px;
+}
+
+.input-min,
+.input-max
+{
+    width: 80px;
+    outline: none;
+    font-weight: 400;
+    font-size: 16px;
+    border-radius: 3px;
+    text-align: center;
+    border: none;
+    color: #333333;
+    -moz-appearance: textfield;
+}
+
+.price-input
+{
+    width: 100%;
+    display: flex;
+    margin: 12px 0;
+    padding-top: 24px;
+}
+
+.price-input
+{
+    display: flex;
+    width: 90%;
+    height: 16px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button
+{
+    -webkit-appearance: none;
+}
+
+.price-input .separator
+{
+    width: 80px;
+    display: flex;
+    font-size: 19px;
+    align-items: center;
+    justify-content: center;
+}
+
+.slider
+{
+    height: 5px;
+    position: relative;
+    background: #ddd;
+    border-radius: 5px;
+}
+
+    .slider .progress
+    {
+        height: 100%;
+        left: 25%;
+        right: 25%;
+        position: absolute;
+        border-radius: 5px;
+        background: #17a2b8;
+    }
+
+.range-input
+{
+    position: relative;
+}
+
+.slider
+{
+    width: 90%;
+}
+
+.range-input input
+{
+    position: absolute;
+    width: 90%;
+    height: 5px;
+    top: -5px;
+    background: none;
+    pointer-events: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb
+{
+    height: 17px;
+    width: 17px;
+    border-radius: 50%;
+    background: #17a2b8;
+    pointer-events: auto;
+    -webkit-appearance: none;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+}
+
+input[type="range"]::-moz-range-thumb
+{
+    height: 17px;
+    width: 17px;
+    border: none;
+    border-radius: 50%;
+    background: #17a2b8;
+    pointer-events: auto;
+    -moz-appearance: none;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+}
+
+.filter-heading-price
+{
+    padding: 12px 0;
+}
+
+.wrapper
+{
+    padding-top: 24px;
+}
+
+.filter-info-price
+{
+    padding-top: 12px;
+}
+
+.info-price
+{
+    font-size: 16px;
+    letter-spacing: -0.3 px;
+    font-weight: 500;
+    color: #888682;
+}
+
+.info-price-check
+{
+    font-weight: 550;
+    font-size: 16px;
+    line-height: 28px;
+    letter-spacing: 0.4px;
+    color: #2d3958;
+}
+
+.filter-check-price
+{
+    padding-left: 24px;
+}
+
+/*  */
+
+/* Thêm css */
+.list-products
+{
+    /* padding-left: 20px !important; */
+    padding-right: 0px !important;
+}
+
+.product-item-img-child
+{
+    width: 182px;
+    height: 182px;
+}
+
+.product-item-img
+{
+    width: 182px;
+    height: 182px;
+}
+
+/* Thêm mới csss */
+.product-item
+{
+    font-family: 'Lexend' !important;
+    border: 1px solid #373333;
+    border-radius: 4px;
+    width: 208px !important;
+    max-height: 308px !important;
+    margin: 48px 8px;
+}
+
+.product-item-price-dis
+{
+    text-decoration-line: line-through;
+    color: rgba(0, 0, 0, 0.26);
+    padding-left: 8px;
+    padding-top: 8px;
+    margin: 0;
+}
+
+.dis-rate-child
+{
+    /* display: flex;
+    align-items: center; */
+    margin-right: 12px !important;
+    margin-left: 16px !important;
+    margin-top: 8px !important;
+    background-color: #f69708;
+    color: #ffffff;
+}
+
+/* End thêm mới */
+.product-item-tittle
+{
+    padding-left: 8px;
+    height: 48px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+}
+
+.product-item-unit
+{
+    padding-left: 8px;
+}
+
+.product-item-price
+{
+    padding-left: 8px;
+}
+
+.product-item-tittle-child
+{
+    font-size: 16px;
+}
+
+.product-item-unit-child
+{
+    font-size: 16px;
+}
+
+.product-item-price-child
+{
+    font-size: 16px;
+    margin-bottom: 0 !important;
+    color: #292d32;
+    padding-top: 4px;
+}
+
+.product-item-add
+{
+    padding-right: 14px;
+}
+
+.product-item-add-btn
+{
+    font-size: 16px;
+    width: 30px;
+    height: 30px;
+    background-color: #f69708;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 50%;
+}
+
+.products-pagination
+{
+    padding-right: 20px !important;
+}
+
+.pagination
+{
+    display: inline-block;
+}
+
+    .pagination a
+    {
+        display: flex;
+        color: black;
+        float: left;
+        width: 32px;
+        height: 32px;
+        text-align: center;
+        text-decoration: none;
+        transition: background-color 0.3s;
+        font-size: 16px;
+        border: 1px solid black;
+        margin: 32px 4px;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .pagination a.active
+        {
+            background-color: #b3001a;
+            color: white;
+        }
+
+        .pagination a:hover:not(.active)
+        {
+            background-color: #ddd;
+        }
+
+.footer
+{
+    box-sizing: border-box;
+    /* position: relative; */
+
+    height: 400px;
+    position: relative;
+    /* top:auto; */
+    bottom: 0;
+    /* left: 0; */
+    width: 100%;
+    /* margin-top: 56px; */
+    background: #58b63a;
+    border-top: 1px solid #000000;
+}
+
+.brand-footer
+{
+    padding-top: 25px;
+    width: 100%;
+    bottom: 0;
+    position: relative;
+    /* margin-top: 56px; */
+}
+
+.firstName-footer
+{
+    font-family: "Lexend", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 40px;
+    /* identical to box height */
+
+    color: #118129;
+}
+
+.lastName-footer
+{
+    font-family: "Lexend", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 40px;
+    color: #14df41;
+}
+
+.info-footer
+{
+    font-family: "Lexend", sans-serif;
+    margin-left: 60px;
+    margin-top: 20px;
+    /* identical to box height */
+    height: 200px;
+    color: #ffffff;
+}
+
+.title-footer
+{
+    height: 200px;
+}
+
+.logo-name-footer
+{
+    margin-top: 40px;
+    margin-left: 100px;
+}
+
+.font-16
+{
+    font-size: 16px;
+}
+
+.font-24
+{
+    font-size: 18px;
+}

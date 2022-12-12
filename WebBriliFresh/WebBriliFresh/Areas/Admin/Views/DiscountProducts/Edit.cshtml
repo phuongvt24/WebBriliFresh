@@ -1,0 +1,54 @@
+﻿@model WebBriliFresh.Models.DiscountProduct
+
+@{
+    ViewData["Title"] = "Chỉnh Sửa";
+}
+
+<h1>Chỉnh Sửa</h1>
+
+<h4>GIẢM GIÁ SẢN PHẨM</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="DisId" />
+            <div class="form-group">
+                <label asp-for="ProId" class="control-label"></label>
+                <select asp-for="ProId" class="form-control" asp-items="ViewBag.ProId"></select>
+                <span asp-validation-for="ProId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Value" class="control-label"></label>
+                <input asp-for="Value" class="form-control" />
+                <span asp-validation-for="Value" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label><br />
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="true">Hoạt Động</label>
+                    <input asp-for="Status" class="form-check-inline ml-2" type="radio" value="false" id="false" />
+                    <label class="form-check-label" for="false">Không Hoạt Động</label>
+                    <input asp-for="Status" class="form-check-inline ml-2" type="radio" value="true" id="true" />
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index">Trở Về</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+

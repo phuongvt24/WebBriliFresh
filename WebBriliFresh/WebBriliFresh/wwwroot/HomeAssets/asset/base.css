@@ -1,0 +1,45 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100&family=Lexend:wght@300;500;700&family=Lora:ital,wght@1,400;1,500;1,600&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100&family=Lexend:wght@300;500;700&family=Lora:ital,wght@1,400;1,500;1,600&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,200;1,300;1,400&family=Poppins:ital@0;1&display=swap");
+
+:root {
+    --white-color: #fff;
+    --black-color: #000;
+    --text-coler: #333;
+}
+
+* {
+    /*box-sizing: inherit;*/
+    font-family: "Lexend", sans-serif;
+}
+
+html {
+    /*font-size: 62.5%;
+    line-height: 1.6rem;*/
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+.grid {
+    width: 1200px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.grid__full-width {
+    width: 100%;
+}
+
+.grid__row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+body {
+    overflow-x: hidden;
+    margin-right: -24px;
+}
+
+.container {
+    max-width: 1200px !important;
+}
+/* css back ground body */

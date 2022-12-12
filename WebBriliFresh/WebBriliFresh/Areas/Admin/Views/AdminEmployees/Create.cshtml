@@ -1,8 +1,9 @@
 ﻿@model WebBriliFresh.Models.Employee
 
 @{
-    ViewData["Title"] = "Create";
-}
+    ViewData["Title"] = "Create";  
+  }
+   
 <div class="page-header">
     <h2 class="header-title">Brili Fresh</h2>
     <div class="header-sub-title">
@@ -13,32 +14,33 @@
         </nav>
     </div>
 </div>
-<h1>Thêm</h1>
-
-<h4>Nhân viên</h4>
 <hr />
 <div class="row">
+
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="UserId" class="control-label">Mã tài khoản</label>
-                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+                <label asp-for="UserName" class="control-label">Tên đăng nhập</label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StoreId" class="control-label">Mã cửa hàng</label>
-                <select asp-for="StoreId" class="form-control" asp-items="ViewBag.StoreId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label">Tên</label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+                <label asp-for="UserPassword" class="control-label">Mật khẩu</label>
+                <input asp-for="UserPassword" class="form-control" />
+                <span asp-validation-for="UserPassword" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="LastName" class="control-label">Họ</label>
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label">Tên</label>
+                <input asp-for="FirstName" class="form-control"/>
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            
             <div class="form-group">
                 <label asp-for="Gender" class="control-label">Giới tính</label>
                 @*                <input asp-for="Gender" id="selected_gender" type="hidden" value="" />
@@ -51,6 +53,16 @@
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Phone" class="control-label">Số điện thoại</label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label">Email</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="City" class="control-label">Địa chỉ</label>
             </div>
             <div class="form-group">
@@ -60,9 +72,6 @@
                     <option value="" selected>Chọn Tỉnh/Thành</option>
                 </select>
                 <span asp-validation-for="City" class="text-danger"></span>
-
-                @*                <input asp-for="City" class="form-control" />
-                *@
             </div>
             <div class="form-group">
                 <label asp-for="District" class="control-label">Quận/Huyện</label>
@@ -86,6 +95,10 @@
                 <span asp-validation-for="SpecificAddress" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="StoreId" class="control-label">Mã cửa hàng</label>
+                <select asp-for="StoreId" class="form-control" asp-items="ViewBag.AddressStore"></select>
+            </div>
+            <div class="form-group">
                 <label asp-for="StartDate" class="control-label">Ngày vào làm</label>
                 <input asp-for="StartDate" id="id-startdate" class="form-control" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
@@ -95,16 +108,8 @@
             <input asp-for="EndDate" class="form-control" />
             <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>*@
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label">Số điện thoại</label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label">Email</label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
+            
+            
             <div class="form-group">
                 <input id="create-btn" type="submit" value="Thêm mới" class="btn btn-primary" />
             </div>
@@ -126,7 +131,7 @@
     flatpickr("#id-startdate", {
         altInput: true,
         altFormat: "d/m/Y",
-        dateFormat: "m/d/y",
+        dateFormat: "m/d/Y",    
     });
 
     $(document).ready(function () {
