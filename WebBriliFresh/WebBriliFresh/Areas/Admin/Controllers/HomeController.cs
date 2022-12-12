@@ -23,11 +23,12 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             return s_empid;
         }
        
-        public IActionResult Index(int UserID, int EmpID)
+        public IActionResult Index()
         {
             BriliFreshDbContext db = new BriliFreshDbContext();
-            HttpContext.Session.SetInt32("ADMIN_SESSION_USERID", UserID);
-            HttpContext.Session.SetInt32("ADMIN_SESSION_EMPID", EmpID);
+
+            int UserID = (int)HttpContext.Session.GetInt32("ADMIN_SESSION_USERID");
+            int empID = (int)HttpContext.Session.GetInt32("ADMIN_SESSION_EMPID");
             //this.s_userid = UserID;
             //this.s_empid = EmpID;
             //var employee = (from emp in db.Employees where emp.UserId == UserID select emp).FirstOrDefault();
