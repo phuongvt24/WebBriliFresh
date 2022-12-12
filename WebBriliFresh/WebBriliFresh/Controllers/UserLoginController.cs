@@ -100,21 +100,6 @@ namespace WebBriliFresh.Controllers
             return RedirectToAction(nameof(Login));
         }
 
-        [AllowAnonymous]
-        public async Task<IActionResult> RegisterAdmin()
-        {
-            RegistrationModel model = new RegistrationModel
-            {
-                Username = "admin",
-                Email = "admin@gmail.com",
-                Password = "Admin@12345#",
-                Role = "ADMIN",
-                UserRole = 3
-            };
-            var result = await this._authService.RegisterAsync(model);
-            return Ok(result);
-        }
-
         [Authorize]
         public IActionResult ChangePassword()
         {
