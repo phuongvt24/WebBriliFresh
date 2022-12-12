@@ -1,0 +1,248 @@
+
+.header__cart-number,
+.i_cart_shoping,
+.bought_product
+{
+    cursor: pointer;
+}
+
+.location_container {
+    width: 100px;
+}
+
+.header__navbar {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    background-color: #ffffff;
+    position: fixed;
+    z-index: 10000;
+    width: 100%;
+}
+
+
+.header__navbar-login
+{
+    padding-right: 16px;
+}
+
+
+#avartar_user
+{
+    width: 70px;
+    height: 50px;
+    clip-path: circle(15px at 50% 50%);
+    margin-right: 8px;
+    margin-left: -12px;
+}
+
+
+.header__navbar-item {
+    list-style: none;
+    display: inline-block;
+    font-size: 16px;
+    padding-top: 11px;
+    text-align: center;
+    border-radius: 4px;
+    margin: 0px 14px;
+    position: relative;
+}
+
+.sub-nav {
+    position: absolute;
+    left: 7.5%;
+    top: 100%;
+    z-index: 20;
+    display: none !important;
+}
+
+.nav-list-type-item {
+    min-width: 150px;
+    background-color: #ffffff;
+    text-align: left;
+    list-style: none;
+    border-radius: 4px;
+    box-shadow: 0 0 12px rgb(0 0 0 / 30%);
+    padding: unset !important;
+}
+
+.type-item {
+    padding: 12px 16px;
+    width: 100%;
+}
+
+.type-item:hover {
+    color: #ffffff;
+    background-color: rgba(11, 208, 55, 1);
+    cursor: pointer;
+}
+
+.type-item:hover > a {
+    color: #ffffff;
+}
+
+.header__navbar-avt,
+.header__navbar-name,
+.header__navbar-register,
+.header__navbar-login
+{
+    list-style: none;
+    display: inline-block;
+    font-size: 16px;
+    padding-top: 12px;
+    color: #8f8c8c;
+    cursor: pointer;
+}
+
+.header__navbar li a {
+    text-decoration: none;
+    color: #8f8c8c;
+}
+
+.arrow-list-item {
+    font-size: 12px;
+    color: #8f8c8c;
+}
+
+.header__navbar .d-flex .header__navbar-item {
+    min-width: 105px;
+    margin-top: 12px;
+    padding-bottom: 11px;
+}
+
+.header__navbar > .d-flex > .header__navbar-list > li:hover > a {
+    color: #ffffff;
+}
+
+.header__navbar > .d-flex > .header__navbar-list > .header__navbar-item:hover {
+    color: #ffffff;
+    background-color: rgba(11, 208, 55, 1);
+    cursor: pointer;
+}
+
+.header__navbar > .d-flex > .header__navbar-list > .header__navbar-item:hover > .sub-nav {
+    display: block !important;
+}
+
+.header__navbar-logo {
+    width: 116px;
+    height: 80px;
+    margin-left: 16px;
+    cursor: pointer;
+}
+
+.header__navbar-tittle {
+    font-size: 24px;
+    padding-top: 12px;
+    cursor: pointer;
+}
+
+.header__search {
+    position: relative;
+    margin-left: 40px;
+    margin-right: 20px;
+}
+
+.ip-info-search {
+    width: 360px;
+    height: 32px;
+    font-size: 14px;
+    border-radius: 4px;
+    margin: 0px -16px;
+    padding: 8px;
+}
+
+.header__search i {
+    position: absolute;
+    right: 8px;
+    font-size: 16px;
+    top: 8px;
+}
+
+.ti-search {
+    font-size: 12px;
+    margin-right: -12px;
+    cursor: pointer;
+}
+
+.ip-info-search {
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+}
+
+.ip-info-search:focus {
+    color: #212529;
+    background-color: #fff;
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 2.5px rgb(13 110 253 / 25%);
+}
+
+.header__cart {
+    display: flex;
+    margin-left: 24px;
+}
+
+.ti-shopping-cart {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.header__cart-number {
+    width: 48px;
+    height: 24px;
+    line-height: 20px;
+    text-align: right;
+    background-color: rgb(210, 207, 203);
+    font-size: 16px;
+    border-radius: 4px;
+    margin-left: 4px;
+    position: relative;
+}
+
+.number-item {
+    margin: 0px 4px 0px 0px;
+    line-height: 24px;
+}
+
+.line
+{
+    margin-left: 28px;
+    margin-right: 10px;
+    height: 20px;
+    width: 1px;
+    background-color: #8f8c8c;
+}
+
+.direction {
+    /* color: white; */
+    /* text-align: center; */
+    font-size: 25px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+}
+
+.direction-detail {
+    font-family: "Lexend", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 19px;
+    /* or 160% */
+
+    color: #000000;
+}
+
+.location_container {
+    width: 200px;
+    height: 50px;
+    background-color: #f2dede;
+    border-radius: 8px;
+}
+
+ti-location-pin {
+    font-size: 10px !important;
+}

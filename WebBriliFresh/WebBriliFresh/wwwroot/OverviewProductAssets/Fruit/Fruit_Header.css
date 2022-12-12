@@ -1,4 +1,8 @@
-
+.i_cart_shoping,
+.bought_product
+{
+    cursor: pointer;
+}
 .scaled-header
 {
     position: fixed !important;
