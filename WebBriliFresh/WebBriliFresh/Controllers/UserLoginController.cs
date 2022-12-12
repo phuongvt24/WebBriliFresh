@@ -41,19 +41,34 @@ namespace WebBriliFresh.Controllers
 
             var result = await _authService.LoginAsync(model);
 
-            var empID = (from item in _context.Employees
-                         where item.UserId == Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
-                         select item.EmpId).First();
 
             bool isAdmin = User.IsInRole("ADMIN");
+            bool isEmployee = User.IsInRole("EMPLOYEE");
+            bool isCustomer = User.IsInRole("CUSTOMER");
 
-            if (result.StatusCode == 1 && isAdmin)
+            if (result.StatusCode == 1 && (isAdmin || isEmployee))
             {
+
+                var empID = (from item in _context.Employees
+                             where item.UserId == Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
+                             select item.EmpId).First();
                 return RedirectToAction("Index", "Home", new
                 {
                     area = "Admin",
                     userId = User.FindFirstValue(ClaimTypes.NameIdentifier),
                     empID = empID
+                });
+            }
+            else if (result.StatusCode == 1 && isCustomer)
+            {
+                var cusID = (from item in _context.Customers
+                             where item.UserId == Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
+                             select item.CusId).First();
+
+                return RedirectToAction("Index", "Home", new
+                {
+                    userId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                    cusID = cusID
                 });
             }
             else
