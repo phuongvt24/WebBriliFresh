@@ -8,11 +8,11 @@ namespace WebBriliFresh.Repositories.Implementation
 {
     public class UserAuthenticationService : IUserAuthenticationService
     {
-        private readonly UserManager<UserInfo> userManager;
+        private readonly UserManager<User> userManager;
         private readonly RoleManager<ApplicationRole> roleManager;
-        private readonly SignInManager<UserInfo> signInManager;
-        public UserAuthenticationService(UserManager<UserInfo> userManager,
-            SignInManager<UserInfo> signInManager, RoleManager<ApplicationRole> roleManager)
+        private readonly SignInManager<User> signInManager;
+        public UserAuthenticationService(UserManager<User> userManager,
+            SignInManager<User> signInManager, RoleManager<ApplicationRole> roleManager)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
@@ -30,7 +30,7 @@ namespace WebBriliFresh.Repositories.Implementation
                 status.Message = "User already exist";
                 return status;
             }
-            UserInfo user = new UserInfo()
+            User user = new User()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
