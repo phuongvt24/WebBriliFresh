@@ -28,7 +28,10 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/AdminEmployees
         public async Task<IActionResult> Index()
         {
-            var briliFreshDbContext = _context.Employees.Include(e => e.Store).Include(e => e.User);
+            
+            ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "StoreId");
+            var briliFreshDbContext = _context.Employees.Include(s => s.Store).Where(s => s.Store.IsDeleted == 0); 
+            //var briliFreshDbContext = _context.Employees.Include(e => e.Store).Include(e => e.User);
             return View(await briliFreshDbContext.ToListAsync());
         }
 
