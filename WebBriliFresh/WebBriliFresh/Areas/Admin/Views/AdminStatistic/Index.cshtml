@@ -1,0 +1,175 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@using WebBriliFresh.Common;
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="/Admin?UserID=@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_USERID")&EmpID=@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_EMPID")" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <span class="breadcrumb-item active">Thống kê, báo cáo</span>
+        </nav>
+    </div>
+</div>
+<div>
+    <div class="row">
+        <div class="col-md-6 col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="media align-items-center">
+                        <div class="avatar avatar-icon avatar-lg avatar-blue">
+                            <i class="anticon anticon-dollar"></i>
+                        </div>
+                        <div class="m-l-15">
+                            <h2 class="m-b-0" id="totalRevenue">@ViewBag.TotalRevenue</h2>
+                            <p class="m-b-0 text-muted">Doanh số</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="media align-items-center">
+                        <div class="avatar avatar-icon avatar-lg avatar-cyan">
+                            <i class="anticon anticon-line-chart"></i>
+                        </div>
+                        <div class="m-l-15">
+                            <h2 class="m-b-0" id="totalBenefit">@ViewBag.TotalBenefit</h2>
+                            <p class="m-b-0 text-muted">Lợi nhuận</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="media align-items-center">
+                        <div class="avatar avatar-icon avatar-lg avatar-gold">
+                            <i class="anticon anticon-profile"></i>
+                        </div>
+                        <div class="m-l-15">
+                            <h2 class="m-b-0">@ViewBag.TotalOrder</h2>
+                            <p class="m-b-0 text-muted">Đơn hàng</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="media align-items-center">
+                        <div class="avatar avatar-icon avatar-lg avatar-purple">
+                            <i class="anticon anticon-user"></i>
+                        </div>
+                        <div class="m-l-15">
+                            <h2 class="m-b-0">@ViewBag.TotalCus</h2>
+                            <p class="m-b-0 text-muted">Khách hàng</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5>Total Revenue</h5>
+                        <div>
+                            <div class="btn-group">
+                                <button class="btn btn-default active">
+                                    <span>Month</span>
+                                </button>
+                                <button class="btn btn-default">
+                                    <span>Year</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-t-50" style="height: 330px">
+                        <canvas class="chart" id="revenue-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="m-b-0">Khách hàng</h5>
+                    <div class="m-v-60 text-center" style="height: 200px">
+                        <canvas class="chart" id="customers-chart"></canvas>
+                    </div>
+                    <div class="row border-top p-t-25">
+                        <div class="col-4">
+                            <div class="d-flex justify-content-center">
+                                <div class="media align-items-center">
+                                    <span class="badge badge-success badge-dot m-r-10"></span>
+                                    <div class="m-l-5">
+                                        <h4 class="m-b-0">350</h4>
+                                        <p class="m-b-0 muted">Thành viên</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="d-flex justify-content-center">
+                                <div class="media align-items-center">
+                                    <span class="badge badge-secondary badge-dot m-r-10"></span>
+                                    <div class="m-l-5">
+                                        <h4 class="m-b-0">550</h4>
+                                        <p class="m-b-0 muted">Khách vãng lai</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <!-- Core Vendors JS-- >
+    <script src="~/adminassets/js/vendors.min.js" ></script>
+
+    <!-- page js -->
+    <script src="~/adminassets/vendors/chartjs/Chart.min.js"></script>
+    <script src="~/adminassets/js/pages/dashboard-default.js"></script>
+
+    <!-- Core JS -->
+    <script src="~/adminassets/js/app.min.js"></script>
+
+<script>
+    var a = $("#totalRevenue").text();
+    a = a.replace('.00', '');
+    a = Number(a).toLocaleString('en');
+    $("#totalRevenue").text(a + ' đ');
+
+    var b = $("#totalBenefit").text();
+    b = b.replace('.00', '');
+    b = Number(b).toLocaleString('en');
+    $("#totalBenefit").text(b + ' đ');
+
+
+    $.ajax({
+        type: "POST"
+        url: '/Admin/AdminStatistic'
+        data: JSON.stringify({}),
+        contentType: "application/json:charset=utf-8",
+        dataType: "json",
+        success: function (json){
+
+        }
+    })
+</script>
