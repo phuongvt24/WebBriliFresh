@@ -165,7 +165,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 model.UserRole = 2;
                 _context.Add(model);
                 await _context.SaveChangesAsync();
-                int userid = model.UserId;
+                int userid = model.Id;
                 employee.UserId = userid;
                 employee.IsDeleted = 0;
                 _context.Add(employee);
@@ -264,7 +264,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             }
             var employee = await _context.Employees.FindAsync(id);
 
-            var user = await _context.Users.Where(x => x.UserId == employee.UserId).FirstOrDefaultAsync();
+            var user = await _context.Users.Where(x => x.Id == employee.UserId).FirstOrDefaultAsync();
             if (employee != null)
             {
                 employee.IsDeleted = 1;

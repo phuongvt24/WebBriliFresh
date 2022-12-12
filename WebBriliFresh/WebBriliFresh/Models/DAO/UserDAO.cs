@@ -23,7 +23,7 @@ namespace WebBriliFresh.Models.DAO
         {
 
             var empID = (from item in db.Employees
-                         where item.UserId == getItem(user_name).UserId
+                         where item.UserId == getItem(user_name).Id
                          select item.EmpId).First();
             //data = data.Where(x => x.UserId == getItem(user_name).UserId);
             return empID;
@@ -33,7 +33,7 @@ namespace WebBriliFresh.Models.DAO
         {
 
             var cusID = (from item in db.Customers
-                         where item.UserId == getItem(user_name).UserId
+                         where item.UserId == getItem(user_name).Id
                          select item.CusId).First();
             return cusID;
         }
