@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebBriliFresh.Models;
+using static WebBriliFresh.Areas.Admin.Controllers.AdminEmployeesController;
 
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
@@ -49,6 +50,8 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         public IActionResult Create()
         {
             ViewData["TypeId"] = new SelectList(_context.Types, "TypeId", "TypeId");
+            ViewData["MainType"] = new SelectList(_context.Types, "MainType", "MainType");
+            ViewData["SubType"] = new SelectList(_context.Types, "SubType", "SubType");
             return View();
         }
 
@@ -164,5 +167,9 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         {
           return _context.DiscountTypes.Any(e => e.DisId == id);
         }
+    }
+
+    internal class DirectoryType
+    {
     }
 }
