@@ -19,6 +19,39 @@
             <div class="col-lg-8">
                 <div class="d-md-flex">
                     <div class="m-b-10 m-r-15">
+                        <b>Danh mục sản phẩm</b>
+                        <select id="mainTypeSelect" style="min-width: 180px;">
+                            <option value="" selected>Tất cả</option>
+                            <option value="Rau củ">Rau củ</option>
+                            <option value="Thịt cá">Thịt cá</option>
+                            <option value="Trái cây 4 mùa">Trái Cây 4 Mùa</option>
+                        </select>
+                    </div>
+                    <div class="m-b-10 m-r-15">
+                        <b>Loại sản phẩm</b>
+                        <select id="subTypeSelect1" style="min-width: 180px;">
+                            <option value="" selected>Tất cả</option>
+                            <option value="1" class="sub1">Rau lá</option>
+                            <option value="2" class="sub1">Củ & hạt</option>
+                            <option value="3" class="sub1">Quả trái</option>
+                            <option value="4" class="sub1">Rau gia vị</option>
+                            <option value="5" class="sub1">Nấm</option>
+                        </select>
+                        <select id="subTypeSelect2" style="min-width: 180px;">
+                            <option value="" selected>Tất cả</option>
+                            <option value="6" class="sub2">Thịt heo</option>
+                            <option value="7" class="sub2">Thịt bò</option>
+                            <option value="8" class="sub2">Gà vịt</option>
+                            <option value="9" class="sub2">Trứng</option>
+                            <option value="10" class="sub2">Hải sản</option>
+                        </select>
+                        <select id="subTypeSelect3" style="min-width: 180px;">
+                            <option value="" selected>Tất cả</option>
+                            <option value="11" class="sub3">Trái cây nhập khẩu</option>
+                            <option value="12" class="sub3">Đặc sản Việt Nam</option>
+                        </select>
+                    </div>
+                    <div class="m-b-10 m-r-15">
                         <b>Tình trạng khuyến mãi</b>
                         <select id="statusSelect" style="min-width: 180px;">
                             <option value="" selected>Tất cả</option>
@@ -44,10 +77,10 @@
                             @Html.DisplayNameFor(model => model.DisId)
                         </th>
                         <th>
-                            Loại SP chính
+                            Danh mục sản phẩm
                         </th>
                         <th>
-                            Loại SP phụ
+                            Loại sản phẩm
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Value)
@@ -71,21 +104,21 @@
                             <td class="ManyDisId">
                                 @Html.DisplayFor(modelItem => item.DisId)
                             </td>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Type.MainType)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Type.SubType)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Value)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.StartDate)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.EndDate)
-                            </th>
+                            <td>
+                                @Html.DisplayFor(model => item.Type.MainType)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.Type.SubType)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.Value)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.StartDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.EndDate)
+                            </td>
                             @if (item.Status == true)
                             {
                                 <td>
@@ -124,15 +157,62 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-    $('#statusSelect').change(function () {
-        var status = $('#statusSelect').val();
-        $(".rowTable").show();
-        for (var i = 0; i < $(".ManyDisId").length; i++) {
-            var statusModel = $(".statusValue")[i].innerText;
-            if (status !== statusModel && status !== "") {
-                $(".rowTable")[i].style.display = 'none';
-            }
+    //$('#statusSelect').change(function () {
+    //    var status = $('#statusSelect').val();
+    //    $(".rowTable").show();
+    //    for (var i = 0; i < $(".ManyDisId").length; i++) {
+    //        var statusModel = $(".statusValue")[i].innerText;
+    //        if (status !== statusModel && status !== "") {
+    //            $(".rowTable")[i].style.display = 'none';
+    //        }
+    //    }
+    //});
+
+
+    var s1 = $("#subTypeSelect1")
+    var t1 = $("#sub1")
+
+    var s2 = $("#subTypeSelect2")
+    var t2 = $("#sub2")
+
+    var s3 = $("#subTypeSelect3")
+    var t3 = $("#sub3")
+
+    var maintype = $("#mainTypeSelect");
+
+    t2.prop("disabled", true);
+    t3.prop("disabled", true);
+
+    s2.hide()
+    s3.hide()
+
+    maintype.change(function () {
+        if (maintype.find(":selected").val() === 'Rau củ') {
+            t2.prop("disabled", true);
+            t3.prop("disabled", true);
+            t1.prop("disabled", false);
+
+            s2.hide()
+            s3.hide()
+            s1.show()
+        } else if (maintype.find(":selected").val() === 'Thịt cá') {
+            t2.prop("disabled", false);
+            t3.prop("disabled", true);
+            t1.prop("disabled", true);
+
+            s2.show()
+            s3.hide()
+            s1.hide()
+        } else {
+            t2.prop("disabled", true);
+            t3.prop("disabled", false);
+            t1.prop("disabled", true);
+
+            s2.hide()
+            s3.show()
+            s1.hide()
         }
     })
 </script>

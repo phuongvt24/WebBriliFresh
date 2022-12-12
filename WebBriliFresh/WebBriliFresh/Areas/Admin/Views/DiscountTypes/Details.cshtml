@@ -4,45 +4,69 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>DiscountType</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Value)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Value)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Type.TypeId)
-        </dd>
-    </dl>
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Quản lý khuyến mãi</a>
+            <a asp-action="Index" class="breadcrumb-item">Khuyến mãi loại sản phẩm</a>
+            <span class="breadcrumb-item active">Chi tiết</span>
+        </nav>
+    </div>
 </div>
+<hr />
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.DisId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="table-responsive">
+        <table class="product-info-table m-t-12">
+            <tbody>
+                <tr>
+                    <td class="text-dark font-weight-semibold">@Html.DisplayNameFor(model => model.DisId)</td>
+                    <td>@Html.DisplayFor(model => model.DisId)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Mã loại sản phẩm</td>
+                    <td>@Html.DisplayFor(model => model.TypeId)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Danh mục sản phẩm</td>
+                    <td>@Html.DisplayFor(model => model.Type.MainType)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Loại sản phẩm</td>
+                    <td>@Html.DisplayFor(model => model.Type.SubType)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">@Html.DisplayNameFor(model => model.Value)</td>
+                    <td>@Html.DisplayFor(model => model.Value)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">@Html.DisplayNameFor(model => model.StartDate)</td>
+                    <td>@Html.DisplayFor(model => model.StartDate)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">@Html.DisplayNameFor(model => model.EndDate)</td>
+                    <td>@Html.DisplayFor(model => model.EndDate)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">@Html.DisplayNameFor(model => model.Status)</td>
+                    @if (Model.Status == true)
+                    {
+                        <td>
+                            <span class="badge badge-pill badge-green">Hoạt động</span>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <span class="badge badge-pill badge-red">Không hoạt động</span>
+                        </td>
+                    }
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <a asp-action="Index" class="btn btn-success btn-tone m-t-10 m-l-10">Quay lại Danh sách</a>
+        </div>
+    </div>
 </div>
