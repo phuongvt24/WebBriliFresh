@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebBriliFresh.Models;
 
-public partial class BriliFreshDbContext : DbContext
+public partial class BriliFreshDbContext : IdentityDbContext<User, ApplicationRole, int>
 {
     public BriliFreshDbContext()
     {
@@ -14,6 +15,7 @@ public partial class BriliFreshDbContext : DbContext
         : base(options)
     {
     }
+    public virtual DbSet<ApplicationRole> ApplicationRoles { get; set; }
 
     public virtual DbSet<Address> Addresses { get; set; }
 
@@ -57,14 +59,16 @@ public partial class BriliFreshDbContext : DbContext
 
     public virtual DbSet<Type> Types { get; set; }
 
-    public virtual DbSet<User> Users { get; set; }
+    public virtual new DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=34.142.200.143;Database=BriliFreshDB;user id=brilifreshdb;password=brilifreshdb;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Server=.;Database=BriliFreshDB;Trusted_Connection=True;Encrypt=False");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<Address>(entity =>
         {
 
@@ -444,11 +448,11 @@ public partial class BriliFreshDbContext : DbContext
         modelBuilder.Entity<User>(entity =>
         {
 
-            entity.HasKey(e => e.UserId).HasName("PK__User__1788CCAC6C9E8B5F");
+            entity.HasKey(e => e.Id).HasName("PK__User__1788CCAC6C9E8B5F");
 
             entity.ToTable("User");
 
-            entity.Property(e => e.UserId).HasColumnName("UserID");
+            entity.Property(e => e.Id).HasColumnName("Id");
         });
 
         OnModelCreatingPartial(modelBuilder);
