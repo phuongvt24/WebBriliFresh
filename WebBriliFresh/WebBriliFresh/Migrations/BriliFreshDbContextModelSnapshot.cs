@@ -562,11 +562,11 @@ namespace WebBriliFresh.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
 
-                    b.Property<int?>("AddId")
+                    b.Property<int>("AddId")
                         .HasColumnType("int")
                         .HasColumnName("AddID");
 
-                    b.Property<int?>("CusId")
+                    b.Property<int>("CusId")
                         .HasColumnType("int")
                         .HasColumnName("CusID");
 
@@ -577,23 +577,23 @@ namespace WebBriliFresh.Migrations
                     b.Property<DateTime?>("OrderDate")
                         .HasColumnType("datetime");
 
-                    b.Property<decimal?>("OrderTotal")
+                    b.Property<decimal>("OrderTotal")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<int?>("PayBy")
+                    b.Property<int>("PayBy")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int?>("StoreId")
+                    b.Property<int>("StoreId")
                         .HasColumnType("int")
                         .HasColumnName("StoreID");
 
-                    b.Property<decimal?>("SubTotal")
+                    b.Property<decimal>("SubTotal")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<int?>("TransId")
+                    b.Property<int>("TransId")
                         .HasColumnType("int")
                         .HasColumnName("TransID");
 
@@ -623,10 +623,10 @@ namespace WebBriliFresh.Migrations
                         .HasColumnType("int")
                         .HasColumnName("ProID");
 
-                    b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18, 2)");
 
-                    b.Property<int?>("Quantity")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("OrderId", "ProId")
@@ -653,11 +653,10 @@ namespace WebBriliFresh.Migrations
                         .HasColumnType("int")
                         .HasColumnName("isDeleted");
 
-                    b.Property<decimal?>("OriginalPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<decimal>("OriginalPrice")
+                        .HasColumnType("decimal(18, 2)");
 
-                    b.Property<decimal?>("Price")
-                        .IsRequired()
+                    b.Property<decimal>("Price")
                         .HasColumnType("decimal(18, 2)");
 
                     b.Property<string>("ProName")
@@ -672,7 +671,7 @@ namespace WebBriliFresh.Migrations
                         .IsRequired()
                         .HasColumnType("datetime");
 
-                    b.Property<int?>("TypeId")
+                    b.Property<int>("TypeId")
                         .HasColumnType("int")
                         .HasColumnName("TypeID");
 
@@ -864,19 +863,20 @@ namespace WebBriliFresh.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransId"));
 
-                    b.Property<decimal?>("Fee")
+                    b.Property<decimal>("Fee")
                         .HasColumnType("decimal(18, 2)");
 
                     b.Property<DateTime?>("ShippingDate")
                         .HasColumnType("datetime");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<string>("Transporter")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Type")
+                    b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.HasKey("TransId")
@@ -1163,11 +1163,15 @@ namespace WebBriliFresh.Migrations
                     b.HasOne("WebBriliFresh.Models.Address", "Add")
                         .WithMany("Orders")
                         .HasForeignKey("AddId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("fk_Order_1");
 
                     b.HasOne("WebBriliFresh.Models.Customer", "Cus")
                         .WithMany("Orders")
                         .HasForeignKey("CusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("fk_Order_5");
 
                     b.HasOne("WebBriliFresh.Models.DiscountOrder", "Dis")
@@ -1178,11 +1182,15 @@ namespace WebBriliFresh.Migrations
                     b.HasOne("WebBriliFresh.Models.Store", "Store")
                         .WithMany("Orders")
                         .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("fk_Order_4");
 
                     b.HasOne("WebBriliFresh.Models.Transport", "Trans")
                         .WithMany("Orders")
                         .HasForeignKey("TransId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("fk_Order_2");
 
                     b.Navigation("Add");
@@ -1220,6 +1228,8 @@ namespace WebBriliFresh.Migrations
                     b.HasOne("WebBriliFresh.Models.Type", "Type")
                         .WithMany("Products")
                         .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("fk_Product_1");
 
                     b.Navigation("Type");

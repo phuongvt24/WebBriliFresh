@@ -99,10 +99,10 @@ namespace WebBriliFresh.Migrations
                     TransID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ShippingDate = table.Column<DateTime>(type: "datetime", nullable: true),
-                    Transporter = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: true),
-                    Fee = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    Type = table.Column<int>(type: "int", nullable: true)
+                    Transporter = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    Fee = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -227,7 +227,8 @@ namespace WebBriliFresh.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TypeID = table.Column<int>(type: "int", nullable: true),
+                    OriginalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TypeID = table.Column<int>(type: "int", nullable: false),
                     Source = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     Des = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -241,7 +242,8 @@ namespace WebBriliFresh.Migrations
                         name: "fk_Product_1",
                         column: x => x.TypeID,
                         principalTable: "Type",
-                        principalColumn: "TypeID");
+                        principalColumn: "TypeID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -521,16 +523,16 @@ namespace WebBriliFresh.Migrations
                 {
                     OrderID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AddID = table.Column<int>(type: "int", nullable: true),
-                    TransID = table.Column<int>(type: "int", nullable: true),
+                    AddID = table.Column<int>(type: "int", nullable: false),
+                    TransID = table.Column<int>(type: "int", nullable: false),
                     DisID = table.Column<int>(type: "int", nullable: true),
-                    StoreID = table.Column<int>(type: "int", nullable: true),
-                    CusID = table.Column<int>(type: "int", nullable: true),
+                    StoreID = table.Column<int>(type: "int", nullable: false),
+                    CusID = table.Column<int>(type: "int", nullable: false),
                     OrderDate = table.Column<DateTime>(type: "datetime", nullable: true),
-                    SubTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    OrderTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    PayBy = table.Column<int>(type: "int", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: true)
+                    SubTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    OrderTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PayBy = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -539,12 +541,14 @@ namespace WebBriliFresh.Migrations
                         name: "fk_Order_1",
                         column: x => x.AddID,
                         principalTable: "Address",
-                        principalColumn: "AddID");
+                        principalColumn: "AddID",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_Order_2",
                         column: x => x.TransID,
                         principalTable: "Transport",
-                        principalColumn: "TransID");
+                        principalColumn: "TransID",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_Order_3",
                         column: x => x.DisID,
@@ -554,12 +558,14 @@ namespace WebBriliFresh.Migrations
                         name: "fk_Order_4",
                         column: x => x.StoreID,
                         principalTable: "Store",
-                        principalColumn: "StoreID");
+                        principalColumn: "StoreID",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_Order_5",
                         column: x => x.CusID,
                         principalTable: "Customer",
-                        principalColumn: "CusID");
+                        principalColumn: "CusID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -627,7 +633,8 @@ namespace WebBriliFresh.Migrations
                 {
                     OrderID = table.Column<int>(type: "int", nullable: false),
                     ProID = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: true)
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {

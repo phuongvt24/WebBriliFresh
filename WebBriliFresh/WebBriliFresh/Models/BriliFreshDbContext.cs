@@ -295,6 +295,7 @@ public partial class BriliFreshDbContext : IdentityDbContext<User, ApplicationRo
 
             entity.Property(e => e.OrderId).HasColumnName("OrderID");
             entity.Property(e => e.ProId).HasColumnName("ProID");
+            entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.OrderId)
@@ -317,6 +318,7 @@ public partial class BriliFreshDbContext : IdentityDbContext<User, ApplicationRo
             entity.Property(e => e.ProId).HasColumnName("ProID");
             entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
             entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.OriginalPrice).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.StartDate).HasColumnType("datetime");
             entity.Property(e => e.TypeId).HasColumnName("TypeID");
 
