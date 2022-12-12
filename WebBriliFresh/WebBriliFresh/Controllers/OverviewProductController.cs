@@ -11,7 +11,7 @@ namespace WebBriliFresh.Controllers
             return View();
         }
 
-        [Authorize(Policy = "LoggedIn")]
+        //[Authorize(Policy = "LoggedIn")]
         public IActionResult Fruit()
         {
 
