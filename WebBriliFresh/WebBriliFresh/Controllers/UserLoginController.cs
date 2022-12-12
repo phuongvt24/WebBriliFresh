@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication;
 using WebBriliFresh.Models.DTO;
 using WebBriliFresh.Repositories.Abstract;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebBriliFresh.Controllers
 {
@@ -19,11 +20,14 @@ namespace WebBriliFresh.Controllers
     {
         private readonly IUserAuthenticationService _authService;
         private readonly BriliFreshDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public UserLogin(IUserAuthenticationService authService, BriliFreshDbContext context)
+
+        public UserLogin(IUserAuthenticationService authService, BriliFreshDbContext context, UserManager<User> userManager)
         {
-            this._authService = authService;
-            _context = context; 
+            _authService = authService;
+            _context = context;
+            _userManager = userManager;
         }
 
 
@@ -41,33 +45,34 @@ namespace WebBriliFresh.Controllers
 
             var result = await _authService.LoginAsync(model);
 
-            string role = User.FindFirstValue(ClaimTypes.Role).ToUpper();
 
+            User user = await _userManager.FindByNameAsync(model.UserName);
 
-            if (result.StatusCode == 1 && (role == "ADMIN" || role == "EMPLOYEE"))
+            int? role = user.UserRole;
+
+           
+            if (result.StatusCode == 1 && (role == 3 || role == 2))
             {
 
                 var empID = (from item in _context.Employees
-                             where item.UserId == Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
+                             where item.UserId == user.Id
                              select item.EmpId).First();
+
+                HttpContext.Session.SetInt32("ADMIN_SESSION_USERID", user.Id);
+                HttpContext.Session.SetInt32("ADMIN_SESSION_EMPID", empID);
                 return RedirectToAction("Index", "Home", new
                 {
                     area = "Admin",
-                    userId = User.FindFirstValue(ClaimTypes.NameIdentifier),
-                    empID = empID
                 });
             }
-            else if (result.StatusCode == 1 && role == "CUSTOMER")
+            else if (result.StatusCode == 1 && role == 1)
             {
                 var cusID = (from item in _context.Customers
-                             where item.UserId == Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
+                             where item.UserId == user.Id
                              select item.CusId).First();
-
-                return RedirectToAction("Index", "Home", new
-                {
-                    userId = User.FindFirstValue(ClaimTypes.NameIdentifier),
-                    cusID = cusID
-                });
+                HttpContext.Session.SetInt32("CUS_SESSION_USERID", user.Id);
+                HttpContext.Session.SetInt32("CUS_SESSION_EMPID", cusID);
+                return RedirectToAction("Index", "Home");
             }
             else
             {

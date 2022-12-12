@@ -34,9 +34,9 @@ builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.Role, "ADMIN"));
-    options.AddPolicy("Employee", policy => policy.RequireClaim(ClaimTypes.Role, "EMPLOYEE", "ADMIN"));
-    options.AddPolicy("LoggedIn", policy => policy.RequireClaim(ClaimTypes.Role, "ADMIN", "CUSTOMER", "EMPLOYEE"));
+    options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
+    options.AddPolicy("Employee", policy => policy.RequireClaim(ClaimTypes.Role, "Employee", "Admin"));
+    options.AddPolicy("LoggedIn", policy => policy.RequireClaim(ClaimTypes.Role, "Admin", "Customer", "Employee"));
 
 
 });
