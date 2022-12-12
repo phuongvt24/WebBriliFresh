@@ -90,7 +90,7 @@ namespace WebBriliFresh.Repositories.Implementation
                     authClaims.Add(new Claim(ClaimTypes.Role, userRole));
                 }
 
-                await userManager.AddClaimsAsync(user, authClaims);
+                IdentityResult result = await userManager.AddClaimsAsync(user, authClaims);
 
                 status.StatusCode = 1;
                 status.Message = "Logged in successfully";

@@ -18,9 +18,12 @@ namespace WebBriliFresh.Controllers
     public class UserLogin : Controller
     {
         private readonly IUserAuthenticationService _authService;
-        public UserLogin(IUserAuthenticationService authService)
+        private readonly BriliFreshDbContext _context;
+
+        public UserLogin(IUserAuthenticationService authService, BriliFreshDbContext context)
         {
             this._authService = authService;
+            _context = context; 
         }
 
 
@@ -38,13 +41,19 @@ namespace WebBriliFresh.Controllers
 
             var result = await _authService.LoginAsync(model);
 
+            var empID = (from item in _context.Employees
+                         where item.UserId == Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
+                         select item.EmpId).First();
+
             bool isAdmin = User.IsInRole("ADMIN");
 
             if (result.StatusCode == 1 && isAdmin)
             {
                 return RedirectToAction("Index", "Home", new
                 {
-                    area = "Admin"
+                    area = "Admin",
+                    userId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                    empID = empID
                 });
             }
             else
