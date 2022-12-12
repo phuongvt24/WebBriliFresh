@@ -41,12 +41,10 @@ namespace WebBriliFresh.Controllers
 
             var result = await _authService.LoginAsync(model);
 
+            string role = User.FindFirstValue(ClaimTypes.Role).ToUpper();
 
-            bool isAdmin = User.IsInRole("ADMIN");
-            bool isEmployee = User.IsInRole("EMPLOYEE");
-            bool isCustomer = User.IsInRole("CUSTOMER");
 
-            if (result.StatusCode == 1 && (isAdmin || isEmployee))
+            if (result.StatusCode == 1 && (role == "ADMIN" || role == "EMPLOYEE"))
             {
 
                 var empID = (from item in _context.Employees
@@ -59,7 +57,7 @@ namespace WebBriliFresh.Controllers
                     empID = empID
                 });
             }
-            else if (result.StatusCode == 1 && isCustomer)
+            else if (result.StatusCode == 1 && role == "CUSTOMER")
             {
                 var cusID = (from item in _context.Customers
                              where item.UserId == Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
@@ -126,7 +124,7 @@ namespace WebBriliFresh.Controllers
                 Username = "admin",
                 Email = "admin@gmail.com",
                 Password = "Admin123!",
-                Role = "ADMIN",
+                Role = "admin",
                 UserRole = 3
             };
             var result = await this._authService.RegisterAsync(model);
@@ -141,7 +139,7 @@ namespace WebBriliFresh.Controllers
                 Username = "quynhchi",
                 Email = "quynhchi@gmail.com",
                 Password = "Quynhchi123!",
-                Role = "CUSTOMER",
+                Role = "customer",
                 UserRole = 1
             };
             var result = await this._authService.RegisterAsync(model);
@@ -156,7 +154,7 @@ namespace WebBriliFresh.Controllers
                 Username = "employee",
                 Email = "employee@gmail.com",
                 Password = "Employee123!",
-                Role = "EMPLOYEE",
+                Role = "employee",
                 UserRole = 2
             };
             var result = await this._authService.RegisterAsync(model);
