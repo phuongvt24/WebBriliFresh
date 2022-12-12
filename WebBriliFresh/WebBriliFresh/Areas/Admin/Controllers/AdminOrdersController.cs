@@ -41,7 +41,11 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 .Include(o => o.Store)
                 .Include(o => o.Trans)
                 .Include(o => o.Cus)
+                .Include(o => o.OrderDetails)
                 .FirstOrDefaultAsync(m => m.OrderId == id);
+            var orderdetail = await _context.OrderDetails
+                .Include(o => o.Pro)
+                .Where(m => m.OrderId == id).ToListAsync();
             if (order == null)
             {
                 return NotFound();
@@ -49,7 +53,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
 
             return View(order);
         }
-
+        /*
         // GET: Admin/AdminOrders/Create
         public IActionResult Create()
         {
@@ -65,7 +69,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderId,AddId,TransId,DisId,StoreId,OrderDate,SubTotal,OrderTotal,PayBy,Status")] Order order)
+        public async Task<IActionResult> Create([Bind("OrderId,AddId,TransId,DisId,StoreId,OrderDate,SubTotal,OrderTotal,PayBy,Status,CusId")] Order order)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +83,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             ViewData["TransId"] = new SelectList(_context.Transports, "TransId", "TransId", order.TransId);
             return View(order);
         }
-
+        */
         // GET: Admin/AdminOrders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -88,15 +92,21 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Orders.FindAsync(id);
+            var order = await _context.Orders
+                .Include(o => o.Add)
+                .Include(o => o.Dis)
+                .Include(o => o.Store)
+                .Include(o => o.Trans)
+                .Include(o => o.Cus)
+                .Include(o => o.OrderDetails)
+                .FirstOrDefaultAsync(m => m.OrderId == id);
+            var orderdetail = await _context.OrderDetails
+                .Include(o => o.Pro)
+                .Where(m => m.OrderId == id).ToListAsync();
             if (order == null)
             {
                 return NotFound();
             }
-            ViewData["AddId"] = new SelectList(_context.Addresses, "AddId", "AddId", order.AddId);
-            ViewData["DisId"] = new SelectList(_context.DiscountOrders, "DisId", "DisCode", order.DisId);
-            ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "City", order.StoreId);
-            ViewData["TransId"] = new SelectList(_context.Transports, "TransId", "TransId", order.TransId);
             return View(order);
         }
 
@@ -105,8 +115,9 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrderId,AddId,TransId,DisId,StoreId,OrderDate,SubTotal,OrderTotal,PayBy,Status")] Order order)
+        public async Task<IActionResult> Edit(int id, [Bind("OrderId,Status, OrderId,AddId,TransId,DisId,StoreId,OrderDate,SubTotal,OrderTotal,PayBy,Status,CusId,Trans,Trans.TransId,Trans.ShippingDate,Trans.Type,Trans.Transporter,Trans.Fee,Trans.Status")] Order order)
         {
+
             if (id != order.OrderId)
             {
                 return NotFound();
@@ -130,15 +141,11 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return View(order);
             }
-            ViewData["AddId"] = new SelectList(_context.Addresses, "AddId", "AddId", order.AddId);
-            ViewData["DisId"] = new SelectList(_context.DiscountOrders, "DisId", "DisCode", order.DisId);
-            ViewData["StoreId"] = new SelectList(_context.Stores, "StoreId", "City", order.StoreId);
-            ViewData["TransId"] = new SelectList(_context.Transports, "TransId", "TransId", order.TransId);
             return View(order);
         }
-
+        /*
         // GET: Admin/AdminOrders/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -157,7 +164,9 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["ProName"] = new SelectList(_context.Products, "ProId", "ProName", order.OrderDetails.Quantity);
+            ViewData["ProPrice"] = new SelectList(_context.Products, "ProId", "Price", order.AddId);
+            ViewData["ProUnit"] = new SelectList(_context.Products, "ProId", "Unit", order.AddId);
             return View(order);
         }
 
@@ -179,7 +188,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
+        */
         private bool OrderExists(int id)
         {
           return _context.Orders.Any(e => e.OrderId == id);
