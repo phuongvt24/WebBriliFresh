@@ -153,8 +153,6 @@ namespace WebBriliFresh.Controllers
                 //ten dang khong ton tai
                 else
                     ModelState.AddModelError("", "Tên đăng nhập không tồn tại, Vui lòng kiểm tra lại.");
-
-
             }
             return View("Index");
         }
