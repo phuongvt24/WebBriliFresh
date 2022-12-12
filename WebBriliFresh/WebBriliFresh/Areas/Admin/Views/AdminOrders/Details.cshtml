@@ -218,9 +218,9 @@
                                             <td>@Html.DisplayFor(modelItem => item.ProId)</td>
                                             <td>@Html.DisplayFor(modelItem => item.Pro.ProName)</td>
                                             <td>@Html.DisplayFor(modelItem => item.Pro.Unit)</td>
-                                            <td class="price">@Html.DisplayFor(modelItem => item.Pro.Price)</td>
+                                            <td class="price">@Html.DisplayFor(modelItem => item.Price)</td>
                                             <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
-                                            <td class="amount">@(item.Pro.Price * item.Quantity)</td>
+                                            <td class="amount">@(item.Price * item.Quantity)</td>
                                         </tr>
                                         i++;
                                     }
