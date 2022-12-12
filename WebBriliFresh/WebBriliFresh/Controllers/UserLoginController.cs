@@ -117,5 +117,50 @@ namespace WebBriliFresh.Controllers
             return RedirectToAction(nameof(ChangePassword));
         }
 
+
+        [AllowAnonymous]
+        public async Task<IActionResult> RegisterAdmin()
+        {
+            RegistrationModel model = new RegistrationModel
+            {
+                Username = "admin",
+                Email = "admin@gmail.com",
+                Password = "Admin123!",
+                Role = "ADMIN",
+                UserRole = 3
+            };
+            var result = await this._authService.RegisterAsync(model);
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> RegisterCustomer()
+        {
+            RegistrationModel model = new RegistrationModel
+            {
+                Username = "quynhchi",
+                Email = "quynhchi@gmail.com",
+                Password = "Quynhchi123!",
+                Role = "CUSTOMER",
+                UserRole = 1
+            };
+            var result = await this._authService.RegisterAsync(model);
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> RegisterEmployee()
+        {
+            RegistrationModel model = new RegistrationModel
+            {
+                Username = "employee",
+                Email = "employee@gmail.com",
+                Password = "Employee123!",
+                Role = "EMPLOYEE",
+                UserRole = 2
+            };
+            var result = await this._authService.RegisterAsync(model);
+            return Ok(result);
+        }
     }
 }
