@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100&family=Lexend:wght@300;500;700&family=Lora:ital,wght@1,400;1,500;1,600&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100&family=Lexend:wght@300;500;700&family=Lora:ital,wght@1,400;1,500;1,600&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,200;1,300;1,400&family=Poppins:ital@0,700;1&display=swap');
+
+/**
+{
+    font-family: 'Lexend',sans-serif !important;
+}*/
+.i_cart_shoping,
+.bought_product
+{
+    cursor: pointer;
+}
+
+#navbarSupportedContent
+{
+    width: 1200px;
+    height: 84px;
+    margin-right: 170px;
+    margin-left: 100px;
+}
+
+
+.scaled-header
+{
+    position: fixed !important;
+    background-color: #ffffff;
+    top: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
+    z-index: 100000;
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    margin: 0 !important;
+}
+
+
+
+.i_cart_shoping
+{
+    display: flex;
+    align-items: center !important;
+}
+
+
+.navbar-expand-xl
+{
+    padding: 0px !important;
+}
+
+
+
+.directory
+{
+    padding-top: 84px !important;
+}
+
+
+#avartar_user
+{
+    width: 44px;
+    height: 30px;
+    clip-path: circle(15px at 50% 50%);
+    margin-right: 8px;
+    margin-left: -12px;
+}
+
+.header__navbar-name
+{
+    padding-left: 12px;
+}
+
+
+
+#navbarSupportedContent .direction{
+   /* color: white; */
+   /* text-align: center; */
+   font-size: 25px;
+   overflow: hidden;
+   justify-content:center;
+   align-items:center;
+}
+#navbarSupportedContent .direction-detail{
+         
+      font-family: 'Lexend',sans-serif;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 19px;
+      /* or 160% */
+
+
+      color: #000000;
+}
+.scaled-body{
+   width:1200px;
+   margin-right: 132px;
+   margin-left: 132px;
+}
+/* .scaled-header{
+   transform: scale(0.9);
+ }
+  .scaled {
+   transform: scale(0.9); 
+  }
+  .scaled-comment{
+   transform: scale(0.85); 
+  }; */
+ 
+/* .scaled-product{
+   transform: scale(0.85); 
+} */
+/* .user-comment{
+   transform: scale(0.85); 
+} */
+   #logo{
+      height: 56px; 
+      width: 75px; 
+   }
+   .firstName{
+   
+       font-family: 'Lexend',sans-serif;
+       font-style: normal;
+       font-weight: 500;
+       font-size: 24px;
+       line-height: 40px;
+       /* identical to box height */
+       
+       
+       color: #118129;
+       
+   }
+   .lastName{
+       font-family: 'Lexend',sans-serif;
+       font-style: normal;
+       font-weight: 500;
+       font-size: 24px;
+       line-height: 40px;
+       color: #14DF41;
+   }
+   a {
+       text-decoration:none;
+    }
+    .col-logo-name{
+       position: absolute;
+       width: 100px;
+       height: 80px;
+       left: 88px;
+       top: 30px;  
+    }
+    /* .imgHome{
+       width: 40px;
+       height: 40px;
+    } */
+.btnHome
+{
+    width: 45px;
+    height: 40px;
+    border: none;
+    border-radius: 4px;
+    background-image: url("../../OverviewProductAssets/images/Homebutton.png");
+    background-size: cover;
+    background-position: center center;
+}
+    .direction{
+      width: 196px;
+      height: 40px;
+    
+      
+      background: #F2DEDE;
+      border-radius: 4px;
+    }
+    button[name="search"] {
+
+      position: relative;
+      width: 55px;
+      color: white;
+      height:33px;
+      background: #BD2037;
+      border:none;
+      border-radius: 2px;
+      /* background:url("./images/search.png") */
+    
+    }
+    .search-container{
+      /* height:35px; */
+      
+      background: white;
+      border:0.5px solid gray;
+      border-bottom: 0.5px solid gray;
+      border-right: none;
+    }
+    .search-button{
+      /* height:35px;    */
+      background: white;
+      border:0.5px solid gray;
+      border-left: none;
+      align-items: center;
+      justify-content: center;
+      padding: 3px;
+    }
+    input[placeholder="Tìm kiếm thực phẩm"] {
+      position: relative;
+       width:  450px;
+       height:42px;
+       /* height:40px; */
+       min-width: auto;
+       /* height: 50px; */
+       margin-left: 35px;
+       display: block;
+       font-family: 'Lexend',sans-serif;
+       border: none;
+       font-style: normal;
+       font-weight: 700;
+       font-size: 16px;
+       line-height: 30px;
+       background:none;
+     }
+     .header-form{
+      height:40px;
+     }
+     .vr{
+       height:25px;
+     }
+     .navbar-nav .nav-link{
+      font-family: 'Inter',sans-serif;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 22px;
+      /* identical to box height */
+      
+      
+      color: #7B7575;
+     }
+   
+     .count_product{
+   
+      width: 63px;
+      height: 26px;
+      background: #E2CFCF;
+      border-radius: 12px;
+      text-align: right;
+   }
+     .bought_product{
+      font-family: 'Inter',sans-serif;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 30px;
+   
+      color: #7B7575;
+     }

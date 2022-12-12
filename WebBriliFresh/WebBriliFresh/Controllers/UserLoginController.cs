@@ -34,89 +34,127 @@ namespace WebBriliFresh.Controllers
 
             if (ModelState.IsValid)
             {
+                var dao = new UserDAO();
+                var result = dao.Login(model.UserName, model.PassWord);
 
-                if (ModelState.IsValid)
+
+                //Admin
+                if (result == 3)
                 {
-                    var dao = new UserDAO();
-                    var result = dao.Login(model.UserName, model.PassWord);
-                    if (result == 1)
+                    var emp_id = dao.getEmployeeInfo(model.UserName);
+                    var session = new AdminLogin
                     {
-                        var emp_id = dao.getEmployeeInfo(model.UserName);
-                        var session = new AdminLogin();
-
-                        session.EmpId = (int)emp_id;
-                        session.UserId = dao.getItem(model.UserName).UserId;
-                        //HttpContext context = HttpContext.Current;
-                        var claims = new List<Claim>() {
-                            new Claim("Admin", "Admin"),
+                        EmpId = (int)emp_id,
+                        UserId = dao.getItem(model.UserName).UserId
                     };
-                        //Initialize a new instance of the ClaimsIdentity with the claims and authentication scheme    
-                        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                        //Initialize a new instance of the ClaimsPrincipal with ClaimsIdentity    
-                        //var principal = new ClaimsPrincipal(identity);
-                        var authProperties = new AuthenticationProperties
-                        {
-                            AllowRefresh = true,
-                            IsPersistent = false,
 
-                        };
-                        await HttpContext.SignInAsync(
-                             CookieAuthenticationDefaults.AuthenticationScheme,
-                                new ClaimsPrincipal(identity),
-                                authProperties);
+                    HttpContext.Session.SetInt32("EMP_SESSION_EMPID", (int)emp_id);
 
-                        return RedirectToAction("Index", "Home", new
-                        {
-                            Area = "Admin",
-                            UserID = session.UserId,
-                            EmpID = session.EmpId
-                        });
+                    var claims = new List<Claim>() {
+                            new Claim(ClaimTypes.Role, "3"),
+                            new Claim(ClaimTypes.NameIdentifier, emp_id.ToString()),
 
-                    }
-                    else if (result == 3)
-                    {
-                        var cusId = dao.getCustomerInfo(model.UserName);
-                        var session = new CustomerLogin();
-
-                        session.CusId = (int)cusId;
-                        session.UserId = dao.getItem(model.UserName).UserId;
-                        //HttpContext context = HttpContext.Current;
-                        var claims = new List<Claim>() {
-                            new Claim("Customer", "Customer"),
                     };
-                        //Initialize a new instance of the ClaimsIdentity with the claims and authentication scheme    
-                        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                        //Initialize a new instance of the ClaimsPrincipal with ClaimsIdentity    
-                        //var principal = new ClaimsPrincipal(identity);
-                        var authProperties = new AuthenticationProperties
-                        {
-                            AllowRefresh = true,
-                            IsPersistent = false,
-
-                        };
-                        await HttpContext.SignInAsync(
-                             CookieAuthenticationDefaults.AuthenticationScheme,
-                                new ClaimsPrincipal(identity),
-                                authProperties);
-
-                        return RedirectToAction("Index", "Home", new
-                        {
-                            UserID = session.UserId,
-                            CusID = session.CusId
-                        });
-                    }
-                    else if (result == 2)
+                    //Initialize a new instance of the ClaimsIdentity with the claims and authentication scheme    
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    //Initialize a new instance of the ClaimsPrincipal with ClaimsIdentity    
+                    //var principal = new ClaimsPrincipal(identity);
+                    var authProperties = new AuthenticationProperties
                     {
-                        ModelState.AddModelError("", "Mật khẩu không đúng, Vui lòng kiểm tra lại.");
+                        AllowRefresh = true,
+                        IsPersistent = false,
 
-                    }
-                    else if (result == null)
+                    };
+                    await HttpContext.SignInAsync(
+                         CookieAuthenticationDefaults.AuthenticationScheme,
+                            new ClaimsPrincipal(identity),
+                            authProperties);
+
+                    return RedirectToAction("Index", "Home", new
                     {
-                        ModelState.AddModelError("", "Tài khoản không tồn tại");
-
-                    }
+                        Area = "Admin",
+                        UserID = session.UserId,
+                        EmpID = session.EmpId
+                    });
 
                 }
+
+                //User
+                else if (result == 1)
+                {
+                    var cusId = dao.getCustomerInfo(model.UserName);
+                    var session = new CustomerLogin();
+
+                    HttpContext.Session.SetInt32("CUS_SESSION_CUSID", (int)cusId);
+
+                    //HttpContext context = HttpContext.Current;
+                    var claims = new List<Claim>() {
+                            new Claim(ClaimTypes.Role, "1"),
+                            new Claim(ClaimTypes.NameIdentifier, cusId.ToString())
+                    };
+
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var authProperties = new AuthenticationProperties
+                    {
+                        AllowRefresh = true,
+                        IsPersistent = false,
+
+                    };
+                    await HttpContext.SignInAsync(
+                         CookieAuthenticationDefaults.AuthenticationScheme,
+                            new ClaimsPrincipal(identity),
+                            authProperties);
+
+                    return RedirectToAction("Index", "Home", new
+                    {
+                        UserID = session.UserId,
+                        CusID = session.CusId
+                    });
+                }
+
+                //Employee
+                else if (result == 2)
+                {
+                    var emp_id = dao.getEmployeeInfo(model.UserName);
+                    var session = new AdminLogin
+                    {
+                        EmpId = (int)emp_id,
+                        UserId = dao.getItem(model.UserName).UserId
+                    };
+                    var claims = new List<Claim>() {
+                            new Claim(ClaimTypes.Role, "2"),
+                            new Claim(ClaimTypes.NameIdentifier, emp_id.ToString()),
+
+                    };
+     
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    var authProperties = new AuthenticationProperties
+                    {
+                        AllowRefresh = true,
+                        IsPersistent = false,
+
+                    };
+                    await HttpContext.SignInAsync(
+                         CookieAuthenticationDefaults.AuthenticationScheme,
+                            new ClaimsPrincipal(identity),
+                            authProperties);
+
+                    return RedirectToAction("Index", "Home", new
+                    {
+                        Area = "Admin",
+                        UserID = session.UserId,
+                        EmpID = session.EmpId
+                    });
+                }
+                //mat khau sai
+                else if (result == -1)
+                    ModelState.AddModelError("", "Mật khẩu không đúng, Vui lòng kiểm tra lại.");
+                //ten dang khong ton tai
+                else
+                    ModelState.AddModelError("", "Tên đăng nhập không tồn tại, Vui lòng kiểm tra lại.");
+
+
             }
             return View("Index");
         }
