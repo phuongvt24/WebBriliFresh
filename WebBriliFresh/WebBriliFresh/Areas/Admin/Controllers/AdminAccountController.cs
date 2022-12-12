@@ -44,7 +44,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             }
 
             var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.UserId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
                 return NotFound();
@@ -85,7 +85,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             }
 
             var user = await _context.Users.FindAsync(id);
-            var user2 = await _context.Users.Include(x => x.Employees).FirstOrDefaultAsync(x => x.UserId == id);
+            var user2 = await _context.Users.Include(x => x.Employees).FirstOrDefaultAsync(x => x.Id == id);
             if (user2 == null)
             {
                 return NotFound();
@@ -100,12 +100,12 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("UserId,ImageFile,UserName,UserPassword,UserRole,Avatar")] User user)
         {
-            if (id != user.UserId)
+            if (id != user.Id)
             {
                 return NotFound();
             }
 
-            var a = _context.Users.Where(x => x.UserId == id).Select(p => p.Avatar).ToList();
+            var a = _context.Users.Where(x => x.Id == id).Select(p => p.Avatar).ToList();
             user.Avatar = a[0];
 
             if (ModelState.IsValid)
@@ -129,7 +129,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                     }
                     catch (DbUpdateConcurrencyException)
                     {
-                        if (!UserExists(user.UserId))
+                        if (!UserExists(user.Id))
                         {
                             return NotFound();
                         }
@@ -159,7 +159,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             }
 
             var user = await _context.Users.Include(x=>x.Employees)
-                .FirstOrDefaultAsync(m => m.UserId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
                 return NotFound();
@@ -178,7 +178,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 return Problem("Entity set 'BriliFreshDbContext.Users'  is null.");
             }
             var user = await _context.Users.FindAsync(id);
-            var emp = await _context.Employees.Where(x => x.UserId == user.UserId).FirstOrDefaultAsync();
+            var emp = await _context.Employees.Where(x => x.UserId == user.Id).FirstOrDefaultAsync();
             if (user != null)
             {
                 user.IsDeleted = 1;
@@ -193,12 +193,12 @@ namespace WebBriliFresh.Areas.Admin.Controllers
 
         private bool UserExists(int id)
         {
-            return _context.Users.Any(e => e.UserId == id);
+            return _context.Users.Any(e => e.Id == id);
         }
         [HttpPost]
         public IActionResult Avtphoto(int id)
         {
-            var avt = _context.Users.Where(x => x.UserId == id).Select(p => p.Avatar).FirstOrDefault();
+            var avt = _context.Users.Where(x => x.Id == id).Select(p => p.Avatar).FirstOrDefault();
             if (avt == null)
             {
                 return Json(

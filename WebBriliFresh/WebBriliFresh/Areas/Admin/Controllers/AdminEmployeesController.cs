@@ -28,7 +28,10 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/AdminEmployees
         public async Task<IActionResult> Index()
         {
-            var briliFreshDbContext = _context.Employees.Include(e => e.Store).Include(e => e.User);
+            
+            ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "StoreId");
+            var briliFreshDbContext = _context.Employees.Include(s => s.Store).Where(s => s.Store.IsDeleted == 0); 
+            //var briliFreshDbContext = _context.Employees.Include(e => e.Store).Include(e => e.User);
             return View(await briliFreshDbContext.ToListAsync());
         }
 
@@ -162,7 +165,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 model.UserRole = 2;
                 _context.Add(model);
                 await _context.SaveChangesAsync();
-                int userid = model.UserId;
+                int userid = model.Id;
                 employee.UserId = userid;
                 employee.IsDeleted = 0;
                 _context.Add(employee);
@@ -261,7 +264,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             }
             var employee = await _context.Employees.FindAsync(id);
 
-            var user = await _context.Users.Where(x => x.UserId == employee.UserId).FirstOrDefaultAsync();
+            var user = await _context.Users.Where(x => x.Id == employee.UserId).FirstOrDefaultAsync();
             if (employee != null)
             {
                 employee.IsDeleted = 1;

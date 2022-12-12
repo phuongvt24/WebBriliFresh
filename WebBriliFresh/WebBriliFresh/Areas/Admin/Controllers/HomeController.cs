@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebBriliFresh.Common;
 using WebBriliFresh.Models;
+using System.Data.SqlClient;
 
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
@@ -44,7 +45,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             var l_name = employee.LastName;
             HttpContext.Session.SetString("ADMIN_SESSION_FIRSTNAME", f_name);
             HttpContext.Session.SetString("ADMIN_SESSION_LASTNAME", l_name);
-            var u_avatar = (from user in db.Users where user.UserId == UserID select user).FirstOrDefault();
+            var u_avatar = (from user in db.Users where user.Id == UserID select user).FirstOrDefault();
             string avatar = u_avatar.Avatar;
             if (avatar != null)
             {
@@ -59,5 +60,6 @@ namespace WebBriliFresh.Areas.Admin.Controllers
 
             return View();
         }
+
     }
 }

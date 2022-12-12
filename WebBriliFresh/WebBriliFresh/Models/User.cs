@@ -1,15 +1,16 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebBriliFresh.Models;
 
-public partial class User
+public partial class User : IdentityUser<int>
 {
-    public int UserId { get; set; }
+    public override int Id { get; set; }
 
-    public string? UserName { get; set; }
+    public override string? UserName { get; set; }
 
     public string? UserPassword { get; set; }
 

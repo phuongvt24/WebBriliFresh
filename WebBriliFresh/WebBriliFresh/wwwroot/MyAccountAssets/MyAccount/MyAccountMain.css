@@ -1,0 +1,142 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100&family=Lexend:wght@300;500;700&family=Lora:ital,wght@1,400;1,500;1,600&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100&family=Lexend:wght@300;500;700&family=Lora:ital,wght@1,400;1,500;1,600&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,200;1,300;1,400&family=Poppins:ital@0;1&display=swap");
+
+* {
+    font-family: "Lexend", sans-serif;
+}
+
+a{
+    cursor:pointer;
+}
+
+.container {
+    background-color: #eaffe4;
+    max-width: 1200px !important;
+    margin-top: 84px;
+}
+
+.directory {
+    font-family: "Lexend", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #000000;
+}
+
+.breadcrumb a {
+    color: #000000;
+    text-decoration: none;
+}
+
+.breadcrumb li:last-child {
+    color: rgb(34, 209, 34);
+    text-decoration: none;
+}
+
+.container-left {
+    margin-top: 24px;
+}
+
+.left-content {
+    padding: 8px 20px;
+    border-right: 1px solid rgb(224, 224, 224);
+}
+
+.left-content .avatar {
+    margin-bottom: 16px;
+    border-bottom: 1px solid rgb(224, 224, 224);
+}
+
+.avatar .avatar-text {
+    margin-left: 64px;
+    font-size: 15px;
+}
+
+.avatar-text #user-name {
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.container-left .avatar img {
+    float: left;
+    width: 44px;
+    border-radius: 50%;
+}
+
+.sidebar i {
+    font-size: 20px;
+    margin: 0 32px 0 4px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 8px;
+    color: #000;
+    text-decoration: none;
+}
+
+.sidebar a.active {
+    color: rgb(34, 209, 34);
+}
+
+.sidebar a:hover:not(.active) {
+    background-color: rgb(34, 209, 34);
+    color: #fff;
+}
+
+.sidebar .sidebar-text {
+    font-size: 16px;
+}
+
+.heading-right {
+    height: 64px;
+    display: flex;
+    font-size: 18px;
+    align-items: center;
+    margin-bottom: 24px;
+    border-bottom: 1px solid rgb(224, 224, 224);
+}
+
+.container-right {
+    padding: 8px 20px 32px 20px;
+}
+
+/*.row {
+    padding-left: 16px;
+    padding-right: 16px;
+}*/
+
+.btn-shared {
+    padding: 4px 6px;
+    color: green;
+    border-radius: 8px;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid green;
+}
+
+.btn-shared:hover {
+    cursor: pointer;
+    color: #fff;
+    background-color: green;
+}
+
+@media screen and (max-width: 700px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+    .sidebar a {
+        float: left;
+    }
+    div.content {
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .sidebar a {
+        text-align: center;
+        float: none;
+    }
+}

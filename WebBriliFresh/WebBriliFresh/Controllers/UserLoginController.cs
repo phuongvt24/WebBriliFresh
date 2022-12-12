@@ -9,154 +9,156 @@ using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using WebBriliFresh.Models.DTO;
+using WebBriliFresh.Repositories.Abstract;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebBriliFresh.Controllers
 {
-    public class UserLoginController : Controller
+    public class UserLogin : Controller
     {
+        private readonly IUserAuthenticationService _authService;
+        private readonly BriliFreshDbContext _context;
+
+        public UserLogin(IUserAuthenticationService authService, BriliFreshDbContext context)
+        {
+            this._authService = authService;
+            _context = context; 
+        }
+
+
         public IActionResult Index()
         {
-
-            return View("Index");
-        }
-        public async Task<IActionResult> LogOut()
-        {
-            //SignOutAsync is Extension method for SignOut    
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            //Redirect to home page    
-            return LocalRedirect("/");
+            return View();
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> LoginAsync(LoginModel model)
+        public async Task<IActionResult> Login(LoginModel model)
         {
+            if (!ModelState.IsValid)
+                return View(model);
 
-            if (ModelState.IsValid)
+            var result = await _authService.LoginAsync(model);
+
+            string role = User.FindFirstValue(ClaimTypes.Role).ToUpper();
+
+
+            if (result.StatusCode == 1 && (role == "ADMIN" || role == "EMPLOYEE"))
             {
-                var dao = new UserDAO();
-                var result = dao.Login(model.UserName, model.PassWord);
 
-
-                //Admin
-                if (result == 3)
+                var empID = (from item in _context.Employees
+                             where item.UserId == Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
+                             select item.EmpId).First();
+                return RedirectToAction("Index", "Home", new
                 {
-                    var emp_id = dao.getEmployeeInfo(model.UserName);
-                    var session = new AdminLogin
-                    {
-                        EmpId = (int)emp_id,
-                        UserId = dao.getItem(model.UserName).UserId
-                    };
-
-                    HttpContext.Session.SetInt32("EMP_SESSION_EMPID", (int)emp_id);
-
-                    var claims = new List<Claim>() {
-                            new Claim(ClaimTypes.Role, "3"),
-                            new Claim(ClaimTypes.NameIdentifier, emp_id.ToString()),
-
-                    };
-                    //Initialize a new instance of the ClaimsIdentity with the claims and authentication scheme    
-                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    //Initialize a new instance of the ClaimsPrincipal with ClaimsIdentity    
-                    //var principal = new ClaimsPrincipal(identity);
-                    var authProperties = new AuthenticationProperties
-                    {
-                        AllowRefresh = true,
-                        IsPersistent = false,
-
-                    };
-                    await HttpContext.SignInAsync(
-                         CookieAuthenticationDefaults.AuthenticationScheme,
-                            new ClaimsPrincipal(identity),
-                            authProperties);
-
-                    return RedirectToAction("Index", "Home", new
-                    {
-                        Area = "Admin",
-                        UserID = session.UserId,
-                        EmpID = session.EmpId
-                    });
-
-                }
-
-                //User
-                else if (result == 1)
-                {
-                    var cusId = dao.getCustomerInfo(model.UserName);
-                    var session = new CustomerLogin();
-
-                    HttpContext.Session.SetInt32("CUS_SESSION_CUSID", (int)cusId);
-
-                    //HttpContext context = HttpContext.Current;
-                    var claims = new List<Claim>() {
-                            new Claim(ClaimTypes.Role, "1"),
-                            new Claim(ClaimTypes.NameIdentifier, cusId.ToString())
-                    };
-
-                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    var authProperties = new AuthenticationProperties
-                    {
-                        AllowRefresh = true,
-                        IsPersistent = false,
-
-                    };
-                    await HttpContext.SignInAsync(
-                         CookieAuthenticationDefaults.AuthenticationScheme,
-                            new ClaimsPrincipal(identity),
-                            authProperties);
-
-                    return RedirectToAction("Index", "Home", new
-                    {
-                        UserID = session.UserId,
-                        CusID = session.CusId
-                    });
-                }
-
-                //Employee
-                else if (result == 2)
-                {
-                    var emp_id = dao.getEmployeeInfo(model.UserName);
-                    var session = new AdminLogin
-                    {
-                        EmpId = (int)emp_id,
-                        UserId = dao.getItem(model.UserName).UserId
-                    };
-                    var claims = new List<Claim>() {
-                            new Claim(ClaimTypes.Role, "2"),
-                            new Claim(ClaimTypes.NameIdentifier, emp_id.ToString()),
-
-                    };
-     
-                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                    var authProperties = new AuthenticationProperties
-                    {
-                        AllowRefresh = true,
-                        IsPersistent = false,
-
-                    };
-                    await HttpContext.SignInAsync(
-                         CookieAuthenticationDefaults.AuthenticationScheme,
-                            new ClaimsPrincipal(identity),
-                            authProperties);
-
-                    return RedirectToAction("Index", "Home", new
-                    {
-                        Area = "Admin",
-                        UserID = session.UserId,
-                        EmpID = session.EmpId
-                    });
-                }
-                //mat khau sai
-                else if (result == -1)
-                    ModelState.AddModelError("", "Mật khẩu không đúng, Vui lòng kiểm tra lại.");
-                //ten dang khong ton tai
-                else
-                    ModelState.AddModelError("", "Tên đăng nhập không tồn tại, Vui lòng kiểm tra lại.");
-
-
+                    area = "Admin",
+                    userId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                    empID = empID
+                });
             }
-            return View("Index");
+            else if (result.StatusCode == 1 && role == "CUSTOMER")
+            {
+                var cusID = (from item in _context.Customers
+                             where item.UserId == Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
+                             select item.CusId).First();
+
+                return RedirectToAction("Index", "Home", new
+                {
+                    userId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                    cusID = cusID
+                });
+            }
+            else
+            {
+                TempData["msg"] = result.Message;
+                return RedirectToAction(nameof(Login));
+            }
+        }
+
+        public IActionResult Registration()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Registration(RegistrationModel model)
+        {
+            if (!ModelState.IsValid) { return View(model); }
+            model.Role = "Customer";
+            var result = await this._authService.RegisterAsync(model);
+            TempData["msg"] = result.Message;
+            return RedirectToAction(nameof(Registration));
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            await this._authService.LogoutAsync();
+            return RedirectToAction(nameof(Login));
+        }
+
+        [Authorize]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+            var result = await _authService.ChangePasswordAsync(model, User.Identity.Name);
+            TempData["msg"] = result.Message;
+            return RedirectToAction(nameof(ChangePassword));
+        }
+
+
+        [AllowAnonymous]
+        public async Task<IActionResult> RegisterAdmin()
+        {
+            RegistrationModel model = new RegistrationModel
+            {
+                Username = "admin",
+                Email = "admin@gmail.com",
+                Password = "Admin123!",
+                Role = "admin",
+                UserRole = 3
+            };
+            var result = await this._authService.RegisterAsync(model);
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> RegisterCustomer()
+        {
+            RegistrationModel model = new RegistrationModel
+            {
+                Username = "quynhchi",
+                Email = "quynhchi@gmail.com",
+                Password = "Quynhchi123!",
+                Role = "customer",
+                UserRole = 1
+            };
+            var result = await this._authService.RegisterAsync(model);
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> RegisterEmployee()
+        {
+            RegistrationModel model = new RegistrationModel
+            {
+                Username = "employee",
+                Email = "employee@gmail.com",
+                Password = "Employee123!",
+                Role = "employee",
+                UserRole = 2
+            };
+            var result = await this._authService.RegisterAsync(model);
+            return Ok(result);
         }
     }
 }

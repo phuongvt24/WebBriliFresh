@@ -26,15 +26,15 @@
                 </li>
                 <li class="header__navbar-item"><a href="#">Liên hệ</a></li>
             </ul>
-            <ul class="header__navbar-list " style="margin-right: -52px;">
+            <ul class="header__navbar-list " style="margin-right: -52px;" onclick='window.location = "@Url.Action("AccountInfo", "MyAccount")"'>
                 <li class="header__navbar-name">Võ Thanh Phương</li>
                 <li class="header__navbar-avt"><img src="~/HomeAssets/asset/image/logo.png" alt="" id="avartar_user"></li>
             </ul>
             <div class="line">
             </div>
             <div class="header__cart " style="margin-left: -32px;">
-                <i class="ti-shopping-cart"></i>
-                <div class="header__cart-number">
+                <i class="ti-shopping-cart" onclick='window.location = "@Url.Action("CartInfoCheck", "BuyAndPay")"'></i>
+                <div class="header__cart-number" onclick='window.location = "@Url.Action("CartInfoCheck", "BuyAndPay")"'>
                     <p class="number-item">
                         9
                     </p>
