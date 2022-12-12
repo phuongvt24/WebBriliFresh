@@ -39,7 +39,7 @@
                     <tr>
                         <th>ID Nhân viên</th>
                         <th>Họ tên</th>
-                        <th>ID cửa hàng</th>
+                        @*<th>ID cửa hàng</th>*@
                         <th>Cửa hàng</th>
                         <th>Ngày vào làm</th>
                         <th></th>
@@ -58,8 +58,12 @@
                                         <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.FirstName)</h6>
                                     </div>
                                 </td>
-                                <td><span class="storeId">@Html.DisplayFor(modelItem => item.Store.StoreId)</span></td>
-                                <td>@Html.DisplayFor(modelItem => item.Store.SpecificAddress), @Html.DisplayFor(modelItem => item.Store.Ward), @Html.DisplayFor(modelItem => item.Store.District), @Html.DisplayFor(modelItem => item.Store.City)</td>
+                                                            
+                                <td>ID: <span class="storeId">@Html.DisplayFor(modelItem => item.Store.StoreId)</span> <br>
+                                    Địa chi: @Html.DisplayFor(modelItem => item.Store.SpecificAddress), @Html.DisplayFor(modelItem => item.Store.Ward), @Html.DisplayFor(modelItem => item.Store.District), @Html.DisplayFor(modelItem => item.Store.City)</td>
+                              
+                               @* <td><span class="storeId">@Html.DisplayFor(modelItem => item.Store.StoreId)</span></td>
+                                <td>@Html.DisplayFor(modelItem => item.Store.SpecificAddress), @Html.DisplayFor(modelItem => item.Store.Ward), @Html.DisplayFor(modelItem => item.Store.District), @Html.DisplayFor(modelItem => item.Store.City)</td>*@
                                 <td>@Html.DisplayFor(modelItem => item.StartDate)</td>
                                
                                 <td class="text-right">

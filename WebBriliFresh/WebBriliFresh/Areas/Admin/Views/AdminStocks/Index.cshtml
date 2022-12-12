@@ -110,4 +110,16 @@
             }
         }
     })
+
+    $('#createbtn').click(function () {
+        var a = $('#store').val();
+        window.location.href = "/Admin/AdminStocks/Create/" + a;
+    })
+
+    for (var i = 0; i < $('.quantity').length; i++) {
+        if ($('.quantity')[i].innerHTML == 0) {
+            $('.rowitem')[i].style.backgroundColor="#ffa8a8";
+            $('.rowitem')[i].style.color="#FFFFFF";
+        }
+    }
 </script>

@@ -139,22 +139,9 @@
     //    window.location.href = "/Admin/AdminCustomers/Index/" + a.options[a.selectedIndex].key;
     //}
 
-    //$('#customer-filter').change(function () {
-    //        var a = $('#customer-filter').val();
-    //    $(".rowitem").show();
-    //for (var i = 0; i < $(".rank").length; i++) {
-    //        var c = $(".rank")[i].innerText;
-    //        if ((a != c) && (a != "")) {
-    //        $(".rowitem")[i].style.display = 'none';
-    //        }
-    //    }
-    //})
-
     $('#customer-filter, #gender-filter').change(function () {
         var a = $('#customer-filter').val();
         var b = $('#gender-filter').val();
-        alert(a);
-        alert(b);
         $(".rowitem").show();
         for (var i = 0; i < $(".rank").length; i++) {
             var c = $(".rank")[i].innerText;
