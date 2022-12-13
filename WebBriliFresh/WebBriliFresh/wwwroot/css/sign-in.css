@@ -12,9 +12,6 @@ body,
 input {
     font-family: "Lexend", sans-serif;
 }
-.validation-summary-errors ul {
-    list-style-type: none;
-}
 
 main {
     width: 100%;
@@ -33,6 +30,10 @@ main {
     height: 560px;
     background-color: rgb(255, 255, 255);
     box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 27);
+}
+
+ul {
+    list-style-type: none;
 }
 
 .inner-box {
