@@ -39,6 +39,7 @@ namespace WebBriliFresh.Repositories.Implementation
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 UserRole = model.UserRole,
+                IsDeleted = 0
             };
             var result = await userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
@@ -53,8 +54,9 @@ namespace WebBriliFresh.Repositories.Implementation
                 await userManager.AddToRoleAsync(user, model.Role);
             }
 
+
             status.StatusCode = 1;
-            status.Message = "You have registered successfully";
+            status.Message = "Đăng ký thành công";
             return status;
         }
 

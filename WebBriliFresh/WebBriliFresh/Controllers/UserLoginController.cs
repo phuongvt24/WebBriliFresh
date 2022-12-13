@@ -45,9 +45,6 @@ namespace WebBriliFresh.Controllers
                 return View(model);
 
             var result = await _authService.LoginAsync(model);
-
-
-
            
             if (result.StatusCode == 1)
             {
@@ -100,9 +97,36 @@ namespace WebBriliFresh.Controllers
         [HttpPost]
         public async Task<IActionResult> Registration(RegistrationModel model)
         {
-            if (!ModelState.IsValid) { return View(model); }
+            if (!ModelState.IsValid)
+                return View(model);
+
             model.Role = "Customer";
             var result = await this._authService.RegisterAsync(model);
+
+
+            if(result.StatusCode == 1)
+            {
+                User user = await _userManager.FindByNameAsync(model.Username);
+
+                Customer cus = new Customer();
+                cus.FirstName = model.FirstName;
+                cus.LastName = model.LastName;
+                cus.Gender = model.Gender;
+                cus.Email = model.Email;
+                cus.Phone = model.Phone;
+                cus.UserId = user.Id;
+                cus.RewardId = user.Id;
+
+                Reward reward = new Reward();
+                reward.RewardId = user.Id;
+
+                _context.Add(cus);
+                _context.Add(reward);
+                await _context.SaveChangesAsync();
+                result.Message = "Tạo người dùng thành công với đầy đủ thông tin";
+            }
+
+
             TempData["msg"] = result.Message;
             return RedirectToAction(nameof(Registration));
         }
@@ -132,49 +156,49 @@ namespace WebBriliFresh.Controllers
         }
 
 
-        [AllowAnonymous]
-        public async Task<IActionResult> RegisterAdmin()
-        {
-            RegistrationModel model = new RegistrationModel
-            {
-                Username = "admin",
-                Email = "admin@gmail.com",
-                Password = "Admin123!",
-                Role = "admin",
-                UserRole = 3
-            };
-            var result = await this._authService.RegisterAsync(model);
-            return Ok(result);
-        }
+        //[AllowAnonymous]
+        //public async Task<IActionResult> RegisterAdmin()
+        //{
+        //    RegistrationModel model = new RegistrationModel
+        //    {
+        //        Username = "admin",
+        //        Email = "admin@gmail.com",
+        //        Password = "Admin123!",
+        //        Role = "admin",
+        //        UserRole = 3
+        //    };
+        //    var result = await this._authService.RegisterAsync(model);
+        //    return Ok(result);
+        //}
 
-        [AllowAnonymous]
-        public async Task<IActionResult> RegisterCustomer()
-        {
-            RegistrationModel model = new RegistrationModel
-            {
-                Username = "quynhchi",
-                Email = "quynhchi@gmail.com",
-                Password = "Quynhchi123!",
-                Role = "customer",
-                UserRole = 1
-            };
-            var result = await this._authService.RegisterAsync(model);
-            return Ok(result);
-        }
+        //[AllowAnonymous]
+        //public async Task<IActionResult> RegisterCustomer()
+        //{
+        //    RegistrationModel model = new RegistrationModel
+        //    {
+        //        Username = "quynhchi",
+        //        Email = "quynhchi@gmail.com",
+        //        Password = "Quynhchi123!",
+        //        Role = "customer",
+        //        UserRole = 1
+        //    };
+        //    var result = await this._authService.RegisterAsync(model);
+        //    return Ok(result);
+        //}
 
-        [AllowAnonymous]
-        public async Task<IActionResult> RegisterEmployee()
-        {
-            RegistrationModel model = new RegistrationModel
-            {
-                Username = "employee",
-                Email = "employee@gmail.com",
-                Password = "Employee123!",
-                Role = "employee",
-                UserRole = 2
-            };
-            var result = await this._authService.RegisterAsync(model);
-            return Ok(result);
-        }
+        //[AllowAnonymous]
+        //public async Task<IActionResult> RegisterEmployee()
+        //{
+        //    RegistrationModel model = new RegistrationModel
+        //    {
+        //        Username = "employee",
+        //        Email = "employee@gmail.com",
+        //        Password = "Employee123!",
+        //        Role = "employee",
+        //        UserRole = 2
+        //    };
+        //    var result = await this._authService.RegisterAsync(model);
+        //    return Ok(result);
+        //}
     }
 }

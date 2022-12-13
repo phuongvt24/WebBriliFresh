@@ -1,19 +1,26 @@
-﻿<html lang="en">
+﻿
+@{
+    Layout = null;
+}
+
+@model RegistrationModel;
+
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="~/css/new_signup.css">
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Đăng ký</title>
+    <link rel="stylesheet" href="~/css/new_signup.css"/>
 </head>
 
-<body>
+<body style="background: url('./HomeAssets/login_background.jpeg') no-repeat center center fixed;background-size: cover;">
     <main>
         <div class="box">
             <div class="inner-box" id="myDIV">
                 <div class="forms-wrap">
-                    <form action="#" class="sign-up-form">
+                    <form asp-action="" class="sign-up-form">
                         <div class="heading-signup">
                             <h1>Xin chào!</h1>
                             <h2>Đăng ký để nhận nhiều ưu đãi!</h2>
