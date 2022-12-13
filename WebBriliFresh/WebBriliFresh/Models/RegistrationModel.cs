@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebBriliFresh.Models
 {
@@ -10,9 +11,11 @@ namespace WebBriliFresh.Models
         public string LastName { get; set; }
         [Required(ErrorMessage = "Vui lòng điền đầy đủ thông tin")]
         [EmailAddress]
+        [Remote(action: "VerifyEmail", controller: "UserLogin", ErrorMessage = "Email đã tồn tại")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Vui lòng điền đầy đủ thông tin")]
+        [Remote(action: "VerifyUserName", controller: "UserLogin", ErrorMessage = "Tên đăng nhập đã tồn tại")]
         public string Username { get; set; }
 
         [Required(ErrorMessage = "Vui lòng điền đầy đủ thông tin")]

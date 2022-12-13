@@ -136,11 +136,12 @@ namespace WebBriliFresh.Controllers
                 await _emailSender.SendEmailAsync(user.Email, "Xác nhận email", confirmationLink);
 
                 result.Message = "Tạo người dùng thành công với đầy đủ thông tin";
+                return RedirectToAction(nameof(SuccessRegistration));
             }
 
 
             TempData["msg"] = result.Message;
-            return RedirectToAction(nameof(SuccessRegistration));
+            return RedirectToAction(nameof(Registration));
         }
 
         [HttpGet]
@@ -184,6 +185,31 @@ namespace WebBriliFresh.Controllers
         }
 
 
+        [AcceptVerbs("GET", "POST")]
+        public IActionResult VerifyUserName(string UserName)
+        {
+            var exist = _userManager.FindByNameAsync(UserName);
+
+            if (exist != null)
+            {
+                return Json(true);
+            }
+
+            return Json(false);
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        public IActionResult VerifyEmail(string email)
+        {
+            var exist = _userManager.FindByEmailAsync(email);
+
+            if (exist != null)
+            {
+                return Json(true);
+            }
+
+            return Json(false);
+        }
         //[AllowAnonymous]
         //public async Task<IActionResult> RegisterAdmin()
         //{
