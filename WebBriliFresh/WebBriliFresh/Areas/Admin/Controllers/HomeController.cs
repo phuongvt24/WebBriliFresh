@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using WebBriliFresh.Common;
 using WebBriliFresh.Models;
 using System.Data.SqlClient;
+using System.Configuration;
+using System.Data;
 
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
@@ -14,6 +16,9 @@ namespace WebBriliFresh.Areas.Admin.Controllers
     {
         public int s_userid;
         public int s_empid;
+
+        //public string ConnectionString { get; private set; }
+
         public int getUserID()
         {
             return s_userid;
@@ -61,6 +66,37 @@ namespace WebBriliFresh.Areas.Admin.Controllers
 
             return View();
         }
+        /*
+        public JsonResult DashBoardcount()
+        {
+            try
+            {
+                string[] DashBoardcount = new string[2];    
 
+                SqlConnection con = new SqlConnection(ConnectionString);
+                con.Open();
+                SqlCommand cmd = new SqlCommand("Select count(*) as thanhvien, (select count(*) from Customer where userid is null) as khachvanglai from customer where userid is not null", con);
+                DataTable dt = new DataTable();
+                SqlDataAdapter cmd1 = new SqlDataAdapter(cmd);
+                cmd1.Fill(dt);
+                if (dt.Rows.Count == 0)
+                {
+                    DashBoardcount[0] = "0";
+                    DashBoardcount[1] = "0";
+                }
+                else
+                {
+                    DashBoardcount[0] = dt.Rows[0]["thanhvien"].ToString();
+                    DashBoardcount[1] = dt.Rows[1]["khachvanglai"].ToString();
+                }
+                return Json(DashBoardcount);
+
+                    }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        */
     }
 }
