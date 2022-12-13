@@ -8,6 +8,12 @@
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
 <div class="page-header">
     <h2 class="header-title">Brili Fresh</h2>
     <div class="header-sub-title">
@@ -106,34 +112,11 @@
         <div class="col-md-12 col-lg-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="m-b-0">Khách hàng</h5>
-                    <div class="m-v-60 text-center" style="height: 200px">
-                        <canvas class="chart" id="customers-chart"></canvas>
-                    </div>
-                    <div class="row border-top p-t-25">
-                        <div class="col-4">
-                            <div class="d-flex justify-content-center">
-                                <div class="media align-items-center">
-                                    <span class="badge badge-success badge-dot m-r-10"></span>
-                                    <div class="m-l-5">
-                                        <h4 class="m-b-0">350</h4>
-                                        <p class="m-b-0 muted">Thành viên</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="d-flex justify-content-center">
-                                <div class="media align-items-center">
-                                    <span class="badge badge-secondary badge-dot m-r-10"></span>
-                                    <div class="m-l-5">
-                                        <h4 class="m-b-0">550</h4>
-                                        <p class="m-b-0 muted">Khách vãng lai</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <figure class="highcharts-figure">
+                        <div id="container"></div>
+                        <p class="highcharts-description">
+                        </p>
+                    </figure>
                 </div>
             </div>
         </div>
@@ -161,7 +144,49 @@
     b = Number(b).toLocaleString('en');
     $("#totalBenefit").text(b + ' đ');
 
-
+    Highcharts.chart('container', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Cơ cấu khách hàng'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            name: 'Customers',
+            colorByPoint: true,
+            data: [{
+                name: 'Thành viên',
+                y: @ViewBag.TotalMember,
+                sliced: true,
+                selected: true
+            }, {
+                name: 'Khách vãng lai',
+                y: @ViewBag.TotalWalkInGuest
+            }]
+        }]
+    });
+    /*
     $.ajax({
         type: "POST"
         url: '/Admin/AdminStatistic'
@@ -169,7 +194,13 @@
         contentType: "application/json:charset=utf-8",
         dataType: "json",
         success: function (json){
-
+            debugger
+            var values = json.DashBoardcount ;
+            var thanhviencount = parseInt(values[0]);
+            var khachvanglaicount = parseInt(values[1]);
         }
     })
+    */
+
+
 </script>

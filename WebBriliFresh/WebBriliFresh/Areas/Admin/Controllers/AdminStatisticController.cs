@@ -31,6 +31,9 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             ViewBag.TotalBenefit = BenefitStatistic(); // Thống kê tồng lợi nhuận
             ViewBag.TotalOrder = OrderStatistic(); // Thống kê tồng đơn hàng
             ViewBag.TotalCus = CusStatistic(); // Thống kê tồng khách hàng
+
+            ViewBag.TotalMember = MemberStatistic(); // Thống kê tồng khách hàng thành viên
+            ViewBag.TotalWalkInGuest = GuestStatistic(); // Thống kê tồng khách hàng vãng lai
             return View();
         }
 
@@ -90,6 +93,18 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         {
             double cusNum = _context.Customers.Count();
             return cusNum;
+        }
+
+        public double MemberStatistic()
+        {
+            double memNum = _context.Customers.Where(c => c.UserId != null).Count();
+            return memNum;
+        }
+
+        public double GuestStatistic()
+        {
+            double guestNum = _context.Customers.Where(c => c.UserId == null).Count();
+            return guestNum;
         }
     }
 }
