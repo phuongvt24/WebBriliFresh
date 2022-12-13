@@ -49,10 +49,9 @@ namespace WebBriliFresh.Repositories.Implementation
                 return status;
             }
 
-            if (await roleManager.RoleExistsAsync(model.Role))
-            {
-                await userManager.AddToRoleAsync(user, model.Role);
-            }
+
+             await userManager.AddToRoleAsync(user, "Customer");
+
 
 
             status.StatusCode = 1;

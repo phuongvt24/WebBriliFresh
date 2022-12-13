@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 
@@ -8,11 +7,11 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đăng ký</title>
-    <link rel="stylesheet" href="~/css/new_signup.css"/>
+    <link rel="stylesheet" href="~/css/new_signup.css" />
 </head>
 
 <body style="background: url('./HomeAssets/login_background.jpeg') no-repeat center center fixed;background-size: cover;">
@@ -20,7 +19,7 @@
         <div class="box">
             <div class="inner-box" id="myDIV">
                 <div class="forms-wrap">
-                    <form asp-action="" class="sign-up-form">
+                    <form asp-action="Registration" class="sign-up-form">
                         <div class="heading-signup">
                             <h1>Xin chào!</h1>
                             <h2>Đăng ký để nhận nhiều ưu đãi!</h2>
@@ -29,45 +28,54 @@
                         <div class="actual-signup-form">
                             <div class="actual-signup-form">
                                 <div class="input-wrap-signup">
-                                    <input type="text" class="input-field" autocomplete="off" required placeholder="Họ">    
+                                    <input asp-for="LastName" type="text" class="input-field" autocomplete="off" required placeholder="Họ">
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+
                                 </div>
                                 <div class="input-wrap-signup">
-                                    <input id="pass" type="text" minlength="4" class="input-field" autocomplete="off"
-                                        required placeholder="Tên">    
+                                    <input asp-for="FirstName" id="pass" type="text" minlength="4" class="input-field" autocomplete="off"
+                                           required placeholder="Tên">
+                                    <div asp-validation-for="FirstName" class="text-danger"></div>
                                 </div>
-    
+
                                 <div class="input-wrap-signup">
-                                    <select name="gender" id="gender" class="input-field select-gender">
+                                    <select asp-for="Gender" name="gender" id="gender" class="input-field select-gender">
                                         <option selected disabled>Giới tính</option>
-                                        <option value="Male">Nam</option>
-                                        <option value="Female">Nữ</option>
-                                        <option value="Other">Khác</option>
+                                        <option value="1">Nam</option>
+                                        <option value="2">Nữ</option>
+                                        <option value="3">Khác</option>
                                     </select>
-    
-                                </div>
-    
-                                <div class="input-wrap-signup">
-                                    <input id="pass" type="tel" minlength="4" class="input-field" autocomplete="off"
-                                        required placeholder="Số điện thoại">    
-                                </div>
-    
-                                <div class="input-wrap-signup">
-                                    <input id="pass" type="email" class="input-field" autocomplete="off" required
-                                        placeholder="Email">    
+                                    <div asp-validation-for="Gender" class="text-danger"></div>
                                 </div>
 
                                 <div class="input-wrap-signup">
-                                    <input type="text" class="input-field" autocomplete="off" required
-                                        placeholder="Tên đăng nhập">
-                                </div>
-                                <div class="input-wrap-signup">
-                                    <input id="pass" type="password" minlength="4" class="input-field"
-                                    autocomplete="off" required placeholder="Mật khẩu">
+                                    <input asp-for="Phone" id="pass" type="tel" minlength="4" class="input-field" autocomplete="off"
+                                           required placeholder="Số điện thoại">
+                                    <div asp-validation-for="Phone" class="text-danger"></div>
                                 </div>
 
                                 <div class="input-wrap-signup">
-                                    <input id="pass" type="password" minlength="4" class="input-field"
-                                    autocomplete="off" required placeholder="Xác nhận mật khẩu">
+                                    <input asp-for="Email" id="pass" type="email" class="input-field" autocomplete="off" required
+                                           placeholder="Email">
+                                    <div asp-validation-for="Email" class="text-danger"></div>
+                                </div>
+
+                                <div class="input-wrap-signup">
+                                    <input asp-for="Username" type="text" class="input-field" autocomplete="off" required
+                                           placeholder="Tên đăng nhập">
+                                    <div asp-validation-for="Username" class="text-danger"></div>
+
+                                </div>
+                                <div class="input-wrap-signup">
+                                    <input asp-for="Password" id="pass" type="password" minlength="4" class="input-field"
+                                           autocomplete="off" required placeholder="Mật khẩu">
+                                    <div asp-validation-for="Password" class="text-danger"></div>
+                                </div>
+
+                                <div class="input-wrap-signup">
+                                    <input asp-for="PasswordConfirm" id="pass" type="password" minlength="4" class="input-field"
+                                           autocomplete="off" required placeholder="Xác nhận mật khẩu">
+                                    <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
                                 </div>
 
                                 <div class="create-account-box">
@@ -94,12 +102,13 @@
             </div>
         </div>
     </main>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 </body>
 </html>
 
 <script>
     var genderSelect = document.querySelector('.select-gender');
-    genderSelect.addEventListener('change', function() {
+    genderSelect.addEventListener('change', function () {
         genderSelect.classList.add('js-change-color')
     })
 </script>

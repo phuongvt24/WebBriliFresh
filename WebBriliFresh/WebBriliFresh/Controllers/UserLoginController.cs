@@ -108,6 +108,12 @@ namespace WebBriliFresh.Controllers
             {
                 User user = await _userManager.FindByNameAsync(model.Username);
 
+                Reward reward = new Reward();
+                _context.Add(reward);
+                await _context.SaveChangesAsync();
+
+                int newRewardId = _context.Rewards.Max(p => p.RewardId);
+
                 Customer cus = new Customer();
                 cus.FirstName = model.FirstName;
                 cus.LastName = model.LastName;
@@ -115,14 +121,11 @@ namespace WebBriliFresh.Controllers
                 cus.Email = model.Email;
                 cus.Phone = model.Phone;
                 cus.UserId = user.Id;
-                cus.RewardId = user.Id;
-
-                Reward reward = new Reward();
-                reward.RewardId = user.Id;
+                cus.RewardId = newRewardId;
 
                 _context.Add(cus);
-                _context.Add(reward);
                 await _context.SaveChangesAsync();
+
                 result.Message = "Tạo người dùng thành công với đầy đủ thông tin";
             }
 
