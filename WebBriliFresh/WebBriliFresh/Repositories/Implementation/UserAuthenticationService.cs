@@ -28,7 +28,7 @@ namespace WebBriliFresh.Repositories.Implementation
             if (userExists != null)
             {
                 status.StatusCode = 0;
-                status.Message = "User already exist";
+                status.Message = "Tên đăng nhập đã tồn tại";
                 return status;
             }
             User user = new User()
@@ -44,7 +44,7 @@ namespace WebBriliFresh.Repositories.Implementation
             if (!result.Succeeded)
             {
                 status.StatusCode = 0;
-                status.Message = "User creation failed";
+                status.Message = "Đăng ký thất bại";
                 return status;
             }
 
@@ -66,14 +66,14 @@ namespace WebBriliFresh.Repositories.Implementation
             if (user == null)
             {
                 status.StatusCode = 0;
-                status.Message = "Invalid username";
+                status.Message = "Tên đăng nhập không tồn tại.";
                 return status;
             }
 
             if (!await userManager.CheckPasswordAsync(user, model.PassWord))
             {
                 status.StatusCode = 0;
-                status.Message = "Invalid Password";
+                status.Message = "Mật khẩu sai";
                 return status;
             }
 
@@ -94,17 +94,17 @@ namespace WebBriliFresh.Repositories.Implementation
                 IdentityResult result = await userManager.AddClaimsAsync(user, authClaims);
 
                 status.StatusCode = 1;
-                status.Message = "Logged in successfully";
+                status.Message = "Đăng nhập thành công";
             }
             else if (signInResult.IsLockedOut)
             {
                 status.StatusCode = 0;
-                status.Message = "User is locked out";
+                status.Message = "Tài khoản đã bị khóa";
             }
             else
             {
                 status.StatusCode = 0;
-                status.Message = "Error on logging in";
+                status.Message = "Có lỗi xảy ra khi đăng nhập";
             }
 
             return status;

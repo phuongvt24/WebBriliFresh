@@ -12,6 +12,9 @@ body,
 input {
     font-family: "Lexend", sans-serif;
 }
+.validation-summary-errors ul {
+    list-style-type: none;
+}
 
 main {
     width: 100%;

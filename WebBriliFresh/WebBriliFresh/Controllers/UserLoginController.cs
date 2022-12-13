@@ -38,6 +38,7 @@ namespace WebBriliFresh.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel model)
         {
             if (!ModelState.IsValid)
@@ -46,39 +47,49 @@ namespace WebBriliFresh.Controllers
             var result = await _authService.LoginAsync(model);
 
 
-            User user = await _userManager.FindByNameAsync(model.UserName);
-
-            int? role = user.UserRole;
 
            
-            if (result.StatusCode == 1 && (role == 3 || role == 2))
+            if (result.StatusCode == 1)
             {
+                User user = await _userManager.FindByNameAsync(model.UserName);
 
-                var empID = (from item in _context.Employees
-                             where item.UserId == user.Id
-                             select item.EmpId).First();
+                int? role = user.UserRole;
 
-                HttpContext.Session.SetInt32("ADMIN_SESSION_USERID", user.Id);
-                HttpContext.Session.SetInt32("ADMIN_SESSION_EMPID", empID);
-                return RedirectToAction("Index", "Home", new
+                if ( role == 3 || role == 2)
                 {
-                    area = "Admin",
-                });
-            }
-            else if (result.StatusCode == 1 && role == 1)
-            {
-                var cusID = (from item in _context.Customers
-                             where item.UserId == user.Id
-                             select item.CusId).First();
-                HttpContext.Session.SetInt32("CUS_SESSION_USERID", user.Id);
-                HttpContext.Session.SetInt32("CUS_SESSION_EMPID", cusID);
-                return RedirectToAction("Index", "Home");
+                    var empID = (from item in _context.Employees
+                                 where item.UserId == user.Id
+                                 select item.EmpId).First();
+
+                    HttpContext.Session.SetInt32("ADMIN_SESSION_USERID", user.Id);
+                    HttpContext.Session.SetInt32("ADMIN_SESSION_EMPID", empID);
+                    return RedirectToAction("Index", "Home", new
+                    {
+                        area = "Admin",
+                    });
+                }
+                else if (role == 1)
+                {
+                    var cusID = (from item in _context.Customers
+                                 where item.UserId == user.Id
+                                 select item.CusId).First();
+                    HttpContext.Session.SetInt32("CUS_SESSION_USERID", user.Id);
+                    HttpContext.Session.SetInt32("CUS_SESSION_EMPID", cusID);
+                    return RedirectToAction("Index", "Home");
+                } else
+                {
+                    return RedirectToAction("Index", "Home"); //chua lam trang loi
+
+                }
+
             }
             else
             {
-                TempData["msg"] = result.Message;
-                return RedirectToAction(nameof(Login));
+                ModelState.AddModelError("", result.Message);
+                return View("Index");
             }
+
+
         }
 
         public IActionResult Registration()

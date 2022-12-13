@@ -28,7 +28,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddIdentity<User, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
         .AddEntityFrameworkStores<BriliFreshDbContext>();
 
-builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/UserLogin/Login");
+builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/UserLogin");
 
 builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
 
