@@ -131,7 +131,7 @@ namespace WebBriliFresh.Controllers
 
 
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                var confirmationLink = Url.Action(nameof(ConfirmEmail), "Account", new { token, email = user.Email }, Request.Scheme);
+                var confirmationLink = Url.Action(nameof(ConfirmEmail), "UserLogin", new { token, email = user.Email }, Request.Scheme);
         
                 await _emailSender.SendEmailAsync(user.Email, "Xác nhận email", confirmationLink);
 
