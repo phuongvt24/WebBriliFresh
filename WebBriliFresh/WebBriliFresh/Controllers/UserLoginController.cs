@@ -156,7 +156,7 @@ namespace WebBriliFresh.Controllers
             if (user == null)
                 return View("Error");
             var result = await _userManager.ConfirmEmailAsync(user, token);
-            return View(result.Succeeded ? nameof(Login) : "Error");
+            return View(result.Succeeded ? nameof(Index) : "Error");
         }
 
         [Authorize]
