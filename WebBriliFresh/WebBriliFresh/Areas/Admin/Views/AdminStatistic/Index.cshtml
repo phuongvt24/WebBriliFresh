@@ -34,7 +34,7 @@
                         </div>
                         <div class="m-l-15">
                             <h2 class="m-b-0" id="totalRevenue">@ViewBag.TotalRevenue</h2>
-                            <p class="m-b-0 text-muted">Doanh số</p>
+                            <p class="m-b-0 text-muted">Tổng doanh thu</p>
                         </div>
                     </div>
                 </div>
@@ -49,13 +49,13 @@
                         </div>
                         <div class="m-l-15">
                             <h2 class="m-b-0" id="totalBenefit">@ViewBag.TotalBenefit</h2>
-                            <p class="m-b-0 text-muted">Lợi nhuận</p>
+                            <p class="m-b-0 text-muted">Tổng lợi nhuận</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-lg-3">
+        <a class="col-md-6 col-lg-3" asp-area="Admin" asp-controller="AdminOrders"  asp-action="Index" >
             <div class="card">
                 <div class="card-body">
                     <div class="media align-items-center">
@@ -69,8 +69,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
+        </a>
+        <a class="col-md-6 col-lg-3" asp-area="Admin" asp-controller="AdminCustomers"  asp-action="Index">
             <div class="card">
                 <div class="card-body">
                     <div class="media align-items-center">
@@ -84,43 +84,116 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
     <div class="row">
         <div class="col-md-12 col-lg-8">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5>Total Revenue</h5>
-                        <div>
-                            <div class="btn-group">
-                                <button class="btn btn-default active">
-                                    <span>Month</span>
-                                </button>
-                                <button class="btn btn-default">
-                                    <span>Year</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="m-t-50" style="height: 330px">
-                        <canvas class="chart" id="revenue-chart"></canvas>
-                    </div>
+                    <figure class="highcharts-figure">
+                        <select class="form-control" style="width: 150px;">
+                            @for (int i = 0; i < (int)ViewBag.year.Count; i++)
+                            {
+                                <option value="@ViewBag.year[i]">Năm @ViewBag.year[i]</option>
+                            }
+                        </select>
+                        <div id="container1"></div>
+                    </figure>
                 </div>
             </div>
         </div>
         <div class="col-md-12 col-lg-4">
             <div class="card">
                 <div class="card-body">
-                    <figure class="highcharts-figure">
-                        <div id="container"></div>
-                        <p class="highcharts-description">
-                        </p>
+                    <br>
+                    <figure class="highcharts-figure" style="margin-top: 16px;">
+                        <div id="container2"></div>
                     </figure>
                 </div>
             </div>
         </div>
     </div>
+    <div class="row">
+                        <div class="col-md-12 col-lg-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h2 class="m-b-0">$17,267</h2>
+                                            <p class="m-b-0 text-muted">Avg.Profit</p>
+                                        </div>
+                                        <div>
+                                            <span class="badge badge-pill badge-cyan font-size-12">
+                                                <span class="font-weight-semibold m-l-5">+5.7%</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="m-t-50" style="height: 375px">
+                                         <canvas class="chart" id="avg-profit-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-8">
+                            <div class="card">
+                                <div class="card-body">
+                                   <div class="d-flex justify-content-between align-items-center">
+                                        <h5>Sản phẩm bán chạy</h5>
+                                        <div>
+                                            <a href="javascript:void(0);" class="btn btn-sm btn-default">Xem tất cả</a>
+                                        </div>
+                                    </div>
+                                    <div class="m-t-30">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mã</th>
+                                                        <th>Tên sản phẩm</th>
+                                                        <th>SL đã bán</th>
+                                                        <th>Tổng tiền</th>
+                                                        <th style="max-width: 70px">Tồn kho</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @for (int i=0; i<5;i++) {
+                                                        <tr>
+                                                            <td>@ViewBag.topProId[i]</td>
+                                                            <td>
+                                                                <div class="media align-items-center">
+                                                                    <div class="avatar avatar-image rounded">
+                                                                        <img src="assets/images/others/thumb-9.jpg" alt="">
+                                                                    </div>
+                                                                    <div class="m-l-10">
+                                                                        <span>@ViewBag.topProName[i]</span>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>@ViewBag.topProSales[i]</td>
+                                                            <td class="earning" >@ViewBag.topProEarning[i]</td>
+                                                            <td>
+                                                                <div class="progress progress-sm w-100 m-b-0">
+                                                                        <div class="progress-bar" style="width:@ViewBag.topProStockLeft[i]%"></div>
+                                                                        <input type="hidden" value="@ViewBag.topProStockLeft[i]" class="stockLeft"/>
+                                                                    </div>
+                                                            </td>
+                                                            <td>
+                                                                 <div class="m-l-10">
+                                                                        @ViewBag.topProStockLeft[i]
+                                                                    </div>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 </div>
 
  <!-- Core Vendors JS-- >
@@ -144,7 +217,26 @@
     b = Number(b).toLocaleString('en');
     $("#totalBenefit").text(b + ' đ');
 
-    Highcharts.chart('container', {
+
+    for (var i = 0; i < 5 ; i++) {
+        var c = $(".earning")[i].innerHTML;
+        c = c.replace('.0000', '');
+        c = Number(c).toLocaleString('en');
+        $(".earning")[i].innerHTML = c + ' đ';
+    }
+
+    for (var i=0; i < 5; i++) {
+        var d = $(".stockLeft")[i].value;
+        if (d < 20) {
+            $(".progress-bar")[i].style.backgroundColor = "red";
+        } else if (d < 60) {
+            $(".progress-bar")[i].style.backgroundColor = "yellow";
+        } else {
+            $(".progress-bar")[i].style.backgroundColor = "green";
+        }
+    }
+
+    Highcharts.chart('container2', {
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
@@ -186,6 +278,101 @@
             }]
         }]
     });
+
+    
+
+    Highcharts.chart('container1', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Doanh số hàng tháng'
+        },
+        xAxis: {
+            categories: [
+                'Thg1',
+                'Thg2',
+                'Thg3',
+                'Thg4',
+                'Thg5',
+                'Thg6',
+                'Thg7',
+                'Thg8',
+                'Thg9',
+                'Thg10',
+                'Thg11',
+                'Thg12'
+            ],
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Số tiền (triệu đồng)'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} triệu</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: 'Doanh thu',
+            data: [@ViewBag.RevenueByMonth[0]/1000000, @ViewBag.RevenueByMonth[1]/1000000, @ViewBag.RevenueByMonth[2]/1000000, @ViewBag.RevenueByMonth[3]/1000000, @ViewBag.RevenueByMonth[4]/1000000, @ViewBag.RevenueByMonth[5]/1000000, @ViewBag.RevenueByMonth[6]/1000000, @ViewBag.RevenueByMonth[7]/1000000, @ViewBag.RevenueByMonth[8]/1000000, @ViewBag.RevenueByMonth[9]/1000000, @ViewBag.RevenueByMonth[10]/1000000, @ViewBag.RevenueByMonth[11]/1000000 ]
+            
+        }, {
+            name: 'Lợi nhuận',
+            data: [@ViewBag.BenefitByMonth[0]/1000000, @ViewBag.BenefitByMonth[1]/1000000, @ViewBag.BenefitByMonth[2]/1000000, @ViewBag.BenefitByMonth[3]/1000000, @ViewBag.BenefitByMonth[4]/1000000, @ViewBag.BenefitByMonth[5]/1000000, @ViewBag.BenefitByMonth[6]/1000000, @ViewBag.BenefitByMonth[7]/1000000, @ViewBag.BenefitByMonth[8]/1000000, @ViewBag.BenefitByMonth[9]/1000000, @ViewBag.BenefitByMonth[10]/1000000, @ViewBag.BenefitByMonth[11]/1000000]
+
+        }]
+    });
+    /*
+    Highcharts.chart('container1', {
+        chart: {
+            type: 'line'
+
+        },
+        title: {
+            text: 'Doanh số hàng tháng'
+        },
+        subtitle: {
+            
+            xAxis: {
+                categories: ['Th1', 'Th2', 'Th3', 'Th4', 'Th5', 'Th6', 'Th7', 'Th8', 'Th9', 'Th10', 'Th11', 'Th12']
+            },
+            yAxis: {
+                title: {
+                    text: 'Số tiền (triệu đồng)'
+                }
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: false
+                }
+            },
+            series: [{
+                name: 'Doanh thu',
+                data: [16.0, 18.2, 23.1, 27.9, 32.2, 36.4, 39.8, 38.4, 35.5, 29.2,
+                    22.0, 17.8]
+            }, {
+                name: 'Lợi nhuận',
+                data: [-2.9, -3.6, -0.6, 4.8, 10.2, 14.5, 17.6, 16.5, 12.0, 6.5,
+                    2.0, -0.9]
+            }]
+    });
+    */
     /*
     $.ajax({
         type: "POST"
