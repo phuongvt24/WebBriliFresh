@@ -4,6 +4,8 @@ using WebBriliFresh.Models.DTO;
 using WebBriliFresh.Models;
 using WebBriliFresh.Repositories.Abstract;
 using WebBriliFresh.Migrations;
+using Azure.Core;
+using System.Security.Policy;
 
 namespace WebBriliFresh.Repositories.Implementation
 {
@@ -36,8 +38,6 @@ namespace WebBriliFresh.Repositories.Implementation
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.Username,
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = true,
                 UserRole = model.UserRole,
                 IsDeleted = 0
             };
@@ -49,8 +49,13 @@ namespace WebBriliFresh.Repositories.Implementation
                 return status;
             }
 
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var confirmationLink = Url.Action(nameof(ConfirmEmail), "Account", new { token, email = user.Email }, Request.Scheme);
+            var message = new Message(new string[] { user.Email }, "Confirmation email link", confirmationLink, null);
+            await _emailSender.SendEmailAsync(message);
 
-             await userManager.AddToRoleAsync(user, "Customer");
+
+            await userManager.AddToRoleAsync(user, "Customer");
 
 
 

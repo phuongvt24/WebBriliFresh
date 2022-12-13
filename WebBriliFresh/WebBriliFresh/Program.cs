@@ -25,7 +25,11 @@ builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 // For Identity  
-builder.Services.AddIdentity<User, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddIdentity<User, ApplicationRole>(options => 
+{ 
+    options.SignIn.RequireConfirmedAccount = true; 
+    options.SignIn.RequireConfirmedEmail = true;
+})
         .AddEntityFrameworkStores<BriliFreshDbContext>();
 
 builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/UserLogin");
