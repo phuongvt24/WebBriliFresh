@@ -86,6 +86,10 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            ViewData["TypeId1"] = new SelectList(_context.Types.Where(x => x.MainType == "Rau củ"), "TypeId", "SubType");
+            ViewData["TypeId2"] = new SelectList(_context.Types.Where(x => x.MainType == "Thịt cá"), "TypeId", "SubType");
+            ViewData["TypeId3"] = new SelectList(_context.Types.Where(x => x.MainType == "Trái cây 4 mùa"), "TypeId", "SubType");
+            ViewData["MainType"] = new SelectList(_context.Types.GroupBy(p => p.MainType).Select(x => new { MainType = x.Key }), "MainType", "MainType");
             ViewData["TypeId"] = new SelectList(_context.Types, "TypeId", "TypeId", discountType.TypeId);
             return View(discountType);
         }

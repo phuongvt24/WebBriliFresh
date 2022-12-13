@@ -29,26 +29,26 @@
                     </div>
                     <div class="m-b-10 m-r-15">
                         <b>Loại sản phẩm</b>
-                        <select id="subTypeSelect1" style="min-width: 180px;">
+                        <select id="subTypeSelect1" class="subTypeSelect" style="min-width: 180px;">
                             <option value="" selected>Tất cả</option>
-                            <option value="1" class="sub1">Rau lá</option>
-                            <option value="2" class="sub1">Củ & hạt</option>
-                            <option value="3" class="sub1">Quả trái</option>
-                            <option value="4" class="sub1">Rau gia vị</option>
-                            <option value="5" class="sub1">Nấm</option>
+                            <option value="Rau lá" class="sub1">Rau lá</option>
+                            <option value="Củ & hạt" class="sub1">Củ & hạt</option>
+                            <option value="Quả trái" class="sub1">Quả trái</option>
+                            <option value="Rau gia vị" class="sub1">Rau gia vị</option>
+                            <option value="Nấm" class="sub1">Nấm</option>
                         </select>
-                        <select id="subTypeSelect2" style="min-width: 180px;">
+                        <select id="subTypeSelect2" class="subTypeSelect" style="min-width: 180px;">
                             <option value="" selected>Tất cả</option>
-                            <option value="6" class="sub2">Thịt heo</option>
-                            <option value="7" class="sub2">Thịt bò</option>
-                            <option value="8" class="sub2">Gà vịt</option>
-                            <option value="9" class="sub2">Trứng</option>
-                            <option value="10" class="sub2">Hải sản</option>
+                            <option value="Thịt heo" class="sub2">Thịt heo</option>
+                            <option value="Thịt bò" class="sub2">Thịt bò</option>
+                            <option value="Gà vịt" class="sub2">Gà vịt</option>
+                            <option value="Trứng" class="sub2">Trứng</option>
+                            <option value="Hải sản" class="sub2">Hải sản</option>
                         </select>
-                        <select id="subTypeSelect3" style="min-width: 180px;">
+                        <select id="subTypeSelect3" class="subTypeSelect" style="min-width: 180px;">
                             <option value="" selected>Tất cả</option>
-                            <option value="11" class="sub3">Trái cây nhập khẩu</option>
-                            <option value="12" class="sub3">Đặc sản Việt Nam</option>
+                            <option value="Trái cây nhập khẩu" class="sub3">Trái cây nhập khẩu</option>
+                            <option value="Đặc sản Việt Nam" class="sub3">Đặc sản Việt Nam</option>
                         </select>
                     </div>
                     <div class="m-b-10 m-r-15">
@@ -104,10 +104,10 @@
                             <td class="ManyDisId">
                                 @Html.DisplayFor(modelItem => item.DisId)
                             </td>
-                            <td>
+                            <td class="mainType">
                                 @Html.DisplayFor(model => item.Type.MainType)
                             </td>
-                            <td>
+                            <td class="subType">
                                 @Html.DisplayFor(model => item.Type.SubType)
                             </td>
                             <td>
@@ -159,18 +159,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-    //$('#statusSelect').change(function () {
-    //    var status = $('#statusSelect').val();
-    //    $(".rowTable").show();
-    //    for (var i = 0; i < $(".ManyDisId").length; i++) {
-    //        var statusModel = $(".statusValue")[i].innerText;
-    //        if (status !== statusModel && status !== "") {
-    //            $(".rowTable")[i].style.display = 'none';
-    //        }
-    //    }
-    //});
-
-
     var s1 = $("#subTypeSelect1")
     var t1 = $("#sub1")
 
@@ -213,6 +201,29 @@
             s2.hide()
             s3.show()
             s1.hide()
+        }
+    })
+
+    $('#mainTypeSelect, .subTypeSelect, #statusSelect').change(function () {
+        var a = $('#mainTypeSelect').val();
+        if (a === 'Rau củ')
+            var b = $('#subTypeSelect1').val();
+        else if (a === 'Thịt cá')
+            b = $('#subTypeSelect2').val();
+        else if (a === 'Trái cây 4 mùa')
+            b = $('#subTypeSelect3').val();
+        else
+            b = "";
+        var c = $('#statusSelect').val();
+
+        $(".rowTable").show();
+        for (var i = 0; i < $(".ManyDisId").length; i++) {
+            var d = $(".mainType")[i].innerText;
+            var e = $(".subType")[i].innerText;
+            var f = $(".statusValue")[i].innerText;
+            if (((a !== d) && (a !== "")) || ((b !== e) && (b !== "")) || ((c !== f) && (c !== ""))) {
+                $(".rowTable")[i].style.display = 'none';
+            }
         }
     })
 </script>
