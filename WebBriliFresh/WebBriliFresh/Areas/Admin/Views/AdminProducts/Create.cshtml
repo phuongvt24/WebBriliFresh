@@ -91,7 +91,11 @@
                             <label asp-for="TypeId" class="control-label">Loại</label>
                             <select asp-for="TypeId" id="type3" class="form-control" asp-items=ViewBag.TypeId3></select>
                         </div>
-
+                        <div class="form-group">
+                            <label asp-for="OriginalPrice" class="control-label">Giá nhập</label>
+                            <input asp-for="OriginalPrice" class="form-control" />
+                            <span asp-validation-for="OriginalPriceString" class="text-danger"></span>
+                        </div>
                         <div class="form-group">
                             <label asp-for="Price" class="control-label">Giá bán</label>
                             <input asp-for="Price" class="form-control" />
@@ -109,11 +113,25 @@
                             @*<input asp-for="StartDate" id="myID" class="form-control" />*@
                             <span asp-validation-for="StartDate" class="text-danger"></span>
                         </div>
+
+
+
+
+
+
+
+
+
+
                         <div class="form-group">
                             <label asp-for="Des" class="control-label">Mô tả sản phẩm</label>
                             <textarea asp-for="Des" class="form-control"></textarea>
                             <span asp-validation-for="Des" class="text-danger"></span>
                         </div>
+
+
+
+
                         <div class="form-group">
                             <label asp-for="Unit" class="control-label">Đơn vị bán</label>
                             <input asp-for="Unit" class="form-control" />
