@@ -13,6 +13,7 @@ using WebBriliFresh.Models.DTO;
 using WebBriliFresh.Repositories.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using WebBriliFresh.Utils;
 
 namespace WebBriliFresh.Controllers
 {
@@ -21,13 +22,14 @@ namespace WebBriliFresh.Controllers
         private readonly IUserAuthenticationService _authService;
         private readonly BriliFreshDbContext _context;
         private readonly UserManager<User> _userManager;
+        private readonly IEmailSender _emailSender;
 
-
-        public UserLogin(IUserAuthenticationService authService, BriliFreshDbContext context, UserManager<User> userManager)
+        public UserLogin(IUserAuthenticationService authService, BriliFreshDbContext context, UserManager<User> userManager, IEmailSender emailSender)
         {
             _authService = authService;
             _context = context;
             _userManager = userManager;
+            _emailSender = emailSender;
         }
 
 
@@ -45,14 +47,14 @@ namespace WebBriliFresh.Controllers
                 return View(model);
 
             var result = await _authService.LoginAsync(model);
-           
+
             if (result.StatusCode == 1)
             {
                 User user = await _userManager.FindByNameAsync(model.UserName);
 
                 int? role = user.UserRole;
 
-                if ( role == 3 || role == 2)
+                if (role == 3 || role == 2)
                 {
                     var empID = (from item in _context.Employees
                                  where item.UserId == user.Id
@@ -73,7 +75,8 @@ namespace WebBriliFresh.Controllers
                     HttpContext.Session.SetInt32("CUS_SESSION_USERID", user.Id);
                     HttpContext.Session.SetInt32("CUS_SESSION_EMPID", cusID);
                     return RedirectToAction("Index", "Home");
-                } else
+                }
+                else
                 {
                     return RedirectToAction("Index", "Home"); //chua lam trang loi
 
@@ -104,7 +107,7 @@ namespace WebBriliFresh.Controllers
             var result = await this._authService.RegisterAsync(model);
 
 
-            if(result.StatusCode == 1)
+            if (result.StatusCode == 1)
             {
                 User user = await _userManager.FindByNameAsync(model.Username);
 
@@ -126,12 +129,34 @@ namespace WebBriliFresh.Controllers
                 _context.Add(cus);
                 await _context.SaveChangesAsync();
 
+
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var confirmationLink = Url.Action(nameof(ConfirmEmail), "Account", new { token, email = user.Email }, Request.Scheme);
+        
+                await _emailSender.SendEmailAsync(user.Email, "Xác nhận email", confirmationLink);
+
                 result.Message = "Tạo người dùng thành công với đầy đủ thông tin";
             }
 
 
             TempData["msg"] = result.Message;
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(SuccessRegistration));
+        }
+
+        [HttpGet]
+        public IActionResult SuccessRegistration()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail(string token, string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+                return View("Error");
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            return View(result.Succeeded ? nameof(Login) : "Error");
         }
 
         [Authorize]

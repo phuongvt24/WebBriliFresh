@@ -49,12 +49,6 @@ namespace WebBriliFresh.Repositories.Implementation
                 return status;
             }
 
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var confirmationLink = Url.Action(nameof(ConfirmEmail), "Account", new { token, email = user.Email }, Request.Scheme);
-            var message = new Message(new string[] { user.Email }, "Confirmation email link", confirmationLink, null);
-            await _emailSender.SendEmailAsync(message);
-
-
             await userManager.AddToRoleAsync(user, "Customer");
 
 
