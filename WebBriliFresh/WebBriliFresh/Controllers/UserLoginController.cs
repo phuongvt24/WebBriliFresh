@@ -131,7 +131,7 @@ namespace WebBriliFresh.Controllers
 
 
             TempData["msg"] = result.Message;
-            return RedirectToAction(nameof(Registration));
+            return RedirectToAction(nameof(Index));
         }
 
         [Authorize]
