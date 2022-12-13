@@ -190,7 +190,7 @@ namespace WebBriliFresh.Controllers
         {
             var exist = _userManager.FindByNameAsync(UserName);
 
-            if (exist != null)
+            if (exist == null)
             {
                 return Json(true);
             }
@@ -203,7 +203,7 @@ namespace WebBriliFresh.Controllers
         {
             var exist = _userManager.FindByEmailAsync(email);
 
-            if (exist != null)
+            if (exist == null)
             {
                 return Json(true);
             }
