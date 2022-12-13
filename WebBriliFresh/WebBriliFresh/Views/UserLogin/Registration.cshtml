@@ -1,0 +1,98 @@
+﻿<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="~/css/new_signup.css">
+</head>
+
+<body>
+    <main>
+        <div class="box">
+            <div class="inner-box" id="myDIV">
+                <div class="forms-wrap">
+                    <form action="#" class="sign-up-form">
+                        <div class="heading-signup">
+                            <h1>Xin chào!</h1>
+                            <h2>Đăng ký để nhận nhiều ưu đãi!</h2>
+                        </div>
+
+                        <div class="actual-signup-form">
+                            <div class="actual-signup-form">
+                                <div class="input-wrap-signup">
+                                    <input type="text" class="input-field" autocomplete="off" required placeholder="Họ">    
+                                </div>
+                                <div class="input-wrap-signup">
+                                    <input id="pass" type="text" minlength="4" class="input-field" autocomplete="off"
+                                        required placeholder="Tên">    
+                                </div>
+    
+                                <div class="input-wrap-signup">
+                                    <select name="gender" id="gender" class="input-field select-gender">
+                                        <option selected disabled>Giới tính</option>
+                                        <option value="Male">Nam</option>
+                                        <option value="Female">Nữ</option>
+                                        <option value="Other">Khác</option>
+                                    </select>
+    
+                                </div>
+    
+                                <div class="input-wrap-signup">
+                                    <input id="pass" type="tel" minlength="4" class="input-field" autocomplete="off"
+                                        required placeholder="Số điện thoại">    
+                                </div>
+    
+                                <div class="input-wrap-signup">
+                                    <input id="pass" type="email" class="input-field" autocomplete="off" required
+                                        placeholder="Email">    
+                                </div>
+
+                                <div class="input-wrap-signup">
+                                    <input type="text" class="input-field" autocomplete="off" required
+                                        placeholder="Tên đăng nhập">
+                                </div>
+                                <div class="input-wrap-signup">
+                                    <input id="pass" type="password" minlength="4" class="input-field"
+                                    autocomplete="off" required placeholder="Mật khẩu">
+                                </div>
+
+                                <div class="input-wrap-signup">
+                                    <input id="pass" type="password" minlength="4" class="input-field"
+                                    autocomplete="off" required placeholder="Xác nhận mật khẩu">
+                                </div>
+
+                                <div class="create-account-box">
+                                    <input type="submit" class="create-account-btn" value="Tạo tài khoản">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sign-in-link">
+                            <span> Bạn đã có tài khoản? </span>
+                            <a href="#" class="toggle">Đăng nhập ngay!</a>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="carousel">
+                    <span class="close">&nbsp</span>
+                    <div class="images-wrapper">
+                        <img src="~/HomeAssets/Rectangle 47.png" class="img-green" alt="" />
+                        <img src="~/HomeAssets/pngwing 7.png" class="img-vegetables" alt="" />
+                        <img src="~/HomeAssets/BRILI.png" class="img-logo" alt="" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+
+<script>
+    var genderSelect = document.querySelector('.select-gender');
+    genderSelect.addEventListener('change', function() {
+        genderSelect.classList.add('js-change-color')
+    })
+</script>
