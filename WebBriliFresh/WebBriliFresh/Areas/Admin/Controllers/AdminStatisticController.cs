@@ -25,7 +25,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             _notifyService = notyfService;
         }
 
-        public IActionResult Index(int? year)
+        public IActionResult Index(int? id)
         {
             ViewBag.TotalRevenue = RevenueStatistic(); // Thống kê tồng doanh thu
             ViewBag.TotalBenefit = BenefitStatistic(); // Thống kê tồng lợi nhuận
@@ -39,7 +39,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             List<double> BenefitByMonth = new List<double>();
             for (int i = 1; i <= 12; i++)
             {
-                if (year == null)
+                if (id == null)
                 {
                     DateTime dt = DateTime.Now;
                     RevenueByMonth.Add(Convert.ToDouble(RevenueStatisticByMonth(i, dt.Year).ToString()));
@@ -47,8 +47,8 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 }
                 else
                 {
-                    RevenueByMonth.Add(Convert.ToDouble(RevenueStatisticByMonth(i, (int)year).ToString()));
-                    BenefitByMonth.Add(Convert.ToDouble(BenefitStatisticByMonth(i, (int)year).ToString()));
+                    RevenueByMonth.Add(Convert.ToDouble(RevenueStatisticByMonth(i, (int)id).ToString()));
+                    BenefitByMonth.Add(Convert.ToDouble(BenefitStatisticByMonth(i, (int)id).ToString()));
                 }
             }
             ViewBag.RevenueByMonth = RevenueByMonth;
@@ -59,17 +59,19 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             
 
             var topProducts = (from od in _context.OrderDetails.Include(od => od.Order).Include(od => od.Pro).Where(od => od.Order.Status == 1)
-                     group od by new { od.ProId, od.Pro.ProName } into odp
+                     group od by new { od.ProId, od.Pro.ProName} into odp
                      select new
                      {
                          odp.Key.ProId, odp.Key.ProName,
                          Quantity = odp.Sum(q => q.Quantity)
                      }).OrderByDescending(i => i.Quantity).Take(5);
             List<int> topProId = new List<int>();
+            List<string> topProImg = new List<string>();
             List<string> topProName = new List<string>();
             List<int> topProSales = new List<int>();
             List<decimal> topProEarning = new List<decimal>();
             List<int> topProStockLeft = new List<int>();
+
             foreach (var item in topProducts)
             {
                 topProId.Add(item.ProId);
@@ -91,13 +93,26 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 {
                     topProEarning.Add(ProEarning(item.ProId));
                 }
-
+                var a = _context.ProductImages.Where(pi => pi.ProId == item.ProId);
+                var item1 = a.FirstOrDefault();
+                if (item1 == null)
+                {
+                    topProImg.Add("");
+                }
+                else if (item1.ImgData == null)
+                {
+                    topProImg.Add("");
+                } else {
+                    topProImg.Add(item1.ImgData);
+                }
             }
-            ViewBag.topProId = topProId;
-            ViewBag.topProName = topProName;
-            ViewBag.topProSales = topProSales;
-            ViewBag.topProEarning = topProEarning;
-            ViewBag.topProStockLeft = topProStockLeft;
+
+                ViewBag.topProId = topProId;
+                ViewBag.topProImg = topProImg;
+                ViewBag.topProName = topProName;
+                ViewBag.topProSales = topProSales;
+                ViewBag.topProEarning = topProEarning;
+                ViewBag.topProStockLeft = topProStockLeft;
 
             DateTime d = DateTime.Now;
             List<int> yyyy = new List<int>();
