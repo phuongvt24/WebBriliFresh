@@ -48,7 +48,11 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/DiscountProducts/Create
         public IActionResult Create()
         {
-            ViewData["ProId"] = new SelectList(_context.Products, "ProId", "ProName");
+            var products = _context.Products
+                .FromSql($"SELECT * FROM dbo.Product WHERE NOT EXISTS (SELECT * FROM dbo.Discount_Product WHERE dbo.Product.ProID = dbo.Discount_Product.ProID);")
+                .ToList();
+
+            ViewData["ProId"] = new SelectList(products, "ProId", "ProName");
             return View();
         }
 
@@ -155,14 +159,14 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             {
                 _context.DiscountProducts.Remove(discountProduct);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool DiscountProductExists(int id)
         {
-          return _context.DiscountProducts.Any(e => e.DisId == id);
+            return _context.DiscountProducts.Any(e => e.DisId == id);
         }
 
         [AcceptVerbs("GET", "POST")]
@@ -182,5 +186,5 @@ namespace WebBriliFresh.Areas.Admin.Controllers
 
             return Json(true);
         }
-    }    
+    }
 }
