@@ -5,7 +5,7 @@
     <!-- SlideBar dùng chung tất cả các trang trong Tài khoản của tôi -->
     <div class="left-content">
         <div class="avatar">
-            <img src="./assets/image/avt.jpg" alt="">
+            <img src="~/MyAccountAssets/UserPhotos/@HttpContextAccessor.HttpContext.Session.GetString("CUS_SESSION_AVATAR")" alt="">
             <div class="avatar-text">
                 <span>Tài khoản của</span>
                 <p id="user-name">@HttpContextAccessor.HttpContext.Session.GetString("CUS_SESSION_CUSNAME")</p>
