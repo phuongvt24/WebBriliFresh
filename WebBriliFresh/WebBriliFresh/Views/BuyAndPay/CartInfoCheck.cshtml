@@ -1,4 +1,9 @@
-﻿@{
+﻿@model IEnumerable<WebBriliFresh.Models.DTO.ShoppingCartViewModel>
+@inject WebBriliFresh.Models.BriliFreshDbContext _context;
+@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@using WebBriliFresh.Common;
+@{
     Layout = null;
 }
 
@@ -64,67 +69,51 @@
 
                 <div class="content__data">
                     <div class="container">
-                        <div class="row">
-                            <div class="col-sm-1">
-                                <input type="checkbox" class="content__select">
-                            </div>
-                            <div class="col-md-4">
-                                <div class="content__pro-info">
-                                    <img class="content__pro-image" src="./assets/images/baroi500g.jpg"></img>
-                                    <span class="content__pro-name">Ba rọi heo (Nhập khẩu) - 500g</span>
+                        @foreach(var item in Model){
+                            int x = 0;
+                            var item2 = _context.Products.Where(x => x.ProId == item.productId).FirstOrDefault();
+                            var a = _context.ProductImages.Where(x => x.ProId == item.productId).Select(p => p.ImgData).ToList();
+                            if (a.Count >= 1)
+                            {
+                                for (int i = 0; i < a.Count; i++)
+                                {
+                                    if (a[i].Contains("is_avt"))
+                                    {
+                                        x = i;
+                                    }
+                                }
+                            }
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <input type="checkbox" class="content__select">
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="content__pro-info">
+                                        <img class="content__pro-image" src="~/ImageProduct/@Html.DisplayFor(m=>a[x])"></img>
+                                        <span class="content__pro-name">@item2.ProName (@item2.Unit)</span>
+                                    </div>
 
-                            </div>
-                            <div class="col-md-2">
-                                <span class="content__unit-price">80000</span>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="content__quantity-info">
-                                    <span class="content__minus">-</span>
-                                    <input class="content__quantity" type="text" value="1" />
-                                    <span class="content__plus">+</span>
+                                </div>
+                                <div class="col-md-2">
+                                    <span class="content__unit-price">@item.saleprice</span>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="content__quantity-info">
+                                        <span class="content__minus">-</span>
+                                        <input class="content__quantity" type="text" value="@item.quantity" />
+                                        <span class="content__plus">+</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <span class="content__amount"></span>
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="button" class="content__remove" data-id="@item.productId">
+                                        <img src="~/icons/trash.png" class="content__remove-img"></img>
+                                    </button>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <span class="content__amount"></span>
-                            </div>
-                            <div class="col-md-1">
-                                <button type="button" class="content__remove">
-                                    <img src="./assets/icons/trash.png" class="content__remove-img"></img>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-1">
-                                <input type="checkbox" class="content__select">
-                            </div>
-                            <div class="col-md-4">
-                                <div class="content__pro-info">
-                                    <img class="content__pro-image" src="./assets/images/DuahauruotdoLongAn-1kg.jpg"></img>
-                                    <span class="content__pro-name">Dưa hấu ruột đỏ Long An - 1kg</span>
-                                </div>
-
-                            </div>
-                            <div class="col-md-2">
-                                <span class="content__unit-price">38000</span>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="content__quantity-info">
-                                    <span class="content__minus">-</span>
-                                    <input class="content__quantity" type="text" value="1" />
-                                    <span class="content__plus">+</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <span class="content__amount"></span>
-                            </div>
-                            <div class="col-md-1">
-                                <button type="button" class="content__remove">
-                                    <img src="/assets/icons/trash.png" class="content__remove-img"></img>
-                                </button>
-                            </div>
-                        </div>
+                        }
                     </div>
                 </div>
 
@@ -138,11 +127,17 @@
                 <input class="content__order-button" type="submit" value="TIẾN HÀNH ĐẶT HÀNG">
             </div>
         </div>
-
             @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
-        
-
     </form>
     <script type="text/javascript" src="~/BuyAndPayAssets/CartInfoCheck/CartInfoCheck.js"></script>
+    <script>
+        //$(document).ready(function () {
+        //    $(document).ready(function () {
+        //        $(".content__remove").click(function () {
+                    
+        //        });
+        //    });
+        //});
+    </script>
 </body>
 </html>

@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Diagnostics;
+using WebBriliFresh.Common;
 using WebBriliFresh.Models;
 
 namespace WebBriliFresh.Controllers
@@ -8,15 +11,19 @@ namespace WebBriliFresh.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly BriliFreshDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, BriliFreshDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
 
         public IActionResult Index()
         {
+            int a = _context.Stores.Where(x => x.IsDeleted == 0).Select(c => c.StoreId).FirstOrDefault();
+            HttpContext.Session.SetInt32(CommonConstants.SessionStoreId, a);
             return View();
         }
 
