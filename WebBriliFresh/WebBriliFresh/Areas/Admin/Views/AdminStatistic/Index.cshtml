@@ -91,7 +91,7 @@
             <div class="card">
                 <div class="card-body">
                     <figure class="highcharts-figure">
-                        <select class="form-control" style="width: 150px;">
+                        <select class="form-control" style="width: 150px;" id="year">
                             @for (int i = 0; i < (int)ViewBag.year.Count; i++)
                             {
                                 <option value="@ViewBag.year[i]">Năm @ViewBag.year[i]</option>
@@ -160,36 +160,43 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @for (int i = 0; i < 5; i++)
-                                    {
-                                        <tr>
-                                            <td>@ViewBag.topProId[i]</td>
-                                            <td>
-                                                <div class="media align-items-center">
-                                                    <div class="avatar avatar-image rounded">
-                                                        <img src="assets/images/others/thumb-9.jpg" alt="">
+                                    @if (Enumerable.Any(ViewBag.topProId)) {
+                                        for (int i = 0; i < (Enumerable.Count(ViewBag.topProId)); i++)
+                                        {
+                                            <tr>
+                                                <td class="proid">@ViewBag.topProId[i]</td>
+                                                <td>
+                                                    <div class="media align-items-center">
+                                                        <div class="avatar avatar-image rounded">
+                                                            <img src="~/ImageProduct/@ViewBag.topProImg[i]" alt="">
+                                                        </div>
+                                                        <div class="m-l-10">
+                                                            <span>@ViewBag.topProName[i]</span>
+                                                        </div>
                                                     </div>
+                                                </td>
+                                                <td>@ViewBag.topProSales[i]</td>
+                                                <td class="earning">@ViewBag.topProEarning[i]</td>
+                                                <td>
+                                                    <div class="progress progress-sm w-100 m-b-0">
+                                                        <div class="progress-bar" style="width:@ViewBag.topProStockLeft[i]%"></div>
+                                                        <input type="hidden" value="@ViewBag.topProStockLeft[i]" class="stockLeft" />
+                                                    </div>
+                                                </td>
+                                                <td>
                                                     <div class="m-l-10">
-                                                        <span>@ViewBag.topProName[i]</span>
+                                                        @ViewBag.topProStockLeft[i]
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td>@ViewBag.topProSales[i]</td>
-                                            <td class="earning">@ViewBag.topProEarning[i]</td>
-                                            <td>
-                                                <div class="progress progress-sm w-100 m-b-0">
-                                                    <div class="progress-bar" style="width:@ViewBag.topProStockLeft[i]%"></div>
-                                                    <input type="hidden" value="@ViewBag.topProStockLeft[i]" class="stockLeft" />
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="m-l-10">
-                                                    @ViewBag.topProStockLeft[i]
-                                                </div>
-                                            </td>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else {
+                                        <tr>
+                                            <td colspan="6" align="center">Không có sản phẩm nào đã được bán.</td>
+                                            <td><input type="hidden" class="proid" value="0"/></td>
                                         </tr>
                                     }
-
                                 </tbody>
                             </table>
                         </div>
@@ -201,17 +208,15 @@
                         
 </div>
 
- <!-- Core Vendors JS-- >
-    <script src="~/adminassets/js/vendors.min.js" ></script>
-
-    <!-- page js -->
-    <script src="~/adminassets/vendors/chartjs/Chart.min.js"></script>
-    <script src="~/adminassets/js/pages/dashboard-default.js"></script>
-
-    <!-- Core JS -->
-    <script src="~/adminassets/js/app.min.js"></script>
-
 <script>
+    $("#year option[value=" + @ViewBag.year[0] + "]").attr("selected",true);
+    var g = window.location.pathname.split('/');
+    var h = g[4];
+    $("#year option[value=" + h + "]").attr("selected",true);
+    $("#year").change(function(){
+        var f =  $("#year").val();
+        window.location = "/Admin/AdminStatistic/Index/" + f;
+    })
     var a = $("#totalRevenue").text();
     a = a.replace('.00', '');
     a = Number(a).toLocaleString('en');
@@ -222,22 +227,23 @@
     b = Number(b).toLocaleString('en');
     $("#totalBenefit").text(b + ' đ');
 
+    if ($(".proid")[0].value != 0) {
+        for (var i = 0; i < $(".earning").length(); i++) {
+            var c = $(".earning")[i].innerHTML;
+            c = c.replace('.0000', '');
+            c = Number(c).toLocaleString('en');
+            $(".earning")[i].innerHTML = c + ' đ';
+        }
 
-    for (var i = 0; i < 5 ; i++) {
-        var c = $(".earning")[i].innerHTML;
-        c = c.replace('.0000', '');
-        c = Number(c).toLocaleString('en');
-        $(".earning")[i].innerHTML = c + ' đ';
-    }
-
-    for (var i=0; i < 5; i++) {
-        var d = $(".stockLeft")[i].value;
-        if (d < 20) {
-            $(".progress-bar")[i].style.backgroundColor = "red";
-        } else if (d < 60) {
-            $(".progress-bar")[i].style.backgroundColor = "yellow";
-        } else {
-            $(".progress-bar")[i].style.backgroundColor = "green";
+        for (var i = 0; i < $(".earning").length(); i++) {
+            var d = $(".stockLeft")[i].value;
+            if (d < 20) {
+                $(".progress-bar")[i].style.backgroundColor = "red";
+            } else if (d < 60) {
+                $(".progress-bar")[i].style.backgroundColor = "yellow";
+            } else {
+                $(".progress-bar")[i].style.backgroundColor = "green";
+            }
         }
     }
 
@@ -283,8 +289,6 @@
             }]
         }]
     });
-
-    
 
     Highcharts.chart('container1', {
         chart: {
