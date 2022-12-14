@@ -23,7 +23,19 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             var briliFreshDbContext = _context.DiscountProducts.Include(d => d.Pro);
-            return View(await briliFreshDbContext.ToListAsync());
+            await briliFreshDbContext.ToListAsync();
+
+            foreach(DiscountProduct discount in briliFreshDbContext)
+            {
+                DateTime EndDate = discount.EndDate ?? DateTime.MinValue;
+                int result = DateTime.Compare(EndDate, DateTime.Now);
+                if (result <= 0)
+                {
+                    discount.Status = false;
+                }
+            }
+            await _context.SaveChangesAsync();
+            return View(briliFreshDbContext);
         }
 
         // GET: Admin/DiscountProducts/Details/5
@@ -49,7 +61,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         public IActionResult Create()
         {
             var products = _context.Products
-                .FromSql($"SELECT * FROM dbo.Product WHERE NOT EXISTS (SELECT * FROM dbo.Discount_Product WHERE dbo.Product.ProID = dbo.Discount_Product.ProID);")
+                .FromSql($"SELECT * FROM dbo.Product WHERE(NOT EXISTS (SELECT * FROM dbo.Discount_Product WHERE dbo.Product.ProID = dbo.Discount_Product.ProID)) UNION SELECT p.* FROM dbo.Product p INNER JOIN dbo.Discount_Product dp ON p.ProID = dp.ProID WHERE dp.Status = 0;")
                 .ToList();
 
             ViewData["ProId"] = new SelectList(products, "ProId", "ProName");
