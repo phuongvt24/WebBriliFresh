@@ -7,13 +7,13 @@ namespace WebBriliFresh.Controllers
 {
     public class MyAccountController : Controller
     {
-        private readonly UserManager<User> _userManager;
         private readonly BriliFreshDbContext _context;
+        private readonly IWebHostEnvironment _env;
 
-        public MyAccountController(UserManager<User> userManager, BriliFreshDbContext context)
+        public MyAccountController(BriliFreshDbContext context, IWebHostEnvironment env)
         {
-            _userManager = userManager;
             _context = context;
+            _env = env;
         }
 
         [Authorize(Policy = "LoggedIn")]
@@ -78,6 +78,17 @@ namespace WebBriliFresh.Controllers
         {
             return View();
         }
-
+        private string DoPhotoUpload(IFormFile photo)
+        {
+            string fext = Path.GetExtension(photo.FileName);
+            string uname = Guid.NewGuid().ToString();
+            string fname = uname + fext;
+            string fullpath = Path.Combine(_env.WebRootPath, "photos/" + fname);
+            using (FileStream fs = new(fullpath, FileMode.Create))
+            {
+                photo.CopyTo(fs);
+            }
+            return fname;
+        }
     }
 }
