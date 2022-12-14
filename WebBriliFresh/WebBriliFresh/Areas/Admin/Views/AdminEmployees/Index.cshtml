@@ -19,20 +19,9 @@
             <div class="col-lg-8">
                 <div class="d-md-flex">
                     <div class="m-b-10 m-r-15">
-                        <select class="custom-select" style="min-width: 180px;">
-                            <option selected>Catergory</option>
-                            <option value="all">All</option>
-                            <option value="homeDeco">Home Decoration</option>
-                            <option value="eletronic">Eletronic</option>
-                            <option value="jewellery">Jewellery</option>
-                        </select>
-                    </div>
-                    <div class="m-b-10">
-                        <select class="custom-select" style="min-width: 180px;">
-                            <option selected>Status</option>
-                            <option value="all">All</option>
-                            <option value="inStock">In Stock </option>
-                            <option value="outOfStock">Out of Stock</option>
+                        <b>Mã cửa hàng</b>
+                        <select id="store" class="form-control" asp-items="ViewBag.StoreId">
+                            <option value="" selected>Tất cả</option>
                         </select>
                     </div>
                 </div>
@@ -50,6 +39,7 @@
                     <tr>
                         <th>ID Nhân viên</th>
                         <th>Họ tên</th>
+                        @*<th>ID cửa hàng</th>*@
                         <th>Cửa hàng</th>
                         <th>Ngày vào làm</th>
                         <th></th>
@@ -60,7 +50,7 @@
                     {
                         @foreach (var item in Model)
                         {
-                            <tr>
+                            <tr class="rowitem">
                                 <td>@Html.DisplayFor(modelItem =>  item.EmpId)</td>
                                 <td>
                                     <div class="d-flex align-items-center">
@@ -68,13 +58,14 @@
                                         <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.FirstName)</h6>
                                     </div>
                                 </td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.Store.SpecificAddress)</h6>
-                                        <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.Store.Ward)</h6>
-                                    </div>
-                                </td>
+                                                            
+                                <td>ID: <span class="storeId">@Html.DisplayFor(modelItem => item.Store.StoreId)</span> <br>
+                                    Địa chi: @Html.DisplayFor(modelItem => item.Store.SpecificAddress), @Html.DisplayFor(modelItem => item.Store.Ward), @Html.DisplayFor(modelItem => item.Store.District), @Html.DisplayFor(modelItem => item.Store.City)</td>
+                              
+                               @* <td><span class="storeId">@Html.DisplayFor(modelItem => item.Store.StoreId)</span></td>
+                                <td>@Html.DisplayFor(modelItem => item.Store.SpecificAddress), @Html.DisplayFor(modelItem => item.Store.Ward), @Html.DisplayFor(modelItem => item.Store.District), @Html.DisplayFor(modelItem => item.Store.City)</td>*@
                                 <td>@Html.DisplayFor(modelItem => item.StartDate)</td>
+                               
                                 <td class="text-right">
                                     @*<a asp-controller="AdminEmployees" asp-action="Edit" asp-route-id="@item.EmpId" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
                                         <i class="anticon anticon-edit"></i>
@@ -94,3 +85,15 @@
         </div>
     </div>
 </div>
+<script>
+    $('#store').change(function(){
+        var a = $('#store').val();
+        $(".rowitem").show();
+        for (var i = 0; i < $(".storeId").length; i++) {
+            var c = $(".storeId")[i].innerText;
+            if ((a != c) && (a != "")) {
+                $(".rowitem")[i].style.display = 'none';
+            }
+        }
+    })
+</script>

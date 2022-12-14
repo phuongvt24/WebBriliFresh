@@ -32,6 +32,10 @@ main {
     box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 27);
 }
 
+ul {
+    list-style-type: none;
+}
+
 .inner-box {
     position: absolute;
     /* width: calc(100% - 40px);

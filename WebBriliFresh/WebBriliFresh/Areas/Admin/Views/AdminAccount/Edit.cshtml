@@ -13,7 +13,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <h1 hidden id="get_id" data-id="@Model.UserId"></h1>
+        <h1 hidden id="get_id" data-id="@Model.Id"></h1>
         <h4>@HttpContextAccessor.HttpContext.Session.GetString("ADMIN_SESSION_LASTNAME") @HttpContextAccessor.HttpContext.Session.GetString("ADMIN_SESSION_FIRSTNAME")</h4>
         <div class="media align-items-center mb-2">
             <div class="avatar avatar-image  m-h-10 m-r-15" style="height: 80px; width: 80px">
@@ -31,7 +31,7 @@
         </div>
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="UserId" />
+            <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="UserName" />
             <input type="hidden" asp-for="UserRole" />
             <div class="form-group">

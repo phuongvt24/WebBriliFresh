@@ -8,9 +8,8 @@
     <div class="side-nav-inner">
         <ul class="side-nav-menu scrollable">
             <li class="nav-item open">
-@*                <a class="dropdown-toggle" asp-area="Admin" asp-controller="Home" asp-action="index">
-
-*@
+                @*                <a class="dropdown-toggle" asp-area="Admin" asp-controller="Home" asp-action="index">
+                *@
                 <a href="/Admin?UserID=@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_USERID")&EmpID=@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_EMPID")">
 
 
@@ -23,7 +22,7 @@
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
-                        <i class="anticon anticon-build"></i>
+                        <i class="anticon anticon-hdd"></i>
                     </span>
                     <span class="title">Quản lý sản phẩm</span>
                     <span class="arrow">
@@ -37,34 +36,20 @@
                 </ul>
             </li>
             <li class="nav-item dropdown">
-                <a class="dropdown-toggle" href="javascript:void(0);">
+                <a asp-area="Admin" asp-controller="AdminOrders" asp-action="Index">
                     <span class="icon-holder">
-                        <i class="anticon anticon-appstore"></i>
+                        <i class="anticon anticon-snippets"></i>
                     </span>
                     <span class="title">Quản lý đơn hàng</span>
-                    <span class="arrow">
-                        <i class="arrow-icon"></i>
-                    </span>
                 </a>
-                <ul class="dropdown-menu">
-                    <li class="nav-item dropdown">
-                        <a asp-area="Admin" asp-controller="AdminOrders" asp-action="Index">
-                            <span>Quản lý hóa đơn</span>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a href="javascript:void(0);">
-                            <span>Quản lý vận chuyển</span>
-                        </a>
-                    </li>
-                </ul>
             </li>
+
             @if ((await AuthorizationService.AuthorizeAsync(User, "AdminOnly")).Succeeded)
             {
                 <li class="nav-item dropdown">
                     <a class="dropdown-toggle" href="javascript:void(0);">
                         <span class="icon-holder">
-                            <i class="anticon anticon-hdd"></i>
+                            <i class="anticon anticon-team"></i>
                         </span>
                         <span class="title">Quản lý khách hàng</span>
                         <span class="arrow">
@@ -96,7 +81,7 @@
                 <li class="nav-item dropdown">
                     <a class="dropdown-toggle" href="javascript:void(0);">
                         <span class="icon-holder">
-                            <i class="anticon anticon-table"></i>
+                            <i class="anticon anticon-tool"></i>
                         </span>
                         <span class="title">Quản lý hệ thống</span>
                         <span class="arrow">
@@ -115,28 +100,17 @@
             }
            
             <li class="nav-item dropdown">
-                <a class="dropdown-toggle" href="javascript:void(0);">
+                <a class="dropdown-toggle" asp-area="Admin" asp-controller="AdminStatistic" asp-action="Index">
                     <span class="icon-holder">
                         <i class="anticon anticon-pie-chart"></i>
                     </span>
                     <span class="title">Thống kê, báo cáo</span>
-                    <span class="arrow">
-                        <i class="arrow-icon"></i>
-                    </span>
                 </a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a href="chartist.html">Chartist</a>
-                    </li>
-                    <li>
-                        <a href="chartjs.html">ChartJs</a>
-                    </li>
-                </ul>
             </li>
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" asp-area="Admin" asp-controller="AdminStores" asp-action="Index">
                     <span class="icon-holder">
-                        <i class="anticon anticon-file"></i>
+                        <i class="anticon anticon-shop"></i>
                     </span>
                     <span class="title">Quản lý cửa hàng</span>
                 </a>
@@ -144,7 +118,7 @@
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" asp-area="Admin" asp-controller="AdminStocks" asp-action="Index">
                     <span class="icon-holder">
-                        <i class="anticon anticon-file"></i>
+                        <i class="anticon anticon-appstore"></i>
                     </span>
                     <span class="title">Quản lý kho</span>
                 </a>
@@ -152,7 +126,7 @@
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
-                        <i class="anticon anticon-lock"></i>
+                        <i class="anticon anticon-gift"></i>
                     </span>
                     <span class="title">Quản lý khuyến mãi</span>
                     <span class="arrow">

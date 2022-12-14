@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using WebBriliFresh.Models;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using WebBriliFresh.Repositories.Abstract;
+using WebBriliFresh.Repositories.Implementation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,24 +24,19 @@ builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+// For Identity  
+builder.Services.AddIdentity<User, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
+        .AddEntityFrameworkStores<BriliFreshDbContext>();
 
-}).AddCookie(options =>
-{
-    options.LoginPath = "/UserLogin";
-    options.LogoutPath = "/Home/Index";
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(3); //set cookie time to 3 min only to test
-});
+builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/UserLogin");
+
+builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.Role, "3"));
-    options.AddPolicy("Employee", policy => policy.RequireClaim(ClaimTypes.Role, "2", "3"));
-    options.AddPolicy("LoggedIn", policy => policy.RequireClaim(ClaimTypes.Role, "1", "2", "3"));
+    options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
+    options.AddPolicy("Employee", policy => policy.RequireClaim(ClaimTypes.Role, "Employee", "Admin"));
+    options.AddPolicy("LoggedIn", policy => policy.RequireClaim(ClaimTypes.Role, "Admin", "Customer", "Employee"));
 
 
 });

@@ -20,17 +20,17 @@
         List<int> a;
         List<string> b;
         List<string> c;
-        a = Model.Employees.Where(x => x.UserId == Model.UserId).Select(x => x.EmpId).ToList();
+        a = Model.Employees.Where(x => x.UserId == Model.Id).Select(x => x.EmpId).ToList();
 
-        b = Model.Employees.Where(x => x.UserId == Model.UserId).Select(x => x.LastName + " ").ToList();
+        b = Model.Employees.Where(x => x.UserId == Model.Id).Select(x => x.LastName + " ").ToList();
 
-        c = Model.Employees.Where(x => x.UserId == Model.UserId).Select(x => x.FirstName).ToList();
+        c = Model.Employees.Where(x => x.UserId == Model.Id).Select(x => x.FirstName).ToList();
     }
     <dt class="col-sm-2">
         Mã tài khoản
     </dt>
     <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.UserId)
+        @Html.DisplayFor(model => model.Id)
     </dd>
     <dt class="col-sm-2">
         Mã nhân viên
@@ -72,7 +72,7 @@
 </dl>
 <div>
     <form asp-action="Delete">
-        <input type="hidden" asp-for="UserId" />
+        <input type="hidden" asp-for="Id" />
         <input type="submit" value="Xóa" class="btn btn-danger" />
         <a style="margin-left:20px;" asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
     </form>

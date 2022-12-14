@@ -1,0 +1,64 @@
+.mr-8 {
+    margin-right: 8px;
+}
+
+.heading-right {
+    padding-left: 0;
+}
+
+.noti-card {
+    display: flex;
+    font-size: 14px;
+    padding: 8px;
+    margin-bottom: 8px;
+    background-color: #fff;
+}
+
+.noti-card:hover {
+    background-color: rgba(235, 233, 233, 0.8);
+    cursor: pointer;
+}
+
+.item-left {
+    flex: 1;
+}
+
+.item-center {
+    flex: 7;
+}
+
+.item-right {
+    flex: 2;
+}
+
+.noti-card img {
+    width: 80px;
+    margin-top: 4px;
+}
+
+.noti-card p {
+    width: 582px;
+    margin-bottom: 4px;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+.card-btn {
+    margin-top: 4px;
+}
+
+.card-btn a {
+    display: block;
+    font-size: 13px;
+    padding: 4px 6px;
+    text-decoration: none;
+    text-align: center;
+    color: green;
+    border-radius: 8px;
+    border: 1px solid green;
+}
+
+.card-btn a:hover {
+    color: #fff;
+    background-color: green;
+}

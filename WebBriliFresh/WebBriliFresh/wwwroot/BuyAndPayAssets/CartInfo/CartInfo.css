@@ -1,0 +1,417 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100&family=Lexend:wght@300;500;700&family=Lora:ital,wght@1,400;1,500;1,600&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100&family=Lexend:wght@300;500;700&family=Lora:ital,wght@1,400;1,500;1,600&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,200;1,300;1,400&family=Poppins:ital@0;1&display=swap');
+
+*
+{
+    box-sizing: inherit;
+    font-family: "Lexend", sans-serif;
+}
+
+.container
+{
+    background: #FFFFFF;
+    margin-bottom: 20px;
+}
+
+.col-md-4
+{
+    padding: 12px 0;
+    font-size: 16px;
+}
+
+.col-md-2
+{
+    padding: 12px 0;
+    font-size: 15px;
+    text-align: center;
+}
+
+.col-md-1
+{
+    padding: 18px 0;
+    text-align: center;
+}
+
+.col-sm-1
+{
+    padding: 30px 0;
+    text-align: center;
+}
+
+.thongtindonhangform
+{
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    background-color: #EAFFE4;
+}
+
+.header
+{
+    width: 100%;
+    height: 80px;
+    background: #FFFFFF;
+}
+
+#headerrow
+{
+    align-items: center;
+    height: 100%;
+}
+
+.header__logo
+{
+    height: 80px;
+    width: 80px;
+}
+
+.header__brand1
+{
+    color: #118129;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.header__brand2
+{
+    color: #14DF41;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+.header__step
+{
+    width: 33%;
+}
+
+.header__step-name
+{
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
+.header__line-left
+{
+    width: 81px;
+    height: 8px;
+    background-color: #D9D9D9;
+    margin-top: 10px;
+    border: none;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.header__line-right
+{
+    width: 81px;
+    height: 8px;
+    background-color: #D9D9D9;
+    margin-top: 10px;
+    border: none;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+
+#line-left-1, #line-right-3
+{
+    visibility: hidden;
+}
+
+.header__circle
+{
+    height: 28px;
+    width: 28px;
+    border-radius: 50%;
+    text-align: center;
+}
+
+#circle1
+{
+    background-color: #118129;
+    color: #FFFFFF;
+}
+
+#circle2, #circle3
+{
+    border: 1px solid #D9D9D9;
+}
+
+.header__contact-icon
+{
+    border-radius: 12px;
+}
+
+
+.header__contact
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    float: right;
+    width: 200px;
+    border: 1px solid #8F8C8C;
+    border-radius: 12px;
+}
+
+.header__hotline
+{
+    margin-left: 12px;
+}
+
+.header__hotline-number
+{
+    color: #F6A508;
+    font-weight: bolder;
+}
+
+.header__hotline-note
+{
+    color: #000000;
+    font-size: 12px;
+    font-weight: bolder;
+}
+
+.content__title
+{
+    width: 100%;
+    height: 50px;
+    background: #118129;
+    margin-bottom: 20px;
+}
+
+.content__headline
+{
+    padding: 15px 0;
+    color: #FFFFFF;
+    font-size: 18px;
+}
+
+
+.content__pro-no
+{
+    border: 1px solid;
+    background-color: #000000;
+    display: inline-block;
+    color: #FFFFFF;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+.content__pro-info
+{
+    display: flex;
+}
+
+.content__pro-image
+{
+    width: 80px;
+    height: 60px;
+    border: 1px solid #373333;
+    border-radius: 12px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.content__pro-name, .content__unit-price
+{
+    font-weight: bold;
+}
+
+.content__quantity
+{
+    height: 30px;
+    width: 40px;
+    text-align: center;
+    font-size: 15px;
+    border: 1px solid #ddd;
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: bold;
+}
+
+.content__amount
+{
+    color: red;
+    font-weight: bold;
+}
+
+.content__sumary
+{
+    background-color: #58B63A;
+    height: 280px;
+    width: 1140px;
+    margin-bottom: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 12px;
+}
+
+.content__coupon
+{
+    display: flex;
+    padding: 20px 0;
+    margin-left: 130px;
+}
+
+
+.content__coupon-icon
+{
+    height: 36px;
+    width: 40px;
+    background-color: #FFFFFF;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    align-items: center;
+    display: flex;
+}
+
+#couponicon
+{
+    height: 20px;
+    width: 20px;
+    margin: auto;
+}
+
+.content__coupon-text
+{
+    height: 36px;
+    width: 250px;
+    border: none;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    outline: none;
+}
+
+.content__coupon-button
+{
+    margin-left: 12px;
+    height: 36px;
+    width: 100px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #504a4a;
+    background-color: #DBDADA;
+}
+
+.content__coupon-message
+{
+    margin-left: 12px;
+    color: red;
+    font-size: 12px;
+    margin-top: auto;
+    margin-bottom: auto;
+    display: none;
+}
+
+.content__cost
+{
+    margin-left: auto;
+    margin-right: auto;
+    width: 880px;
+    height: 136px;
+    background-color: #118129;
+    border-radius: 12px;
+}
+
+#costinfo
+{
+    background-color: #118129;
+    border-radius: 12px;
+}
+
+.content__subtotal
+{
+    color: #FFFFFF;
+    margin-left: 20px;
+}
+
+.content__subtotal-value
+{
+    color: #FFFFFF;
+    float: right;
+    margin-right: 20px;
+    font-weight: bold;
+}
+
+.content__discount
+{
+    color: #FFFFFF;
+    margin-left: 20px;
+    display: none;
+}
+
+.content__discount-value
+{
+    color: #FFFFFF;
+    float: right;
+    margin-right: 20px;
+    display: none;
+    font-weight: bold;
+}
+
+.content__total
+{
+    color: #FFFFFF;
+    margin-left: 20px;
+}
+
+.content__total-value
+{
+    float: right;
+    margin-right: 20px;
+    font-size: x-large;
+    color: #FE5C5C;
+    font-weight: bold;
+}
+
+.content__vat
+{
+    color: #FFFFFF;
+    float: right;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    font-size: x-small;
+}
+
+.content-line
+{
+    border: 1px solid white;
+}
+
+.content__info
+{
+    font-size: xx-small;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+
+.content__continue
+{
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.content__continue-button
+{
+    height: 50px;
+    width: 200px;
+    border-color: #118129;
+    color: #118129;
+    border-radius: 12px;
+    background-color: #EAFFE4;
+    cursor: pointer;
+}
+
+    .content__continue-button:hover
+    {
+        background-color: #118129;
+        color: #FFFFFF;
+        border-color: #118129;
+    }
