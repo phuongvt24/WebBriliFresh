@@ -188,8 +188,8 @@ namespace WebBriliFresh.Controllers
         [AcceptVerbs("GET", "POST")]
         public IActionResult VerifyUserName(string UserName)
         {
-            var exist = _userManager.FindByNameAsync(UserName);
-
+            User exist = _userManager.FindByNameAsync(UserName).Result;
+            
             if (exist == null)
             {
                 return Json(true);
@@ -201,7 +201,7 @@ namespace WebBriliFresh.Controllers
         [AcceptVerbs("GET", "POST")]
         public IActionResult VerifyEmail(string email)
         {
-            var exist = _userManager.FindByEmailAsync(email);
+            User exist = _userManager.FindByEmailAsync(email).Result;
 
             if (exist == null)
             {
