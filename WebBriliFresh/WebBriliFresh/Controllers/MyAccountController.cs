@@ -58,6 +58,7 @@ namespace WebBriliFresh.Controllers
                 customer.LastName = LastName;
                 customer.RewardId = RewardId;
                 customer.Gender = Gender;
+                customer.Phone = Phone;
 
                 String name = LastName + " " + FirstName;
                 HttpContext.Session.SetString("CUS_SESSION_CUSNAME", name);
@@ -81,7 +82,7 @@ namespace WebBriliFresh.Controllers
                     {
                         // EF will detect the change and update only the column that has changed.
                         await _context.SaveChangesAsync();
-                        HttpContext.Session.SetString("CUS_SESSION_AVATAR", user.Avatar);
+                        HttpContext.Session.SetString("CUS_SESSION_AVATAR", picfilename);
                     }
                 }
                 await _context.SaveChangesAsync();

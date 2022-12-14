@@ -17,7 +17,7 @@ public partial class User : IdentityUser<int>
     public int? UserRole { get; set; }
 
     [DisplayName("Image Name")]
-    public string? Avatar { get; set; } = "b779b2cd - e244 - 4954 - 95b1-c7e469a7b5a7.jfif";
+    public string? Avatar { get; set; }
 
     [NotMapped]
     [DisplayName("Upload File")]
