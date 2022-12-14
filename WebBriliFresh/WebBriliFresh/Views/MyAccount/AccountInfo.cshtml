@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Customer
+
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -52,29 +54,29 @@
                         <form action="" method="post" name="update-info-cus" class="form-info-cus">
                             <div class="input_field">
                                 <label for="last-name"> Họ </label>
-                                <input type="text" name="last-name" value="Đặng" />
+                                <input type="text" name="last-name" asp-for="LastName"/>
                             </div>
                             <div class="input_field">
                                 <label for="first-name"> Tên </label>
-                                <input type="text" name="first-name" value="Minh Tuấn" />
+                                <input type="text" name="first-name" asp-for="FirstName" />
                             </div>
                             <div class="input_field">
                                 <label for="phone"> Số điện thoại </label>
-                                <span name="phone">3242534556</span>
+                                <span name="phone">@Model.Phone</span>
                             </div>
                             <div class="input_field">
                                 <label for="email"> Email </label>
                                 <div class="email-data">
-                                    <span name="email">dskfdfk@gmail.com</span>
+                                    <span name="email">@Model.Email</span>
                                     <a onclick='window.location = "@Url.Action("ChangeMail_1", "MyAccount")"'>Thay đổi</a>
                                 </div>
                             </div>
                             <div class="input_field">
                                 <label for="Username"> Giới tính </label>
                                 <div class="radio-group">
-                                    <input type="radio" name="gender" value="male" id="male"><label for="male">Nam</label>
-                                    <input type="radio" name="gender" value="female" id="female"><label for="female">Nữ</label>
-                                    <input type="radio" name="gender" value="other" id="other"><label for="other">Khác</label>
+                                    <input type="radio" name="gender" value="1" id="male"><label for="male">Nam</label>
+                                    <input type="radio" name="gender" value="2" id="female"><label for="female">Nữ</label>
+                                    <input type="radio" name="gender" value="3" id="other"><label for="other">Khác</label>
                                 </div>
                             </div>
                             <div class="input_field">
