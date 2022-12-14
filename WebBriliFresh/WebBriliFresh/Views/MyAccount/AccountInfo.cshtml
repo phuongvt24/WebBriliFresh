@@ -1,4 +1,4 @@
-﻿@model Customer
+﻿@model WebBriliFresh.Models.Customer
 
 @{
     Layout = null;
@@ -11,10 +11,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thông tin tài khoản</title>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="~/js/jquery-1.11.1.min.js"></script>
 
     <link rel="stylesheet" href="~/HomeAssets/asset/fonts/themify-icons/themify-icons.css">
     <link rel="stylesheet" href="~/HomeAssets/asset/base.css" />
-    <link rel="stylesheet" href="~/HomeAssets/homeheadermain.css"/>
+    <link rel="stylesheet" href="~/HomeAssets/homeheadermain.css" />
     <link rel="stylesheet" href="~/HomeAssets/HomeFooter.css" />
     <link rel="stylesheet" href="~/MyAccountAssets/MyAccount/MyAccountMain.css" />
 
@@ -50,19 +52,28 @@
             <div class="col-12 col-xl-9 container-right">
                 <div class="heading-right">Thông tin tài khoản</div>
                 <div class="row">
-                    <div class="col-12 col-xl-8 container-fluid">
-                        <form action="" method="post" name="update-info-cus" class="form-info-cus">
+                    <form action="~/MyAccount/EditAccount/@Model.CusId" method="post" name="update-info-cus" class="form-info-cus" enctype="multipart/form-data">
+
+                        <div class="col-12 col-xl-8 container-fluid">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <input type="hidden" asp-for="CusId" />
+                            <input type="hidden" asp-for="RewardId" />
+                            <input type="hidden" asp-for="UserId" />
+                            <input type="hidden" asp-for="Email" />
+
                             <div class="input_field">
                                 <label for="last-name"> Họ </label>
-                                <input type="text" name="last-name" asp-for="LastName"/>
+                                <input type="text" asp-for="LastName" />
                             </div>
                             <div class="input_field">
                                 <label for="first-name"> Tên </label>
-                                <input type="text" name="first-name" asp-for="FirstName" />
+                                <input type="text" asp-for="FirstName" />
                             </div>
                             <div class="input_field">
                                 <label for="phone"> Số điện thoại </label>
                                 <span name="phone">@Model.Phone</span>
+                                <input type="hidden" asp-for="Phone" />
                             </div>
                             <div class="input_field">
                                 <label for="email"> Email </label>
@@ -73,37 +84,67 @@
                             </div>
                             <div class="input_field">
                                 <label for="Username"> Giới tính </label>
-                                <div class="radio-group">
-                                    <input type="radio" name="gender" value="1" id="male"><label for="male">Nam</label>
-                                    <input type="radio" name="gender" value="2" id="female"><label for="female">Nữ</label>
-                                    <input type="radio" name="gender" value="3" id="other"><label for="other">Khác</label>
-                                </div>
+                                @if (Model.Gender == 1)
+                                {
+                                    <div class="radio-group">
+                                        <input asp-for="Gender" type="radio" name="gender" value="1" id="male" selected><label for="male">Nam</label>
+                                        <input asp-for="Gender" type="radio" name="gender" value="2" id="female"><label for="female">Nữ</label>
+                                        <input asp-for="Gender" type="radio" name="gender" value="3" id="other"><label for="other">Khác</label>
+                                    </div>
+                                }
+                                else if (Model.Gender == 2)
+                                {
+                                    <div class="radio-group">
+                                        <input asp-for="Gender" type="radio" name="gender" value="1" id="male"><label for="male">Nam</label>
+                                        <input asp-for="Gender" type="radio" name="gender" value="2" id="female" selected><label for="female">Nữ</label>
+                                        <input asp-for="Gender" type="radio" name="gender" value="3" id="other"><label for="other">Khác</label>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="radio-group">
+                                        <input asp-for="Gender" type="radio" name="gender" value="1" id="male"><label for="male">Nam</label>
+                                        <input asp-for="Gender" type="radio" name="gender" value="2" id="female"><label for="female">Nữ</label>
+                                        <input asp-for="Gender" type="radio" name="gender" value="3" id="other" selected><label for="other">Khác</label>
+                                    </div>
+                                }
+
                             </div>
                             <div class="input_field">
                                 <label for="password"> Mật khẩu </label>
                                 <a class="change-pw-btn" onclick='window.location = "@Url.Action("ChangePass_1", "MyAccount")"'>Đổi mật khẩu</a>
                             </div>
-                        </form>
+                            <input id="save-btn" class="btn-shared" name="save-btn" type="submit" value="Lưu" />
 
-                        <input id="save-btn" class="btn-shared" name="save-btn" type="submit" value="Lưu" />
-                    </div>
-
-
-                    <div class="avatar-alt col-12 col-xl-4 container-fluid">
-                        <div class="avatar-choice">
-                            <img src="./assets/image/avt.jpg" alt="">
                         </div>
-                        <label class="choose-img-btn btn-shared">
-                            <span>Chọn ảnh</span>
-                            <input type="file" accept="image/*"></input>
-                        </label>
-                    </div>
+
+                        <div class="avatar-alt col-12 col-xl-4 container-fluid">
+                            <div class="avatar-choice">
+                                <img id="frame" src="" alt="">
+                            </div>
+                            <label class="choose-img-btn btn-shared">
+                                <span>Chọn ảnh</span>
+                                <input type="file" name="Photo" onchange="preview()">
+                            </label>
+                        </div>
+                    </form>
+
                 </div>
             </div>
 
         </div>
     </div>
     @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
-    <script type="text/javascript" src="~/MyAccountAssets/MyAccount/SubNavSide.js"></script>
+     <script>
+       function preview() {
+            frame.src = URL.createObjectURL(event.target.files[0]);
+        }
+
+        function clearImage() {
+            document.getElementById('formFile').value = null;
+            frame.src = "";
+        }
+    </script>
+
 </body>
 </html>

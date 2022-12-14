@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using WebBriliFresh.Models;
 
 namespace WebBriliFresh.Controllers
@@ -26,6 +29,77 @@ namespace WebBriliFresh.Controllers
             return View(currentCustomer);
         }
 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditAccount(IFormFile photo)
+        {
+
+
+            IFormCollection form = HttpContext.Request.Form;
+            int CusId = Int32.Parse(form["CusId"]);
+            int UserId = Int32.Parse(form["UserId"]);
+            int RewardId = Int32.Parse(form["RewardId"]);
+            int Gender = Int32.Parse(form["Gender"]);
+
+            string FirstName = form["FirstName"].ToString().Trim();
+            string LastName = form["LastName"].ToString().Trim();
+            string Phone = form["Phone"].ToString().Trim();
+            string Email = form["Email"].ToString().Trim();
+
+            try
+            {
+                Customer customer = new Customer();
+                customer.CusId = CusId;
+                customer.UserId = UserId;
+                customer.Email = Email;
+                customer.RewardId = RewardId;
+                customer.FirstName = FirstName;
+                customer.LastName = LastName;
+                customer.RewardId = RewardId;
+                customer.Gender = Gender;
+
+                String name = LastName + " " + FirstName;
+                HttpContext.Session.SetString("CUS_SESSION_CUSNAME", name);
+                _context.Update(customer);
+
+                if (photo != null)
+                {
+                    string picfilename = DoPhotoUpload(photo);
+                    User user = await _context.Users.FindAsync(UserId);
+                    user.Avatar = picfilename;
+                    if (await TryUpdateModelAsync<User>(
+                        user,
+                        "user",
+                        s => s.Avatar))
+                    {
+                        // EF will detect the change and update only the column that has changed.
+                        await _context.SaveChangesAsync();
+                    }
+                }
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(AccountInfo));
+
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CustomerExists(CusId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+        }
+
+        private bool CustomerExists(int id)
+        {
+            return _context.Customers.Any(e => e.CusId == id);
+        }
+
         public IActionResult MyNotice()
         {
             return View();
@@ -46,7 +120,7 @@ namespace WebBriliFresh.Controllers
         {
             return View();
         }
-      
+
         public IActionResult ForgetPass_1()
         {
             return View();
@@ -78,12 +152,14 @@ namespace WebBriliFresh.Controllers
         {
             return View();
         }
+
+
         private string DoPhotoUpload(IFormFile photo)
         {
             string fext = Path.GetExtension(photo.FileName);
             string uname = Guid.NewGuid().ToString();
             string fname = uname + fext;
-            string fullpath = Path.Combine(_env.WebRootPath, "photos/" + fname);
+            string fullpath = Path.Combine(_env.WebRootPath, "MyAccountAssets/UserPhotos/" + fname);
             using (FileStream fs = new(fullpath, FileMode.Create))
             {
                 photo.CopyTo(fs);
