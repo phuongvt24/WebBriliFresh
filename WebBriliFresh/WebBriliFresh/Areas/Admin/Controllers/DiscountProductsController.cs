@@ -23,7 +23,19 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             var briliFreshDbContext = _context.DiscountProducts.Include(d => d.Pro);
-            return View(await briliFreshDbContext.ToListAsync());
+            await briliFreshDbContext.ToListAsync();
+
+            foreach(DiscountProduct discount in briliFreshDbContext)
+            {
+                DateTime EndDate = discount.EndDate ?? DateTime.MinValue;
+                int result = DateTime.Compare(EndDate, DateTime.Now);
+                if (result <= 0)
+                {
+                    discount.Status = false;
+                }
+            }
+            await _context.SaveChangesAsync();
+            return View(briliFreshDbContext);
         }
 
         // GET: Admin/DiscountProducts/Details/5
