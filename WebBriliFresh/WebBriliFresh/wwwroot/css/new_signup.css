@@ -1,0 +1,223 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@200;400;500;600&family=Lexend:wght@200;300;500;600;800&display=swap");
+
+
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+form {
+    width: 100%;
+    /* background-color: red; */
+    margin: 0 auto;
+    height: 100%;
+}
+
+body,
+input {
+    font-family: "Lexend", sans-serif;
+}
+
+main {
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.box {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    height: 616px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 27);
+}
+
+.inner-box {
+    position: absolute;
+    /* width: calc(100% - 40px);
+    height: calc(100% - 40px); */
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.forms-wrap {
+    position: absolute;
+    height: 100%;
+    width: 45%;
+    top: 0;
+    right: 0;
+    /* background-color: green; */
+}
+
+.close {
+    cursor: pointer;
+    position: absolute;
+    top: 4%;
+    right: 0%;
+    padding: 12px 16px;
+    border-radius: 50%;
+    transform: translate(0%, -50%);
+
+    border: 0;
+    font-size: 20px;
+
+
+    border-radius: 50%;
+    transition: all 0.2s ease-in;
+}
+
+.close:hover {
+    background: lightgray;
+}
+
+.carousel {
+    position: absolute;
+    height: 100%;
+    width: 55%;
+    right: 45%;
+    top: 0;
+}
+
+.image {
+    width: 100%;
+}
+
+.img-green {
+    position: relative;
+    height: 100%;
+    padding-top: 0;
+    padding-left: 0;
+}
+
+.img-vegetables {
+    position: absolute;
+    width: 420px;
+    left: 32px;
+    top: 150px;
+}
+
+.img-logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 28%;
+}
+
+.close-sign-up-1-btn {
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.close-sign-up-1-btn:hover {
+    background: #bbb;
+}
+
+.heading-signup {
+    margin: 16px 0 4px;
+}
+
+.heading-signup h1 {
+    font-family: 'Lexend';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 38px;
+    color: #118129;
+}
+
+.actual-signup-form {
+    margin-left: 12px;
+    margin-bottom: 0px;
+    font-family: 'Lexend';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+}
+
+.input-field {
+    padding-left: 12px;
+    font-size: 16px;
+    margin-top: 16px;
+    width: 344px;
+    height: 36px;
+    background: #FFFFFF;
+    border: 1px solid #118129;
+    font-family: "Lexend", sans-serif;
+
+}
+
+.create-account-box {
+    margin-top: 24px;
+
+}
+
+.create-account-btn {
+    width: 344px;
+    height: 44px;
+    background: #118129;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Lexend';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 0px;
+    color: #FFFFFF;
+
+    align-items: center;
+}
+
+.create-account-btn:hover {
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.sign-in-link {
+    margin-top: 4px;
+    text-align: center;
+}
+
+.sign-in-link span {
+    text-align: center;
+    display: inline;
+    font-family: 'Lexend';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 26px;
+    color: #826C6C
+}
+
+.sign-in-link a {
+    font-family: 'Lexend';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #118129;
+    text-decoration: none;
+}
+
+.sign-in-link a:hover {
+    opacity: 0.7;
+}
+
+#gender {
+    color: #757575;
+}
+
+.select-gender.js-change-color {
+    color: #000 !important;
+}

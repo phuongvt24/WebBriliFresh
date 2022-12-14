@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebBriliFresh.Models;
@@ -7,6 +8,8 @@ using WebBriliFresh.Models;
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Policy = "Employee")]
+
     public class AdminStocksController : Controller
     {
         private readonly BriliFreshDbContext _context;
@@ -17,21 +20,11 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         }
 
         // GET: Admin/AdminStocks
-        public async Task<IActionResult> Index(int? id)
+        public async Task<IActionResult> Index()
         {
-            if (id == null)
-            {
-                ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "StoreId");
-                var briliFreshDbContext = _context.Stocks.Include(s => s.Pro).Where(s => s.Pro.IsDeleted == 0).Include(s => s.Store).Where(s => s.Store.IsDeleted == 0); ; ;
-                return View(await briliFreshDbContext.ToListAsync());
-            }
-            else
-            {
-                ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "StoreId");
-                var briliFreshDbContext = _context.Stocks.Include(s => s.Pro).Where(s => s.Pro.IsDeleted == 0).Include(s => s.Store).Where(s => s.Store.IsDeleted == 0 && s.Store.StoreId == id); ; ;
-                return View(await briliFreshDbContext.ToListAsync());
-            }
-            
+            ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "StoreId");
+            var briliFreshDbContext = _context.Stocks.Include(s => s.Pro).Where(s => s.Pro.IsDeleted == 0).Include(s => s.Store).Where(s => s.Store.IsDeleted == 0); 
+            return View(await briliFreshDbContext.ToListAsync());
         }
 
         // GET: Admin/AdminStocks/Details/5

@@ -23,12 +23,6 @@
     <div class="col-md-4">
         <form asp-action="Edit" asp-route-id="@Model.EmpId" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-           
-            @*<div class="form-group" style="font-size:18px">
-                <label asp-for="StoreId" class="control-label">Cửa hàng làm việc</label>
-                <input asp-for="StoreId" disabled class="form-control" />
-                <span asp-validation-for="StoreId" class="text-danger"></span>
-            </div>*@
             <div class="form-group">
                 <input type="hidden" asp-for="EmpId" />
                 <input type="hidden" asp-for="StoreId" />
@@ -60,6 +54,7 @@
                 <select id="city" class="form-control">
                     <option value="" selected></option>
                 </select>
+                <span class="text-danger" id="city-message" style="display:none">Vui lòng chọn Tỉnh/Thành!</span>
             </div>
             <div class="form-group">
                 <label for="district">Quận/Huyện</label>
@@ -67,6 +62,7 @@
                 <select id="district" class="form-control">
                     <option value="" selected></option>
                 </select>
+                <span class="text-danger" id="district-message" style="display:none">Vui lòng chọn Quận/Huyện!</span>
             </div>
             <div class="form-group">
                 <label for="ward">Phường/Xã</label>
@@ -74,6 +70,7 @@
                 <select id="ward" class="form-control">
                     <option value="" selected></option>
                 </select>
+                <span class="text-danger" id="ward-message" style="display:none">Vui lòng chọn Phường/Xã!</span>
             </div>
             <div class="form-group">
                 <label for="specialaddress">Địa chỉ</label>
@@ -87,7 +84,7 @@
 
             <div class="form-group" hidden>
                 <label asp-for="EndDate" class="control-label">Ngày vào làm</label>
-                <input asp-for="EndDate" hidden class="form-control" value="@Model.StartDate"/>
+                <input asp-for="EndDate" hidden class="form-control" value="@Model.StartDate" />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
 
@@ -107,13 +104,10 @@
                 <span asp-validation-for="IsDeleted" class="text-danger"></span>
             </div>
             <div class="m-b-15 d-flex" style="justify-content: space-between;">
-                <button asp-action="Edit" class="btn btn-primary">
+                <button asp-action="Edit" class="btn btn-primary" id="save-btn">
                     <i class="anticon anticon-save"></i>
                     <span>Lưu thay đổi</span>
                 </button>
-            @*    <div>
-                    <a asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
-                </div>*@
             </div>
         </form>
     </div>
@@ -126,13 +120,12 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script>
-flatpickr("#myID", {
-    altInput: true,
-    altFormat: "d/m/Y",
-    dateFormat: "m/d/Y",
-});
-
+    <script>
+        flatpickr("#myID", {
+            altInput: true,
+            altFormat: "d/m/Y",
+            dateFormat: "m/d/Y",
+        });
         $(document).ready(function () {
             var citis = document.getElementById("city");
             var districts = document.getElementById("district");
@@ -219,4 +212,4 @@ flatpickr("#myID", {
                 $("#ward-message").hide();
             })
         })
-    </script>
+</script>

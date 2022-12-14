@@ -1,0 +1,70 @@
+.form-change-password
+{
+    width: fit-content !important;
+    background-color: #fff;
+    padding: 32px 64px !important;
+    margin: 0 auto !important;
+    border: 2px dashed #757575 !important;
+}
+
+.form-header
+{
+    color: green;
+    font-size: 24px;
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+}
+
+.form-body
+{
+    text-align: center;
+}
+
+.input_field
+{
+    margin: 16px 0;
+}
+
+    .input_field > div > a
+    {
+        display: block;
+        font-size: 14px;
+        text-align: right;
+        text-decoration: none;
+        margin-top: 4px;
+    }
+
+.form-body label
+{
+    text-align: left;
+    width: 160px;
+}
+
+.form-body input
+{
+    line-height: 1.6;
+    padding: 4px;
+    border: 1px solid #757575;
+}
+
+.form-footer #btn-validate
+{
+    display: block;
+    width: 100%;
+    line-height: 1.6;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #fff;
+    background-color: green;
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 32px 0 24px;
+}
+
+    .form-footer #btn-validate:hover
+    {
+        opacity: 0.8;
+    }

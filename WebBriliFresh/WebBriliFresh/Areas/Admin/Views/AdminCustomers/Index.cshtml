@@ -3,21 +3,37 @@
 @{
     ViewData["Title"] = "Danh sách khách hàng";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
-    var data = new object[]{
+    var data_rank = new object[]{
         new{
             ten = "Vàng",
-            giatri = 1
+            giatri =  "Vàng"
         },
         new{
             ten = "Bạc",
-            giatri = 2
+            giatri = "Bạc"
         },
         new{
             ten = "Đồng",
-            giatri = 3
+            giatri = "Đồng"
         }
         };
-    var list = new SelectList(data, "giatri", "ten");
+    var list_rank = new SelectList(data_rank, "giatri", "ten");
+
+    var data_gender = new object[]{
+        new{
+            ten = "Nam",
+            giatri =  "Nam"
+        },
+        new{
+            ten = "Nữ",
+            giatri = "Nữ"
+        },
+        new{
+            ten = "Khác",
+            giatri = "Khác"
+        }
+        };
+    var list_gender = new SelectList(data_gender, "giatri", "ten");
 }
 <div class="page-header">
     <div class="header-sub-title">
@@ -29,12 +45,20 @@
 </div>
 <div class="card">
     <div class="card-body">
-        <div class="row m-b-30">    
+        <div class="row m-b-30">
             <div class="col-lg-8">
                 <div class="d-md-flex">
                     <div class="m-b-10 m-r-15">
-                        <label class="control-label">Chọn loại khách hàng</label>
-                        <select class="custom-select" asp-items="list" id="id-filter-reward" name="id-filter-reward" style="min-width: 100px;" onChange="search(this);">
+                        
+                        <b>Chọn loại khách hàng</b>
+                        <select class="custom-select" asp-items="list_rank" id="customer-filter" style="min-width: 100px; ">
+                            <option value="" selected>Tất cả</option>
+                        </select>
+                    </div>
+                    <div class="m-b-10 m-r-15">
+
+                        <b>Chọn giới tính</b>
+                        <select class="custom-select" asp-items="list_gender" id="gender-filter" style="min-width: 100px; ">
                             <option value="" selected>Tất cả</option>
                         </select>
                     </div>
@@ -59,7 +83,7 @@
                     {
                         @foreach (var item in Model)
                         {
-                            <tr>
+                            <tr class="rowitem">
                                 <td>@Html.DisplayFor(modelItem => item.CusId)</td>
 
                                 <td>
@@ -71,29 +95,29 @@
 
                                 @if (item.Gender == 1)
                                 {
-                                    <td>Nam</td>
+                                    <td><span class="gender">Nam</span></td>
                                 }
                                 else if (item.Gender == 2)
                                 {
-                                    <td>Nữ</td>
+                                    <td><span class="gender">Nữ</span></td>
                                 }
                                 else
                                 {
-                                    <td>Khác</td>
+                                    <td><span class="gender">Khác</span></td>
                                 }
                                 <td>@Html.DisplayFor(modelItem => item.Phone)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Email)</td>
                                 @if (item.Reward.CusType == 1)
                                 {
-                                    <td>Vàng</td>
+                                    <td><span class="rank">Vàng</span></td>
                                 }
                                 else if (item.Reward.CusType == 2)
                                 {
-                                    <td>Bạc</td>
+                                    <td><span class="rank">Bạc</span></td>
                                 }
                                 else
                                 {
-                                    <td>Đồng</td>
+                                    <td><span class="rank">Đồng</span></td>
                                 }
 
                                 <td class="text-right">
@@ -111,9 +135,22 @@
 </div>
 
 <script>
-    function search(a) {
-        window.location.href = "/Admin/AdminCustomers/Index/" + a.options[a.selectedIndex].key;
-    }
+    //function search(a) {
+    //    window.location.href = "/Admin/AdminCustomers/Index/" + a.options[a.selectedIndex].key;
+    //}
+
+    $('#customer-filter, #gender-filter').change(function () {
+        var a = $('#customer-filter').val();
+        var b = $('#gender-filter').val();
+        $(".rowitem").show();
+        for (var i = 0; i < $(".rank").length; i++) {
+            var c = $(".rank")[i].innerText;
+            var d = $(".gender")[i].innerText;
+            if  (((a != c) && (a != "")) || ((b != d) && (b != ""))) {
+                $(".rowitem")[i].style.display = 'none';
+            }
+        }
+    })
 
     $(document).ready(function () {
         var path = location.pathname;

@@ -3,6 +3,11 @@ using AspNetCoreHero.ToastNotification;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using WebBriliFresh.Models;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using WebBriliFresh.Repositories.Abstract;
+using WebBriliFresh.Repositories.Implementation;
+using WebBriliFresh.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,24 +25,28 @@ builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+// For Identity  
+builder.Services.AddIdentity<User, ApplicationRole>(options => 
+{ 
+    options.SignIn.RequireConfirmedAccount = true; 
+    options.SignIn.RequireConfirmedEmail = true;
+})
+      .AddEntityFrameworkStores<BriliFreshDbContext>()
+      .AddDefaultTokenProviders();
 
-}).AddCookie(options =>
-{
-    options.LoginPath = "/Admin/AdminLogin";
-    options.LogoutPath = "/Home/Index";
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(5000);
-});
+builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/UserLogin");
+
+builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("AdminOnly", policy => policy.RequireClaim("Admin"));
-});
+    options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
+    options.AddPolicy("Employee", policy => policy.RequireClaim(ClaimTypes.Role, "Employee", "Admin"));
+    options.AddPolicy("LoggedIn", policy => policy.RequireClaim(ClaimTypes.Role, "Admin", "Customer", "Employee"));
 
+
+});
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
 var app = builder.Build();

@@ -51,6 +51,7 @@
                         <th>Tên sản phẩm</th>
                         <th>Loại</th>
                         <th>Đơn vị</th>
+                        <th>Giá nhập</th>
                         <th>Giá bán</th>
                         <th>Nguồn gốc</th>
                         <th>Trạng thái</th>
@@ -94,11 +95,18 @@
                                 <td>@Html.DisplayFor(modelItem => item.Type.SubType)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Unit)</td>
                                 <td>
+                                    <input type="hidden" class="price_2" value="@Html.DisplayFor(modelItem => item.OriginalPriceString)">
+                                    <span class="main_2">
+
+                                    </span>
+                                </td>
+                                <td>
                                     <input type="hidden" class="price" value="@Html.DisplayFor(modelItem => item.PriceString)">
                                     <span class="main">
 
                                     </span>
                                 </td>
+                                
                                 <td>@Html.DisplayFor(modelItem => item.Source)</td>
                                 <td>
                                     @if(b>0)
@@ -146,6 +154,11 @@
         var a = $(".price")[i].value;
         a = a.replace('.00','');
         $(".main")[i].innerHTML = a;
+    }
+    for(var i =0 ; i < $(".price_2").length; i++){
+        var a = $(".price_2")[i].value;
+        a = a.replace('.00','');
+        $(".main_2")[i].innerHTML = a;
     }
 </script>
 
