@@ -228,14 +228,14 @@
     $("#totalBenefit").text(b + ' đ');
 
     if ($(".proid")[0].value != 0) {
-        for (var i = 0; i < $(".earning").length(); i++) {
+        for (var i = 0; i < $(".earning").length; i++) {
             var c = $(".earning")[i].innerHTML;
             c = c.replace('.0000', '');
             c = Number(c).toLocaleString('en');
             $(".earning")[i].innerHTML = c + ' đ';
         }
 
-        for (var i = 0; i < $(".earning").length(); i++) {
+        for (var i = 0; i < $(".earning").length; i++) {
             var d = $(".stockLeft")[i].value;
             if (d < 20) {
                 $(".progress-bar")[i].style.backgroundColor = "red";
