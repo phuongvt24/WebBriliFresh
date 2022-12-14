@@ -67,6 +67,12 @@ namespace WebBriliFresh.Controllers
                 {
                     string picfilename = DoPhotoUpload(photo);
                     User user = await _context.Users.FindAsync(UserId);
+
+                    if(user.Avatar != null)
+                    {
+                        DeleteOldAvatar(user.Avatar);
+                    }
+
                     user.Avatar = picfilename;
                     if (await TryUpdateModelAsync<User>(
                         user,
@@ -75,6 +81,7 @@ namespace WebBriliFresh.Controllers
                     {
                         // EF will detect the change and update only the column that has changed.
                         await _context.SaveChangesAsync();
+                        HttpContext.Session.SetString("CUS_SESSION_AVATAR", user.Avatar);
                     }
                 }
                 await _context.SaveChangesAsync();
@@ -153,6 +160,26 @@ namespace WebBriliFresh.Controllers
             return View();
         }
 
+
+        private void DeleteOldAvatar(string fname)
+        {
+            try
+            {
+                string fullpath = Path.Combine(_env.WebRootPath, "MyAccountAssets/UserPhotos/" + fname);
+                // Check if file exists with its full path    
+                if (System.IO.File.Exists(fullpath))
+                {
+                    // If file found, delete it    
+                    System.IO.File.Delete(Path.Combine(fullpath));
+                    Console.WriteLine("File deleted.");
+                }
+                else Console.WriteLine("File not found");
+            }
+            catch (IOException ioExp)
+            {
+                Console.WriteLine(ioExp.Message);
+            }
+        }
 
         private string DoPhotoUpload(IFormFile photo)
         {
