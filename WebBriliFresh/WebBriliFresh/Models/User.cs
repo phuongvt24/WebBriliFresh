@@ -23,7 +23,7 @@ public partial class User : IdentityUser<int>
     [DisplayName("Upload File")]
     public IFormFile? ImageFile { get; set; }
 
-    public int? IsDeleted { get; set; }
+    public int? IsDeleted { get; set; } = 0;
 
     public virtual ICollection<Customer> Customers { get; } = new List<Customer>();
 

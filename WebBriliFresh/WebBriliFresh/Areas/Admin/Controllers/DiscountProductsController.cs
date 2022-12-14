@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,8 +10,6 @@ using WebBriliFresh.Models;
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Policy = "Employee")]
-
     public class DiscountProductsController : Controller
     {
         private readonly BriliFreshDbContext _context;
@@ -26,7 +23,19 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             var briliFreshDbContext = _context.DiscountProducts.Include(d => d.Pro);
-            return View(await briliFreshDbContext.ToListAsync());
+            await briliFreshDbContext.ToListAsync();
+
+            foreach(DiscountProduct discount in briliFreshDbContext)
+            {
+                DateTime EndDate = discount.EndDate ?? DateTime.MinValue;
+                int result = DateTime.Compare(EndDate, DateTime.Now);
+                if (result <= 0)
+                {
+                    discount.Status = false;
+                }
+            }
+            await _context.SaveChangesAsync();
+            return View(briliFreshDbContext);
         }
 
         // GET: Admin/DiscountProducts/Details/5
@@ -51,7 +60,11 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/DiscountProducts/Create
         public IActionResult Create()
         {
-            ViewData["ProId"] = new SelectList(_context.Products, "ProId", "ProName");
+            var products = _context.Products
+                .FromSql($"SELECT * FROM dbo.Product WHERE(NOT EXISTS (SELECT * FROM dbo.Discount_Product WHERE dbo.Product.ProID = dbo.Discount_Product.ProID)) UNION SELECT p.* FROM dbo.Product p INNER JOIN dbo.Discount_Product dp ON p.ProID = dp.ProID WHERE dp.Status = 0;")
+                .ToList();
+
+            ViewData["ProId"] = new SelectList(products, "ProId", "ProName");
             return View();
         }
 
@@ -158,14 +171,14 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             {
                 _context.DiscountProducts.Remove(discountProduct);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool DiscountProductExists(int id)
         {
-          return _context.DiscountProducts.Any(e => e.DisId == id);
+            return _context.DiscountProducts.Any(e => e.DisId == id);
         }
 
         [AcceptVerbs("GET", "POST")]
@@ -185,6 +198,5 @@ namespace WebBriliFresh.Areas.Admin.Controllers
 
             return Json(true);
         }
-
     }
 }
