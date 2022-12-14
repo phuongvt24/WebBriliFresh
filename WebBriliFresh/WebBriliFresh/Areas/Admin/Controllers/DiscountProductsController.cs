@@ -61,9 +61,8 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         public IActionResult Create()
         {
             var products = _context.Products
-                .FromSql($"SELECT * FROM dbo.Product WHERE(NOT EXISTS (SELECT * FROM dbo.Discount_Product WHERE dbo.Product.ProID = dbo.Discount_Product.ProID)) UNION SELECT p.* FROM dbo.Product p INNER JOIN dbo.Discount_Product dp ON p.ProID = dp.ProID WHERE dp.Status = 0;")
+                .FromSql($"SELECT * FROM dbo.Product \r\nWHERE(NOT EXISTS (SELECT * FROM dbo.Discount_Product WHERE dbo.Product.ProID = dbo.Discount_Product.ProID)) \r\nUNION \r\nSELECT MAX(p.ProID)\r\n      ,MAX(p.ProName)\r\n      ,MAX(p.Price)\r\n      ,MAX(p.OriginalPrice)\r\n      ,MAX(p.TypeID)\r\n      ,MAX(p.Source)\r\n      ,MAX(p.StartDate)\r\n      ,MAX(p.Des)\r\n      ,MAX(p.Unit)\r\n      ,MAX(p.isDeleted) FROM dbo.Product p INNER JOIN dbo.Discount_Product dp ON p.ProID = dp.ProID \r\nGROUP BY p.ProID\r\nHAVING SUM(CAST(dp.Status AS INT)) = 0;")
                 .ToList();
-
             ViewData["ProId"] = new SelectList(products, "ProId", "ProName");
             return View();
         }
