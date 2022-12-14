@@ -63,8 +63,8 @@
                     {
                         @foreach (var item in Model)
                         {
-                            int x = 0;
                             var a = item.ProductImages.Where(x => x.ProId == item.ProId).Select(p => p.ImgData).ToList();
+                            int x = 0;
                             if(a.Count>=1){
                                 for (int i = 0; i < a.Count; i++)
                                 {
@@ -83,7 +83,7 @@
                                         
                                        @if (a.Count >=1)
                                         {
-                                            <img class="img-fluid rounded" src="~/ImageProduct/@Html.DisplayFor(m=>a[x] )" style="max-width: 60px" alt="">
+                                            <img class="img-fluid rounded" src="~/ImageProduct/@Html.DisplayFor(m=>a[x])" style="max-width: 60px" alt="">
                                         }
                                         else
                                         {

@@ -1,4 +1,12 @@
-﻿<header class="header">
+﻿@inject WebBriliFresh.Models.BriliFreshDbContext _context;
+@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@{
+    var user_id = @HttpContextAccessor.HttpContext.Session.GetInt32("CUS_SESSION_USERID");
+    var info_account = _context.Users.Where(x => x.Id == user_id).FirstOrDefault();
+    var info_cus = _context.Customers.Where(x => x.UserId == user_id).FirstOrDefault();
+}
+<header class="header">
     <nav class="header__navbar">
         <div></div>
         <div class=" d-flex align-items-center" style="height: 64px; width: inherit;justify-content: space-evenly;">
@@ -27,15 +35,15 @@
                 <li class="header__navbar-item"><a href="#">Liên hệ</a></li>
             </ul>
             <ul class="header__navbar-list " style="margin-right: -52px;" onclick='window.location = "@Url.Action("AccountInfo", "MyAccount")"'>
-                <li class="header__navbar-name">Võ Thanh Phương</li>
-                <li class="header__navbar-avt"><img src="~/HomeAssets/asset/image/logo.png" alt="" id="avartar_user"></li>
+                <li class="header__navbar-name">@info_cus.LastName @info_cus.FirstName</li>
+                <li class="header__navbar-avt"><img  src="~/imageuser/@info_account.Avatar" alt="" id="avartar_user"></li>
             </ul>
             <div class="line">
             </div>
             <div class="header__cart " style="margin-left: -32px;">
                 <i class="ti-shopping-cart" onclick='window.location = "@Url.Action("CartInfoCheck", "BuyAndPay")"'></i>
                 <div class="header__cart-number" onclick='window.location = "@Url.Action("CartInfoCheck", "BuyAndPay")"'>
-                    <p class="number-item">
+                    <p id="quantity_cart" class="number-item">
                         9
                     </p>
                 </div>

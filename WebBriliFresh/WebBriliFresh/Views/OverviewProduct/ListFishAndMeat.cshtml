@@ -1,4 +1,8 @@
-﻿@{
+﻿@model IEnumerable<WebBriliFresh.Models.Product>
+@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@using WebBriliFresh.Common;
+@{
     Layout = null;
 }
 <html lang="en">
@@ -113,270 +117,58 @@
                     </div>
 
                     <div class="list-products col-9 row d-flex">
-                        <div class="product-item col-3">
-                            <div class="product-item-img" onclick='window.location = "@Url.Action("DetailFishAndMeat", "OverviewProduct")"'>
-                                <img src="~/ImageProduct/bouc.png" alt="" class="product-item-img-child" />
-                            </div>
-                            <div class="product-item-tittle">
-                                <p class="product-item-tittle-child" onclick='window.location = "@Url.Action("DetailFishAndMeat", "OverviewProduct")"'>Thăn lưng bò mỹ (200g)</p>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <div class="product-item-price">
-                                    <p class="product-item-price-child">99,000</p>
-                                </div>
-                                <div class="product-item-add">
-                                    <button class="product-item-add-btn" >+</button>
-                                </div>
-                            </div>
-                            <div class="d-flex ">
-                                <div class="product-item-price-dis">
-                                    <p class="product-item-price-dis-child">199,000</p>
-                                </div>
-                                <div class="dis-rate">
-                                    <p class="dis-rate-child">-20%</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-item col-3">
-                            <div class="product-item-img">
-                                <img src="~/ImageProduct/bouc.png" alt="" class="product-item-img-child" />
-                            </div>
-                            <div class="product-item-tittle">
-                                <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <div class="product-item-price">
-                                    <p class="product-item-price-child">99,000</p>
-                                </div>
-                                <div class="product-item-add">
-                                    <button class="product-item-add-btn">+</button>
-                                </div>
-                            </div>
-                            <div class="d-flex ">
-                                <div class="product-item-price-dis">
-                                    <p class="product-item-price-dis-child">199,000</p>
-                                </div>
-                                <div class="dis-rate">
-                                    <p class="dis-rate-child">-20%</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-item col-3">
-                            <div class="product-item-img">
-                                <img src="~/ImageProduct/bouc.png" alt="" class="product-item-img-child" />
-                            </div>
-                            <div class="product-item-tittle">
-                                <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <div class="product-item-price">
-                                    <p class="product-item-price-child">99,000</p>
-                                </div>
-                                <div class="product-item-add">
-                                    <button class="product-item-add-btn">+</button>
-                                </div>
-                            </div>
-                            <div class="d-flex ">
-                                <div class="product-item-price-dis">
-                                    <p class="product-item-price-dis-child">199,000</p>
-                                </div>
-                                <div class="dis-rate">
-                                    <p class="dis-rate-child">-20%</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-item col-3">
-                            <div class="product-item-img">
-                                <img src="~/ImageProduct/bouc.png" alt="" class="product-item-img-child" />
-                            </div>
-                            <div class="product-item-tittle">
-                                <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <div class="product-item-price">
-                                    <p class="product-item-price-child">99,000</p>
-                                </div>
-                                <div class="product-item-add">
-                                    <button class="product-item-add-btn">+</button>
-                                </div>
-                            </div>
-                            <div class="d-flex ">
-                                <div class="product-item-price-dis">
-                                    <p class="product-item-price-dis-child">199,000</p>
-                                </div>
-                                <div class="dis-rate">
-                                    <p class="dis-rate-child">-20%</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-item col-3">
-                            <div class="product-item-img">
-                                <img src="~/ImageProduct/bouc.png" alt="" class="product-item-img-child" />
-                            </div>
-                            <div class="product-item-tittle">
-                                <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <div class="product-item-price">
-                                    <p class="product-item-price-child">99,000</p>
-                                </div>
-                                <div class="product-item-add">
-                                    <button class="product-item-add-btn">+</button>
-                                </div>
-                            </div>
-                            <div class="d-flex ">
-                                <div class="product-item-price-dis">
-                                    <p class="product-item-price-dis-child">199,000</p>
-                                </div>
-                                <div class="dis-rate">
-                                    <p class="dis-rate-child">-20%</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-item col-3">
-                            <div class="product-item-img">
-                                <img src="~/ImageProduct/bouc.png" alt="" class="product-item-img-child" />
-                            </div>
-                            <div class="product-item-tittle">
-                                <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <div class="product-item-price">
-                                    <p class="product-item-price-child">99,000</p>
-                                </div>
-                                <div class="product-item-add">
-                                    <button class="product-item-add-btn">+</button>
-                                </div>
-                            </div>
-                            <div class="d-flex ">
-                                <div class="product-item-price-dis">
-                                    <p class="product-item-price-dis-child">199,000</p>
-                                </div>
-                                <div class="dis-rate">
-                                    <p class="dis-rate-child">-20%</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-item col-3">
-                            <div class="product-item-img">
-                                <img src="~/ImageProduct/bouc.png" alt="" class="product-item-img-child" />
-                            </div>
-                            <div class="product-item-tittle">
-                                <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <div class="product-item-price">
-                                    <p class="product-item-price-child">99,000</p>
-                                </div>
-                                <div class="product-item-add">
-                                    <button class="product-item-add-btn">+</button>
-                                </div>
-                            </div>
-                            <div class="d-flex ">
-                                <div class="product-item-price-dis">
-                                    <p class="product-item-price-dis-child">199,000</p>
-                                </div>
-                                <div class="dis-rate">
-                                    <p class="dis-rate-child">-20%</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-item col-3">
-                            <div class="product-item-img">
-                                <img src="~/ImageProduct/bouc.png" alt="" class="product-item-img-child" />
-                            </div>
-                            <div class="product-item-tittle">
-                                <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <div class="product-item-price">
-                                    <p class="product-item-price-child">99,000</p>
-                                </div>
-                                <div class="product-item-add">
-                                    <button class="product-item-add-btn">+</button>
-                                </div>
-                            </div>
-                            <div class="d-flex ">
-                                <div class="product-item-price-dis">
-                                    <p class="product-item-price-dis-child">199,000</p>
-                                </div>
-                                <div class="dis-rate">
-                                    <p class="dis-rate-child">-20%</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-item col-3">
-                            <div class="product-item-img">
-                                <img src="~/ImageProduct/bouc.png" alt="" class="product-item-img-child" />
-                            </div>
-                            <div class="product-item-tittle">
-                                <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <div class="product-item-price">
-                                    <p class="product-item-price-child">99,000</p>
-                                </div>
-                                <div class="product-item-add">
-                                    <button class="product-item-add-btn">+</button>
-                                </div>
-                            </div>
-                            <div class="d-flex ">
-                                <div class="product-item-price-dis">
-                                    <p class="product-item-price-dis-child">199,000</p>
-                                </div>
-                                <div class="dis-rate">
-                                    <p class="dis-rate-child">-20%</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-item col-3">
-                            <div class="product-item-img">
-                                <img src="~/ImageProduct/bouc.png" alt="" class="product-item-img-child" />
-                            </div>
-                            <div class="product-item-tittle">
-                                <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <div class="product-item-price">
-                                    <p class="product-item-price-child">99,000</p>
-                                </div>
-                                <div class="product-item-add">
-                                    <button class="product-item-add-btn">+</button>
-                                </div>
-                            </div>
-                            <div class="d-flex ">
-                                <div class="product-item-price-dis">
-                                    <p class="product-item-price-dis-child">199,000</p>
-                                </div>
-                                <div class="dis-rate">
-                                    <p class="dis-rate-child">-20%</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-item col-3">
-                            <div class="product-item-img">
-                                <img src="~/ImageProduct/bouc.png" alt="" class="product-item-img-child" />
-                            </div>
-                            <div class="product-item-tittle">
-                                <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <div class="product-item-price">
-                                    <p class="product-item-price-child">99,000</p>
-                                </div>
-                                <div class="product-item-add">
-                                    <button class="product-item-add-btn">+</button>
-                                </div>
-                            </div>
-                            <div class="d-flex ">
-                                <div class="product-item-price-dis">
-                                    <p class="product-item-price-dis-child">199,000</p>
-                                </div>
-                                <div class="dis-rate">
-                                    <p class="dis-rate-child">-20%</p>
-                                </div>
-                            </div>
-                        </div>
+
+
+                     @if (Model != null)
+                    {
+                        @foreach (var item in Model)
+                        {
+                                var b = item.Stocks.Where(x => x.ProId == item.ProId).Sum(i => i.Quantity);
+                                if(b>0){
+
+                                    var e = @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId);
+                                    int x = 0;
+                                    var a = item.ProductImages.Where(x => x.ProId == item.ProId).Select(p => p.ImgData).ToList();
+                                    if (a.Count >= 1)
+                                    {
+                                        for (int i = 0; i < a.Count; i++)
+                                        {
+                                            if (a[i].Contains("is_avt"))
+                                            {
+                                                x = i;
+                                            }
+                                        }
+                                    }
+
+                                    <div class="product-item col-3">
+                                        <div class="product-item-img" onclick='window.location = "@Url.Action("DetailFishAndMeat", "OverviewProduct")"'>
+                                           <img src="~/ImageProduct/@Html.DisplayFor(m=>a[x])" alt="" class="product-item-img-child" />
+                                        </div>
+                                        <div class="product-item-tittle">
+                                            <p class="product-item-tittle-child" onclick='window.location = "@Url.Action("DetailFishAndMeat", "OverviewProduct")"'>@Html.DisplayFor(modelItem => item.ProName) (@Html.DisplayFor(modelItem => item.Unit))</p>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="product-item-price">
+                                                <input type="hidden" class="price_format" value="@Html.DisplayFor(modelItem => item.PriceString)">
+                                                <p class="product-item-price-child main_format"></p>
+                                            </div>
+                                            <div class="product-item-add">
+                                                <button type="button" data-id="@item.ProId" data-storeid="@e" data-saleprice="@item.Price" class="product-item-add-btn">+</button>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex ">
+                                            <div class="product-item-price-dis">
+                                                <p class="product-item-price-dis-child">199,000</p>
+                                            </div>
+                                            <div class="dis-rate">
+                                                <p class="dis-rate-child">-20%</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                
+                        }
+                    }   
                     </div>
 
                     <div class="products-pagination d-flex justify-content-end">
@@ -524,5 +316,32 @@
             crossorigin="anonymous"
         ></script>
     <script src="~/OverviewProductAssets/List/List.js"></script>
+    <script>
+        $(document).ready(function () {
+            for (var i = 0; i < $(".price_format").length; i++) {
+                var b = $(".price_format")[i].value;
+                b = b.replace('.00', '');
+                $(".main_format")[i].innerHTML = b;
+ 
+            }
+            $(document).ready(function () {
+                $(".product-item-add-btn").click(function () {
+                    $.ajax({
+                        url: "/BuyAndPay/AddToCart",
+                        data: {
+                            proId: $(this).data("id"),
+                            storeid: $(this).data("storeid"),
+                            saleprice: $(this).data("saleprice"),
+                            type: "ajax"
+                        },
+                        success: function (data) {
+                            console.log($("#quantity_cart"))
+                            $("#quantity_cart").html(data.quantity);
+                        }
+                    });
+                });
+            });
+        });
+    </script>
     </body>
 </html>

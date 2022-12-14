@@ -94,7 +94,18 @@ $(document).ready(function() {
     $('.content__remove').click(function() {
         //Thông báo xác nhận trước khi xóa
         var result = confirm("Xác nhận xóa sản phẩm ra khỏi giỏ hàng?");
+        
         if (result) {
+            $.ajax({
+                url: "/BuyAndPay/Delete",
+                data: {
+                    proId: $(this).data("id")
+                },
+                success: function (data) {
+                    console.log($("#quantity_cart"))
+                    $("#quantity_cart").html(data.quantity);
+                }
+            });
             //Xóa sản phẩm đó
             $(this).parent().parent().remove();
             //Cập nhật số lượng sản phẩm trong giỏ

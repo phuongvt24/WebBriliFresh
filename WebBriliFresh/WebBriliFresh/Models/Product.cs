@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebBriliFresh.Models;
-
+[Serializable]
 public partial class Product
 {
     public int ProId { get; set; }
