@@ -34,7 +34,7 @@
                 {
                     <ul class="header__navbar-list " style="margin-right: -52px;" onclick='window.location = "@Url.Action("AccountInfo", "MyAccount")"'>
                         <li class="header__navbar-name">@HttpContextAccessor.HttpContext.Session.GetString("CUS_SESSION_CUSNAME")</li>
-                        <li class="header__navbar-avt"><img src="~/HomeAssets/asset/image/logo.png" alt="" id="avartar_user"></li>
+                    <li class="header__navbar-avt"><img src="~/MyAccountAssets/UserPhotos/@HttpContextAccessor.HttpContext.Session.GetString("CUS_SESSION_AVATAR")" alt="" id="avartar_user"></li>
                     </ul>
                 }
                 else
