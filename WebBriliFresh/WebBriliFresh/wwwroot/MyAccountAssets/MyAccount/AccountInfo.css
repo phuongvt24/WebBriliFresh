@@ -1,0 +1,73 @@
+
+.form-info-cus {
+    border-right: 1px solid rgb(224, 224, 224);
+}
+
+.container-right .form-info-cus .input_field {
+    margin-bottom: 28px;
+    display: flex;
+}
+
+.input_field > label{
+    width: 28%;
+    font-size: 16px;
+    margin-left: 40px;
+}
+
+.input_field .email-data {
+    display: flex;
+}
+
+.input_field .email-data a {
+    padding: 0 12px;
+    font-size: 14px;    
+}
+
+.radio-group input {
+    margin-right: 4px;
+}
+
+.radio-group label {
+    margin-right: 12px;
+}
+
+.change-pw-btn {
+    font-size: 14px;
+}
+
+.avatar-choice {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.avatar-choice img {
+    width: 40%;
+    margin: 24px 0;
+    border-radius: 50%;
+}
+
+.choose-img-btn {
+    width: fit-content;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.choose-img-btn input {
+    display: none;
+}
+
+#save-btn {
+    float: right;
+    margin: 0 24% 24px 0;
+    padding: 2px 8px; 
+    background-color: #fff;
+    color: green;
+    border: 1px solid green;
+}
+
+#save-btn:hover {
+    background-color: green;
+    color: #fff;
+}

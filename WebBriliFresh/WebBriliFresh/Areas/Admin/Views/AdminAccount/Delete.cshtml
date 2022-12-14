@@ -1,0 +1,79 @@
+﻿@model WebBriliFresh.Models.User
+
+@{
+    ViewData["Title"] = "Delete";
+}
+<h3>Bạn có chắc muốn xóa tài khoản này</h3>
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a asp-area="Admin" asp-controller="AdminAccount" asp-action="index" class="breadcrumb-item">Danh sách tài khoản</a>
+            <span class="breadcrumb-item active">Xóa tài khoản nhân viên</span>
+        </nav>
+    </div>
+</div>
+<hr />
+<dl class="row">
+    @{
+        List<int> a;
+        List<string> b;
+        List<string> c;
+        a = Model.Employees.Where(x => x.UserId == Model.Id).Select(x => x.EmpId).ToList();
+
+        b = Model.Employees.Where(x => x.UserId == Model.Id).Select(x => x.LastName + " ").ToList();
+
+        c = Model.Employees.Where(x => x.UserId == Model.Id).Select(x => x.FirstName).ToList();
+    }
+    <dt class="col-sm-2">
+        Mã tài khoản
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Id)
+    </dd>
+    <dt class="col-sm-2">
+        Mã nhân viên
+    </dt>
+    <dd class="col-sm-10">
+        @for (int i = 0; i < a.Count; i++)
+        {
+            <div>@a[i]</div>
+        }
+    </dd>
+    <dt class="col-sm-2">
+        Họ và tên
+    </dt>
+    <dd class="col-sm-10">
+        @for (int i = 0; i < b.Count; i++)
+        {
+            @b[i]  @c[i]
+
+        }
+    </dd>
+    <dt class="col-sm-2">
+        Tên đăng nhập
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.UserName)
+    </dd>
+    <dt class="col-sm-2">
+        Mật khẩu
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.UserPassword)
+    </dd>
+    <dt class="col-sm-2">
+        Loại tài khoản
+    </dt>
+    <dd class="col-sm-10">
+        Nhân viên
+    </dd>
+</dl>
+<div>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Xóa" class="btn btn-danger" />
+        <a style="margin-left:20px;" asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
+    </form>
+</div>

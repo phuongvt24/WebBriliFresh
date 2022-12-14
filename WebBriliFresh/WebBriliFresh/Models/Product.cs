@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebBriliFresh.Models;
 
@@ -13,12 +14,15 @@ public partial class Product
     //[DataType(DataType.Currency)]
     //[DisplayFormat(DataFormatString = "{0:0 vnđ}", ApplyFormatInEditMode = true)]
     [Required(ErrorMessage = "Nhập giá cho sản phẩm!")]
-    public decimal? Price { get; set; }
+    public decimal Price { get; set; }
     public string PriceString => $"{Price:N}";
-    public int? TypeId { get; set; }
+
+    public decimal OriginalPrice { get; set; }
+    public string OriginalPriceString => $"{OriginalPrice:N}";
+    public int TypeId { get; set; }
 
     [Required(ErrorMessage = "Chọn nguồn gốc cho sản phẩm!")]
-    public string? Source { get; set; }
+    public string Source { get; set; }
 
     [Required(ErrorMessage = "Chọn ngày nhập sản phẩm!")]
     [DataType(DataType.Date)]
@@ -30,6 +34,10 @@ public partial class Product
     public string? Unit { get; set; }
 
     public int? IsDeleted { get; set; }
+    [NotMapped]
+    public  IFormFile? File { get; set; }
+    [NotMapped]
+    public  IList<IFormFile>? Files { get; set; }
 
     public virtual ICollection<DiscountProduct> DiscountProducts { get; } = new List<DiscountProduct>();
 

@@ -1,0 +1,137 @@
+﻿@model IEnumerable<WebBriliFresh.Models.DiscountProduct>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="page-header">
+    <h2 class="header-title">Orders List</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <span class="breadcrumb-item active">Khuyến Mãi Sản Phẩm</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row m-b-30">
+            <div class="col-lg-8">
+                <div class="d-md-flex">
+                    <div class="m-b-10 m-r-15">
+                        <b>Tình trạng khuyến mãi</b>
+                        <select id="statusSelect" style="min-width: 180px;">
+                            <option value="" selected>Tất cả</option>
+                            <option value="Hoạt động">Hoạt động</option>
+                            <option value="Không hoạt động">Không hoạt động</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 text-right">
+                <a asp-area="Admin" asp-controller="DiscountProducts" asp-action="Create" class="btn btn-primary">
+                    <i class="anticon anticon-plus-circle m-r-5"></i>
+                    <span>Tạo Khuyến Mãi</span>
+                </a>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover e-commerce-table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DisId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Pro.ProId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Pro.ProName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Value)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.StartDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.EndDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Status)
+                        </th>                        
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="rowTable">
+                            <td class="ManyDisId">
+                                @Html.DisplayFor(modelItem => item.DisId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Pro.ProId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Pro.ProName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Value)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StartDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EndDate)
+                            </td>
+                            @if (item.Status == true)
+                            {
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="badge badge-success badge-dot m-r-10"></div>
+                                        <div class="statusValue">Hoạt động</div>
+                                    </div>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="badge badge-danger badge-dot m-r-10"></div>
+                                        <div class="statusValue">Không hoạt động</div>
+                                    </div>
+                                </td>
+                            }
+                            <td class="text-right">
+                                <a asp-area="Admin" asp-controller="DiscountProducts" asp-action="Edit" asp-route-id="@item.DisId" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                    <i class="anticon anticon-edit"></i>
+                                </a>
+                                <a asp-area="Admin" asp-controller="DiscountProducts" asp-action="Delete" asp-route-id="@item.DisId" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                    <i class="anticon anticon-delete"></i>
+                                </a>
+                                <a style="display: block" asp-controller="DiscountProducts" asp-action="Details" asp-route-id="@item.DisId">
+                                    Xem chi tiết
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#statusSelect').change(function () {
+        var status = $('#statusSelect').val();
+        $(".rowTable").show();
+        for (var i = 0; i < $(".ManyDisId").length; i++) {
+            var statusModel = $(".statusValue")[i].innerText;
+            if (status !== statusModel && status !== "") {
+                $(".rowTable")[i].style.display = 'none';
+            }
+        }
+    })
+</script>
+

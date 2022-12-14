@@ -1,0 +1,99 @@
+﻿@model IEnumerable<WebBriliFresh.Models.Employee>
+
+@{
+    ViewData["Title"] = "Danh sách nhân viên";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <span class="breadcrumb-item active">Danh sách nhân viên</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row m-b-30">
+            <div class="col-lg-8">
+                <div class="d-md-flex">
+                    <div class="m-b-10 m-r-15">
+                        <b>Mã cửa hàng</b>
+                        <select id="store" class="form-control" asp-items="ViewBag.StoreId">
+                            <option value="" selected>Tất cả</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 text-right">
+                <a asp-area="Admin" asp-controller="AdminEmployees" asp-action="Create" class="btn btn-primary">
+                    <i class="anticon anticon-plus-circle m-r-5"></i>
+                    <span>Thêm nhân viên</span>
+                </a>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover e-commerce-table">
+                <thead>
+                    <tr>
+                        <th>ID Nhân viên</th>
+                        <th>Họ tên</th>
+                        @*<th>ID cửa hàng</th>*@
+                        <th>Cửa hàng</th>
+                        <th>Ngày vào làm</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr class="rowitem">
+                                <td>@Html.DisplayFor(modelItem =>  item.EmpId)</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.LastName)</h6>
+                                        <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.FirstName)</h6>
+                                    </div>
+                                </td>
+                                                            
+                                <td>ID: <span class="storeId">@Html.DisplayFor(modelItem => item.Store.StoreId)</span> <br>
+                                    Địa chi: @Html.DisplayFor(modelItem => item.Store.SpecificAddress), @Html.DisplayFor(modelItem => item.Store.Ward), @Html.DisplayFor(modelItem => item.Store.District), @Html.DisplayFor(modelItem => item.Store.City)</td>
+                              
+                               @* <td><span class="storeId">@Html.DisplayFor(modelItem => item.Store.StoreId)</span></td>
+                                <td>@Html.DisplayFor(modelItem => item.Store.SpecificAddress), @Html.DisplayFor(modelItem => item.Store.Ward), @Html.DisplayFor(modelItem => item.Store.District), @Html.DisplayFor(modelItem => item.Store.City)</td>*@
+                                <td>@Html.DisplayFor(modelItem => item.StartDate)</td>
+                               
+                                <td class="text-right">
+                                    @*<a asp-controller="AdminEmployees" asp-action="Edit" asp-route-id="@item.EmpId" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                        <i class="anticon anticon-edit"></i>
+                                    </a>*@
+                                    <a style="padding: 12px 20px;" asp-controller="AdminEmployees" asp-action="Details" asp-route-id="@item.EmpId">
+                                        Xem chi tiết
+                                    </a>
+                                    <a asp-controller="AdminEmployees" asp-action="Delete" asp-route-id="@item.EmpId" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                        <i class="anticon anticon-delete"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    $('#store').change(function(){
+        var a = $('#store').val();
+        $(".rowitem").show();
+        for (var i = 0; i < $(".storeId").length; i++) {
+            var c = $(".storeId")[i].innerText;
+            if ((a != c) && (a != "")) {
+                $(".rowitem")[i].style.display = 'none';
+            }
+        }
+    })
+</script>

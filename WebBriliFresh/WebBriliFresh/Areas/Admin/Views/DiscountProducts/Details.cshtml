@@ -1,0 +1,64 @@
+﻿@model WebBriliFresh.Models.DiscountProduct
+
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Quản lý khuyến mãi</a>
+            <a asp-action="Index" class="breadcrumb-item">Khuyến mãi sản phẩm</a>
+            <span class="breadcrumb-item active">Chi tiết</span>
+        </nav>
+    </div>
+</div>
+<hr />
+<div>
+    <div class="table-responsive">
+        <table class="product-info-table m-t-20">
+            <tbody>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Mã khuyến mãi</td>
+                    <td>@Html.DisplayFor(model => model.DisId)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Mã sản phẩm</td>
+                    <td>@Html.DisplayFor(model => model.Pro.ProId)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">Tên sản phẩm</td>
+                    <td>@Html.DisplayFor(model => model.Pro.ProName)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">@Html.DisplayNameFor(model => model.Value)</td>
+                    <td>@Html.DisplayFor(model => model.Value)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">@Html.DisplayNameFor(model => model.StartDate)</td>
+                    <td>@Html.DisplayFor(model => model.StartDate)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">@Html.DisplayNameFor(model => model.EndDate)</td>
+                    <td>@Html.DisplayFor(model => model.EndDate)</td>
+                </tr>
+                <tr>
+                    <td class="text-dark font-weight-semibold">@Html.DisplayNameFor(model => model.Status)</td>
+                    @if (Model.Status == true)
+                    {
+                        <td>
+                            <span class="badge badge-pill badge-green">Hoạt động</span>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <span class="badge badge-pill badge-red">Không hoạt động</span>
+                        </td>
+                    }
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <a asp-action="Index" class="btn btn-success btn-tone m-t-10 m-l-10">Quay lại Danh sách</a>
+        </div>
+    </div>
+</div>

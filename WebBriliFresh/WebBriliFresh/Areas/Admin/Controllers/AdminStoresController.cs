@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,8 @@ using WebBriliFresh.Models;
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Policy = "Employee")]
+
     public class AdminStoresController : Controller
     {
         private readonly BriliFreshDbContext _context;
@@ -23,10 +26,21 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/AdminStores
         public async Task<IActionResult> Index()
         {
-            var stores = _context.Stores.Where(x => x.isDeleted == 0);
+            var stores = _context.Stores.Where(x => x.IsDeleted == 0);
             return View(await stores.ToListAsync());
         }
 
+        [HttpPost, ActionName("SearchIndex")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SearchIndex(int? city)
+        {
+            var stores = _context.Stores.Where(x => x.IsDeleted == 0);
+            if (city != null)
+            {
+                stores = stores.Where(x => x.City == city.ToString());
+            }
+            return View(await stores.ToListAsync());
+        }
 
         // GET: Admin/AdminStores/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -61,7 +75,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                store.isDeleted = 0;
+                store.IsDeleted = 0;
                 _context.Add(store);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -101,7 +115,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             {
                 try
                 {
-                    store.isDeleted = 0;
+                    store.IsDeleted = 0;
                     _context.Update(store);
                     await _context.SaveChangesAsync();
                 }
@@ -152,7 +166,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             if (store != null)
             {
                 //_context.Stores.Remove(store);
-                store.isDeleted = 1;
+                store.IsDeleted = 1;
             }
             
             await _context.SaveChangesAsync();

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebBriliFresh.Models;
 
@@ -13,11 +14,13 @@ namespace WebBriliFresh.Controllers
             _logger = logger;
         }
 
+
         public IActionResult Index()
         {
             return View();
         }
 
+        [Authorize(Policy = "CustomerOnly")]
         public IActionResult Privacy()
         {
             return View();

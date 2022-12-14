@@ -18,117 +18,132 @@
 
     var list = new SelectList(data, "giatri", "ten");
 }
-
-<h1>Thêm mới sản phẩm</h1>
-<div class="d-md-flex m-b-15 align-items-center ">
-    <div class="media align-items-center m-b-15">
-        <div class="avatar avatar-image rounded" style="height: 140px; width: 140px">
-            <img src="assets/images/others/thumb-16.jpg" alt="">
-        </div>
-    </div>
-    <div class="m-b-15" style="padding-left: 268px">
-        <button class="btn btn-primary">
-            <i class="anticon anticon-save"></i>
-            <span>Ảnh đại diện</span>
-        </button>
-    </div>
-</div>
-<div class="d-md-flex m-b-15 align-items-center ">
-    <div class="media align-items-center m-b-15" style="padding-right:32px">
-        <div class="avatar avatar-image rounded" style="height: 70px; width: 70px">
-            <img src="assets/images/others/thumb-16.jpg" alt="">
-        </div>
-    </div>
-    <div class="media align-items-center m-b-15" style="padding-right:32px">
-        <div class="avatar avatar-image rounded" style="height: 70px; width: 70px">
-            <img src="assets/images/others/thumb-16.jpg" alt="">
-        </div>
-    </div>
-    <div class="media align-items-center m-b-15" style="padding-right:32px">
-        <div class="avatar avatar-image rounded" style="height: 70px; width: 70px">
-            <img src="assets/images/others/thumb-16.jpg" alt="">
-        </div>
-    </div>
-    <div class="m-b-15" style="padding-left: 100px">
-        <button class="btn btn-primary">
-            <i class="anticon anticon-save"></i>
-            <span>Ảnh chi tiết</span>
-        </button>
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a asp-area="Admin" asp-controller="AdminProducts" asp-action="index" class="breadcrumb-item">Danh sách sản phẩm</a>
+            <span class="breadcrumb-item active">Thêm mới sản phẩm</span>
+        </nav>
     </div>
 </div>
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+    <div class="col-md-12">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ProName" class="control-label">Tên sản phẩm</label>
-                <input asp-for="ProName" class="form-control" />
-                <span asp-validation-for="ProName" class="text-danger"></span>
+            <div class="d-md-flex m-b-15 align-items-center ">
+                <div class="media align-items-center m-b-15">
+                    <div class="avatar avatar-image rounded" style="height: 140px; width: 140px">
+                        <img id="blah" src="#" alt="your image" style='width: 100%;max-height: 100%'>
+                    </div>
+                </div>
+                <div class="m-b-15" style="padding-left: 268px">
+                    <input asp-for="File" type="file" id="image_submit" class="btn btn-primary" accept="image/gif, image/jpeg, image/png" style="display:none;" />
+                    <label asp-for="File" id="choose_image" for="image_submit" class="btn-primary btn"> <i class="anticon anticon-save"></i>Ảnh đại diện</label>
+                    <span asp-validation-for="File" class="text-danger"></span>
+                </div>
             </div>
 
+            <div class="d-md-flex m-b-15 align-items-center">
+                <div class="media align-items-center m-b-15" id="img1" style="padding-right: 32px">
+                    <div class="avatar avatar-image rounded" style="height: 280px; min-width: 240px"></div>
+                </div>
+                <div class="media align-items-center m-b-15" id="img2" style="padding-right: 32px">
+                    <div class="avatar avatar-image rounded" style="height: 280px; min-width: 240px"></div>
+                </div>
+                <div class="media align-items-center m-b-15" id="img3" style="padding-right: 32px">
+                    <div class="avatar avatar-image rounded" style="height: 280px; min-width: 240px"></div>
+                </div>
+                <div class="m-b-15" style="padding-left: 100px">
+                    <input asp-for="Files" type="file" id="image_submit_2" class="btn btn-primary" multiple accept="image/gif, image/jpeg, image/png" style="display: none" />
+                    <label asp-for="Files" id="choose_image" for="image_submit_2" class="btn-primary btn"> <i class="anticon anticon-save"></i>Ảnh chi tiết</label>
+                    <span asp-validation-for="Files" class="text-danger"></span>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-4">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="ProName" class="control-label">Tên sản phẩm</label>
+                            <input asp-for="ProName" class="form-control" />
+                            <span asp-validation-for="ProName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Type.MainType" class="control-label">Danh mục sản phẩm</label>
+                            <select asp-for="Type.MainType" class="form-control" asp-items=ViewBag.MainType></select>
+                        </div>
 
 
-            <div class="form-group">
-                <label asp-for="Type.MainType" class="control-label">Danh mục sản phẩm</label>
-                <select asp-for="Type.MainType" class="form-control" asp-items=ViewBag.MainType></select>
-            </div>
-
-
-            <div class="form-group" id="sub1">
-                <label asp-for="TypeId" class="control-label">Loại sản phẩm</label>
-                <select asp-for="TypeId" id="type1" class="form-control" asp-items=ViewBag.TypeId1></select>
-            </div>
-            <div class="form-group" id="sub2">
-                <label asp-for="TypeId" class="control-label">Loại</label>
-                <select asp-for="TypeId" id="type2" class="form-control" asp-items=ViewBag.TypeId2></select>
-            </div>
-            <div class="form-group" id="sub3">
-                <label asp-for="TypeId" class="control-label">Loại</label>
-                <select asp-for="TypeId" id="type3" class="form-control" asp-items=ViewBag.TypeId3></select>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Price" class="control-label">Giá bán</label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="PriceString" class="text-danger"></span>
-            </div>
+                        <div class="form-group" id="sub1">
+                            <label asp-for="TypeId" class="control-label">Loại sản phẩm</label>
+                            <select asp-for="TypeId" id="type1" class="form-control" asp-items=ViewBag.TypeId1></select>
+                        </div>
+                        <div class="form-group" id="sub2">
+                            <label asp-for="TypeId" class="control-label">Loại</label>
+                            <select asp-for="TypeId" id="type2" class="form-control" asp-items=ViewBag.TypeId2></select>
+                        </div>
+                        <div class="form-group" id="sub3">
+                            <label asp-for="TypeId" class="control-label">Loại</label>
+                            <select asp-for="TypeId" id="type3" class="form-control" asp-items=ViewBag.TypeId3></select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OriginalPrice" class="control-label">Giá nhập</label>
+                            <input asp-for="OriginalPrice" class="form-control" />
+                            <span asp-validation-for="OriginalPriceString" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Price" class="control-label">Giá bán</label>
+                            <input asp-for="Price" class="form-control" />
+                            <span asp-validation-for="PriceString" class="text-danger"></span>
+                        </div>
             
-            <div class="form-group">
-                <label asp-for="Source" class="control-label">Nguồn gốc</label>
-                <select asp-for="Source" class="form-control" asp-items=list></select>
-                <span asp-validation-for="Source" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StartDate" class="control-label">Ngày tạo</label>
-                <input asp-for="StartDate"  id="myID" class="form-control" />
-                @*<input asp-for="StartDate" id="myID" class="form-control" />*@
-                <span asp-validation-for="StartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Des" class="control-label">Mô tả sản phẩm</label>
-                <textarea asp-for="Des" class="form-control"></textarea>
-                <span asp-validation-for="Des" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Unit" class="control-label">Đơn vị bán</label>
-                <input asp-for="Unit" class="form-control" />
-                <span asp-validation-for="Unit" class="text-danger"></span>
-            </div>
-            <div class="form-group" hidden>
-                <label asp-for="IsDeleted"  class="control-label"></label>
-                <input asp-for="IsDeleted" class="form-control" />
-                <span asp-validation-for="IsDeleted" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                        <div class="form-group">
+                            <label asp-for="Source" class="control-label">Nguồn gốc</label>
+                            <select asp-for="Source" class="form-control" asp-items=list></select>
+                            <span asp-validation-for="Source" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="StartDate" class="control-label">Ngày tạo</label>
+                            <input asp-for="StartDate"  id="myID" class="form-control" />
+                            @*<input asp-for="StartDate" id="myID" class="form-control" />*@
+                            <span asp-validation-for="StartDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Des" class="control-label">Mô tả sản phẩm</label>
+                            <textarea asp-for="Des" class="form-control"></textarea>
+                            <span asp-validation-for="Des" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Unit" class="control-label">Đơn vị bán</label>
+                            <input asp-for="Unit" class="form-control" />
+                            <span asp-validation-for="Unit" class="text-danger"></span>
+                        </div>
+                        <div class="form-group" hidden>
+                            <label asp-for="IsDeleted"  class="control-label"></label>
+                            <input asp-for="IsDeleted" class="form-control" />
+                            <span asp-validation-for="IsDeleted" class="text-danger"></span>
+                        </div>
+                        <div class="m-b-15 d-flex" style="justify-content: space-between;">
+                            <button asp-action="Create" class="btn btn-primary">
+                                <i class="anticon anticon-save"></i>
+                                <span>Thêm mới</span>
+                            </button>
+                            <div>
+                                <a asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại Danh sách</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </form>
     </div>
 </div>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
  <script type="text/javascript" >
@@ -150,6 +165,7 @@
     s2.hide()
     s3.hide()
 
+    
 
     maintype.change(function () {
         if (maintype.find(":selected").val() === 'Rau củ') {
@@ -179,25 +195,65 @@
         }
     })
 
+    
+
+    $("#image_submit").change(function () {
+        if (this.files && this.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#blah')
+                    .attr('src', e.target.result)
+                    .width(150)
+                    .height(200);
+            };
+
+            reader.readAsDataURL(this.files[0]);
+        }       
+    })
+
+    var filesInput = document.getElementById("image_submit_2");
+    filesInput.addEventListener("change", function (event) {
+        var files = event.target.files; //FileList object
+
+        var file1 = files[0];
+        var file2 = files[1];
+        var file3 = files[2];
+
+        var outfile1 = document.getElementById("img1");
+        var outfile2 = document.getElementById("img2");
+        var outfile3 = document.getElementById("img3");
+
+        var picReader1 = new FileReader();
+        picReader1.addEventListener("load", function (event) {
+            var picFile1 = event.target;
+            outfile1.innerHTML = `<img src="${picFile1.result}" alt="your image" style="width: 280px; max-height: auto" />`;
+        });
+        picReader1.readAsDataURL(file1);
+
+        var picReader2 = new FileReader();
+        picReader2.addEventListener("load", function (event) {
+            var picFile2 = event.target;
+            outfile2.innerHTML = `<img src="${picFile2.result}" alt="your image" style="width: 280px; max-height: auto" />`;
+        });
+        picReader2.readAsDataURL(file2);
+
+        var picReader3 = new FileReader();
+        picReader3.addEventListener("load", function (event) {
+            var picFile3 = event.target;
+            outfile3.innerHTML = `<img src="${picFile3.result}" alt="your image" style="width: 280px; max-height: auto" />`;
+        });
+        picReader3.readAsDataURL(file3);
+    });
+
 
     $(document).ready(function () {
 
         flatpickr("#myID", {
             altInput: true,
-            altFormat: "d/m/y",
-            dateFormat: "m/d/y",
+            altFormat: " d/m/Y ",
+            dateFormat: "m/d/Y",
         });
 
-        //var s1 = $("#sub1")
-        //var t1 = $("#type1")
-
-        //var s2 = $("#sub2")
-        //var t2 = $("#type2")
-
-        //var s3 = $("#sub3")
-        //var t3 = $("#type3")
-
-        //var maintype = $("#Type_MainType");
 
         t2.prop("disabled", true);
         t3.prop("disabled", true);

@@ -1,0 +1,161 @@
+﻿@model IEnumerable<WebBriliFresh.Models.Customer>
+
+@{
+    ViewData["Title"] = "Danh sách khách hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    var data_rank = new object[]{
+        new{
+            ten = "Vàng",
+            giatri =  "Vàng"
+        },
+        new{
+            ten = "Bạc",
+            giatri = "Bạc"
+        },
+        new{
+            ten = "Đồng",
+            giatri = "Đồng"
+        }
+        };
+    var list_rank = new SelectList(data_rank, "giatri", "ten");
+
+    var data_gender = new object[]{
+        new{
+            ten = "Nam",
+            giatri =  "Nam"
+        },
+        new{
+            ten = "Nữ",
+            giatri = "Nữ"
+        },
+        new{
+            ten = "Khác",
+            giatri = "Khác"
+        }
+        };
+    var list_gender = new SelectList(data_gender, "giatri", "ten");
+}
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <span class="breadcrumb-item active">Danh sách khách hàng</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row m-b-30">
+            <div class="col-lg-8">
+                <div class="d-md-flex">
+                    <div class="m-b-10 m-r-15">
+                        
+                        <b>Chọn loại khách hàng</b>
+                        <select class="custom-select" asp-items="list_rank" id="customer-filter" style="min-width: 100px; ">
+                            <option value="" selected>Tất cả</option>
+                        </select>
+                    </div>
+                    <div class="m-b-10 m-r-15">
+
+                        <b>Chọn giới tính</b>
+                        <select class="custom-select" asp-items="list_gender" id="gender-filter" style="min-width: 100px; ">
+                            <option value="" selected>Tất cả</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover e-commerce-table">
+                <thead>
+                    <tr>
+                        <th>ID khách</th>
+                        <th>Họ tên</th>
+                        <th>Giới tính </th>
+                        <th>SĐT</th>
+                        <th>Email</th>
+                        <th>Loại khách hàng</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr class="rowitem">
+                                <td>@Html.DisplayFor(modelItem => item.CusId)</td>
+
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.LastName)</h6>
+                                        <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.FirstName)</h6>
+                                    </div>
+                                </td>
+
+                                @if (item.Gender == 1)
+                                {
+                                    <td><span class="gender">Nam</span></td>
+                                }
+                                else if (item.Gender == 2)
+                                {
+                                    <td><span class="gender">Nữ</span></td>
+                                }
+                                else
+                                {
+                                    <td><span class="gender">Khác</span></td>
+                                }
+                                <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                                @if (item.Reward.CusType == 1)
+                                {
+                                    <td><span class="rank">Vàng</span></td>
+                                }
+                                else if (item.Reward.CusType == 2)
+                                {
+                                    <td><span class="rank">Bạc</span></td>
+                                }
+                                else
+                                {
+                                    <td><span class="rank">Đồng</span></td>
+                                }
+
+                                <td class="text-right">
+                                    <a style="padding: 12px 20px;" asp-controller="AdminCustomers" asp-action="Details" asp-route-id="@item.CusId">
+                                        Xem chi tiết
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    //function search(a) {
+    //    window.location.href = "/Admin/AdminCustomers/Index/" + a.options[a.selectedIndex].key;
+    //}
+
+    $('#customer-filter, #gender-filter').change(function () {
+        var a = $('#customer-filter').val();
+        var b = $('#gender-filter').val();
+        $(".rowitem").show();
+        for (var i = 0; i < $(".rank").length; i++) {
+            var c = $(".rank")[i].innerText;
+            var d = $(".gender")[i].innerText;
+            if  (((a != c) && (a != "")) || ((b != d) && (b != ""))) {
+                $(".rowitem")[i].style.display = 'none';
+            }
+        }
+    })
+
+    $(document).ready(function () {
+        var path = location.pathname;
+        path = path.replace('/Admin/AdminCustomers/Index/', '');
+        $('#store option[value=' + path + ']').attr('selected', true);
+    })
+
+</script>
