@@ -4,17 +4,28 @@
     ViewData["Title"] = "Chỉnh Sửa";
 }
 
-<h1>Chỉnh Sửa</h1>
-
-<h4>GIẢM GIÁ SẢN PHẨM</h4>
+<div class="page-header">
+    <h2 class="header-title">Brili Fresh</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a href="/Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Quản lý khuyến mãi</a>
+            <a asp-action="Index" class="breadcrumb-item">Khuyến mãi sản phẩm</a>
+            <span class="breadcrumb-item active">Chỉnh sửa</span>
+        </nav>
+    </div>
+</div>
+<h1>Chỉnh Sửa khuyến mãi sản phẩm</h1>
+<h5 class="text-dark font-weight-semibold">ID Khuyến Mãi: @Html.DisplayFor(Model => Model.DisId)</h5>
 <hr />
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="DisId" />
             <div class="form-group">
-                <label asp-for="ProId" class="control-label"></label>
+                <label asp-for="ProId" class="control-label">Sản phẩm</label>
                 <select asp-for="ProId" class="form-control" asp-items="ViewBag.ProId"></select>
                 <span asp-validation-for="ProId" class="text-danger"></span>
             </div>
@@ -36,19 +47,18 @@
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label><br />
                 <div class="form-check form-check-inline">
+                    <input asp-for="Status" class="form-check-inline ml-4 mr-1" type="radio" value="true" id="true" />
                     <label class="form-check-label" for="true">Hoạt Động</label>
-                    <input asp-for="Status" class="form-check-inline ml-2" type="radio" value="false" id="false" />
+                    <input asp-for="Status" class="form-check-inline ml-4 mr-1" type="radio" value="false" id="false" />
                     <label class="form-check-label" for="false">Không Hoạt Động</label>
-                    <input asp-for="Status" class="form-check-inline ml-2" type="radio" value="true" id="true" />
                     <span asp-validation-for="Status" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-                <a asp-action="Index">Trở Về</a>
+                <input type="submit" value="Lưu thông tin" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-success btn-tone m-r-5">Quay lại danh sách</a>
             </div>
         </form>
     </div>
 </div>
-
 

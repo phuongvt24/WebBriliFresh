@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,8 +10,6 @@ using WebBriliFresh.Models;
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Policy = "Employee")]
-
     public class DiscountProductsController : Controller
     {
         private readonly BriliFreshDbContext _context;
@@ -51,7 +48,11 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/DiscountProducts/Create
         public IActionResult Create()
         {
-            ViewData["ProId"] = new SelectList(_context.Products, "ProId", "ProName");
+            var products = _context.Products
+                .FromSql($"SELECT * FROM dbo.Product WHERE NOT EXISTS (SELECT * FROM dbo.Discount_Product WHERE dbo.Product.ProID = dbo.Discount_Product.ProID);")
+                .ToList();
+
+            ViewData["ProId"] = new SelectList(products, "ProId", "ProName");
             return View();
         }
 
@@ -158,14 +159,14 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             {
                 _context.DiscountProducts.Remove(discountProduct);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool DiscountProductExists(int id)
         {
-          return _context.DiscountProducts.Any(e => e.DisId == id);
+            return _context.DiscountProducts.Any(e => e.DisId == id);
         }
 
         [AcceptVerbs("GET", "POST")]
@@ -185,6 +186,5 @@ namespace WebBriliFresh.Areas.Admin.Controllers
 
             return Json(true);
         }
-
     }
 }
