@@ -4,6 +4,8 @@ using WebBriliFresh.Models.DTO;
 using WebBriliFresh.Models;
 using WebBriliFresh.Repositories.Abstract;
 using WebBriliFresh.Migrations;
+using Azure.Core;
+using System.Security.Policy;
 
 namespace WebBriliFresh.Repositories.Implementation
 {
@@ -36,9 +38,8 @@ namespace WebBriliFresh.Repositories.Implementation
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.Username,
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = true,
                 UserRole = model.UserRole,
+                IsDeleted = 0
             };
             var result = await userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
@@ -48,13 +49,12 @@ namespace WebBriliFresh.Repositories.Implementation
                 return status;
             }
 
-            if (await roleManager.RoleExistsAsync(model.Role))
-            {
-                await userManager.AddToRoleAsync(user, model.Role);
-            }
+            await userManager.AddToRoleAsync(user, "Customer");
+
+
 
             status.StatusCode = 1;
-            status.Message = "You have registered successfully";
+            status.Message = "Đăng ký thành công";
             return status;
         }
 

@@ -7,6 +7,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using WebBriliFresh.Repositories.Abstract;
 using WebBriliFresh.Repositories.Implementation;
+using WebBriliFresh.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,8 +26,13 @@ builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 // For Identity  
-builder.Services.AddIdentity<User, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
-        .AddEntityFrameworkStores<BriliFreshDbContext>();
+builder.Services.AddIdentity<User, ApplicationRole>(options => 
+{ 
+    options.SignIn.RequireConfirmedAccount = true; 
+    options.SignIn.RequireConfirmedEmail = true;
+})
+      .AddEntityFrameworkStores<BriliFreshDbContext>()
+      .AddDefaultTokenProviders();
 
 builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/UserLogin");
 
@@ -40,7 +46,7 @@ builder.Services.AddAuthorization(options =>
 
 
 });
-
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
 var app = builder.Build();

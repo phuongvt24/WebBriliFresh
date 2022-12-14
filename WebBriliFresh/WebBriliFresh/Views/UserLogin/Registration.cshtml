@@ -1,0 +1,133 @@
+﻿@{
+    Layout = null;
+}
+
+@model RegistrationModel;
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng ký</title>
+    <link rel="stylesheet" href="~/css/new_signup.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body style="background: url('./HomeAssets/login_background.jpeg') no-repeat center center fixed;background-size: cover;">
+    <main>
+        <div class="box">
+            <div class="inner-box" id="myDIV">
+                <div class="forms-wrap">
+                    <form asp-action="Registration" class="sign-up-form">
+                        <div class="heading-signup">
+                            <h1>Xin chào!</h1>
+                            <h2>Đăng ký để nhận nhiều ưu đãi!</h2>
+                        </div>
+
+                        <div style="color:red">@TempData["msg"]</div>
+
+                        <div class="actual-signup-form">
+                            <div class="actual-signup-form">
+                                <div class="input-wrap-signup">
+                                    <input asp-for="LastName" type="text" class="input-field" autocomplete="off" placeholder="Họ">
+                                    <div>
+                                        <span asp-validation-for="LastName" class="text-danger"></span>
+                                    </div>
+
+                                </div>
+                                <div class="input-wrap-signup">
+                                    <input asp-for="FirstName" id="pass" type="text" class="input-field" autocomplete="off"
+                                            placeholder="Tên">
+                                    <div>
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="input-wrap-signup">
+                                    <select asp-for="Gender" name="gender" id="gender" class="input-field select-gender">
+                                        <option selected disabled>Giới tính</option>
+                                        <option value="1">Nam</option>
+                                        <option value="2">Nữ</option>
+                                        <option value="3">Khác</option>
+                                    </select>
+                                    <div>
+                                        <span asp-validation-for="Gender" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="input-wrap-signup">
+                                    <input asp-for="Phone" id="pass" type="tel" minlength="4" class="input-field" autocomplete="off"
+                                            placeholder="Số điện thoại">
+                                    <div>
+                                        <span asp-validation-for="Phone" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="input-wrap-signup">
+                                    <input asp-for="Email" id="pass" type="email" class="input-field" autocomplete="off" 
+                                           placeholder="Email">
+                                    <div>
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="input-wrap-signup">
+                                    <input asp-for="Username" type="text" class="input-field" autocomplete="off" 
+                                           placeholder="Tên đăng nhập">
+                                    <div>
+                                        <span asp-validation-for="Username" class="text-danger"></span>
+                                    </div>
+
+                                </div>
+                                <div class="input-wrap-signup">
+                                    <input asp-for="Password" id="pass" type="password" class="input-field"
+                                           autocomplete="off"  placeholder="Mật khẩu">
+                                                    <div>
+                                        <span asp-validation-for="Password" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="input-wrap-signup">
+                                    <input asp-for="PasswordConfirm" id="pass" type="password" class="input-field"
+                                           autocomplete="off"  placeholder="Xác nhận mật khẩu">
+                                    <div>
+                                        <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="create-account-box">
+                                    <input type="submit" class="create-account-btn" value="Tạo tài khoản">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sign-in-link">
+                            <span> Bạn đã có tài khoản? </span>
+                            <a asp-action="Index" class="toggle">Đăng nhập ngay!</a>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="carousel">
+                    <span class="close">&nbsp</span>
+                    <div class="images-wrapper">
+                        <img src="~/HomeAssets/Rectangle 47.png" class="img-green" alt="" />
+                        <img src="~/HomeAssets/pngwing 7.png" class="img-vegetables" alt="" />
+                        <img src="~/HomeAssets/BRILI.png" class="img-logo" alt="" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+</body>
+</html>
+
+<script>
+    var genderSelect = document.querySelector('.select-gender');
+    genderSelect.addEventListener('change', function () {
+        genderSelect.classList.add('js-change-color')
+    })
+</script>
