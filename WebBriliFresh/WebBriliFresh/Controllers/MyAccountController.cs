@@ -13,7 +13,6 @@ namespace WebBriliFresh.Controllers
     {
         private readonly BriliFreshDbContext _context;
         private readonly IWebHostEnvironment _env;
-        private int cusID;
 
         public MyAccountController(BriliFreshDbContext context, IWebHostEnvironment env)
         {
@@ -24,7 +23,7 @@ namespace WebBriliFresh.Controllers
         [Authorize(Policy = "LoggedIn")]
         public IActionResult AccountInfo()
         {
-            cusID = (int)HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
+            int cusID = (int)HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
 
             Customer currentCustomer = _context.Customers.FirstOrDefault(x => x.CusId == cusID);
 
@@ -71,7 +70,7 @@ namespace WebBriliFresh.Controllers
                     string picfilename = DoPhotoUpload(photo);
                     User user = await _context.Users.FindAsync(UserId);
 
-                    if(user.Avatar != null || user.Avatar != "download.jfif")
+                    if (user.Avatar != null || user.Avatar != "download.jfif")
                     {
                         DeleteOldAvatar(user.Avatar);
                     }
@@ -116,14 +115,119 @@ namespace WebBriliFresh.Controllers
         }
         public async Task<IActionResult> ManageOrder()
         {
-            //IEnumerable<Order> cusOrders = _context.Orders.Where(c => c.CusId == cusID).ToList();
-            var cusOrders = _context.Orders.Where(c => c.CusId == 1).Include(a => a.OrderDetails).ThenInclude(cs => cs.Pro);
+            int cusID = (int)HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
+            var cusOrders = _context.Orders.Where(c => c.CusId == cusID).Include(a => a.OrderDetails).ThenInclude(cs => cs.Pro);
 
             return View(await cusOrders.ToListAsync());
         }
-        public IActionResult ManageAddress()
+        public async Task<IActionResult> ManageAddress()
         {
-            return View();
+            int cusID = (int)HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
+            var cusAddresses = _context.Addresses.Where(c => c.CusId == cusID).Include(a => a.Cus);
+
+            return View(await cusAddresses.ToListAsync());
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateAddress()
+        {
+            IFormCollection form = HttpContext.Request.Form;
+            int cusId = Int32.Parse(form["CusId"]);
+            int addId = Int32.Parse(form["AddId"]);
+            string city = form["city-select"].ToString().Trim();
+            string district = form["district-select"].ToString().Trim();
+            string ward = form["ward-select"].ToString().Trim();
+            string specificAddress = form["specific-address"].ToString().Trim();
+            string isDefault = form["address-default"].ToString().Trim();
+            int check;
+            bool isCheck = Int32.TryParse(isDefault, out check);
+
+
+            Address address = await _context.Addresses.FindAsync(addId);
+            address.City = city;
+            address.Ward = ward;
+            address.District = district;
+            address.SpecificAddress = specificAddress;
+            if (check == 1)
+            {
+                address.Default = 1;
+                var defaultAddress = _context.Addresses.FirstOrDefault(c => c.CusId == cusId && c.Default == 1);
+                defaultAddress.Default = 0;
+                _context.Update(defaultAddress);
+            }
+
+
+            if (await TryUpdateModelAsync<Address>(
+                       address,
+                       "address",
+                       s => s.City!, s => s.Ward!, s => s.District!, s => s.Default))
+            {
+                // EF will detect the change and update only the column that has changed.
+                await _context.SaveChangesAsync();
+            }
+
+
+            return RedirectToAction(nameof(ManageAddress));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddAddress()
+        {
+            IFormCollection form = HttpContext.Request.Form;
+            int cusId = Int32.Parse(form["CusId"]);
+            string city = form["city-select"].ToString().Trim();
+            string district = form["district-select"].ToString().Trim();
+            string ward = form["ward-select"].ToString().Trim();
+            string specificAddress = form["specific-address"].ToString().Trim();
+            string isDefault = form["address-default"].ToString().Trim();
+            int check;
+            bool isCheck = Int32.TryParse(isDefault, out check);
+
+
+            Address address = new Address();
+            address.City = city;
+            address.Ward = ward;
+            address.District = district;
+            address.SpecificAddress = specificAddress;
+            address.CusId = cusId;
+
+            if (check == 1)
+            {
+                address.Default = 1;
+                var defaultAddress = _context.Addresses.FirstOrDefault(c => c.CusId == cusId && c.Default == 1);
+                defaultAddress.Default = 0;
+                _context.Update(defaultAddress);
+            }
+            else
+            {
+                address.Default = 0;
+
+            }
+
+            _context.Add(address);
+           
+           await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(ManageAddress));
+        }
+
+
+        [Route("SetAsDefaultAddress/{id}")]
+        public async Task<IActionResult> SetAsDefaultAddress(int? id)
+        {
+            Address address = await _context.Addresses.FindAsync(id);
+
+            Address defaultAddress = _context.Addresses.FirstOrDefault(c => c.CusId == address.CusId && c.Default == 1);
+            defaultAddress.Default = 0;
+            address.Default = 1;
+            _context.Update(defaultAddress);
+            _context.Update(address);
+            await _context.SaveChangesAsync();
+   
+            return RedirectToAction(nameof(ManageAddress));
         }
         public IActionResult ManageFeedback()
         {
