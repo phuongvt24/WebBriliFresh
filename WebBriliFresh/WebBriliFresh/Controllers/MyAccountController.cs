@@ -117,7 +117,7 @@ namespace WebBriliFresh.Controllers
         public async Task<IActionResult> ManageOrder()
         {
             //IEnumerable<Order> cusOrders = _context.Orders.Where(c => c.CusId == cusID).ToList();
-            var cusOrders = _context.Orders.Where(c => c.CusId == 1);
+            var cusOrders = _context.Orders.Where(c => c.CusId == 1).Include(a => a.OrderDetails).ThenInclude(cs => cs.Pro);
 
             return View(await cusOrders.ToListAsync());
         }

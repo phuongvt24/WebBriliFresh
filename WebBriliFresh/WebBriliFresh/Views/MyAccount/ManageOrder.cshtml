@@ -55,12 +55,12 @@
                 <div class="right-content">
                     <div id="subnav">
                         <ul class="subnav-order">
-                            <li><a class="active" href="#">Tất cả đơn</a></li>
-                            <li><a href="#">Chờ thanh toán</a></li>
-                            <li><a href="#">Đang xử lý</a></li>
-                            <li><a href="#">Đang vận chuyển</a></li>
-                            <li><a href="#">Đã giao</a></li>
-                            <li><a href="#">Đã hủy</a></li>
+                            <li><a class="active" id="all" href="#" >Tất cả đơn</a></li>
+                            <li><a href="#" class="tab">Chờ thanh toán</a></li>
+                            <li><a href="#" class="tab">Đang xử lý</a></li>
+                            <li><a href="#" class="tab">Đang vận chuyển</a></li>
+                            <li><a href="#" class="tab">Đã giao</a></li>
+                            <li><a href="#" class="tab">Đã hủy</a></li>
                         </ul>
                     </div>
 
@@ -70,96 +70,52 @@
                         <input type="submit" id="search-ord-btn" value="Tìm đơn hàng">
                     </div>
 
-               
-                    @{
-                        foreach (Order order in @Model)
+                        @foreach (Order order in @Model)
                         {
-                            if (order.Status == 1)
-                            {
-                                <!-- Đơn hàng đang xử lý -->
-                                <div class="processing-order order-info mt-3">
-                                    <div class="header-order">
-                                        <span><i class="ti-home"></i> BriliFresh</span>
+                            <div class="processing-order order-info mt-3">
+                                <div class="header-order">
+                                    <span></span>
+                                    @if (order.Status == 1)
+                                    {
                                         <span><i class="ti-timer"></i> Đang xử lý</span>
-                                    </div>
+
+                                    }
+                                    else if (order.Status == 2)
+                                    {
+                                        <span><i class="ti-timer"></i> Giao thành công</span>
+
+                                    }
+                                    else
+                                    {
+                                        <span><i class="ti-timer"></i> Giao thất bại</span>
+
+                                    }
+
+                                </div>
+                                @foreach (OrderDetail orderDetail in order.OrderDetails)
+                                {
+                                    <div style="margin-top:10px"><i class="ti-home"></i> @orderDetail.Pro.Source</div>
                                     <div class="content-order">
                                         <div class="img-product"><img src="./assets/image/item_1.jpg" alt=""></div>
                                         <div class="product-info">
-                                            <p class="name">Ba rọi heo (Nhập khẩu)</p>
-                                            <p style="color: #757575;">Đơn vị: <span class="mass">500g</span></p>
+                                            <p class="name">@orderDetail.Pro.ProName</p>
+                                            <p style="color: #757575;"> Đơn vị: <span class="mass">@orderDetail.Pro.Unit</span></p>
                                         </div>
-                                        <div class="purchase-info unit-price">Đơn giá: <span>80,000</span></div>
-                                        <div class="purchase-info quantity">Số lượng: <span>2</span></div>
-                                        <div class="purchase-info amount">Thành tiền: <span>160,000</span></div>
+                                        <div class="purchase-info unit-price">Đơn giá: <span>@orderDetail.Pro.Price</span></div>
+                                        <div class="purchase-info quantity">Số lượng: <span>@orderDetail.Quantity</span></div>
+                                        <div class="purchase-info amount">Thành tiền: <span>@orderDetail.Price</span></div>
                                     </div>
-                                    <p>Tổng tiền: <b><span class="total-order">160,000</span></b></p>
-                                    <div class="footer-order">
-                                        <a class="btn-shared order-info-btn" href="#">Xem chi tiết</a>
-                                    </div>
+                                }
+
+                                <p>Tổng tiền: <b><span class="total-order">@order.OrderTotal</span></b></p>
+                                <div class="footer-order">
+                                    <a class="btn-shared order-info-btn" href="#">Xem chi tiết</a>
                                 </div>
-                            }
-                            else if (order.Status == 2)
-                            {
-                                <!-- Đơn hàng giao thành công -->
-                                <div class="sucess-order order-info mt-3">
-                                    <div class="header-order">
-                                        <span><i class="ti-home"></i> JFruit</span>
-                                        <span><i class="ti-truck"></i> Đã giao</span>
-                                    </div>
-                                    <div class="content-order">
-                                        <div class="img-product"><img src="./assets/image/item_2.jpg" alt=""></div>
-                                        <div class="product-info">
-                                            <p class="name">Dưa hấu ruột đỏ Long An</p>
-                                            <p style="color: #757575;">Đơn vị: <span class="mass">1kg</span></p>
-                                        </div>
-                                        <div class="purchase-info unit-price">Đơn giá: <span>35,000</span></div>
-                                        <div class="purchase-info quantity">Số lượng: <span>1</span></div>
-                                        <div class="purchase-info amount">Thành tiền: <span>35,000</span></div>
-                                    </div>
-                                    <div class="content-order">
-                                        <div class="img-product"><img src="./assets/image/item_3.jpg" alt=""></div>
-                                        <div class="product-info">
-                                            <p class="name">Cá hồi tươi Fillet Na Uy</p>
-                                            <p style="color: #757575;">Đơn vị: <span class="mass">200g</span></p>
-                                        </div>
-                                        <div class="purchase-info unit-price">Đơn giá: <span>128,000</span></div>
-                                        <div class="purchase-info quantity">Số lượng: <span>1</span></div>
-                                        <div class="purchase-info amount">Thành tiền: <span>128,000</span></div>
-                                    </div>
-                                    <p>Tổng tiền: <b><span class="total-order">163,000</span></b></p>
-                                    <div class="footer-order">
-                                        <a class="btn-shared order-info-btn" href="./ChiTietDonHang.html">Xem chi tiết</a>
-                                    </div>
-                                </div>
-                            }
-                            else
-                            {
-                                <!-- Đơn hàng thất bại -->
-                                <div class="cancel-order order-info mt-3">
-                                    <div class="header-order">
-                                        <span><i class="ti-home"></i> BriliFresh</span>
-                                        <span><i class="ti-face-sad"></i> Đã hủy</span>
-                                    </div>
-                                    <div class="content-order">
-                                        <div class="img-product"><img src="./assets/image/item_4.jpg" alt=""></div>
-                                        <div class="product-info">
-                                            <p class="name">Đậu cove Lâm Đồng</p>
-                                            <p style="color: #757575;">Đơn vị: <span class="mass">500g</span></p>
-                                        </div>
-                                        <div class="purchase-info unit-price">Đơn giá: <span>18,000</span></div>
-                                        <div class="purchase-info quantity">Số lượng: <span>100</span></div>
-                                        <div class="purchase-info amount">Thành tiền: <span>18,000</span></div>
-                                    </div>
-                                    <p>Tổng tiền: <b><span class="total-order">18,000</span></b></p>
-                                    <div class="footer-order">
-                                        <a class="btn-shared order-info-btn" href="#">Xem chi tiết</a>
-                                    </div>
-                                </div>
-                            }
+                            </div>
 
                         }
-                    }
 
+                    </div>
                 </div>
             </div>
         </div>
@@ -170,5 +126,27 @@
     @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
     <script type="text/javascript" src="~/MyAccountAssets/MyAccount/SubNavSide.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#search-ord-input").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $(".processing-order").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+            $(".tab").on("click", function () {
+                var value = $(this).text().toLowerCase();
+                $(".processing-order").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+            $("#all").on("click", function () {
+                var value = "";
+                $(".processing-order").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
 </body>
 </html>
