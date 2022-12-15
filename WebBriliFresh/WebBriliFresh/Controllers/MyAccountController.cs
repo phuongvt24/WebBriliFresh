@@ -69,7 +69,7 @@ namespace WebBriliFresh.Controllers
                     string picfilename = DoPhotoUpload(photo);
                     User user = await _context.Users.FindAsync(UserId);
 
-                    if(user.Avatar != null)
+                    if(user.Avatar != null || user.Avatar != "download.jfif")
                     {
                         DeleteOldAvatar(user.Avatar);
                     }

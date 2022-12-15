@@ -76,14 +76,14 @@ namespace WebBriliFresh.Controllers
                                  where item.UserId == user.Id
                                  select item.CusId).First();
 
-                    Customer currentCustomer = _context.Customers.FirstOrDefault(x => x.CusId == cusID);
+                    Customer currentCustomer = _context.Customers.FirstOrDefault(x => x.CusId == cusID)!;
                     String name = currentCustomer.LastName + " " + currentCustomer.FirstName;
 
 
                     HttpContext.Session.SetInt32("CUS_SESSION_USERID", user.Id);
                     HttpContext.Session.SetInt32("CUS_SESSION_CUSID", cusID);
                     HttpContext.Session.SetString("CUS_SESSION_CUSNAME", name);
-                    HttpContext.Session.SetString("CUS_SESSION_AVATAR", user.Avatar);
+                    HttpContext.Session.SetString("CUS_SESSION_AVATAR", user.Avatar!);
 
 
                     return RedirectToAction("Index", "Home");
