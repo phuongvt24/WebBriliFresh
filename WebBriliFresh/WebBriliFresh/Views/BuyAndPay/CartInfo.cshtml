@@ -32,17 +32,10 @@
     <body>
         <form action="@Url.Action("DeliveryInfo", "BuyAndPay")" method="GET" class="thongtindonhangform">
             <div class="header">
-                @{
-                    var isLogin = @HttpContextAccessor.HttpContext.Session.GetInt32("CUS_SESSION_USERID");
-                }
-                @if (isLogin != null)
-                {
+    
+                    @{var isLogin = @HttpContextAccessor.HttpContext.Session.GetInt32("CUS_SESSION_USERID");}
+             
                     @await Html.PartialAsync("~/Views/Shared/_HomeHeaderPartialView_login.cshtml")
-                }
-                else
-                {
-                    @await Html.PartialAsync("~/Views/Shared/_HomeHeaderPartialView.cshtml")
-                }
             
             </div>
 

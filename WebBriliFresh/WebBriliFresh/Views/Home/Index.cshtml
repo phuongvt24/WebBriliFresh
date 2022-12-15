@@ -30,14 +30,8 @@
 </head>
 <body>
     <div id="main">
-        @{
-            var isLogin = @HttpContextAccessor.HttpContext.Session.GetInt32("CUS_SESSION_USERID");
-        }
-        @if (isLogin!=null){
             @await Html.PartialAsync("~/Views/Shared/_HomeHeaderPartialView_login.cshtml")
-        }else{
-            @await Html.PartialAsync("~/Views/Shared/_HomeHeaderPartialView.cshtml")
-        }      
+     
         <container class="container">
             <div class="slider">
                 <div class="slider__image">
