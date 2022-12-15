@@ -164,18 +164,16 @@
       background: #F2DEDE;
       border-radius: 4px;
     }
-    button[name="search"] {
-
-      position: relative;
-      width: 55px;
-      color: white;
-      height:33px;
-      background: #BD2037;
-      border:none;
-      border-radius: 2px;
-      /* background:url("./images/search.png") */
-    
-    }
+ .search-button #search {
+    position: relative;
+    width: 55px;
+    color: white;
+    height: 33px;
+    background: #BD2037;
+    border: none;
+    border-radius: 2px;
+    /* background:url("./images/search.png") */
+}
     .search-container{
       /* height:35px; */
       
