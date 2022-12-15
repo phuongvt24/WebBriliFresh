@@ -14,6 +14,8 @@ using WebBriliFresh.Repositories.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using WebBriliFresh.Utils;
+using Org.BouncyCastle.Ocsp;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace WebBriliFresh.Controllers
 {
@@ -62,6 +64,7 @@ namespace WebBriliFresh.Controllers
 
                     HttpContext.Session.SetInt32("ADMIN_SESSION_USERID", user.Id);
                     HttpContext.Session.SetInt32("ADMIN_SESSION_EMPID", empID);
+
                     return RedirectToAction("Index", "Home", new
                     {
                         area = "Admin",
@@ -72,8 +75,17 @@ namespace WebBriliFresh.Controllers
                     var cusID = (from item in _context.Customers
                                  where item.UserId == user.Id
                                  select item.CusId).First();
+
+                    Customer currentCustomer = _context.Customers.FirstOrDefault(x => x.CusId == cusID);
+                    String name = currentCustomer.LastName + " " + currentCustomer.FirstName;
+
+
                     HttpContext.Session.SetInt32("CUS_SESSION_USERID", user.Id);
-                    HttpContext.Session.SetInt32("CUS_SESSION_EMPID", cusID);
+                    HttpContext.Session.SetInt32("CUS_SESSION_CUSID", cusID);
+                    HttpContext.Session.SetString("CUS_SESSION_CUSNAME", name);
+                    HttpContext.Session.SetString("CUS_SESSION_AVATAR", user.Avatar);
+
+
                     return RedirectToAction("Index", "Home");
                 }
                 else

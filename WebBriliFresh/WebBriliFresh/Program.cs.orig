@@ -34,19 +34,20 @@ builder.Services.AddIdentity<User, ApplicationRole>(options =>
       .AddEntityFrameworkStores<BriliFreshDbContext>()
       .AddDefaultTokenProviders();
 
-
-//}).AddCookie(options =>
-//{
-//    options.LoginPath = "/UserLogin";
-//    options.LogoutPath = "/Home/Index";
-//    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-//    options.Cookie.MaxAge = options.ExpireTimeSpan; // optional
-//    options.SlidingExpiration = true;
-//});
+<<<<<<< HEAD
+}).AddCookie(options =>
+{
+    options.LoginPath = "/UserLogin";
+    options.LogoutPath = "/Home/Index";
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+    options.Cookie.MaxAge = options.ExpireTimeSpan; // optional
+    options.SlidingExpiration = true;
+});
+=======
 builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/UserLogin");
 
 builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
-
+>>>>>>> origin/new_develop_3
 
 builder.Services.AddAuthorization(options =>
 {

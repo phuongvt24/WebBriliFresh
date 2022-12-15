@@ -2,6 +2,7 @@
     Layout = null;
 }
 
+@model WebBriliFresh.Models.ViewModels.DetailsProduct;
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,23 +42,29 @@
             <div class="d-flex justify-content-between align-item-center mx-auto">
                 <div class="product-imgs justify-content-center aligns-items-center ms-0">
                     <div class="row product-img-main">
-                        <img src="~/OverviewProductAssets/images/product-info/pngwing.png" alt="" id="img-main">
+                        @*<img src="~/OverviewProductAssets/images/product-info/pngwing.png" alt="" id="img-main">*@
+                      
+                    <img src="~/OverviewProductAssets/images/product-info/@(Model.productImgs[0])" alt="" id="img-main">
                     </div>
                     <div class="product-img-album align-items-center">
                         <ul class="d-flex img-album-list">
                             <li class="">
-                                <img src="~/OverviewProductAssets/images/product-info/p-album1.png" alt="" id="img-album-1">
-                            </li>
-                            <li class="">
-                                <img src="~/OverviewProductAssets/images/product-info/p-album1.png" alt="" id="img-album-2">
-                            </li>
-                            <li class="">
-                                <img src="~/OverviewProductAssets/images/product-info/p-album4.png" alt="" id="img-album-3">
+                                @*<img src="~/OverviewProductAssets/images/product-info/p-album1.png" alt="" id="img-album-1">*@
+                                <img src="~/OverviewProductAssets/images/product-info/@(Model.productImgs.Count > 1 ?  Model.productImgs[1] : Model.productImgs[0])" alt="" id="img-album-1">
 
                             </li>
                             <li class="">
-                                <img src="~/OverviewProductAssets/images/product-info/p-album4.png" alt="" id="img-album-4">
+                                @*<img src="~/OverviewProductAssets/images/product-info/p-album1.png" alt="" id="img-album-2">*@
+                                <img src="~/OverviewProductAssets/images/product-info/@(Model.productImgs.Count > 2 ?  Model.productImgs[2] : Model.productImgs[0])" alt="" id="img-album-2">
 
+                            </li>
+                            <li class="">
+                                @*<img src="~/OverviewProductAssets/images/product-info/p-album4.png" alt="" id="img-album-3">*@
+                                <img src="~/OverviewProductAssets/images/product-info/@(Model.productImgs.Count > 3 ?  Model.productImgs[3] : Model.productImgs[0])" alt="" id="img-album-3">
+                            </li>
+                            <li class="">
+                                @*<img src="~/OverviewProductAssets/images/product-info/p-album4.png" alt="" id="img-album-4">*@
+                                <img src="~/OverviewProductAssets/images/product-info/@(Model.productImgs.Count > 4 ?  Model.productImgs[4] : Model.productImgs[0])" alt="" id="img-album-4">
                             </li>
 
                         </ul>
@@ -106,7 +113,8 @@
                 </div>
                 <div class="product-info justify-content-center align-items-center">
                     <div class="product-info-title">
-                        Ba rọi heo (Nhập khẩu) 500g
+                        @*Ba rọi heo (Nhập khẩu) 500g*@
+                        @Model.product.ProName&nbsp500g
                     </div>
                     <div class="product-info-star d-flex justify-content-left align-items-left mb-auto ">
                         <div class="d-flex justify-content-between align-items-center">
@@ -117,7 +125,7 @@
                                 <i class="fa fa-star rating-color"></i>
                                 <i class="fa fa-star"></i>
                             </div>&nbsp;
-                            (Xem&nbsp;<span comment-count> 143 </span>&nbsp;đánh giá)
+                            (Xem&nbsp;<span comment-count> @Model.feedbacks.Count </span>&nbsp;đánh giá)
                             &nbsp;<div class="mt-2" style="border-left:1px solid #8F8C8C;height:20px"></div>&nbsp;
                             &nbsp;Đã bán&nbsp;<span sold-count>5000</span>+
 
@@ -127,12 +135,13 @@
                     <div class="product-info-cost d-flex  align-items-center mt-3 me-auto">
                         <div class="product-info-cost-detail ps-4 pt-1 pb-2 me-auto justify-content-center align-items-center">
                                 <div class="new-cost">
-                                    <span value="80000">80.000 đ</span>
+                                    @*<span value="80000">80.000 đ</span>*@
+                                <span value="@(Model.product.OriginalPrice*(decimal)(1-Model.discount.Value))">@((Model.product.OriginalPrice * (decimal)(1 - Model.discount.Value)).ToString("#,##0"))</span>
                                 </div>
 
                                 <div class="old-dis-cost d-flex">
-                                    <span class="old-cost me-2" value="100000">100.000đ</span>
-                                    <span class="dis-cost" value="20">-20%</span>
+                                <span class="old-cost me-2" value="@Model.product.OriginalPrice">@Model.product.OriginalPrice.ToString("#,##0")</span>
+                                    <span class="dis-cost" value="@(Model.discount.Value*100.0)">@(Model.discount.Value*100.0)%</span>
                                 </div>
                         </div>
                         <div class="countdown-sale align-items-center justify-content-center me-2 ">

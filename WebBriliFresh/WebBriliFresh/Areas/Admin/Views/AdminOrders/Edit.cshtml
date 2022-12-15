@@ -91,7 +91,7 @@
         <input type="hidden" asp-for="Trans.TransId" />
         <input type="hidden" asp-for="Trans.Transporter" />
         <input type="hidden" asp-for="Trans.Fee" />
-        <input type="hidden" asp-for="Trans.ShippingDate" />
+        <input id="shippingdate" type="hidden" asp-for="Trans.ShippingDate" />
         <input type="hidden" asp-for="Trans.Type" />
         <input id="payment-status" type="hidden" asp-for="Status" />
         <input id="status" type="hidden" asp-for="Trans.Status" />
@@ -185,6 +185,11 @@
         else if ($("#status").val() == 5) {
             $("#status").val("6");
             $("#payment-status").val("1");
+            var currentdate = new Date();
+
+            var datetime = (currentdate.getMonth()+1)+"-"+currentdate.getDate()+"-"+currentdate.getFullYear()+" "+currentdate.getHours()+":"+currentdate.getMinutes()+":"+currentdate.getSeconds();
+            alert(datetime);
+            $("#shippingdate").val(datetime);
         }
     })
     $("#cancel-btn").click(function (e) {
