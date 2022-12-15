@@ -97,11 +97,11 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 var item1 = a.FirstOrDefault();
                 if (item1 == null)
                 {
-                    topProImg.Add("");
+                    topProImg.Add("none.jpg");
                 }
                 else if (item1.ImgData == null)
                 {
-                    topProImg.Add("");
+                    topProImg.Add("none.jpg");
                 } else {
                     topProImg.Add(item1.ImgData);
                 }
