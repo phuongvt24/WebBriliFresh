@@ -32,7 +32,7 @@
     @await Html.PartialAsync("~/Views/Shared/_HomeHeaderPartialView_login.cshtml")
     <!-- End header -->
     <!-- Begin content -->
-    <div class="container">
+    <div class="container" >
         <div class="row">
             <section class="directory mt-3">
                 <nav class="navbar navbar-expand-xl navbar-light ">
@@ -55,7 +55,7 @@
                 <div class="right-content">
                     <div id="subnav">
                         <ul class="subnav-order">
-                            <li><a class="active" id="all" href="#" >Tất cả đơn</a></li>
+                            <li><a class="active" id="all" href="#">Tất cả đơn</a></li>
                             <li><a href="#" class="tab">Chờ thanh toán</a></li>
                             <li><a href="#" class="tab">Đang xử lý</a></li>
                             <li><a href="#" class="tab">Đang vận chuyển</a></li>
@@ -70,52 +70,51 @@
                         <input type="submit" id="search-ord-btn" value="Tìm đơn hàng">
                     </div>
 
-                        @foreach (Order order in @Model)
-                        {
-                            <div class="processing-order order-info mt-3">
-                                <div class="header-order">
-                                    <span></span>
-                                    @if (order.Status == 1)
-                                    {
-                                        <span><i class="ti-timer"></i> Đang xử lý</span>
-
-                                    }
-                                    else if (order.Status == 2)
-                                    {
-                                        <span><i class="ti-timer"></i> Giao thành công</span>
-
-                                    }
-                                    else
-                                    {
-                                        <span><i class="ti-timer"></i> Giao thất bại</span>
-
-                                    }
-
-                                </div>
-                                @foreach (OrderDetail orderDetail in order.OrderDetails)
+                    @foreach (Order order in @Model)
+                    {
+                        <div class="processing-order order-info mt-3">
+                            <div class="header-order">
+                                <span></span>
+                                @if (order.Status == 1)
                                 {
-                                    <div style="margin-top:10px"><i class="ti-home"></i> @orderDetail.Pro.Source</div>
-                                    <div class="content-order">
-                                        <div class="img-product"><img src="./assets/image/item_1.jpg" alt=""></div>
-                                        <div class="product-info">
-                                            <p class="name">@orderDetail.Pro.ProName</p>
-                                            <p style="color: #757575;"> Đơn vị: <span class="mass">@orderDetail.Pro.Unit</span></p>
-                                        </div>
-                                        <div class="purchase-info unit-price">Đơn giá: <span>@orderDetail.Pro.Price</span></div>
-                                        <div class="purchase-info quantity">Số lượng: <span>@orderDetail.Quantity</span></div>
-                                        <div class="purchase-info amount">Thành tiền: <span>@orderDetail.Price</span></div>
-                                    </div>
+                                    <span><i class="ti-timer"></i> Đang xử lý</span>
+
+                                }
+                                else if (order.Status == 2)
+                                {
+                                    <span><i class="ti-timer"></i> Giao thành công</span>
+
+                                }
+                                else
+                                {
+                                    <span><i class="ti-timer"></i> Giao thất bại</span>
+
                                 }
 
-                                <p>Tổng tiền: <b><span class="total-order">@order.OrderTotal</span></b></p>
-                                <div class="footer-order">
-                                    <a class="btn-shared order-info-btn" href="#">Xem chi tiết</a>
-                                </div>
                             </div>
+                            @foreach (OrderDetail orderDetail in order.OrderDetails)
+                            {
+                                <div style="margin-top:10px"><i class="ti-home"></i> @orderDetail.Pro.Source</div>
+                                <div class="content-order">
+                                    <div class="img-product"><img src="./assets/image/item_1.jpg" alt=""></div>
+                                    <div class="product-info">
+                                        <p class="name">@orderDetail.Pro.ProName</p>
+                                        <p style="color: #757575;"> Đơn vị: <span class="mass">@orderDetail.Pro.Unit</span></p>
+                                    </div>
+                                    <div class="purchase-info unit-price">Đơn giá: <span>@orderDetail.Pro.Price</span></div>
+                                    <div class="purchase-info quantity">Số lượng: <span>@orderDetail.Quantity</span></div>
+                                    <div class="purchase-info amount">Thành tiền: <span>@orderDetail.Price</span></div>
+                                </div>
+                            }
 
-                        }
+                            <p>Tổng tiền: <b><span class="total-order">@order.OrderTotal</span></b></p>
+                            <div class="footer-order">
+                                <a class="btn-shared order-info-btn" href="#">Xem chi tiết</a>
+                            </div>
+                        </div>
 
-                    </div>
+                    }
+
                 </div>
             </div>
         </div>
