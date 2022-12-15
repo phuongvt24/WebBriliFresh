@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using MimeKit.Encodings;
 using System.Diagnostics;
 using WebBriliFresh.Models;
 
@@ -12,6 +13,7 @@ namespace WebBriliFresh.Controllers
     {
         private readonly BriliFreshDbContext _context;
         private readonly IWebHostEnvironment _env;
+        private int cusID;
 
         public MyAccountController(BriliFreshDbContext context, IWebHostEnvironment env)
         {
@@ -22,7 +24,7 @@ namespace WebBriliFresh.Controllers
         [Authorize(Policy = "LoggedIn")]
         public IActionResult AccountInfo()
         {
-            int cusID = (int)HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
+            cusID = (int)HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
 
             Customer currentCustomer = _context.Customers.FirstOrDefault(x => x.CusId == cusID);
 
@@ -112,9 +114,12 @@ namespace WebBriliFresh.Controllers
         {
             return View();
         }
-        public IActionResult ManageOrder()
+        public async Task<IActionResult> ManageOrder()
         {
-            return View();
+            //IEnumerable<Order> cusOrders = _context.Orders.Where(c => c.CusId == cusID).ToList();
+            var cusOrders = _context.Orders.Where(c => c.CusId == 1);
+
+            return View(await cusOrders.ToListAsync());
         }
         public IActionResult ManageAddress()
         {

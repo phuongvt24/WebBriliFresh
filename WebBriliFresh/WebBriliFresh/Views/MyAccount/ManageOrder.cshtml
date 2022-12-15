@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<WebBriliFresh.Models.Order>
+
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -9,13 +11,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý đơn hàng</title>
 
+
+    <link href="~/adminassets/vendors/datatables/dataTables.bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="~/HomeAssets/asset/fonts/themify-icons/themify-icons.css">
     <link rel="stylesheet" href="~/HomeAssets/asset/base.css" />
     <link rel="stylesheet" href="~/HomeAssets/homeheadermain.css" />
     <link rel="stylesheet" href="~/HomeAssets/HomeFooter.css" />
     <link rel="stylesheet" href="~/MyAccountAssets/MyAccount/MyAccountMain.css" />
-
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" integrity="sha512-17egcferpgzkcm0j0feq1ycjuyawdz9kutv1ejvuaoz8pdnh/0nzxmu6bbxwaaxqoi9pqxnrwqlcdb027hgv9a==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -68,88 +70,105 @@
                         <input type="submit" id="search-ord-btn" value="Tìm đơn hàng">
                     </div>
 
-                    <!-- Đơn hàng đang xử lý -->
-                    <div class="processing-order order-info mt-3">
-                        <div class="header-order">
-                            <span><i class="ti-home"></i> BriliFresh</span>
-                            <span><i class="ti-timer"></i> Đang xử lý</span>
-                        </div>
-                        <div class="content-order">
-                            <div class="img-product"><img src="./assets/image/item_1.jpg" alt=""></div>
-                            <div class="product-info">
-                                <p class="name">Ba rọi heo (Nhập khẩu)</p>
-                                <p style="color: #757575;">Đơn vị: <span class="mass">500g</span></p>
-                            </div>
-                            <div class="purchase-info unit-price">Đơn giá: <span>80,000</span></div>
-                            <div class="purchase-info quantity">Số lượng: <span>2</span></div>
-                            <div class="purchase-info amount">Thành tiền: <span>160,000</span></div>
-                        </div>
-                        <p>Tổng tiền: <b><span class="total-order">160,000</span></b></p>
-                        <div class="footer-order">
-                            <a class="btn-shared order-info-btn" href="#">Xem chi tiết</a>
-                        </div>
-                    </div>
+               
+                    @{
+                        foreach (Order order in @Model)
+                        {
+                            if (order.Status == 1)
+                            {
+                                <!-- Đơn hàng đang xử lý -->
+                                <div class="processing-order order-info mt-3">
+                                    <div class="header-order">
+                                        <span><i class="ti-home"></i> BriliFresh</span>
+                                        <span><i class="ti-timer"></i> Đang xử lý</span>
+                                    </div>
+                                    <div class="content-order">
+                                        <div class="img-product"><img src="./assets/image/item_1.jpg" alt=""></div>
+                                        <div class="product-info">
+                                            <p class="name">Ba rọi heo (Nhập khẩu)</p>
+                                            <p style="color: #757575;">Đơn vị: <span class="mass">500g</span></p>
+                                        </div>
+                                        <div class="purchase-info unit-price">Đơn giá: <span>80,000</span></div>
+                                        <div class="purchase-info quantity">Số lượng: <span>2</span></div>
+                                        <div class="purchase-info amount">Thành tiền: <span>160,000</span></div>
+                                    </div>
+                                    <p>Tổng tiền: <b><span class="total-order">160,000</span></b></p>
+                                    <div class="footer-order">
+                                        <a class="btn-shared order-info-btn" href="#">Xem chi tiết</a>
+                                    </div>
+                                </div>
+                            }
+                            else if (order.Status == 2)
+                            {
+                                <!-- Đơn hàng giao thành công -->
+                                <div class="sucess-order order-info mt-3">
+                                    <div class="header-order">
+                                        <span><i class="ti-home"></i> JFruit</span>
+                                        <span><i class="ti-truck"></i> Đã giao</span>
+                                    </div>
+                                    <div class="content-order">
+                                        <div class="img-product"><img src="./assets/image/item_2.jpg" alt=""></div>
+                                        <div class="product-info">
+                                            <p class="name">Dưa hấu ruột đỏ Long An</p>
+                                            <p style="color: #757575;">Đơn vị: <span class="mass">1kg</span></p>
+                                        </div>
+                                        <div class="purchase-info unit-price">Đơn giá: <span>35,000</span></div>
+                                        <div class="purchase-info quantity">Số lượng: <span>1</span></div>
+                                        <div class="purchase-info amount">Thành tiền: <span>35,000</span></div>
+                                    </div>
+                                    <div class="content-order">
+                                        <div class="img-product"><img src="./assets/image/item_3.jpg" alt=""></div>
+                                        <div class="product-info">
+                                            <p class="name">Cá hồi tươi Fillet Na Uy</p>
+                                            <p style="color: #757575;">Đơn vị: <span class="mass">200g</span></p>
+                                        </div>
+                                        <div class="purchase-info unit-price">Đơn giá: <span>128,000</span></div>
+                                        <div class="purchase-info quantity">Số lượng: <span>1</span></div>
+                                        <div class="purchase-info amount">Thành tiền: <span>128,000</span></div>
+                                    </div>
+                                    <p>Tổng tiền: <b><span class="total-order">163,000</span></b></p>
+                                    <div class="footer-order">
+                                        <a class="btn-shared order-info-btn" href="./ChiTietDonHang.html">Xem chi tiết</a>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <!-- Đơn hàng thất bại -->
+                                <div class="cancel-order order-info mt-3">
+                                    <div class="header-order">
+                                        <span><i class="ti-home"></i> BriliFresh</span>
+                                        <span><i class="ti-face-sad"></i> Đã hủy</span>
+                                    </div>
+                                    <div class="content-order">
+                                        <div class="img-product"><img src="./assets/image/item_4.jpg" alt=""></div>
+                                        <div class="product-info">
+                                            <p class="name">Đậu cove Lâm Đồng</p>
+                                            <p style="color: #757575;">Đơn vị: <span class="mass">500g</span></p>
+                                        </div>
+                                        <div class="purchase-info unit-price">Đơn giá: <span>18,000</span></div>
+                                        <div class="purchase-info quantity">Số lượng: <span>100</span></div>
+                                        <div class="purchase-info amount">Thành tiền: <span>18,000</span></div>
+                                    </div>
+                                    <p>Tổng tiền: <b><span class="total-order">18,000</span></b></p>
+                                    <div class="footer-order">
+                                        <a class="btn-shared order-info-btn" href="#">Xem chi tiết</a>
+                                    </div>
+                                </div>
+                            }
 
-                    <!-- Đơn hàng giao thành công -->
-                    <div class="sucess-order order-info mt-3">
-                        <div class="header-order">
-                            <span><i class="ti-home"></i> JFruit</span>
-                            <span><i class="ti-truck"></i> Đã giao</span>
-                        </div>
-                        <div class="content-order">
-                            <div class="img-product"><img src="./assets/image/item_2.jpg" alt=""></div>
-                            <div class="product-info">
-                                <p class="name">Dưa hấu ruột đỏ Long An</p>
-                                <p style="color: #757575;">Đơn vị: <span class="mass">1kg</span></p>
-                            </div>
-                            <div class="purchase-info unit-price">Đơn giá: <span>35,000</span></div>
-                            <div class="purchase-info quantity">Số lượng: <span>1</span></div>
-                            <div class="purchase-info amount">Thành tiền: <span>35,000</span></div>
-                        </div>
-                        <div class="content-order">
-                            <div class="img-product"><img src="./assets/image/item_3.jpg" alt=""></div>
-                            <div class="product-info">
-                                <p class="name">Cá hồi tươi Fillet Na Uy</p>
-                                <p style="color: #757575;">Đơn vị: <span class="mass">200g</span></p>
-                            </div>
-                            <div class="purchase-info unit-price">Đơn giá: <span>128,000</span></div>
-                            <div class="purchase-info quantity">Số lượng: <span>1</span></div>
-                            <div class="purchase-info amount">Thành tiền: <span>128,000</span></div>
-                        </div>
-                        <p>Tổng tiền: <b><span class="total-order">163,000</span></b></p>
-                        <div class="footer-order">
-                            <a class="btn-shared order-info-btn" href="./ChiTietDonHang.html">Xem chi tiết</a>
-                        </div>
-                    </div>
+                        }
+                    }
 
-                    <!-- Đơn hàng thất bại -->
-                    <div class="cancel-order order-info mt-3">
-                        <div class="header-order">
-                            <span><i class="ti-home"></i> BriliFresh</span>
-                            <span><i class="ti-face-sad"></i> Đã hủy</span>
-                        </div>
-                        <div class="content-order">
-                            <div class="img-product"><img src="./assets/image/item_4.jpg" alt=""></div>
-                            <div class="product-info">
-                                <p class="name">Đậu cove Lâm Đồng</p>
-                                <p style="color: #757575;">Đơn vị: <span class="mass">500g</span></p>
-                            </div>
-                            <div class="purchase-info unit-price">Đơn giá: <span>18,000</span></div>
-                            <div class="purchase-info quantity">Số lượng: <span>100</span></div>
-                            <div class="purchase-info amount">Thành tiền: <span>18,000</span></div>
-                        </div>
-                        <p>Tổng tiền: <b><span class="total-order">18,000</span></b></p>
-                        <div class="footer-order">
-                            <a class="btn-shared order-info-btn" href="#">Xem chi tiết</a>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
     </div>
     <!-- End content -->
     @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
     <script type="text/javascript" src="~/MyAccountAssets/MyAccount/SubNavSide.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 </body>
 </html>
