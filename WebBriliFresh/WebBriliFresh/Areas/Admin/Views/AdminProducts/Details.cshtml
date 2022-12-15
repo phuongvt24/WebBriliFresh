@@ -150,10 +150,14 @@
                                         <td>@Html.DisplayFor(model => model.Type.SubType)</td>
                                     </tr>
                                     <tr>
+                                        <td class="text-dark font-weight-semibold">Giá nhập</td>
+                                        <input type="hidden" class="price_2" value="@Html.DisplayFor(modelItem => modelItem.OriginalPriceString)">
+                                        <td class="main_2">@Html.DisplayFor(model => model.OriginalPrice)</td>
+                                    </tr>
+                                    <tr>
                                         <td class="text-dark font-weight-semibold">Giá bán</td>
                                         <input type="hidden" class="price" value="@Html.DisplayFor(modelItem => modelItem.PriceString)">
                                         <td class="main">@Html.DisplayFor(model => model.Price)</td>
-
                                     </tr>
                                     <tr>
                                         <td class="text-dark font-weight-semibold">Nguồn gốc</td>
@@ -259,5 +263,10 @@
         var a = $(".price")[i].value;
         a = a.replace('.00', '');
         $(".main")[i].innerHTML = a;
+    }
+    for (var i = 0; i < $(".price_2").length; i++) {
+        var a = $(".price_2")[i].value;
+        a = a.replace('.00', '');
+        $(".main_2")[i].innerHTML = a;
     }
 </script>

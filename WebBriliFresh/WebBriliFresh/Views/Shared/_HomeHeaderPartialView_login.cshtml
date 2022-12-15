@@ -1,4 +1,7 @@
-﻿<header class="header">
+﻿@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+
+<header class="header">
     <nav class="header__navbar">
         <div></div>
         <div class=" d-flex align-items-center" style="height: 64px; width: inherit;justify-content: space-evenly;">
@@ -26,15 +29,27 @@
                 </li>
                 <li class="header__navbar-item"><a href="#">Liên hệ</a></li>
             </ul>
-            <ul class="header__navbar-list " style="margin-right: -52px;">
-                <li class="header__navbar-name">Võ Thanh Phương</li>
-                <li class="header__navbar-avt"><img src="~/HomeAssets/asset/image/logo.png" alt="" id="avartar_user"></li>
-            </ul>
+
+            @if (HttpContextAccessor.HttpContext.Session.GetString("CUS_SESSION_CUSNAME") != null)
+                {
+                    <ul class="header__navbar-list " style="margin-right: -52px;" onclick='window.location = "@Url.Action("AccountInfo", "MyAccount")"'>
+                        <li class="header__navbar-name">@HttpContextAccessor.HttpContext.Session.GetString("CUS_SESSION_CUSNAME")</li>
+                    <li class="header__navbar-avt"><img src="~/MyAccountAssets/UserPhotos/@HttpContextAccessor.HttpContext.Session.GetString("CUS_SESSION_AVATAR")" alt="" id="avartar_user"></li>
+                    </ul>
+                }
+                else
+                {
+                    <ul class="header__navbar-list " style="margin-right: -52px;">
+                    <li class="header__navbar-register"> <a asp-controller="UserLogin" asp-action="Registration" style="color:#d22a2a">Đăng ký /</a></li>
+                        <li class="header__navbar-login"><a asp-controller="UserLogin" asp-action="Index" style="color:#d22a2a"> Đăng nhập</a></li>
+                    </ul>
+                }
+
             <div class="line">
             </div>
             <div class="header__cart " style="margin-left: -32px;">
-                <i class="ti-shopping-cart"></i>
-                <div class="header__cart-number">
+                <i class="ti-shopping-cart" onclick='window.location = "@Url.Action("CartInfoCheck", "BuyAndPay")"'></i>
+                <div class="header__cart-number" onclick='window.location = "@Url.Action("CartInfoCheck", "BuyAndPay")"'>
                     <p class="number-item">
                         9
                     </p>

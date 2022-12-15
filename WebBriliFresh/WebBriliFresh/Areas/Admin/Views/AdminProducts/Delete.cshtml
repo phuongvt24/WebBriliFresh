@@ -50,6 +50,15 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Type.SubType)
         </dd>
+        <dt class="col-sm-2">
+            Giá nhập
+        </dt>
+        <dd class="col-sm-10">
+            <input type="hidden" class="price_2" value="@Html.DisplayFor(modelItem => modelItem.OriginalPriceString)">
+            <span class="main_2">
+
+            </span>
+        </dd>
         <dt class = "col-sm-2">
            Giá bán
         </dt>
@@ -102,5 +111,10 @@
         var a = $(".price")[i].value;
         a = a.replace('.00','');
         $(".main")[i].innerHTML = a;
+    }
+    for(var i =0 ; i < $(".price_2").length; i++){
+        var a = $(".price_2")[i].value;
+        a = a.replace('.00','');
+        $(".main_2")[i].innerHTML = a;
     }
 </script>

@@ -1,0 +1,90 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông báo của tôi</title>
+
+    <link rel="stylesheet" href="~/HomeAssets/asset/fonts/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="~/HomeAssets/asset/base.css" />
+    <link rel="stylesheet" href="~/HomeAssets/homeheadermain.css" />
+    <link rel="stylesheet" href="~/HomeAssets/HomeFooter.css" />
+    <link rel="stylesheet" href="~/MyAccountAssets/MyAccount/MyAccountMain.css" />
+
+    <link rel="stylesheet" href="~/MyAccountAssets/MyNotice/MyNotice.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" integrity="sha512-17egcferpgzkcm0j0feq1ycjuyawdz9kutv1ejvuaoz8pdnh/0nzxmu6bbxwaaxqoi9pqxnrwqlcdb027hgv9a==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" integrity="sha512-yhknp1/awr+yx26cb1y0cjvqumvea2pfzt1c9lls4prq5notzfwbhbig+x9g9eyw/8m0/4oxnx8pxj6z57x0dw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+    <!-- Begin content -->
+    @await Html.PartialAsync("~/Views/Shared/_HomeHeaderPartialView_login.cshtml")
+    <div class="container">
+        <div class="row">
+            <section class="directory mt-3">
+                <nav class="navbar navbar-expand-xl navbar-light ">
+                    <div class="container-fluid">
+                        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                                <li class="breadcrumb-item active" id="MyNotice" aria-current="page">Thông báo của tôi</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </nav>
+            </section>
+
+            @await Html.PartialAsync("~/Views/Shared/_SubNavPartialView.cshtml")
+            <!-- End SlideBar -->
+
+
+            <div class="col-12 col-xl-9 container-right">
+                <div class="heading-right">Thông báo của tôi</div>
+
+                <div class="row">
+                    <div class="noti-card">
+                        <div class="item-left mr-8"><img src="./assets/image/notification_img/product.jpg" alt=""></div>
+                        <div class="item-center mr-8">
+                            <p>Chia sẻ nhận xét về sản phẩm</p>
+                            <p noti-content>Đơn hàng <b>2211131DKVY47H</b> đã hoàn thành. Bạn hãy đánh giá sản phẩm trước ngày <b>21-12-2022</b> để nhận <b>200</b> xu và giúp người dùng khác hiểu hơn về sản phẩm nhé!</p>
+                            <p>07:08 23/11/2022</p>
+                        </div>
+                        <div class="item-right card-btn"><a href="./DanhGiaSanPham.html">Đánh giá sản phẩm</a></div>
+                    </div>
+
+                    <div class="noti-card">
+                        <div class="item-left mr-8"><img src="./assets/image/notification_img/flashsale.png" alt=""></div>
+                        <div class="item-center mr-8">
+                            <span>KHUYẾN MÃI GIÁ SỐC HÔM NAY!!</span>
+                            <p noti-content>Deal từ 39K thịt, trái cây và các loại rau củ. Giảm đậm sâu mừng giáng sinh. Tưng bừng ngày lễ, mua ngay kẻo trễ!</p>
+                            <p>08:50 02/12/2022</p>
+                        </div>
+                        <div class="item-right card-btn"><a href="../product.html">Xem chi tiết</a></div>         <!-- Đến trang sản phẩm phần khuyến mãi giá sốc-->
+                    </div>
+
+                    <div class="noti-card">
+                        <div class="item-left mr-8"><img src="./assets/image/notification_img/voucher.png" alt=""></div>
+                        <div class="item-center mr-8">
+                            <span>KIỂM TRA EMAIL NGAY!!!</span>
+                            <p noti-content>Bạn đã nhận được email gồm mã khuyến mãi mà BriliFresh dành riêng cho bạn. Kiểm tra email ngay và sử dụng mã để tiết kiệm tối đa bạn nhé!</p>
+                            <p>12:38 02/12/2022</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
+    <script type="text/javascript" src="~/MyAccountAssets/MyAccount/SubNavSide.js"></script>
+</body>
+</html>

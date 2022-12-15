@@ -1,0 +1,23 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@using Microsoft.AspNetCore.Http;
+
+<div class="col-12 col-xl-3 container-left">
+    <!-- SlideBar dùng chung tất cả các trang trong Tài khoản của tôi -->
+    <div class="left-content">
+        <div class="avatar">
+            <img src="~/MyAccountAssets/UserPhotos/@HttpContextAccessor.HttpContext.Session.GetString("CUS_SESSION_AVATAR")" alt="">
+            <div class="avatar-text">
+                <span>Tài khoản của</span>
+                <p id="user-name">@HttpContextAccessor.HttpContext.Session.GetString("CUS_SESSION_CUSNAME")</p>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <a id="AccountInfo_2" onclick='window.location = "@Url.Action("AccountInfo", "MyAccount")"'><i class="ti-user"></i><span>Thông tin tài khoản</a>
+            <a id="MyNotice_2"    onclick='window.location = "@Url.Action("MyNotice", "MyAccount")"'><i class="ti-bell"></i><span>Thông báo của tôi</a>
+            <a id="ManageOrder_2" onclick='window.location = "@Url.Action("ManageOrder", "MyAccount")"'><i class="ti-package"></i><span>Quản lý đơn hàng</a>
+            <a id="ManageAddress_2" onclick='window.location = "@Url.Action("ManageAddress", "MyAccount")"'><i class="ti-location-pin"></i><span>Sổ địa chỉ</a>
+            <a id="ManageFeedback_2" onclick='window.location = "@Url.Action("ManageFeedback", "MyAccount")"' ><i class="ti-star"></i><span>Đánh giá sản phẩm</a>
+        </div>
+    </div>
+</div>

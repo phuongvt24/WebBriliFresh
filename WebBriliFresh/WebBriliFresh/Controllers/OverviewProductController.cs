@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using WebBriliFresh.Common;
 using WebBriliFresh.Models;
@@ -9,14 +9,21 @@ namespace WebBriliFresh.Controllers
 {
     public class OverviewProductController : Controller
     {
+<<<<<<< HEAD
         private BriliFreshDbContext db = new BriliFreshDbContext();
         ProductServices productService = new ProductServices();
+=======
+        //Tổng quan 3 loại danh mục
+>>>>>>> origin/new_develop_3
         public IActionResult FishAndMeat()
         {
             return View();
         }
+
+        //[Authorize(Policy = "LoggedIn")]
         public IActionResult Fruit()
         {
+
             return View();
         }
 
@@ -25,6 +32,7 @@ namespace WebBriliFresh.Controllers
             return View();
         }
 
+        //List sản phẩm chính
         public IActionResult ListFishAndMeat()
         {
             return View();
@@ -39,6 +47,7 @@ namespace WebBriliFresh.Controllers
             return View();
         }
 
+<<<<<<< HEAD
         [HttpGet]
         public async Task<ActionResult> Index(string? search, int? minimumPrice, int? maximumPrice, int? typeID, string? selecteString, int? sortBy, int? pageNo)
         {
@@ -151,6 +160,23 @@ namespace WebBriliFresh.Controllers
             model.Pager = new Pager(totalCount, (int)pageNo, (int)pageSize);
             return PartialView(model);
         }
+=======
+        //chi tiết từng sản phẩm
+        public IActionResult DetailFishAndMeat()
+        {
+            return View();
+        }
+        public IActionResult DetailFruit()
+        {
+            return View();
+        }
+
+        public IActionResult DetailVegetable()
+        {
+            return View();
+        }
+
+>>>>>>> origin/new_develop_3
 
     }
 }

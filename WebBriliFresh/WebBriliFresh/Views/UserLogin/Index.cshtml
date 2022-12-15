@@ -1,96 +1,86 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 @{
     Layout = null;
 }
 
 @model LoginModel;
-<!DOCTYPE html>
+
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Enlink - Admin Dashboard Template</title>
-
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="assets/images/logo/favicon.png">
-
-    <!-- page css -->
-    <!-- Core css -->
-    <link href="~/adminassets/css/app.min.css" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng nhập</title>
+    <link rel="stylesheet" href="~/css/sign-in.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
 
-<body>
-    <div class="app">
-        <div class="container-fluid p-h-0 p-v-20 bg full-height d-flex" style="background-image: url('https://img.freepik.com/free-vector/hand-drawn-delicious-food-background_52683-16136.jpg?w=1060&t=st=1669652102~exp=1669652702~hmac=d40da13c577671f4f11e040ea9aa2d3038136dd3e7a1023457764f005532ce4f')">
-            <div class="d-flex flex-column justify-content-between w-100">
-                <div class="container d-flex h-100">
-                    <div class="row align-items-center w-100">
-                        <div class="col-md-7 col-lg-5 m-h-auto">
-                            <div class="card shadow-lg">
-                                <div class="card-body" style="background-color : #eff5f5">
-                                    <div class="d-flex align-items-center justify-content-between m-b-30">
-                                        <img class="img-fluid" alt="" src="~/adminassets/images/logo/logo.png">
-                                        <h2 class="m-b-0">Sign In</h2>
-                                    </div>
-                                    @using (Html.BeginForm("Login", "UserLogin", FormMethod.Post))
-                                    {
-                                        @Html.ValidationSummary(false,"",new{@class="text-danger"})
-                                        <div class="form-group">
-                                            <label class="font-weight-semibold" for="userName">Username:</label>
-                                            <div class="input-affix">
-                                                <i class="prefix-icon anticon anticon-user"></i>
-                                                @Html.TextBoxFor(model=>model.UserName , new{@class="form-control", @autofocus="autofocus"})
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="font-weight-semibold" for="password">Password:</label>
-                                            <a class="float-right font-size-13 text-muted" href="">Forget Password?</a>
-                                            <div class="input-affix m-b-10">
-                                                <i class="prefix-icon anticon anticon-lock"></i>
-                                                @Html.TextBoxFor(model=>model.PassWord , new{@class="form-control", @autofocus="autofocus",@type="password"})
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-size-13 text-muted">
-                                                    Don't have an account?
-                                                    <a class="small" href=""> Signup</a>
-                                                </span>
-                                                <button type="submit" class="btn btn-primary">Sign In</button>
-                                            </div>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
+<body style="background: url('./HomeAssets/login_background.jpeg') no-repeat center center fixed;background-size: cover;">
+    <main>
+        <div class="box">
+
+            <div class="inner-box" id="myDIV">
+
+                <div class="forms-wrap">
+                    <form asp-controller="UserLogin" asp-action="Login" class="sign-in-form">
+                        <div class="heading">
+                            <h1 class="title">Xin chào!</h1>
+                            <h2 class="sub-title">Đăng nhập để nhận nhiều ưu đãi!</h2>
+                        </div style>
+                        <div class="actual-form">
+                            <input asp-for="UserName" id="name" type="text" minlength="4" class="input-field" autocomplete="off"
+                                   required placeholder="Nhập tên đăng nhập hoặc số điện thoại" />
+
+                            <input asp-for="PassWord" id="pass" type="password" minlength="4" class="input-field" autocomplete="off"
+                                   required placeholder="Mật khẩu" />
                         </div>
-                    </div>
+
+                        <div asp-validation-summary="All" style="color:red; text-decoration:none; text-align:center;"></div>
+
+
+                        <div class="btn-box">
+                            <input type="submit" class="btn" value="Đăng nhập" />
+                        </div>
+
+                        <div class="forgetpass">
+                            <h6 class="text">
+                                <a href="#">Quên mật khẩu?</a>
+                            </h6>
+                        </div>
+
+                        <div class="other-signin">
+                            <p><span>Hoặc đăng nhập bằng</span></p>
+                        </div>
+
+                        <p class="social-text"></p>
+
+                        <div class="social-media">
+                            <a href="#" class="social-icon">
+                                <i class="fa fa-facebook">&nbsp Facebook </i>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <i class="fa fa-google">&nbsp Google </i>
+                            </a>
+                        </div>
+
+                        <div class="dangky">
+                            <h6>Bạn chưa có tài khoản?</h6>
+                            <a asp-action="Registration" class="toggle">Đăng ký ngay!</a>
+                        </div>
+                    </form>
                 </div>
-                <div class="d-none d-md-flex p-h-40 justify-content-between">
-                    <span class="">© 2022 Brili</span>
-                    <ul class="list-inline">
-                        <li class="list-inline-item">
-                            <a class="text-dark text-link" href="">Legal</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a class="text-dark text-link" href="">Privacy</a>
-                        </li>
-                    </ul>
+                <div class="carousel">
+                    <span class="close">&nbsp</span>
+                    <div class="images-wrapper">
+                        <img src="~/HomeAssets/Rectangle 47.png" class="img-green" alt="" />
+                        <img src="~/HomeAssets/pngwing 7.png" class="img-vegetables" alt="" />
+                        <img src="~/HomeAssets/BRILI.png" class="img-logo" alt="" />
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-
-    <!-- Core Vendors JS -->
-    <script src="~/adminassets/js/vendors.min.js"></script>
-
-    <!-- page js -->
-    <!-- Core JS -->
-    <script src="~/adminassets/js/app.min.js"></script>
-
+    </main>
 </body>
 
 </html>

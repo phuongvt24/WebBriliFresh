@@ -6,8 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
-using AspNetCoreHero.ToastNotification.Abstractions;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing.Constraints;
@@ -20,7 +18,7 @@ using RequiredAttribute = System.ComponentModel.DataAnnotations.RequiredAttribut
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Policy = "AdminOnly")]
+    [Authorize(Policy = "Employee")]
 
     public class AdminProductsController : Controller
     {
@@ -79,7 +77,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //[Consumes("multipart/form-data")]
-        public async Task<IActionResult> Create([Bind("ProId,ProName,Price,TypeId,Source,StartDate,Des,Unit,IsDeleted,File,Files")] Product product)
+        public async Task<IActionResult> Create([Bind("ProId,ProName,OriginalPrice,Price,TypeId,Source,StartDate,Des,Unit,IsDeleted,File,Files")] Product product)
             {
 
             if (ModelState.IsValid)
@@ -183,7 +181,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         
-        public async Task<IActionResult> Edit(int id, [Bind("ProId,ProName,Price,TypeId,Source,StartDate,Des,Unit,IsDeleted,File,Files")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProId,ProName,OriginalPrice,Price,TypeId,Source,StartDate,Des,Unit,IsDeleted,File,Files")] Product product)
         {
             if (id != product.ProId)                  
             {

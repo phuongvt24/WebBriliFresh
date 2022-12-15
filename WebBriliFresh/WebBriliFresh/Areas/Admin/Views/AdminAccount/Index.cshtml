@@ -71,23 +71,23 @@
                             List<string> c;
                             @if (item.UserRole == 1)
                             {
-                                a = item.Customers.Where(x => x.UserId == item.UserId).Select(x => x.CusId).ToList();
+                                a = item.Customers.Where(x => x.UserId == item.Id).Select(x => x.CusId).ToList();
 
-                                b = item.Customers.Where(x => x.UserId == item.UserId).Select(x => x.LastName + " ").ToList();
+                                b = item.Customers.Where(x => x.UserId == item.Id).Select(x => x.LastName + " ").ToList();
 
-                                c = item.Customers.Where(x => x.UserId == item.UserId).Select(x => x.FirstName).ToList();
+                                c = item.Customers.Where(x => x.UserId == item.Id).Select(x => x.FirstName).ToList();
 
                             }
                             else
                             {
-                                a = item.Employees.Where(x => x.UserId == item.UserId).Select(x => x.EmpId).ToList();
+                                a = item.Employees.Where(x => x.UserId == item.Id).Select(x => x.EmpId).ToList();
 
-                                b = item.Employees.Where(x => x.UserId == item.UserId).Select(x => x.LastName + " ").ToList();
+                                b = item.Employees.Where(x => x.UserId == item.Id).Select(x => x.LastName + " ").ToList();
 
-                                c = item.Employees.Where(x => x.UserId == item.UserId).Select(x => x.FirstName).ToList();
+                                c = item.Employees.Where(x => x.UserId == item.Id).Select(x => x.FirstName).ToList();
                             }
                             <tr>
-                                <td>@Html.DisplayFor(modelItem =>  item.UserId)</td>
+                                <td>@Html.DisplayFor(modelItem =>  item.Id)</td>
 
                                 <td>
                                     @for (int i = 0; i < a.Count; i++)
@@ -127,7 +127,7 @@
 
                                     @if (item.UserRole == 2)
                                     {
-                                        <a asp-controller="AdminAccount" asp-action="Delete" asp-route-id="@item.UserId" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                        <a asp-controller="AdminAccount" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-icon btn-hover btn-sm btn-rounded">
                                             <i class="anticon anticon-delete"></i>
                                         </a>
                                     }

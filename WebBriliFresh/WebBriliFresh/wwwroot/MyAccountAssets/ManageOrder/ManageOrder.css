@@ -1,0 +1,128 @@
+.container-right .subnav-order {
+    background-color: #fff;
+}
+
+.container-right .subnav-order > li {
+    display: inline-block;
+}
+
+.subnav-order li a {
+    text-decoration: none;
+    padding: 8px 20px;
+    display: block;
+    color: #000;
+    font-size: 15px;
+    border-bottom: 1px solid #fff;
+    line-height: 1.6;
+}
+
+.subnav-order a.active {
+    color: rgb(34, 209, 34);
+    border-bottom: 1px solid rgb(34, 209, 34);
+}
+  
+.subnav-order a:hover:not(.active) {
+    background-color: rgb(34, 209, 34);
+    color: #fff;
+}
+
+
+/* Thanh tìm kiếm hóa đơn */
+#order-search {
+    background-color: #fff;
+}
+
+#order-search i {
+    font-size: 18px;
+    color: #ccc;
+    padding: 8px 12px;
+    vertical-align: middle;
+}
+
+#order-search #search-ord-input {
+    padding: 8px;
+    width: 76%;
+    border: none;
+    font-size: 15px;
+}
+
+#order-search #search-ord-input:focus {
+    outline: none;
+}
+
+#order-search #search-ord-btn {
+    width: 16%;
+    background-color: #fff;
+    border: none;
+    border-left: 1px solid rgb(34, 209, 34);
+}
+
+#order-search #search-ord-btn:hover {
+    color: rgb(34, 209, 34);
+    cursor: pointer;
+}
+
+/* Thông tin đơn hàng */
+.order-info {
+    padding: 16px;
+    color: #000;
+    font-size: 14px;
+    background-color: #fff;
+}
+
+.header-order {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    padding-bottom: 16px;
+    color: green;
+    border-bottom: 1px solid rgb(224, 224, 224);
+}
+
+.order-info > p {
+    text-align: right;
+}
+
+.content-order {
+    display: flex;
+    padding: 16px;
+    margin: 16px;
+    border-bottom: 1px solid rgb(224, 224, 224);
+}
+
+.product-info {
+    width: 176px;
+}
+
+.product-info p {
+    margin-bottom: 4px;
+    line-height: 1.6;
+}
+
+.img-product img {
+    width: 88px;
+    border: 1px solid #000;
+    border-radius: 4px;
+    margin-right: 8px;
+}
+
+.purchase-info {
+    text-align: center;
+}
+
+.unit-price {
+    width: 144px;
+}
+
+.quantity {
+    width: 96px;
+}
+
+.amount {
+    width: 164px;
+}
+
+.footer-order {
+    display: flex;
+    justify-content: flex-end;
+}
