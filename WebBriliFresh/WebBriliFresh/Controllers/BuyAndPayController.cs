@@ -37,8 +37,6 @@ namespace WebBriliFresh.Controllers
             var item = myCart.SingleOrDefault(p => p.productId == proId);
             if(item == null)
             {
-                
-
                     item = new ShoppingCartViewModel
                     {
                         productId = proId,
@@ -46,8 +44,7 @@ namespace WebBriliFresh.Controllers
                         storeId = storeid,
                         saleprice = saleprice
                     };
-                    myCart.Add(item);
-                
+                    myCart.Add(item);      
             }
             else
             {
@@ -81,6 +78,18 @@ namespace WebBriliFresh.Controllers
             return Json(new
             {
                 status = false
+            });
+        }
+
+        public IActionResult Update(int proId, int quantity)
+        {
+            var myCart = Carts;
+            var item = myCart.SingleOrDefault(p => p.productId == proId);
+            item.quantity = quantity;
+            HttpContext.Session.Set(CommonConstants.SessionCart, myCart);
+            return Json(new
+            {
+                quantity = Carts.Sum(p => p.quantity)
             });
         }
 

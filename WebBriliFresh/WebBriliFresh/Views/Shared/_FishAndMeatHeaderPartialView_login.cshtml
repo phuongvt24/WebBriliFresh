@@ -1,4 +1,11 @@
-﻿
+﻿@inject WebBriliFresh.Models.BriliFreshDbContext _context;
+@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@{
+    var user_id = @HttpContextAccessor.HttpContext.Session.GetInt32("CUS_SESSION_USERID");
+    var info_account = _context.Users.Where(x => x.Id == user_id).FirstOrDefault();
+    var info_cus = _context.Customers.Where(x => x.UserId == user_id).FirstOrDefault();
+}
 <section class="header scaled-header mx-lg-1 mx-sm-auto my-auto">
     <nav class="navbar navbar-expand-xl navbar-light">
         <div class="container-fluid mx-sm-auto">
@@ -34,8 +41,8 @@
                 </form>
                 <div class="navbar-nav me-auto mb-lg-0 align-item-center p-1 nav-right">
                     <div class="nav-item col-11 mt-1 d-flex justify-content-between align-item-center">
-                        <li class="header__navbar-name nav-link active">Võ Thanh Phương</li>
-                        <li class="header__navbar-avt nav-link active"><img src="~/OverviewProductAssets/images/newlogo.png" alt="" id="avartar_user"></li>
+                        <li class="header__navbar-name nav-link active">@info_cus.LastName @info_cus.FirstName</li>
+                        <li class="header__navbar-avt nav-link active"><img src="~/imageuser/@info_account.Avatar" alt="" id="avartar_user"></li>
                     </div>
                     <!-- <div class="vr mt-2"></div> -->
                     <div class="mt-2 " style="border-left:1px solid #8F8C8C;height:25px"></div>

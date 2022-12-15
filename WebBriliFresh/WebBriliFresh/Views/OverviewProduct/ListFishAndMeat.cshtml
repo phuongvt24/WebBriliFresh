@@ -27,9 +27,17 @@
         <title>Document</title>
     </head>
     <body>
-        @*@await Html.PartialAsync("~/Views/Shared/_FishAndMeatHeaderPartialView.cshtml")*@
+    @{
+        var isLogin = @HttpContextAccessor.HttpContext.Session.GetInt32("CUS_SESSION_USERID");
+    }
+    @if (isLogin != null)
+    {
         @await Html.PartialAsync("~/views/shared/_fishandmeatheaderpartialview_login.cshtml")
-
+    }
+    else
+    {
+        @await Html.PartialAsync("~/Views/Shared/_FishAndMeatHeaderPartialView.cshtml")
+    }
     <div class="main container">
         <div class="header container"></div>
         <div class="container">
@@ -118,7 +126,6 @@
 
                     <div class="list-products col-9 row d-flex">
 
-
                      @if (Model != null)
                     {
                         @foreach (var item in Model)
@@ -127,22 +134,21 @@
                                 if(b>0){
 
                                     var e = @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId);
-                                    int x = 0;
-                                    var a = item.ProductImages.Where(x => x.ProId == item.ProId).Select(p => p.ImgData).ToList();
-                                    if (a.Count >= 1)
-                                    {
-                                        for (int i = 0; i < a.Count; i++)
-                                        {
-                                            if (a[i].Contains("is_avt"))
-                                            {
-                                                x = i;
-                                            }
-                                        }
-                                    }
+                                    var a = item.ProductImages.Where(x => x.ProId == item.ProId && x.ImgData.Contains("is_avt"));
+                                    var i = a.FirstOrDefault();
+                                 
 
                                     <div class="product-item col-3">
                                         <div class="product-item-img" onclick='window.location = "@Url.Action("DetailFishAndMeat", "OverviewProduct")"'>
-                                           <img src="~/ImageProduct/@Html.DisplayFor(m=>a[x])" alt="" class="product-item-img-child" />
+                                            @if (i != null)
+                                            {
+                                                var m = @i.ImgData;
+                                                <img src="~/ImageProduct/@m" alt="" class="product-item-img-child" />
+                                            }
+                                            else
+                                            {                 
+                                                <img src="~/ImageProduct/none.jpg" alt="" class="product-item-img-child" />
+                                            }
                                         </div>
                                         <div class="product-item-tittle">
                                             <p class="product-item-tittle-child" onclick='window.location = "@Url.Action("DetailFishAndMeat", "OverviewProduct")"'>@Html.DisplayFor(modelItem => item.ProName) (@Html.DisplayFor(modelItem => item.Unit))</p>

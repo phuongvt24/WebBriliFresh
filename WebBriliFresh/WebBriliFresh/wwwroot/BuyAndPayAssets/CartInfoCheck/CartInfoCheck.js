@@ -36,6 +36,17 @@ $(document).ready(function() {
         count = count < 1 ? 1 : count;
         $input.val(count);
         $input.change();
+        $.ajax({
+            url: "/BuyAndPay/Update",
+            data: {
+                proId: $(this).data("id"),
+                quantity: count
+            },
+            success: function (data) {
+                console.log($("#quantity_cart"))
+                $("#quantity_cart").html(data.quantity);
+            }
+        });
         return false;
     });
 
@@ -44,6 +55,17 @@ $(document).ready(function() {
         var $input = $(this).parent().find('input');
         $input.val(parseInt($input.val()) + 1);
         $input.change();
+        $.ajax({
+            url: "/BuyAndPay/Update",
+            data: {
+                proId: $(this).data("id"),
+                quantity: $input.val()
+            },
+            success: function (data) {
+                console.log($("#quantity_cart"))
+                $("#quantity_cart").html(data.quantity);
+            }
+        });
         return false;
     });
 

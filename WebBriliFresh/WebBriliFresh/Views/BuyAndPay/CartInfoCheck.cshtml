@@ -99,9 +99,9 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="content__quantity-info">
-                                        <span class="content__minus">-</span>
+                                        <span type="button"  class="content__minus" data-id="@item.productId">-</span>
                                         <input class="content__quantity" type="text" value="@item.quantity" />
-                                        <span class="content__plus">+</span>
+                                        <span type="button" class="content__plus" data-id="@item.productId">+</span>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -131,13 +131,8 @@
     </form>
     <script type="text/javascript" src="~/BuyAndPayAssets/CartInfoCheck/CartInfoCheck.js"></script>
     <script>
-        //$(document).ready(function () {
-        //    $(document).ready(function () {
-        //        $(".content__remove").click(function () {
-                    
-        //        });
-        //    });
-        //});
+
+        
     </script>
 </body>
 </html>
