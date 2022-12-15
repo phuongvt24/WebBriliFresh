@@ -27,7 +27,7 @@ main {
     position: relative;
     width: 100%;
     max-width: 900px;
-    height: 560px;
+    min-height: 544px;
     background-color: rgb(255, 255, 255);
     box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 27);
 }
@@ -111,7 +111,7 @@ form {
     font-weight: 700;
     font-size: 20px;
     line-height: 26px;
-    margin-bottom: 60px;
+    margin-bottom: 48px;
 }
 
 .actual-form {
@@ -135,7 +135,7 @@ form {
 .btn-box {
     margin-left: 28px;
     margin-bottom: 10px;
-    width: 344px;
+    width: 360px;
     height: 40px;
 }
 
@@ -156,6 +156,7 @@ form {
 
 .btn:hover {
     opacity: 0.7;
+    cursor: pointer;
 }
 
 .forgetpass {
@@ -182,7 +183,7 @@ form {
 }
 
 .other-signin {
-    margin-top: 64px;
+    margin-top: 56px;
 }
 
 .other-signin p {

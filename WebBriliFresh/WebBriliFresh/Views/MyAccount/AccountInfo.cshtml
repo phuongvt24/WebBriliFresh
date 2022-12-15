@@ -3,6 +3,10 @@
 @{
     Layout = null;
 }
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@using Microsoft.AspNetCore.Http;
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,10 +54,10 @@
 
             <div class="col-12 col-xl-9 container-right">
                 <div class="heading-right">Thông tin tài khoản</div>
-                <div class="row">
-                    <form action="~/MyAccount/EditAccount/@Model.CusId" method="post" name="update-info-cus" class="form-info-cus" enctype="multipart/form-data">
+               @* <div class="row">*@
+                <form action="~/MyAccount/EditAccount/@Model.CusId" method="post" name="update-info-cus" class="row form-info-cus" enctype="multipart/form-data">
 
-                        <div class="col-12 col-xl-8 container-fluid">
+                    <div class="col-12 col-xl-7 container-fluid" style="padding: 24px 0 0 32px; background-color: #fff">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                             <input type="hidden" asp-for="CusId" />
@@ -78,7 +82,7 @@
                                 <label for="email"> Email </label>
                                 <div class="email-data">
                                     <span name="email">@Model.Email</span>
-                                    <a onclick='window.location = "@Url.Action("ChangeMail_1", "MyAccount")"'>Thay đổi</a>
+                                    <a class="change-email-btn" onclick='window.location = "@Url.Action("ChangeMail_1", "MyAccount")"'>Thay đổi</a>
                                 </div>
                             </div>
                             <div class="input_field">
@@ -117,9 +121,9 @@
 
                         </div>
 
-                        <div class="avatar-alt col-12 col-xl-4 container-fluid">
+                        <div class="avatar-alt col-12 col-xl-5 container-fluid">
                             <div class="avatar-choice">
-                                <img id="frame" src="" alt="">
+                            <img src="~/MyAccountAssets/UserPhotos/@HttpContextAccessor.HttpContext.Session.GetString("CUS_SESSION_AVATAR")" alt="">
                             </div>
                             <label class="choose-img-btn btn-shared">
                                 <span>Chọn ảnh</span>
@@ -128,7 +132,7 @@
                         </div>
                     </form>
 
-                </div>
+                @*</div>*@
             </div>
 
         </div>
