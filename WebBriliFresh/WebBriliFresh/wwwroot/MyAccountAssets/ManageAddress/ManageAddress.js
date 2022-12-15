@@ -1,5 +1,7 @@
 /* Load modal sửa địa chỉ khi nhấn vào nút 'Cập nhật' */
 const editBtns = document.querySelectorAll('.js-edit-address')
+const deleteBtns = document.querySelectorAll('.js-delete-address')
+
 const modalEdit = document.querySelector('.js-modal-edit')
 const modalEditClose = document.querySelector('.js-modalEdit-close')
 var modalContainer = document.querySelector('.js-modal-container')
@@ -7,8 +9,10 @@ var modalContainer = document.querySelector('.js-modal-container')
 function showEditAddress(addressId) {
     if (addressId != 'Update') {
         modalContainer.setAttribute("action", "/MyAccount/UpdateAddress/" + addressId)
+        document.getElementsByClassName('modal-header')[0].innerHTML = 'Chỉnh sửa địa chỉ'
     } else {
         modalContainer.setAttribute("action", "/MyAccount/AddAddress")
+        document.getElementsByClassName('modal-header')[0].innerHTML = 'Thêm địa chỉ mới'
     }
     modalEdit.classList.add('open')
     var input = document.createElement('input')
@@ -34,39 +38,30 @@ modalContainer.addEventListener('click', function (event) {
 
 
 /* Load modal thêm mới địa chỉ khi nhấn vào nút 'Thêm địa chỉ' */
-const addBtn = document.querySelector('#js-newaddress-btn')
-
-function showAddAddress() {
-    modalEdit.classList.add('open')
-}
 
 function hideAddAddress() {
     modalEdit.classList.remove('open')
 }
 
-document.getElementsByClassName('modal-header')[0].innerHTML = 'Thêm địa chỉ mới'
 
-addBtn.addEventListener('click', showAddAddress)
 modalEdit.addEventListener('click', hideAddAddress);
 
 
-
 /* Load modal xác nhận xóa địa chỉ khi nhấn vào nút 'Xóa' */
-const deleteBtns = document.querySelectorAll('.js-delete-address')
 const modalDelete = document.querySelector('.js-modal-delete')
 const modalDeleteClose = document.querySelector('.js-modalDelete-close')
 
-function showDeleteAddress() {
+function showDeleteAddress(addressId) {
     modalDelete.classList.add('open')
+
+    var input = document.getElementById("delete-address-btn");
+    input.setAttribute("href", "/MyAccount/DeleteAddress/" + addressId)
 }
 
 function hideDeleteAddress() {
     modalDelete.classList.remove('open')
 }
 
-for (const deleteBtn of deleteBtns) {
-    deleteBtn.addEventListener('click', showDeleteAddress)
-}
 modalDeleteClose.addEventListener('click', hideDeleteAddress);
 
 

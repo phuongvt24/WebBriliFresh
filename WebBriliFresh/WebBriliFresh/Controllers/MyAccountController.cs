@@ -229,6 +229,20 @@ namespace WebBriliFresh.Controllers
    
             return RedirectToAction(nameof(ManageAddress));
         }
+
+        public async Task<IActionResult> DeleteAddress(int? id)
+        {
+            Address address = await _context.Addresses.Include(x => x.Orders).FirstOrDefaultAsync(c => c.AddId == id);
+            if(address.Orders.Count == 0 || address.Default == 1)
+            {
+                _context.Remove(address);
+                await _context.SaveChangesAsync();
+            }
+            
+
+            return RedirectToAction(nameof(ManageAddress));
+        }
+
         public IActionResult ManageFeedback()
         {
             return View();

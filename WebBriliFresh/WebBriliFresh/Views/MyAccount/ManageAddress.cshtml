@@ -33,7 +33,6 @@
     <!-- Begin header -->
     <!-- End header -->
     @await Html.PartialAsync("~/Views/Shared/_HomeHeaderPartialView_login.cshtml")
-
     <!-- Begin content -->
     <div class="container">
         <div class="row">
@@ -70,7 +69,7 @@
                             </div>
                             <div class="right-first-row">
                                 <a class="js-edit-address" onclick="showEditAddress(@address.AddId)">Cập nhật</a>
-                                <a class="js-delete-address">Xóa</a>
+                                <a class="js-delete-address" onclick="showDeleteAddress(@address.AddId)">Xóa</a>
                             </div>
                         </div>
 
@@ -133,39 +132,6 @@
         </form>
     </div>
 
-    <div class="modal js-modal-edit">
-        <form method="post" class="modal-container js-modal-container">
-            <div class="modal-close js-modalEdit-close">
-                <i class="ti-close"></i>
-            </div>
-
-            <header class="modal-header"></header>
-            <input value="@Model.First().CusId" name="CusId" hidden>
-            <div class="modal-body">
-                <label class="modal-label" for="city">Tỉnh/Thành phố, Quận/Huyện, Phường/Xã</label>
-                <select class="select-address" name="city-select" id="city" required>
-                    <option value="" selected disabled>Chọn Tỉnh/Thành phố</option>
-                </select>
-                <select class="select-address" name="district-select" id="district" required>
-                    <option value="" selected disabled>Chọn Quận/Huyện</option>
-                </select>
-                <select class="select-address" name="ward-select" id="ward" required>
-                    <option value="" selected disabled>Chọn Phường/Xã</option>
-                </select>
-
-                <label class="modal-label" for="specific-address">Địa chỉ cụ thể</label>
-                <textarea name="specific-address" id="specific-address" cols="30" rows="10" required></textarea>
-
-                <input type="checkbox" name="address-default" id="address-default" value="1">
-                <label id="modal-label-checkbox" for="address-default">Đặt làm địa chỉ mặc định</label>
-            </div>
-
-            <footer class="modal-footer">
-                <input id="edit-address-btn" class="btn-modal" type="submit" value="Cập nhật">
-            </footer>
-        </form>
-    </div>
-
     <!-- Begin Modal Delete Address-->
     <div class="modal js-modal-delete">
         <form action="" class="modal-container js-modal-container">
@@ -182,7 +148,7 @@
             </div>
 
             <footer class="modal-footer">
-                <input id="delete-address-btn" class="btn-modal" type="submit" value="Xác nhận">
+                <a id="delete-address-btn" class="btn-modal">Xác nhận</a>
             </footer>
         </form>
     </div>
