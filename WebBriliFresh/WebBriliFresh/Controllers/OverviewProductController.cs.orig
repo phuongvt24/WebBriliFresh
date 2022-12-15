@@ -1,19 +1,25 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage;
+<<<<<<< HEAD
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using WebBriliFresh.Common;
 using WebBriliFresh.Models;
 using WebBriliFresh.Models.DAO;
 using WebBriliFresh.Models.ViewModels;
+=======
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+>>>>>>> origin/new_develop_3
 
 namespace WebBriliFresh.Controllers
 {
     public class OverviewProductController : Controller
     {
-
+<<<<<<< HEAD
         private BriliFreshDbContext db = new BriliFreshDbContext();
         ProductServices productService = new ProductServices();
-
+=======
+        //Tổng quan 3 loại danh mục
+>>>>>>> origin/new_develop_3
         public IActionResult FishAndMeat()
         {
             return View();
@@ -46,9 +52,9 @@ namespace WebBriliFresh.Controllers
             return View();
         }
 
-
+<<<<<<< HEAD
         [HttpGet]
-        public async Task<ActionResult> Index(string? search, int? minimumPrice, int? maximumPrice, int? typeID, int? storeID, string? selecteString, int? sortBy, int? pageNo)
+        public async Task<ActionResult> Index(string? search, int? minimumPrice, int? maximumPrice, int? typeID, string? selecteString, int? sortBy, int? pageNo)
         {
 
             int pageSize = 16;
@@ -57,21 +63,17 @@ namespace WebBriliFresh.Controllers
             model.TypeID = typeID.HasValue ? typeID.Value > 0 ? typeID.Value : 2 : 2;
             model.SortBy = sortBy.HasValue ? sortBy.Value > 0 ? sortBy.Value : 1 : 1;
 
-            if (search == null || search == "")
+            if (search == null)
             {
-                search = "0";
+                search = "B";
             }
-
+            
             model.searchTerm = search;
             if (selecteString == null)
             {
                 selecteString = "0";
             }
-            if (storeID == null)
-            {
-                storeID = 1;
-            }
-            model.StoreID = storeID;
+
             //List<int> defaultSelectOp = new List<int>();
             //defaultSelectOp.Add(2);
             //model.selectedOp = selected.Count != 0 ? selected : defaultSelectOp; 
@@ -91,8 +93,8 @@ namespace WebBriliFresh.Controllers
             // model.Sizes = db.Sizes.ToList();
 
             pageNo = pageNo.HasValue ? pageNo.Value > 0 ? pageNo.Value : 1 : 1;
-            int totalCount = await productService.SearchProductsCount(model.searchTerm, model.MinPrice, model.MaximumPrice, model.TypeID, model.StoreID, model.selectedOp, model.SortBy);
-            model.Products = await productService.SearchProducts(model.searchTerm, model.MinPrice, model.MaximumPrice, model.TypeID, model.StoreID, model.selectedOp, model.SortBy, (int)pageNo, pageSize);
+            int totalCount = await productService.SearchProductsCount(model.searchTerm, model.MinPrice, model.MaximumPrice, model.TypeID, model.selectedOp, model.SortBy);
+            model.Products = await productService.SearchProducts(model.searchTerm, model.MinPrice, model.MaximumPrice, model.TypeID, model.selectedOp, model.SortBy, (int)pageNo, pageSize);
 
             model.Pager = new Pager(totalCount, (int)pageNo, pageSize);
             return View(model);
@@ -101,15 +103,15 @@ namespace WebBriliFresh.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<ActionResult> FilterProducts(string? search,int? minimumPrice, int? maximumPrice, int? typeID, int? storeID, string? selecteString, int? sortBy, int? pageNo, int? pageSize)
+        public async Task<ActionResult> FilterProducts(string? search,int? minimumPrice, int? maximumPrice, int? typeID, string? selecteString, int? sortBy, int? pageNo, int? pageSize)
         {
 
             FilterViewModel model = new FilterViewModel();
             model.TypeID = typeID;
             model.SortBy = sortBy;
-            if (search == null || search == "")
+            if (search == null)
             {
-                search = "0";
+                search = "B";
             }
             else
             {
@@ -128,11 +130,7 @@ namespace WebBriliFresh.Controllers
             {
                 selecteString = selecteString;
             }
-            if (storeID == null)
-            {
-                storeID = 1;
-            }
-            model.StoreID = storeID;
+
             string[]? temp = selecteString?.Trim().Split(',');
             if (temp.Length != null)
             {
@@ -161,32 +159,20 @@ namespace WebBriliFresh.Controllers
             // model.Sizes = db.Sizes.ToList();
 
             pageNo = pageNo.HasValue ? pageNo.Value > 0 ? pageNo.Value : 1 : 1;
-            int totalCount = await productService.SearchProductsCount(model.searchTerm,minimumPrice, maximumPrice, typeID, storeID ,model.selectedOp, sortBy);
-            model.Products = await productService.SearchProducts(model.searchTerm,minimumPrice, maximumPrice, typeID, storeID, model.selectedOp, sortBy, (int)pageNo, (int)pageSize);
+            int totalCount = await productService.SearchProductsCount(model.searchTerm,minimumPrice, maximumPrice, typeID, model.selectedOp, sortBy);
+            model.Products = await productService.SearchProducts(model.searchTerm,minimumPrice, maximumPrice, typeID, model.selectedOp, sortBy, (int)pageNo, (int)pageSize);
 
             model.Pager = new Pager(totalCount, (int)pageNo, (int)pageSize);
             return PartialView(model);
         }
-
-        public IActionResult DetailFishAndMeat(int? ProId, int? StoreId) //if Type == ? return this
+=======
+        //chi tiết từng sản phẩm
+        public IActionResult DetailFishAndMeat()
         {
-            DetailsProduct model = new DetailsProduct();
-
-            var product = db.Products.Where(x => x.ProId == ProId).FirstOrDefault();
-     
-            model.product = product;
-            if (StoreId == null) {
-                StoreId = 1;
-            }
-            model.productImgs = productService.getImg(model.product.ProId);
-            model.feedbacks = (List<Feedback>)productService.getFeedback(model.product.ProId);
-            model.discount = productService.getDiscount(model.product.ProId);
-            model.stock= productService.getStock(model.product.ProId,StoreId);
-            return View(model);
+            return View();
         }
         public IActionResult DetailFruit()
         {
-
             return View();
         }
 
@@ -195,6 +181,7 @@ namespace WebBriliFresh.Controllers
             return View();
         }
 
+>>>>>>> origin/new_develop_3
 
     }
 }

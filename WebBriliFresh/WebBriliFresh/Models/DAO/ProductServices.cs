@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Drawing.Printing;
-
+using WebBriliFresh.Models;
 namespace WebBriliFresh.Models.DAO
 {
     public class ProductServices
@@ -29,18 +29,21 @@ namespace WebBriliFresh.Models.DAO
 
 
 
-        public async Task<List<Product>> SearchProducts(string? search,int? minimumPrice, int? maximumPrice, int? typeID, List<string> selected, int? sortBy, int pageNo, int pageSize)
+        public async Task<List<Product>> SearchProducts(string? search,int? minimumPrice, int? maximumPrice, int? typeID, int? storeID, List<string> selected, int? sortBy, int pageNo, int pageSize)
         {
 
 
             var products = await db.Products.ToListAsync();
-
+            var store = db.Stocks.Where(x => x.StoreId == storeID);
+            if (storeID.HasValue) {
+                products = products.Where(x => store.Select(y => y.ProId).Contains(x.ProId)).ToList();
+            }
            
             if (typeID.HasValue)
             {
                 products = products.Where(x => x.TypeId == typeID.Value).ToList();
             }
-            if (search != null)
+            if (search != null && search !="0")
             {
                 products = products.Where(x => x.ProName.ToLower().Contains(search.ToLower())).ToList();
             }
@@ -102,16 +105,22 @@ namespace WebBriliFresh.Models.DAO
 
         }
 
-        public async Task<int> SearchProductsCount(string? search, int? minimumPrice, int? maximumPrice, int? typeID, List<string> selected, int? sortBy)
+        public async Task<int> SearchProductsCount(string? search, int? minimumPrice, int? maximumPrice, int? typeID, int? storeID, List<string> selected, int? sortBy)
         {
             var products = await db.Products.ToListAsync();
-           
+
+            var store = db.Stocks.Where(x => x.StoreId == storeID);
+            if (storeID.HasValue)
+            {
+                products = products.Where(x => store.Select(y => y.ProId).Contains(x.ProId)).ToList();
+            }
 
             if (typeID.HasValue)
             {
                 products = products.Where(x => x.TypeId == typeID.Value).ToList();
             }
-            if (search != null)
+
+            if (search != null && search != "0")
             {
                 products = products.Where(x => x.ProName.ToLower().Contains(search.ToLower())).ToList();
             }
@@ -178,11 +187,43 @@ namespace WebBriliFresh.Models.DAO
             return products.Count();
         }
 
-        public string getImg(int? id) {
-            string rs = db.ProductImages.Where(x => x.ProId == id).Select(y => y.ImgData).ToString();
-            return rs;
+        public List<string> getImg(int? ProId) {
+            var rs = db.Products.Where(x => x.ProId == ProId && x.IsDeleted == 0).FirstOrDefault();//.Include(x => x.ProductImages).Select(y => y.ProductImages.ImgData).ToList();
+            var list_img = db.ProductImages.Where(x => x.ProId == rs.ProId).Select(x => x.ImgData).ToList();
+            return list_img as List<string>;
 
         }
+
+        public IEnumerable<Feedback> getFeedback(int? ProId) {
+            var rs = db.Products.Where(x => x.ProId == ProId && x.IsDeleted == 0).FirstOrDefault();
+            var fb = db.Feedbacks.Where(x => x.ProId == rs.ProId).ToList();
+            return fb;
+
+        }
+        public List<string> getImgFB(int? fbID) {
+
+            var fbImg = db.FeedbackImages.Where(x => x.FbId == fbID).Select(x => x.ImgData).ToList();
+
+            return fbImg as List<string>;
+        
+        }
+        public DiscountProduct getDiscount(int? ProId) {
+            var rs = db.Products.Where(x => x.ProId == ProId && x.IsDeleted == 0).FirstOrDefault();
+            var discount = db.DiscountProducts.Where(x => x.ProId == rs.ProId && x.Status==true).FirstOrDefault();
+            return discount;
+        }
+
+        public Stock getStock(int? ProId, int? storeID) {
+
+
+            var rs = db.Products.Where(x => x.ProId == ProId && x.IsDeleted == 0).FirstOrDefault();
+            var stock = db.Stocks.Where(x => x.ProId == rs.ProId && x.StoreId==storeID).FirstOrDefault();
+            return stock;
+        }
+
+
+
+
 
         public bool SaveProduct(Product product)
         {

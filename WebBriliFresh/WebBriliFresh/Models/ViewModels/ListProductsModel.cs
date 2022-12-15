@@ -10,6 +10,7 @@ namespace WebBriliFresh.Models.ViewModels
         public int MinPrice { get; set; }
         public int? SortBy { get; set; }
         public int? TypeID { get; set; }
+        public int? StoreID { get; set; }   
         public List<string> selectedOp { get; set; }
         public Pager Pager { get; set; }
         public int InitialMaximumPrice { get; set; }
@@ -23,7 +24,8 @@ namespace WebBriliFresh.Models.ViewModels
         public int MinPrice { get; set; }
         public int? SortBy { get; set; }
         public int? TypeID { get; set; }
-        
+        public int? StoreID { get; set; }
+
 
         public List<string> selectedOp { get; set; }
         public Pager Pager { get; set; }
