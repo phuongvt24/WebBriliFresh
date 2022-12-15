@@ -135,9 +135,7 @@
 
                                     var e = @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId);
                                     var a = item.ProductImages.Where(x => x.ProId == item.ProId && x.ImgData.Contains("is_avt"));
-                                    var i = a.FirstOrDefault();
-                                 
-
+                                    var i = a.FirstOrDefault();                              
                                     <div class="product-item col-3">
                                         <div class="product-item-img" onclick='window.location = "@Url.Action("DetailFishAndMeat", "OverviewProduct")"'>
                                             @if (i != null)
