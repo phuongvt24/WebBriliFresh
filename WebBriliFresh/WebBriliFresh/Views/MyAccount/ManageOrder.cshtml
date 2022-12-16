@@ -78,17 +78,13 @@
                                 <span>Thời gian đặt hàng: @order.OrderDate</span>
                                 @if (order.Status == 1)
                                 {
-                                    <span><i class="ti-timer"></i> Đang xử lý</span>
+                                    <span><i class="ti-timer"></i> Đã thanh toán</span>
 
                                 }
-                                else if (order.Status == 2)
-                                {
-                                    <span><i class="ti-timer"></i> Giao thành công</span>
-
-                                }
+                              
                                 else
                                 {
-                                    <span><i class="ti-timer"></i> Giao thất bại</span>
+                                    <span><i class="ti-timer"></i> Chưa thành toán</span>
 
                                 }
 
