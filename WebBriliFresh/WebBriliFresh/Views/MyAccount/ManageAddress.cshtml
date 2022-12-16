@@ -106,7 +106,7 @@
             </div>
 
             <header class="modal-header"></header>
-            <input value="@Model.First().CusId" name="CusId" hidden>
+            <input value="@HttpContextAccessor.HttpContext.Session.GetInt32("CUS_SESSION_CUSID")" name="CusId" hidden>
             <div class="modal-body">
                 <label class="modal-label" for="city">Tỉnh/Thành phố, Quận/Huyện, Phường/Xã</label>
                 <select class="select-address" name="city-select" id="city" required>

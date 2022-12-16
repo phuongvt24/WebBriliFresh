@@ -59,7 +59,8 @@
                 <div class="heading-right">Đổi mật khẩu</div>
                 <form asp-action="ForgotPassword" asp-controller="UserLogin" method="post" class="form-forgot-password" id="forgetPassForm">
                     <div class="form-return">
-                        <a href="./DoiMatKhau.html"><i class="ti-arrow-left"></i></a>
+                        <a asp-controller="MyAccount"
+                           asp-action="Evaluations"><i class="ti-arrow-left"></i></a>
                     </div>
 
                     <div class="form-header">Đặt lại mật khẩu</div>
@@ -70,6 +71,7 @@
                                 <i class="ti-email"></i>
                                 <input type="text" id="email-input" value="@HttpContextAccessor.HttpContext.Session.GetString("CUS_SESSION_EMAIL")" hidden name="Email" />
                                 Email <span id="email-input">@HttpContextAccessor.HttpContext.Session.GetString("CUS_SESSION_EMAIL")</span>
+                                <a />
                         </div>
                     </div>
                 </form>
