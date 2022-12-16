@@ -6,6 +6,7 @@ using WebBriliFresh.Repositories.Abstract;
 using WebBriliFresh.Migrations;
 using Azure.Core;
 using System.Security.Policy;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebBriliFresh.Repositories.Implementation
 {
@@ -140,6 +141,31 @@ namespace WebBriliFresh.Repositories.Implementation
             }
             return status;
 
+        }
+
+        public async Task<Status> ResetPasswordAsync(ResetPasswordModel resetPasswordModel)
+        {
+            var status = new Status();
+            var user = await userManager.FindByEmailAsync(resetPasswordModel.Email);
+            if (user == null)
+            {
+                status.Message = "Người dùng không tồn tại";
+                status.StatusCode = 0;
+                return status;
+
+            }
+            var resetPassResult = await userManager.ResetPasswordAsync(user, resetPasswordModel.Token, resetPasswordModel.Password);
+
+            if (!resetPassResult.Succeeded)
+            {
+                resetPassResult.Errors.ToList().ForEach(error => status.Message += error.Description);
+                string tst = status.Message;
+                status.StatusCode = 0;
+                return status;
+            }
+            status.Message = "Đặt lại mật khẩu thành công";
+            status.StatusCode = 1;
+            return status;
         }
     }
 }

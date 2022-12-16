@@ -261,6 +261,9 @@ namespace WebBriliFresh.Controllers
         }
         public IActionResult ForgetPass_3()
         {
+            TempData["Token"] = TempData["token"];
+            TempData["Email"] = TempData["email"];
+
             return View();
         }
         public IActionResult ForgetPass_4()

@@ -83,8 +83,7 @@ namespace WebBriliFresh.Controllers
                     HttpContext.Session.SetInt32("CUS_SESSION_CUSID", cusID);
                     HttpContext.Session.SetString("CUS_SESSION_CUSNAME", name);
                     HttpContext.Session.SetString("CUS_SESSION_AVATAR", user.Avatar!);
-
-
+                    HttpContext.Session.SetString("CUS_SESSION_EMAIL", user.Email!);
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -175,7 +174,14 @@ namespace WebBriliFresh.Controllers
         public async Task<IActionResult> Logout()
         {
             await this._authService.LogoutAsync();
-            return RedirectToAction(nameof(Login));
+            HttpContext.Session.Remove("CUS_SESSION_USERID");
+            HttpContext.Session.Remove("CUS_SESSION_CUSID");
+            HttpContext.Session.Remove("CUS_SESSION_CUSID");
+            HttpContext.Session.Remove("CUS_SESSION_CUSNAME");
+            HttpContext.Session.Remove("CUS_SESSION_AVATAR");
+            HttpContext.Session.Remove("CUS_SESSION_EMAIL");
+
+            return RedirectToAction("Index", "Home");
         }
 
         [Authorize]
@@ -198,12 +204,57 @@ namespace WebBriliFresh.Controllers
             if (!ModelState.IsValid)
                 return RedirectToAction("ChangePass_1", "MyAccount");
             var result = await _authService.ChangePasswordAsync(model, User.Identity.Name);
-            if(result.StatusCode == 1)
+            if (result.StatusCode == 1)
             {
                 return RedirectToAction("ForgetPass_4", "MyAccount");
             }
             TempData["msg"] = result.Message;
             return RedirectToAction("ChangePass_1", "MyAccount");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword()
+        {
+            IFormCollection form = HttpContext.Request.Form;
+            string Email = form["Email"].ToString().Trim();
+            var user = await _userManager.FindByEmailAsync(Email);
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var confirmationLink = Url.Action(nameof(ResetPassword), "UserLogin", new { token, email = user.Email }, Request.Scheme);
+
+            await _emailSender.SendEmailAsync(user.Email, "Đặt lại mật khẩu", confirmationLink);
+            return RedirectToAction("ForgetPass_2", "MyAccount");
+        }
+
+
+        [HttpGet]
+        public IActionResult ResetPassword(string token, string email)
+        {
+            TempData["token"] = token;
+            TempData["email"] = email;
+            return RedirectToAction("ForgetPass_3", "MyAccount");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword()
+        {
+            IFormCollection form = HttpContext.Request.Form;
+            string email = form["Email"].ToString().Trim();
+            string password = form["Password"].ToString().Trim();
+            string confirmPassword = form["ConfirmPassword"].ToString().Trim();
+            string token = form["Token"].ToString().Trim();
+            ResetPasswordModel resetPasswordModel = new ResetPasswordModel();
+            resetPasswordModel.Token = token;
+            resetPasswordModel.Email = email;
+            resetPasswordModel.Password = password;
+            resetPasswordModel.ConfirmPassword = confirmPassword;
+            var result = await _authService.ResetPasswordAsync(resetPasswordModel);
+            //if(result.StatusCode == 1)
+            //{
+            //    RedirectToAction("ForgetPass_4", "MyAccount");
+            //}
+            return RedirectToAction("LogOut", "UserLogin");
         }
 
 
