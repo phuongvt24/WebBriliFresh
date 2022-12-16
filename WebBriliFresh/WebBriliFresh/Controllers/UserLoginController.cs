@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
-using WebBriliFresh.Models.DTO;
 using WebBriliFresh.Repositories.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -144,7 +143,7 @@ namespace WebBriliFresh.Controllers
 
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var confirmationLink = Url.Action(nameof(ConfirmEmail), "UserLogin", new { token, email = user.Email }, Request.Scheme);
-        
+
                 await _emailSender.SendEmailAsync(user.Email, "Xác nhận email", confirmationLink);
 
                 result.Message = "Tạo người dùng thành công với đầy đủ thông tin";
@@ -180,20 +179,31 @@ namespace WebBriliFresh.Controllers
         }
 
         [Authorize]
-        public IActionResult ChangePassword()
-        {
-            return View();
-        }
-
-        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
+        [ValidateAntiForgeryToken]
+        [Route("/UserLogin/ChangePassword", Name = "ChangePassword")]
+        public async Task<IActionResult> ChangePassword()
         {
+            IFormCollection form = HttpContext.Request.Form;
+
+            String CurrentPassword = form["CurrentPassword"].ToString().Trim();
+            String NewPassword = form["NewPassword"].ToString().Trim();
+            String PasswordConfirm = form["PasswordConfirm"].ToString().Trim();
+
+            ChangePasswordModel model = new ChangePasswordModel();
+            model.NewPassword = NewPassword;
+            model.PasswordConfirm = PasswordConfirm;
+            model.CurrentPassword = CurrentPassword;
+
             if (!ModelState.IsValid)
-                return View(model);
+                return RedirectToAction("ChangePass_1", "MyAccount");
             var result = await _authService.ChangePasswordAsync(model, User.Identity.Name);
+            if(result.StatusCode == 1)
+            {
+                return RedirectToAction("ForgetPass_4", "MyAccount");
+            }
             TempData["msg"] = result.Message;
-            return RedirectToAction(nameof(ChangePassword));
+            return RedirectToAction("ChangePass_1", "MyAccount");
         }
 
 
@@ -201,7 +211,7 @@ namespace WebBriliFresh.Controllers
         public IActionResult VerifyUserName(string UserName)
         {
             User exist = _userManager.FindByNameAsync(UserName).Result;
-            
+
             if (exist == null)
             {
                 return Json(true);

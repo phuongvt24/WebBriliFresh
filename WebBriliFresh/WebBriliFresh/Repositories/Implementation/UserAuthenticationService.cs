@@ -123,19 +123,19 @@ namespace WebBriliFresh.Repositories.Implementation
             var user = await userManager.FindByNameAsync(username);
             if (user == null)
             {
-                status.Message = "User does not exist";
+                status.Message = "Người dùng không tồn tại";
                 status.StatusCode = 0;
                 return status;
             }
             var result = await userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
             if (result.Succeeded)
             {
-                status.Message = "Password has updated successfully";
+                status.Message = "Cập nhật mật khẩu mới thành công";
                 status.StatusCode = 1;
             }
             else
             {
-                status.Message = "Some error occcured";
+                status.Message = "Sự cố đã xảy ra";
                 status.StatusCode = 0;
             }
             return status;

@@ -1,6 +1,8 @@
 ﻿@{
     Layout = null;
 }
+@model ChangePasswordModel
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,29 +52,32 @@
 
             <div class="col-12 col-xl-9 container-right">
                 <div class="heading-right">Đổi mật khẩu</div>
-                <form action="" class="form-change-password">
+                <form asp-action="ChangePassword" asp-controller="UserLogin" class="form-change-password">
                     <div class="form-header">Đổi mật khẩu</div>
                     <div class="form-body">
                         <div class="input_field">
                             <label for="current-password"> Mật khẩu hiện tại </label>
-                            <input type="password" name="current-password" id="current-password" />
+                            <input asp-for="CurrentPassword" type="password" id="current-password" />
+                            <span asp-validation-for="CurrentPassword" class="text-danger"></span>
                             <div><a onclick='window.location = "@Url.Action("ForgetPass_1", "MyAccount")"' style="color:#0d6efd;">Quên mật khẩu?</a></div>
                         </div>
                         <div class="input_field">
                             <label for="new-password"> Mật khẩu mới </label>
-                            <input type="password" name="new-password" id="new-password" />
+                            <input asp-for="NewPassword" type="password" id="new-password" />
+                            <span asp-validation-for="NewPassword" class="text-danger"></span>
                         </div>
                         <div class="input_field">
                             <label for="confirm-password"> Xác nhận mật khẩu </label>
-                            <input type="password" name="confirm-password" id="confirm-password" />
+                            <input asp-for="PasswordConfirm" type="password" name="confirm-password" id="confirm-password" />
+                            <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-footer">
-                        <a onclick='window.location = "@Url.Action("ForgetPass_4", "MyAccount")"' id="btn-validate">Xác nhận</a>
+                        <input type="submit" value="Xác nhận" id="btn-validate" formmethod="post">
                     </div>
+                    <span class="text-danger" style="display:inline">@TempData["msg"]</span>
                 </form>
             </div>
-
         </div>
     </div>
     @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
