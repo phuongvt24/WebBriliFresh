@@ -74,6 +74,7 @@
                         </div>
                         <div><a class="form-btn" id="submitButton">Tiếp tục</a></div>
                     </div>
+                    <div asp-validation-summary="All" class="text-danger"></div>
                     <input type="hidden" asp-for="Email" class="form-control" value="@TempData["Email"]" />
                     <input type="hidden" asp-for="Token" class="form-control" value="@TempData["Token"]" />
                 </form>
@@ -82,6 +83,7 @@
         </div>
     </div>
     @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
+    @await Html.PartialAsync("_ValidationScriptsPartial")
     <script type="text/javascript" src="~/MyAccountAssets/MyAccount/SubNavSide.js"></script>
     <script>
         document.getElementById("submitButton").onclick = function () {
