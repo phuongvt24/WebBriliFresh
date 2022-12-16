@@ -77,6 +77,10 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(order);
+
+
+
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
