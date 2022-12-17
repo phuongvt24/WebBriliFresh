@@ -117,7 +117,7 @@ namespace WebBriliFresh.Controllers
         {
             int cusID = (int)HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
             var cusOrders = _context.Orders.Where(c => c.CusId == cusID).Include(a => a.OrderDetails).ThenInclude(cs => cs.Pro);
-
+            
             return View(await cusOrders.ToListAsync());
         }
         public async Task<IActionResult> ManageAddress()
@@ -242,9 +242,13 @@ namespace WebBriliFresh.Controllers
             return RedirectToAction(nameof(ManageAddress));
         }
 
-        public IActionResult ManageFeedback()
+        public async Task<IActionResult> ManageFeedback()
         {
-            return View();
+            int cusID = (int)HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
+            var cusOrders = _context.Orders.Where(c => c.CusId == cusID);
+            var deliveredOrders = cusOrders.Where(c => c.Trans.Status == 6);
+            var test = deliveredOrders.Include(c => c.OrderDetails.Where(a => a.Pro.Feedbacks.Where(w => w.OrderId == a.OrderId).First() == null)).Include(a=>a.Feedbacks);
+            return View(await cusOrders.ToListAsync());
         }
         public IActionResult ChangePass_1()
         {
