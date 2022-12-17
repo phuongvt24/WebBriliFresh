@@ -68,7 +68,7 @@ namespace WebBriliFresh.Controllers
 
                 if (photo != null)
                 {
-                    string picfilename = DoPhotoUpload(photo);
+                    string picfilename = DoPhotoUpload(photo, "MyAccountAssets/UserPhotos/");
                     User user = await _context.Users.FindAsync(UserId);
 
                     if (user.Avatar != null || user.Avatar != "download.jfif")
@@ -250,11 +250,11 @@ namespace WebBriliFresh.Controllers
             var cusOrders = _context.Orders.Where(c => c.CusId == cusID);
             var deliveredOrders = cusOrders.Where(c => c.Trans.Status == 6);
             var test = deliveredOrders.Include(c => c.OrderDetails.Where(a => a.Pro.Feedbacks.Where(w => w.OrderId == a.OrderId).First() == null))
-                                        .ThenInclude(q=>q.Pro)
+                                        .ThenInclude(q => q.Pro)
                                         .Include(c => c.OrderDetails.Where(a => a.Pro.Feedbacks.Where(w => w.OrderId == a.OrderId).First() == null))
-                                        .ThenInclude(q=>q.Pro.ProductImages) 
-                                        .Include(a=>a.Feedbacks);
-
+                                        .ThenInclude(q => q.Pro.ProductImages)
+                                        .Include(a => a.Feedbacks)
+                                        .Include(a => a.Trans);
             return View(await test.ToListAsync());
         }
 
@@ -281,6 +281,7 @@ namespace WebBriliFresh.Controllers
             feedback.OrderId = orderId;
             feedback.Message = message;
             feedback.SendDate = DateTime.Now;
+            feedback.Rate = star;
             _context.Add(feedback);
             await _context.SaveChangesAsync();
             
@@ -289,7 +290,7 @@ namespace WebBriliFresh.Controllers
             {
                 foreach (var photo in form.Files)
                 {
-                    string fname = DoPhotoUpload((IFormFile)photo);
+                    string fname = DoPhotoUpload(photo, "MyAccountAssets/FeedbackImage/");
                     FeedbackImage feedbackImage = new FeedbackImage();
                     feedbackImage.ImgData = fname;
                     feedbackImage.FbId = newFeedback.FbId;
@@ -361,12 +362,12 @@ namespace WebBriliFresh.Controllers
             }
         }
 
-        private string DoPhotoUpload(IFormFile photo)
+        private string DoPhotoUpload(IFormFile photo, string pathToSave)
         {
             string fext = Path.GetExtension(photo.FileName);
             string uname = Guid.NewGuid().ToString();
             string fname = uname + fext;
-            string fullpath = Path.Combine(_env.WebRootPath, "MyAccountAssets/UserPhotos/" + fname);
+            string fullpath = Path.Combine(_env.WebRootPath, pathToSave + fname);
             using (FileStream fs = new(fullpath, FileMode.Create))
             {
                 photo.CopyTo(fs);
