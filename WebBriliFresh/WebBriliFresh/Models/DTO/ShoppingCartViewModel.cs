@@ -1,11 +1,10 @@
 ﻿namespace WebBriliFresh.Models.DTO
 {
-    [Serializable]
     public class ShoppingCartViewModel
     {
-        public int quantity { get; set; }
-        public int productId { get; set; }
-        public int storeId { get; set; }
-        public decimal saleprice { get; set; }
+        public int ProductId { get; set; }
+        public int Quantity { get; set; }
+        public int StoreId { get; set; }
+        public decimal SalePrice { get; set; }
     }
 }

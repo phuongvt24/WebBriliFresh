@@ -56,3 +56,21 @@ let minVal = parseInt(rangeInput[0].value),
 
 range.style.left = (minVal / rangeInput[0].max) * 100 + "%";
 range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
+
+$(document).ready(function () {
+    $(".product-item-add-btn").click(function () {
+        $.ajax({
+            url: "/BuyAndPay/AddToCart",
+            data: {
+                proId: $(this).data("id"),
+                storeid: $(this).data("storeid"),
+                saleprice: $(this).data("saleprice"),
+                type: "ajax"
+            },
+            success: function (data) {
+                console.log($("#quantity_cart"))
+                $("#quantity_cart").html(data.quantity);
+            }
+        });
+    });
+});

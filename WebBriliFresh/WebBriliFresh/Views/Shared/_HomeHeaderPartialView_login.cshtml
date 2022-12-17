@@ -1,5 +1,8 @@
 @inject WebBriliFresh.Models.BriliFreshDbContext _context;
 @using Microsoft.AspNetCore.Http;
+@using WebBriliFresh.Common;
+@using WebBriliFresh.Helpers;
+@using WebBriliFresh.Models.DTO;
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
 @{
     var user_id = @HttpContextAccessor.HttpContext.Session.GetInt32("CUS_SESSION_USERID");
@@ -37,7 +40,7 @@
                 <li class="header__navbar-item"><a href="#">Liên hệ</a></li>
             </ul>
 
-            @if (HttpContextAccessor.HttpContext.Session.GetString("CUS_SESSION_CUSNAME") != null)
+                @if (HttpContextAccessor.HttpContext.Session.GetString("CUS_SESSION_CUSNAME") != null)
                 {
                     <ul class="header__navbar-list " style="margin-right: -52px;" onclick='window.location = "@Url.Action("AccountInfo", "MyAccount")"'>
                         <li class="header__navbar-name">@HttpContextAccessor.HttpContext.Session.GetString("CUS_SESSION_CUSNAME")</li>
@@ -58,11 +61,18 @@
                 <i class="ti-shopping-cart" onclick='window.location = "@Url.Action("CartInfoCheck", "BuyAndPay")"'></i>
                 <div class="header__cart-number" onclick='window.location = "@Url.Action("CartInfoCheck", "BuyAndPay")"'>
                     <p id="quantity_cart" class="number-item">
-                        9
-                    </p>
+                        @{
+                            var data = HttpContextAccessor.HttpContext.Session.Get<List<ShoppingCartViewModel>>(CommonConstants.SessionCart);
+                                if (data == null)
+                                {
+                                    data = new List<ShoppingCartViewModel>();
+                                }
+                                @data.Sum(x=>x.Quantity)
+                        }
+                     </p>
+                    </div>
                 </div>
             </div>
-        </div>
         <div style="width: 20px;"></div>
     </nav>
 </header>

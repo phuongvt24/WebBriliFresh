@@ -66,6 +66,9 @@
 
 .header__navbar-name
 {
+    font-family: 'Lexend' !important;
+    color: rgba(0,0,0,.55) !important;
+    font-weight: 600 !important;
     padding-left: 12px;
 }
 

@@ -40,10 +40,28 @@
 
                 </form>
                 <div class="navbar-nav me-auto mb-lg-0 align-item-center p-1 nav-right">
-                    <div class="nav-item col-11 mt-1 d-flex justify-content-between align-item-center">
-                        <li class="header__navbar-name nav-link active">@info_cus.LastName @info_cus.FirstName</li>
-                        <li class="header__navbar-avt nav-link active"><img src="~/imageuser/@info_account.Avatar" alt="" id="avartar_user"></li>
-                    </div>
+
+                    @if (HttpContextAccessor.HttpContext.Session.GetString("CUS_SESSION_CUSNAME") != null)
+                    {
+                        <div class="nav-item col-11 mt-1 d-flex justify-content-between align-item-center">
+                            <li class="header__navbar-name nav-link active">@info_cus.LastName @info_cus.FirstName</li>
+                            <li class="header__navbar-avt nav-link active"><img src="~/imageuser/@info_account.Avatar" alt="" id="avartar_user"></li>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="nav-item col-4 mt-1">
+                            <a class="nav-link active" href="#">Đăng kí</a>
+                        </div>
+                        <div class="nav-item mt-2">
+                            <p>/</p>
+                        </div>
+                        <div class="nav-item col-5 mt-1">
+                            <a class="nav-link active" aria-current="page" href="#">Đăng nhập</a>
+                        </div>
+                    }
+
+                    
                     <!-- <div class="vr mt-2"></div> -->
                     <div class="mt-2 " style="border-left:1px solid #8F8C8C;height:25px"></div>
                     <div class="d-flex nav-item mt-2 ms-3 align-item-center justify-content-center" style="margin-top: 0px !important;">

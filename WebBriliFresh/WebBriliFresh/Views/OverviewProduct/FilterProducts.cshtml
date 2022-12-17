@@ -106,16 +106,16 @@
                     <div class="d-flex justify-content-between">
                         <div class="product-item-price">
                             @*<p class="product-item-price-child">99,000</p>*@
-                            <p class="product-item-price-child" value="@(item.OriginalPrice*(decimal)(1-dis.Value))">@((item.OriginalPrice * (decimal)(1 - dis.Value)).ToString("#,##0"))</p>
+                            <p class="product-item-price-child" value="@(item.Price*(decimal)(1-dis.Value))"> @((item.Price * (decimal)(1 - dis.Value)).ToString("#,##0"))</p>
 
                         </div>
                         <div class="product-item-add">
-                            <button class="product-item-add-btn">+</button>
+                            <button type="button" data-id="@item.ProId" data-storeid="1" data-saleprice="@((item.Price * (decimal)(1 - dis.Value)))" class="product-item-add-btn">+</button>
                         </div>
                     </div>
                     <div class="d-flex ">
                         <div class="product-item-price-dis">
-                            <p class="product-item-price-dis-child" value="@(item.OriginalPrice)">@((item.OriginalPrice).ToString("#,##0"))</p>
+                            <p class="product-item-price-dis-child" value="@(item.Price)">@((item.Price).ToString("#,##0"))</p>
                         </div>
                         <div class="dis-rate">
                             <p class="dis-rate-child" value="@(dis.Value*100.0)" >-@(dis.Value*100.0)%</p>

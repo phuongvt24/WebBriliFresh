@@ -30,13 +30,17 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     </head>
     <body>
-        <form action="@Url.Action("DeliveryInfo", "BuyAndPay")" method="GET" class="thongtindonhangform">
+    @{
+        var isLogin = @HttpContextAccessor.HttpContext.Session.GetInt32("CUS_SESSION_USERID");
+    }
+    @if (isLogin != null)
+    {
+        <form action="@Url.Action("DeliveryInfoLogin", "BuyAndPay")" method="GET" class="thongtindonhangform">
             <div class="header">
-    
-                    @{var isLogin = @HttpContextAccessor.HttpContext.Session.GetInt32("CUS_SESSION_USERID");}
-             
-                    @await Html.PartialAsync("~/Views/Shared/_HomeHeaderPartialView_login.cshtml")
-            
+
+                @await Html.PartialAsync("~/Views/Shared/_HomeHeaderPartialView_login.cshtml")
+
+
             </div>
 
             <div class="content">
@@ -66,7 +70,7 @@
                 </div>
 
                 <div class="content__sumary">
-                
+
                     @if (isLogin != null)
                     {
                         <div class="content__coupon">
@@ -88,7 +92,7 @@
                             <span class="content__coupon-message">Mã giảm giá không đúng hoặc đã hết hạn!</span>
                         </div>
                     }
-                
+
                     <div class="content__cost">
                         <div id="costinfo" class="container">
                             <div class="row">
@@ -158,6 +162,138 @@
             </div>
             @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
         </form>
+    }
+    else
+    {
+        <form action="@Url.Action("DeliveryInfo", "BuyAndPay")" method="GET" class="thongtindonhangform">
+            <div class="header">
+
+                @await Html.PartialAsync("~/Views/Shared/_HomeHeaderPartialView_login.cshtml")
+
+
+            </div>
+
+            <div class="content">
+                <div class="content__title">
+                    <h3 class="content__headline"><center>THÔNG TIN ĐƠN HÀNG</center></h3>
+                </div>
+                <div class="content__description">
+                    <div class="content__header">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-1">
+                                </div>
+                                <div class="col-md-4">
+                                    <span style="margin-left: 20px"><b>Tất cả (<span id="numPro"></span> sản phẩm)</b></span>
+                                </div>
+                                <div class="col-md-2">Đơn giá</div>
+                                <div class="col-md-2">Số lượng</div>
+                                <div class="col-md-2">Thành tiền</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content__data">
+                        <div id="products" class="container">
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="content__sumary">
+
+                    @if (isLogin != null)
+                    {
+                        <div class="content__coupon">
+                            <span class="content__coupon-icon"><img id="couponicon" src="./assets/icons/coupon.png"></span>
+                            <input class="content__coupon-text" type="text" placeholder="Nhập mã giảm giá">
+                            <input class="content__coupon-button" type="button" value="Áp dụng" disabled>
+                            <span class="content__coupon-message">Mã giảm giá không đúng hoặc đã hết hạn!</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="content__coupon">
+                            <span class="content__coupon-icon"><img id="couponicon" src="./assets/icons/coupon.png"></span>
+                            <div>
+                                <input class="content__coupon-text" disabled type="text" placeholder="Nhập mã giảm giá"><br>
+                                <label style="margin-left: -40px;">Đăng nhập để dùng mã khuyến mãi, nếu có!</label>
+                            </div>
+                            <input class="content__coupon-button" type="button" value="Áp dụng" disabled>
+                            <span class="content__coupon-message">Mã giảm giá không đúng hoặc đã hết hạn!</span>
+                        </div>
+                    }
+
+                    <div class="content__cost">
+                        <div id="costinfo" class="container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-3">
+                                    <br>
+                                    <span class="content__subtotal">Tạm tính</span>
+                                </div>
+                                <div class="col-md-3">
+                                    <br>
+                                    <span class="content__subtotal-value"></span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="content__discount">Giảm giá</span>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="content__discount-value"></span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
+                                    <hr class="content-line">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
+                                    <span class="content__total">Tổng tiền</span>
+                                    <span class="content__total-value"></span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
+                                    <span class="content__vat">(Đã bao gồm VAT nếu có)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="content__continue">
+                <input class="content__continue-button" type="submit" value="Tiếp tục">
+            </div>
+
+            <div class="content__info">
+                <span>Bằng việc tiến hành Đặt Mua, khách hàng đồng ý với các Điều Kiện Giao Dịch Chung được ban hành bởi BriliFresh:</span>
+                <br>
+                <span>Quy chế hoạt động | Chính sách giải quyết khiếu nại | Chính sách bảo hành | Chính sách bảo mật thanh toán | Chính sách bảo mật thông tin cá nhân</span>
+                <br>
+                <span>© 2019 - Bản quyền của Công Ty Cổ Phần BriliFresh - BriliFresh.vn</span>
+            </div>
+            @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
+        </form>
+    }
+        
         @*<script type="text/javascript" src="~/BuyAndPayAssets/CartInfo/CartInfo.js"></script>*@
         <script>
         $(document).ready(function () {
@@ -249,6 +385,7 @@
                         var $discountPercent = $(".content__discount-value").text();
                         //Tính số tiền được giảm
                         $discount = $subtotal * $discountPercent;
+
                         if ($discount > list_coup_js[index].maxDis) {
                             $discount = list_coup_js[index].maxDis
                         }

@@ -183,6 +183,9 @@ $(document).ready(function() {
             var cArray = new Array();
             var dArray = new Array();
             var eArray = new Array();
+            var fArray = new Array();
+            var gArray = new Array();
+            var hArray = new Array();
             
             for (var i=0; i < checkboxes.length; i++) {
                 if (checkboxes[i].checked) {
@@ -191,6 +194,9 @@ $(document).ready(function() {
                     var unitPrice = $('.content__unit-price')[i].innerHTML;
                     var quantity = $('.content__quantity')[i].value;
                     var amount = $('.content__amount')[i].innerHTML;
+                    var proid = $('.pro_id_item')[i].innerHTML;
+                    var storeid = $('.store_id_item')[i].innerHTML;
+                    var priceformat = $('.price_no_format')[i].innerHTML;
 
                     //Thêm phần tử vào mảng theo từng dòng sản phẩm
                     aArray.push(image);
@@ -198,16 +204,21 @@ $(document).ready(function() {
                     cArray.push(unitPrice);
                     dArray.push(quantity);
                     eArray.push(amount);
+                    fArray.push(proid);
+                    gArray.push(storeid);
+                    hArray.push(priceformat);
                 }
                 
             }
-
             //Lưu mảng
             sessionStorage.setItem("PROIMAGE", JSON.stringify(aArray));
             sessionStorage.setItem("PRONAME", JSON.stringify(bArray));
             sessionStorage.setItem("UNITPRICE", JSON.stringify(cArray));
             sessionStorage.setItem("QUANTITY", JSON.stringify(dArray));
             sessionStorage.setItem("AMOUNT", JSON.stringify(eArray));
+            sessionStorage.setItem("PROID", JSON.stringify(fArray));
+            sessionStorage.setItem("STOREID", JSON.stringify(gArray));
+            sessionStorage.setItem("PRICE", JSON.stringify(hArray));
         }
     })
 });

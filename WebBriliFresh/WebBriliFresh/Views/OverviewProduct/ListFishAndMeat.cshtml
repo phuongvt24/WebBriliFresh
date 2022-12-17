@@ -30,14 +30,8 @@
     @{
         var isLogin = @HttpContextAccessor.HttpContext.Session.GetInt32("CUS_SESSION_USERID");
     }
-    @if (isLogin != null)
-    {
         @await Html.PartialAsync("~/views/shared/_fishandmeatheaderpartialview_login.cshtml")
-    }
-    else
-    {
-        @await Html.PartialAsync("~/Views/Shared/_FishAndMeatHeaderPartialView.cshtml")
-    }
+   
     <div class="main container">
         <div class="header container"></div>
         <div class="container">
@@ -328,23 +322,23 @@
                 $(".main_format")[i].innerHTML = b;
  
             }
-            $(document).ready(function () {
-                $(".product-item-add-btn").click(function () {
-                    $.ajax({
-                        url: "/BuyAndPay/AddToCart",
-                        data: {
-                            proId: $(this).data("id"),
-                            storeid: $(this).data("storeid"),
-                            saleprice: $(this).data("saleprice"),
-                            type: "ajax"
-                        },
-                        success: function (data) {
-                            console.log($("#quantity_cart"))
-                            $("#quantity_cart").html(data.quantity);
-                        }
-                    });
-                });
-            });
+            //$(document).ready(function () {
+            //    $(".product-item-add-btn").click(function () {
+            //        $.ajax({
+            //            url: "/BuyAndPay/AddToCart",
+            //            data: {
+            //                proId: $(this).data("id"),
+            //                storeid: $(this).data("storeid"),
+            //                saleprice: $(this).data("saleprice"),
+            //                type: "ajax"
+            //            },
+            //            success: function (data) {
+            //                console.log($("#quantity_cart"))
+            //                $("#quantity_cart").html(data.quantity);
+            //            }
+            //        });
+            //    });
+            //});
         });
     </script>
     </body>

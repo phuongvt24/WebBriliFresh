@@ -1,4 +1,10 @@
-﻿@{
+﻿@model WebBriliFresh.Models.DTO.CreateOrderModel
+@inject WebBriliFresh.Models.BriliFreshDbContext _context;
+@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@using WebBriliFresh.Common;
+
+@{
     Layout = null;
 }
 <html lang="en">
@@ -24,7 +30,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     </head>
     <body>
-        <form class="thanhtoanform">
+    <form asp-action="Create" class="thanhtoanform">
             <div class="header">
             @await Html.PartialAsync("~/Views/Shared/_HomeHeaderPartialView_login.cshtml")
             </div>
@@ -42,13 +48,14 @@
                                     <span><b>Chọn hình thức giao hàng</b></span>
                                     <br>
                                     <label id="delivery-method1" class="content__delivery-method">
-                                        <input type="radio" class="content__delivery-method-button" name="delivery-method" id="delivery-method-button1" value="1" checked="checked">
+                                        <input  type="radio" class="content__delivery-method-button" name="delivery-method" id="delivery-method-button1" value="1" checked="checked">
                                         <label for="delivery-method-button1" class="content__delivery-method-name" >Giao hàng tiết kiệm</label>
                                     </label>
                                     <label id="delivery-method2" class="content__delivery-method">
                                         <input type="radio" class="content__delivery-method-button" name="delivery-method"  id="delivery-method-button2" value="2">
                                         <label for="delivery-method-button2" class="content__delivery-method-name" >Giao hàng hỏa tốc</label>
                                     </label>
+                                    
                                 </div>
     
                                 <fieldset class="content__delivery-detail">
@@ -79,7 +86,7 @@
                                     <br>
                                     <div class="content__payment-methods">
                                         <label class="content__payment-method">
-                                            <input type="radio" name="payment-method" id="payment-method-button1" checked="checked">
+                                            <input type="radio" name="payment-method" id="payment-method-button1" value="1" checked="checked">
                                             <img src="./assets/icons/tienmat.png">
                                             <label for="payment-method-button1" class="content__payment-name">Thanh toán tiền mặt khi nhận hàng</label>
                                         </label>
@@ -92,27 +99,27 @@
                                             <label id="E-wallet-message">Vui lòng chọn ví điện tử!</label>
                                             <div class="content__E-wallets">
                                                 <label class="content__E-wallet">
-                                                    <input type="radio" class="content__E-wallet-button" name="E-wallet" id="E-wallet-button1">
+                                                    <input type="radio" class="content__E-wallet-button" name="E-wallet" id="E-wallet-button1" value="2">
                                                     <img class="content__E-wallet-image" src="./assets/icons/ViMoMo.png">
                                                     <label class="content__E-wallet-name" for="E-wallet-button1">Ví MoMo</label>
                                                 </label>
                                                 <label class="content__E-wallet">
-                                                    <input type="radio" class="content__E-wallet-button"" name="E-wallet" id="E-wallet-button2" >
+                                                    <input type="radio" class="content__E-wallet-button" name="E-wallet" id="E-wallet-button2" value="3" >
                                                     <img class="content__E-wallet-image" src="./assets/icons/VNPAY.png">
                                                     <label class="content__E-wallet-name" for="E-wallet-button2">VNPAY</label>
                                                 </label>
                                                 <label class="content__E-wallet">
-                                                    <input type="radio" class="content__E-wallet-button" name="E-wallet" id="E-wallet-button3" >
+                                                    <input type="radio" class="content__E-wallet-button" name="E-wallet" id="E-wallet-button3" value="4">
                                                     <img class="content__E-wallet-image" src="./assets/icons/ZaloPay.png">
                                                     <label class="content__E-wallet-name" for="E-wallet-button3">ZaloPay</label>
                                                 </label>
                                                 <label class="content__E-wallet">
-                                                    <input type="radio" class="content__E-wallet-button" name="E-wallet" id="E-wallet-button4" >
+                                                    <input type="radio" class="content__E-wallet-button" name="E-wallet" id="E-wallet-button4" value="5">
                                                     <img class="content__E-wallet-image" src="./assets/icons/VinID.png">
                                                     <label class="content__E-wallet-name" for="E-wallet-button4">VinID</label>
                                                 </label>
                                                 <label class="content__E-wallet">
-                                                    <input type="radio" class="content__E-wallet-button" name="E-wallet" id="E-wallet-button5" >
+                                                    <input type="radio" class="content__E-wallet-button" name="E-wallet" id="E-wallet-button5"value="6" >
                                                     <img class="content__E-wallet-image" src="./assets/icons/ViMoca.png">
                                                     <label class="content__E-wallet-name" for="E-wallet-button5">Ví Moca</label>
                                                 </label>
@@ -121,16 +128,17 @@
                                         </label>
                                         <br>
                                         <label class="content__payment-method">
-                                            <input type="radio" name="payment-method" id="payment-method-button3" >
+                                            <input type="radio" name="payment-method" id="payment-method-button3" value="7" >
                                             <img src="./assets/icons/thequocte.png">
                                             <label for="payment-method-button3" class="content__payment-name">Thanh toán bằng thẻ quốc tế Visa, Master, JCB</label>
                                         </label>
                                         <br>
                                         <label class="content__payment-method">
-                                            <input type="radio" name="payment-method" id="payment-method-button4" >
+                                            <input type="radio" name="payment-method" id="payment-method-button4" value="8">
                                             <img src="./assets/icons/theatm.png">
                                             <label for="payment-method-button4" class="content__payment-name">Thẻ ATM nội địa/Internet Banking (Hỗ trợ Internet Banking)</label>
                                         </label>
+                                    
                                     </div>
                                 </div>
                             </div>
@@ -145,6 +153,7 @@
                                         </div>
                                         <div><b>Giao tới</b></div>
                                         <b><span id="fullname"></span></b>
+                                        
                                         <span>|</span>
                                         <b><span id="phonenum"></span></b>
                                         <div id="address">
@@ -157,8 +166,20 @@
                                             <span id="city"></span>
                                             <span>, Việt Nam.</span>
                                         </div>
-
-                                    </div>
+                                    <input asp-for="FirstName" id="First_Name" hidden />
+                                    <input asp-for="Phone" id="Phone_cus" hidden />
+                                    <input asp-for="SpecificAddress" id="SpecificAddress_add" hidden />
+                                    <input asp-for="Ward" id="Ward_add" hidden />
+                                    <input asp-for="District" id="District_add" hidden/>
+                                    <input asp-for="City" id="City_add" hidden/>
+                                    <input asp-for="PayBy" id="Pay_by" value="1" hidden />
+                                    <input asp-for="Type" id="type_trans" value="1" hidden />
+                                    <input asp-for="StoreId" value="@HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId)" hidden/>
+                                    <input asp-for="SubTotal" id="Sub_Total"  hidden/>
+                                    <input asp-for="OrderTotal" id="Order_Total" hidden /> 
+                                    <input asp-for="Gender" value="3" hidden />
+                                    <input asp-for="ListOrder" id="listorder" value="" hidden/>
+                                </div>
                                 </div>
                                 <br>
                                 <div class="content__frame">
@@ -214,7 +235,7 @@
                                         </table>
                                         <br>
                                         <div class="content__submit">
-                                            <input type="submit" value="Đặt hàng" id="order-button">
+                                            <input type="submit" name="" value="Đặt hàng" id="order-button">
                                         </div>
                                     </div>
                                 </div>
@@ -223,7 +244,7 @@
                     </div> 
                     
                 </div>
-    
+                
                 <div class="content__info">
                     <span>Bằng việc tiến hành Đặt Mua, khách hàng đồng ý với các Điều Kiện Giao Dịch Chung được ban hành bởi BriliFresh:</span>
                     <br>
@@ -234,7 +255,7 @@
             </div>
 
         @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
-        </form>
+    </form>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script type="text/javascript" src="~/BuyAndPayAssets/PayInfo/PayInfo.js"></script>
     </body>
