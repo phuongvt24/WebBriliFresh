@@ -85,7 +85,6 @@ namespace WebBriliFresh.Controllers
                     HttpContext.Session.SetString("CUS_SESSION_CUSNAME", name);
                     HttpContext.Session.SetString("CUS_SESSION_AVATAR", user.Avatar!);
 
-
                     return RedirectToAction("Index", "Home");
                 }
                 else

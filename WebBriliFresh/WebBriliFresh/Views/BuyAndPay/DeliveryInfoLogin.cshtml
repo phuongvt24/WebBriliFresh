@@ -1,4 +1,9 @@
-﻿@{
+﻿@model IEnumerable<WebBriliFresh.Models.Address>
+@inject WebBriliFresh.Models.BriliFreshDbContext _context;
+@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@using WebBriliFresh.Common;
+@{
     Layout = null;
 }
 <html lang="en">
@@ -42,76 +47,70 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="content__address-list">
-                            <span class="content__fullname">Đặng Minh Tuấn</span>
-                            <span class="content__default"></span>
-                            <br>
-                            <span>Địa chỉ: </span><span class="content__address">
-                                <span class="content__specificAddress">Tòa S3.05 Vinhomes Grand Park</span>
-                                <span class="content__specificAddress-comma">, </span>
-                                <span class="content__ward">Phường Long Thạnh Mỹ</span>
-                                <span>, </span>
-                                <span class="content__district">Quận 9</span>
-                                <span>, </span>
-                                <span class="content__city">Thành phố Hồ Chí Minh</span>
-                                <span>, Việt Nam.</span>
-                            </span>
-                            <br>
-                            <span>Điện thoại: </span><span class="content__phonenum">0949385911</span>
-                            <br><br>
-                            <div class="content__address-option">
-                                <label class="content__address-change">
-                                    <input type="radio" class="content__address-change-button" name="addressButton" id="addressButton1" checked>
-                                    <label for="addressButton1" class="content__address-change-name">Giao đến địa chỉ này</label>
-                                </label>
-                                <button type="button" id="addressEditButton1" class="content__address-edit-button">
-                                    <img src="./assets/icons/Edit.png">
-                                    Sửa
-                                </button>
-                                <button type="button" class="content__address-remove-button">
-                                    <img src="./assets/icons/Remove.png">
-                                    Xóa
-                                </button>
-                            </div>
-                        </div>
-                        <div class="content__address-list">
-                            <span class="content__fullname">Tuấn</span>
-                            <span class="content__default"></span>
-                            <br>
-                            <span>Địa chỉ: </span><span class="content__address">
-                                <span class="content__specificAddress">253 Hùng Vương</span>
-                                <span class="content__specificAddress-comma">, </span>
-                                <span class="content__ward">Phường An Mỹ</span>
-                                <span>, </span>
-                                <span class="content__district">Thành phố Tam Kỳ</span>
-                                <span>, </span>
-                                <span class="content__city">Tỉnh Quảng Nam</span>
-                                <span>, Việt Nam.</span>
-                            </span>
 
-                            <br>
-                            <span>Điện thoại: </span><span class="content__phonenum">0949385911</span>
-                            <br><br>
-                            <div class="content__address-option">
-                                <label class="content__address-change">
-                                    <input type="radio" class="content__address-change-button" name="addressButton" id="addressButton2">
-                                    <label for="addressButton2" class="content__address-change-name">Giao đến địa chỉ này</label>
-                                </label>
-                                <button type="button" id="addressEditButton2" class="content__address-edit-button">
-                                    <img src="./assets/icons/Edit.png">
-                                    Sửa
-                                </button>
-                                <button type="button" class="content__address-default-button">
-                                    <img src="./assets/icons/Default.png">
-                                    Mặc định
-                                </button>
-                                <button type="button" class="content__address-remove-button">
-                                    <img src="./assets/icons/Remove.png">
-                                    Xóa
-                                </button>
-                            </div>
+                        @foreach(var item in Model){
+                            if(item.Default==1){
+                                <div class="content__address-list">
+                                    <span class="content__fullname">@item.Cus.LastName @item.Cus.FirstName</span>
+                                    <span class="content__default"></span>
+                                    <br>
+                                    <span>Địa chỉ: </span><span class="content__address">
+                                        <span class="content__specificAddress">@item.SpecificAddress</span>
+                                        <span class="content__specificAddress-comma">, </span>
+                                        <span class="content__ward">@item.Ward</span>
+                                        <span>, </span>
+                                        <span class="content__district">@item.District</span>
+                                        <span>, </span>
+                                        <span class="content__city">@item.City</span>
+                                        <span>, Việt Nam.</span>
+                                    </span>
+                                    <br>
+                                    <span>Điện thoại: </span><span class="content__phonenum">@item.Cus.Phone</span>
+                                    <br><br>
+                                    <div class="content__address-option">
+                                        <label class="content__address-change">
+                                            <input type="radio" class="content__address-change-button" name="addressButton" id="addressButton1" checked>
+                                            <label for="addressButton1" class="content__address-change-name">Giao đến địa chỉ này</label>
+                                        </label>
+                                    </div>
+                                </div>
+                            }else{
+                                <div class="content__address-list">
+                                    <span class="content__fullname">@item.Cus.LastName @item.Cus.FirstName</span>
+                                    <span class="content__default"></span>
+                                    <br>
+                                    <span>Địa chỉ: </span><span class="content__address">
+                                        <span class="content__specificAddress">@item.SpecificAddress</span>
+                                        <span class="content__specificAddress-comma">, </span>
+                                        <span class="content__ward">@item.Ward</span>
+                                        <span>, </span>
+                                        <span class="content__district">@item.District</span>
+                                        <span>, </span>
+                                        <span class="content__city">@item.City</span>
+                                        <span>, Việt Nam.</span>
+                                    </span>
 
-                        </div>
+                                    <br>
+                                    <span>Điện thoại: </span><span class="content__phonenum">@item.Cus.Phone</span>
+                                    <br><br>
+                                    <div class="content__address-option">
+                                        <label class="content__address-change">
+                                            <input type="radio" class="content__address-change-button" name="addressButton" id="addressButton2">
+                                            <label for="addressButton2" class="content__address-change-name">Giao đến địa chỉ này</label>
+                                        </label>
+                                    </div>
+
+                                </div>
+                            }
+                           
+                        }
+
+
+
+
+
+
+
                     </div>
 
                     <div class="row">

@@ -114,7 +114,7 @@ namespace WebBriliFresh.Controllers
 
 
 
-        public async Task<IActionResult> Create([Bind("FirstName,Gender,Phone,City,District,Ward,SpecificAddress,Type,StoreId,OrderTotal,SubTotal,PayBy,Status,ListOrder")] CreateOrderModel cre_Ord)
+        public async Task<IActionResult> Create([Bind("FirstName,Gender,Phone,City,District,Ward,SpecificAddress,Type,StoreId,OrderTotal,SubTotal,PayBy,Status,ListOrder,UserId,AddressId")] CreateOrderModel cre_Ord)
         {
             var order_details = JsonConvert.DeserializeObject<List<ShoppingCartViewModel>>(cre_Ord.ListOrder);
             var cus_id_num = _context.Customers.Where(x => x.Phone == cre_Ord.Phone).Select(x => x.CusId).FirstOrDefault();
@@ -164,6 +164,17 @@ namespace WebBriliFresh.Controllers
                     }
                     _context.Orders.Add(order);
                     await _context.SaveChangesAsync();
+
+                    for (int i = 0; i < order_details.Count; i++)
+                    {
+                        OrderDetail orderDetail = new OrderDetail();
+                        orderDetail.OrderId = order.OrderId;
+                        orderDetail.ProId = order_details[i].ProductId;
+                        orderDetail.Quantity = order_details[i].Quantity;
+                        orderDetail.Price = order_details[i].SalePrice;
+                        _context.OrderDetails.Add(orderDetail);
+                        await _context.SaveChangesAsync();
+                    }
 
 
                 }
@@ -223,6 +234,17 @@ namespace WebBriliFresh.Controllers
                     }
                     _context.Orders.Add(order);
                     await _context.SaveChangesAsync();
+
+                    for(int i = 0; i < order_details.Count; i++)
+                    {
+                        OrderDetail orderDetail = new OrderDetail();
+                        orderDetail.OrderId = order.OrderId;
+                        orderDetail.ProId = order_details[i].ProductId;
+                        orderDetail.Quantity = order_details[i].Quantity;
+                        orderDetail.Price = order_details[i].SalePrice;
+                        _context.OrderDetails.Add(orderDetail);
+                        await _context.SaveChangesAsync();
+                    }
                 }
             }
             else
@@ -287,7 +309,28 @@ namespace WebBriliFresh.Controllers
                 }
                 _context.Orders.Add(order);
                 await _context.SaveChangesAsync();
+
+                for (int i = 0; i < order_details.Count; i++)
+                {
+                    OrderDetail orderDetail = new OrderDetail();
+                    orderDetail.OrderId = order.OrderId;
+                    orderDetail.ProId = order_details[i].ProductId;
+                    orderDetail.Quantity = order_details[i].Quantity;
+                    orderDetail.Price = order_details[i].SalePrice;
+                    _context.OrderDetails.Add(orderDetail);
+                    await _context.SaveChangesAsync();
+                }
             }
+            var myCart = Carts;
+            if (Carts != null)
+            {                           
+                for (int i = 0; i < order_details.Count; i++)
+                {
+                    myCart.RemoveAll(x => x.ProductId == order_details[i].ProductId);
+                };
+                HttpContext.Session.Set(CommonConstants.SessionCart, myCart);
+            }
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -326,9 +369,11 @@ namespace WebBriliFresh.Controllers
             return View();
         }
 
-        public IActionResult DeliveryInfoLogin()
+        public async Task<IActionResult> DeliveryInfoLogin()
         {
-            return View();
+            var cusid = HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
+            var address = _context.Addresses.Include(x=>x.Cus).Where(x => x.CusId == cusid);
+            return View(await address.ToListAsync());
         }
 
         public IActionResult PayInfo()
