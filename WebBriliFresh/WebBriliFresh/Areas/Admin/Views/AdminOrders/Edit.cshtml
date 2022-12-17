@@ -89,9 +89,8 @@
         <input type="hidden" asp-for="CusId" />
         <input type="hidden" asp-for="Trans" />
         <input type="hidden" asp-for="Trans.TransId" />
-        <input type="hidden" asp-for="Trans.Transporter" />
         <input type="hidden" asp-for="Trans.Fee" />
-        <input type="hidden" asp-for="Trans.ShippingDate" />
+        <input id="shippingdate" type="hidden" asp-for="Trans.ShippingDate" />
         <input type="hidden" asp-for="Trans.Type" />
         <input id="payment-status" type="hidden" asp-for="Status" />
         <input id="status" type="hidden" asp-for="Trans.Status" />
@@ -106,6 +105,10 @@
                 </button>
             </div>
         </div>
+        <div style="float: right">
+               <input id="transporter" style="margin-right: 20px; width: 300px; height: 40px" placeholder="Nhập tên đơn vị vận chuyển" asp-for="Trans.Transporter" disabled required />
+          
+        </div>
     </form>
 </div>
 
@@ -117,7 +120,7 @@
 
 
 <script>
-
+    $("#transporter").hide();
         $(".avatar.avatar-icon").css({ "font-size": "40px", "padding-top": "20px", "width":"80px", "height":"80px"});
         if ($("#status").val() == 1) {
             $("#line1, #line2, #line3, #line4, #line5").css({ "background-color": "#ddd" });
@@ -177,6 +180,8 @@
             $("#status").val("3");
         }
         else if ($("#status").val() == 3) {
+            $("#transporter").prop('disabled', false);
+            $("#transporter").show();
             $("#status").val("4");
         }
         else if ($("#status").val() == 4) {
@@ -185,6 +190,11 @@
         else if ($("#status").val() == 5) {
             $("#status").val("6");
             $("#payment-status").val("1");
+            var currentdate = new Date();
+
+            var datetime = (currentdate.getMonth()+1)+"-"+currentdate.getDate()+"-"+currentdate.getFullYear()+" "+currentdate.getHours()+":"+currentdate.getMinutes()+":"+currentdate.getSeconds();
+           
+            $("#shippingdate").val(datetime);
         }
     })
     $("#cancel-btn").click(function (e) {

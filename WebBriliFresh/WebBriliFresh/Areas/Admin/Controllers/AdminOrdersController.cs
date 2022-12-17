@@ -77,6 +77,10 @@ namespace WebBriliFresh.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(order);
+
+
+
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -120,7 +124,6 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("OrderId,Status, OrderId,AddId,TransId,DisId,StoreId,OrderDate,SubTotal,OrderTotal,PayBy,Status,CusId,Trans,Trans.TransId,Trans.ShippingDate,Trans.Type,Trans.Transporter,Trans.Fee,Trans.Status")] Order order)
         {
-
             if (id != order.OrderId)
             {
                 return NotFound();
@@ -131,6 +134,31 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 try
                 {
                     _context.Update(order);
+
+                    if (order.Trans.Status == 6)
+                    {
+                        using (var context = new BriliFreshDbContext())
+                        {
+                            Customer cUpd = context.Customers.Include(c => c.Reward).FirstOrDefault(c => c.CusId == order.CusId);
+                            if (cUpd != null && cUpd.RewardId != null && cUpd.Reward != null)
+                            {
+                                cUpd.Reward.Point += order.OrderTotal;
+                                if (cUpd.Reward.Point >= 9000000)
+                                {
+                                    cUpd.Reward.CusType = 1;
+                                }
+                                else if (cUpd.Reward.Point >= 4000000)
+                                {
+                                    cUpd.Reward.CusType = 2;
+                                }
+                                else
+                                {
+                                    cUpd.Reward.CusType = 3;
+                                }
+                            }
+                            context.SaveChanges();
+                        }
+                    }
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

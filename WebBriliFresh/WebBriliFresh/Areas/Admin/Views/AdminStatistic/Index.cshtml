@@ -13,6 +13,8 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://printjs-4de6.kxcdn.com/print.min.css">
 
 <div class="page-header">
     <h2 class="header-title">Brili Fresh</h2>
@@ -101,6 +103,7 @@
                     </figure>
                 </div>
             </div>
+                
         </div>
         <div class="col-md-12 col-lg-4">
             <div class="card">
@@ -205,7 +208,11 @@
             </div>
         </div>
     </div>
-                        
+    
+    <button type="button" onclick="window.print()" class="btn btn-warning m-r-5" style="float: right; width: 200px">
+        In thống kê
+    </button>
+    <br />
 </div>
 
 <script>
@@ -228,14 +235,14 @@
     $("#totalBenefit").text(b + ' đ');
 
     if ($(".proid")[0].value != 0) {
-        for (var i = 0; i < $(".earning").length(); i++) {
+        for (var i = 0; i < $(".earning").length; i++) {
             var c = $(".earning")[i].innerHTML;
             c = c.replace('.0000', '');
             c = Number(c).toLocaleString('en');
             $(".earning")[i].innerHTML = c + ' đ';
         }
 
-        for (var i = 0; i < $(".earning").length(); i++) {
+        for (var i = 0; i < $(".earning").length; i++) {
             var d = $(".stockLeft")[i].value;
             if (d < 20) {
                 $(".progress-bar")[i].style.backgroundColor = "red";

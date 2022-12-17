@@ -9,7 +9,7 @@ public partial class Transport
 
     public DateTime? ShippingDate { get; set; }
 
-    public string Transporter { get; set; }
+    public string? Transporter { get; set; }
 
     public int Status { get; set; }
 

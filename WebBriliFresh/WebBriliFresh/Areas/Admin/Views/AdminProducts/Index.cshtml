@@ -63,31 +63,22 @@
                     {
                         @foreach (var item in Model)
                         {
-                            int x = 0;
-                            var a = item.ProductImages.Where(x => x.ProId == item.ProId).Select(p => p.ImgData).ToList();
-                            if(a.Count>=1){
-                                for (int i = 0; i < a.Count; i++)
-                                {
-                                    if (a[i].Contains("is_avt"))
-                                    {
-                                        x = i;
-                                    }
-                                }
-                            }
-
+                            var a = item.ProductImages.Where(x => x.ProId == item.ProId && x.ImgData.Contains("is_avt"));
+                            var i = a.FirstOrDefault();
                             var b = item.Stocks.Where(x => x.ProId == item.ProId).Sum(i => i.Quantity);
                             <tr>
                                 <td>@Html.DisplayFor(modelItem =>  item.ProId)</td>
                                 <td>
                                     <div class="d-flex align-items-center">
                                         
-                                       @if (a.Count >=1)
+                                       @if (i != null)
                                         {
-                                            <img class="img-fluid rounded" src="~/ImageProduct/@Html.DisplayFor(m=>a[x] )" style="max-width: 60px" alt="">
+                                            var m = @i.ImgData;
+                                            <img class="img-fluid rounded" src="~/ImageProduct/@m" style="max-width: 60px" alt="">
                                         }
                                         else
                                         {
-                                            <img class="img-fluid rounded" src="~/ImageProduct/ )" style="max-width: 60px" alt="">
+                                            <img class="img-fluid rounded" src="~/ImageProduct/none.jpg" style="max-width: 60px" alt="">
                                         }
                                         <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.ProName)</h6>
                                     </div>
