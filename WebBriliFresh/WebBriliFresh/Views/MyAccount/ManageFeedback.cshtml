@@ -94,7 +94,7 @@
                                         <div class="purchase-info unit-price">Đơn giá: <span>@orderDetail.Pro.Price</span></div>
                                         <div class="purchase-info quantity">Số lượng: <span>@orderDetail.Quantity</span></div>
                                         <div class="purchase-info amount">Thành tiền: <span>@orderDetail.Price</span></div>
-                                        <div class="order-rating-btn"><a class="btn-shared js-rating-btn">Đánh giá</a></div>
+                                        <div class="order-rating-btn"><a class="btn-shared js-rating-btn" onclick="showModal(@order.OrderId, @orderDetail.ProId)">Đánh giá</a></div>
                                     </div>
 
                                 }
@@ -194,6 +194,5 @@
     @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
     <script type="text/javascript" src="~/MyAccountAssets/MyAccount/SubNavSide.js"></script>
     <script src="~/MyAccountAssets/ManageFeedback/ManageFeedback.js"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
 </body>
 </html>

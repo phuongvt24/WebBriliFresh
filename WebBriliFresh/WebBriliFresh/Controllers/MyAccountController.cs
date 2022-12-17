@@ -233,7 +233,7 @@ namespace WebBriliFresh.Controllers
         public async Task<IActionResult> DeleteAddress(int? id)
         {
             Address address = await _context.Addresses.Include(x => x.Orders).FirstOrDefaultAsync(c => c.AddId == id);
-            if(address.Orders.Count == 0 || address.Default == 1)
+            if(address.Orders.Count == 0 && address.Default == 0)
             {
                 _context.Remove(address);
                 await _context.SaveChangesAsync();

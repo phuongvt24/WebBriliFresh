@@ -5,6 +5,8 @@ const deleteBtns = document.querySelectorAll('.js-delete-address')
 const modalEdit = document.querySelector('.js-modal-edit')
 const modalEditClose = document.querySelector('.js-modalEdit-close')
 var modalContainer = document.querySelector('.js-modal-container')
+var input = document.createElement('input')
+var inputDelete = document.getElementById("delete-address-btn");
 
 function showEditAddress(addressId) {
     if (addressId != 'Update') {
@@ -15,16 +17,16 @@ function showEditAddress(addressId) {
         document.getElementsByClassName('modal-header')[0].innerHTML = 'Thêm địa chỉ mới'
     }
     modalEdit.classList.add('open')
-    var input = document.createElement('input')
     input.value = addressId
     input.name = "AddId"
     input.type = "number"
-    input.setAttribute("hidden", true)
+    //input.setAttribute("hidden", true)
     modalContainer.appendChild(input)
 }
 
 function hideEditAddress() {
     modalEdit.classList.remove('open')
+    modalContainer.removeChild(input)
 }
 
 
@@ -53,9 +55,7 @@ const modalDeleteClose = document.querySelector('.js-modalDelete-close')
 
 function showDeleteAddress(addressId) {
     modalDelete.classList.add('open')
-
-    var input = document.getElementById("delete-address-btn");
-    input.setAttribute("href", "/MyAccount/DeleteAddress/" + addressId)
+    inputDelete.setAttribute("href", "/MyAccount/DeleteAddress/" + addressId)
 }
 
 function hideDeleteAddress() {
