@@ -113,7 +113,7 @@
 
     <!-- Begin Modal Rating Product-->
     <div class="modal js-modal">
-        <form action="/MyAccount/GiveFeedback" method="post" class="modal-container js-modal-container">
+        <form asp-action="GiveFeedback" asp-controller="MyAccount" method="post" class="modal-container js-modal-container" enctype="multipart/form-data">
             <div class="modal-close js-modal-close">
                 <i class="ti-close"></i>
             </div>
@@ -125,23 +125,23 @@
             <div class="modal-body" id="body-modal">
                 <p id="modal-label-checkbox" for="address-default">Chất lượng sản phẩm (1 sao: Rất Tệ - 5 sao: Rất Tốt)</p>
                 <div class="stars">
-                    <input class="star star-5" id="star-5" type="radio" name="star" value="1" />
+                    <input class="star star-5" id="star-5" type="radio" name="star" value="1" required/>
                     <label class="star star-5" for="star-5"></label>
-                    <input class="star star-4" id="star-4" type="radio" name="star" value="2" />
+                    <input class="star star-4" id="star-4" type="radio" name="star" value="2" required/>
                     <label class="star star-4" for="star-4"></label>
-                    <input class="star star-3" id="star-3" type="radio" name="star" value="3" />
+                    <input class="star star-3" id="star-3" type="radio" name="star" value="3" required/>
                     <label class="star star-3" for="star-3"></label>
-                    <input class="star star-2" id="star-2" type="radio" name="star" value="4" />
+                    <input class="star star-2" id="star-2" type="radio" name="star" value="4" required/>
                     <label class="star star-2" for="star-2"></label>
-                    <input class="star star-1" id="star-1" type="radio" name="star" value="5" />
+                    <input class="star star-1" id="star-1" type="radio" name="star" value="5" required/>
                     <label class="star star-1" for="star-1"></label>
                 </div>
 
                 <label class="modal-label" for="flavor">Hương vị/ Màu sắc</label>
-                <input id="flavor" class="modal-input" type="text" placeholder="Tươi ngon" name="Color">
+                <input id="flavor" class="modal-input" type="text" placeholder="Tươi ngon" name="Color" required>
 
                 <label class="modal-label" for="package">Bao bì, mẫu mã</label>
-                <input id="package" class="modal-input" type="text" placeholder="Chắc chắn" name="Packaging">
+                <input id="package" class="modal-input" type="text" placeholder="Chắc chắn" name="Packaging" required>
 
                 <label class="modal-label" for="description">Mô tả</label>
                 <textarea id="description" cols="30" rows="10" name="Details"></textarea>
@@ -149,7 +149,7 @@
                 <label class="modal-image btn-shared">
                     <i class="ti-camera"></i>
                     <span>Thêm hình ảnh</span>
-                    <input type="file" accept="image/*" multiple id="gallery-photo-add">
+                    <input type="file" accept="image/*" multiple id="gallery-photo-add" name="feedbackImg">
                 </label>
                 <div id="frame"></div>
             </div>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MimeKit.Encodings;
+using System.Collections.Generic;
 using System.Diagnostics;
 using WebBriliFresh.Models;
 
@@ -255,6 +256,49 @@ namespace WebBriliFresh.Controllers
                                         .Include(a=>a.Feedbacks);
 
             return View(await test.ToListAsync());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("MyAccount/GiveFeedback")]
+        public async Task<IActionResult> GiveFeedback()
+        {
+
+                
+            IFormCollection form = HttpContext.Request.Form;
+            int proId = Int32.Parse(form["ProId"]);
+            int cusId = (int)HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
+            int orderId = Int32.Parse(form["OrderId"]);
+            string color = form["Color"].ToString().Trim();
+            string packaging = form["Packaging"].ToString().Trim();
+            string details = form["Details"].ToString().Trim() ?? "Không có ý kiến";
+            string message = "Màu sắc: " + color + "\nBao bì: " + packaging + "\nÝ kiến: " +details;
+            int star = Int32.Parse(form["star"].ToString().Trim());
+
+            Feedback feedback = new Feedback();
+            feedback.ProId = proId;
+            feedback.CusId = cusId;
+            feedback.OrderId = orderId;
+            feedback.Message = message;
+            feedback.SendDate = DateTime.Now;
+            _context.Add(feedback);
+            await _context.SaveChangesAsync();
+            
+            Feedback newFeedback = _context.Feedbacks.FirstOrDefault(a => a.ProId == proId && a.CusId == cusId && a.OrderId == orderId);
+            if (newFeedback != null)
+            {
+                foreach (var photo in form.Files)
+                {
+                    string fname = DoPhotoUpload((IFormFile)photo);
+                    FeedbackImage feedbackImage = new FeedbackImage();
+                    feedbackImage.ImgData = fname;
+                    feedbackImage.FbId = newFeedback.FbId;
+                    _context.Add(feedbackImage);
+                }
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(ManageFeedback));
         }
         public IActionResult ChangePass_1()
         {
