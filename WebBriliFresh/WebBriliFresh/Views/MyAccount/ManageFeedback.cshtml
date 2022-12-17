@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" integrity="sha512-17egcferpgzkcm0j0feq1ycjuyawdz9kutv1ejvuaoz8pdnh/0nzxmu6bbxwaaxqoi9pqxnrwqlcdb027hgv9a==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" integrity="sha512-yhknp1/awr+yx26cb1y0cjvqumvea2pfzt1c9lls4prq5notzfwbhbig+x9g9eyw/8m0/4oxnx8pxj6z57x0dw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <link rel="stylesheet" href="~/MyAccountAssets/ManageOrder/ManageOrder.css" />
     <link rel="stylesheet" href="~/MyAccountAssets/ManageFeedback/ManageFeedback.css" />
@@ -60,40 +60,50 @@
                         </ul>
                     </div>
 
-                    <div class="sucess-order order-info mt-3">
-                        <div class="transfer-info">
-                            <p>Đơn hàng <span id="order-id">380373322120636</span></p>
-                            <p>Đặt ngày <span id="order-date">11/11/2022 02:01:34</span></p>
-                            <p>Kiện hàng của bạn đã được giao thành công vào ngày <span id="shipping-date">13/11/2022 12:38:45</span></p>
-                        </div>
-                        <div class="header-order">
-                            <span><i class="ti-home"></i> JFruit</span>
-                            <span><i class="ti-truck"></i> Đã giao</span>
-                        </div>
-                        <div class="content-order">
-                            <div class="img-product"><img src="./assets/image/item_2.jpg" alt=""></div>
-                            <div class="product-info">
-                                <p class="name">Dưa hấu ruột đỏ Long An</p>
-                                <p style="color: #757575;">Đơn vị: <span class="mass">1kg</span></p>
+                    @foreach (Order order in @Model)
+                    {
+                        if (order.OrderDetails.Count != 0)
+                        {
+
+                            <div class="sucess-order order-info mt-3">
+                                <p>Đơn hàng <span id="order-id">@order.OrderId</span></p>
+                                <p>Đặt ngày <span id="order-date">@order.OrderDate</span></p>
+                                <div class="transfer-info">
+                                    <p>Kiện hàng của bạn đã được giao thành công vào ngày <span id="shipping-date"></span></p>
+                                </div>
+                                <div class="header-order">
+                                    <span><i class="ti-home"></i> JFruit</span>
+                                    <span><i class="ti-truck"></i> Đã giao</span>
+                                </div>
+                                @foreach (OrderDetail orderDetail in order.OrderDetails)
+                                {
+                                    <div class="content-order">
+                                        @if (@orderDetail.Pro.ProductImages.FirstOrDefault(f => f.ImgData.ToString().StartsWith("is")) != null)
+                                        {
+                                            <div class="img-product"><img src="~/ImageProduct/@orderDetail.Pro.ProductImages.FirstOrDefault(f => f.ImgData.ToString().StartsWith("is")).ImgData" alt=""></div>
+
+                                        }
+                                        else
+                                        {
+                                            <div class="img-product"><img src="~" alt=""></div>
+                                        }
+                                        <div class="product-info">
+                                            <p class="name">@orderDetail.Pro.ProName @orderDetail.ProId</p>
+                                            <p style="color: #757575;">Đơn vị: <span class="mass">@orderDetail.Pro.Unit</span></p>
+                                        </div>
+                                        <div class="purchase-info unit-price">Đơn giá: <span>@orderDetail.Pro.Price</span></div>
+                                        <div class="purchase-info quantity">Số lượng: <span>@orderDetail.Quantity</span></div>
+                                        <div class="purchase-info amount">Thành tiền: <span>@orderDetail.Price</span></div>
+                                        <div class="order-rating-btn"><a class="btn-shared js-rating-btn">Đánh giá</a></div>
+                                    </div>
+
+                                }
                             </div>
-                            <div class="purchase-info unit-price">Đơn giá: <span>35,000</span></div>
-                            <div class="purchase-info quantity">Số lượng: <span>1</span></div>
-                            <div class="purchase-info amount">Thành tiền: <span>35,000</span></div>
-                            <div class="order-rating-btn"><a class="btn-shared js-rating-btn">Đánh giá</a></div>
-                        </div>
-                        <div class="content-order">
-                            <div class="img-product"><img src="./assets/image/item_3.jpg" alt=""></div>
-                            <div class="product-info">
-                                <p class="name">Cá hồi tươi Fillet Na Uy</p>
-                                <p style="color: #757575;">Đơn vị: <span class="mass">200g</span></p>
-                            </div>
-                            <div class="purchase-info unit-price">Đơn giá: <span>128,000</span></div>
-                            <div class="purchase-info quantity">Số lượng: <span>1</span></div>
-                            <div class="purchase-info amount">Thành tiền: <span>128,000</span></div>
-                            <div class="order-rating-btn"><a class="btn-shared js-rating-btn">Đánh giá</a></div>
-                        </div>
-                        <p>Tổng tiền: <b><span class="total-order">163,000</span></b></p>
-                    </div>
+
+                        }
+
+                    }
+
                 </div>
             </div>
         </div>
@@ -103,7 +113,7 @@
 
     <!-- Begin Modal Rating Product-->
     <div class="modal js-modal">
-        <form action="" class="modal-container js-modal-container">
+        <form action="/MyAccount/GiveFeedback" method="post" class="modal-container js-modal-container">
             <div class="modal-close js-modal-close">
                 <i class="ti-close"></i>
             </div>
@@ -112,35 +122,36 @@
                 Đánh giá sản phẩm
             </header>
 
-            <div class="modal-body">
+            <div class="modal-body" id="body-modal">
                 <p id="modal-label-checkbox" for="address-default">Chất lượng sản phẩm (1 sao: Rất Tệ - 5 sao: Rất Tốt)</p>
                 <div class="stars">
-                    <input class="star star-5" id="star-5" type="radio" name="star" />
+                    <input class="star star-5" id="star-5" type="radio" name="star" value="1" />
                     <label class="star star-5" for="star-5"></label>
-                    <input class="star star-4" id="star-4" type="radio" name="star" />
+                    <input class="star star-4" id="star-4" type="radio" name="star" value="2" />
                     <label class="star star-4" for="star-4"></label>
-                    <input class="star star-3" id="star-3" type="radio" name="star" />
+                    <input class="star star-3" id="star-3" type="radio" name="star" value="3" />
                     <label class="star star-3" for="star-3"></label>
-                    <input class="star star-2" id="star-2" type="radio" name="star" />
+                    <input class="star star-2" id="star-2" type="radio" name="star" value="4" />
                     <label class="star star-2" for="star-2"></label>
-                    <input class="star star-1" id="star-1" type="radio" name="star" />
+                    <input class="star star-1" id="star-1" type="radio" name="star" value="5" />
                     <label class="star star-1" for="star-1"></label>
                 </div>
 
                 <label class="modal-label" for="flavor">Hương vị/ Màu sắc</label>
-                <input id="flavor" class="modal-input" type="text" placeholder="Tươi ngon">
+                <input id="flavor" class="modal-input" type="text" placeholder="Tươi ngon" name="Color">
 
                 <label class="modal-label" for="package">Bao bì, mẫu mã</label>
-                <input id="package" class="modal-input" type="text" placeholder="Chắc chắn">
+                <input id="package" class="modal-input" type="text" placeholder="Chắc chắn" name="Packaging">
 
                 <label class="modal-label" for="description">Mô tả</label>
-                <textarea name="" id="description" cols="30" rows="10"></textarea>
+                <textarea id="description" cols="30" rows="10" name="Details"></textarea>
 
                 <label class="modal-image btn-shared">
                     <i class="ti-camera"></i>
                     <span>Thêm hình ảnh</span>
-                    <input type="file" accept="image/*">
+                    <input type="file" accept="image/*" multiple id="gallery-photo-add">
                 </label>
+                <div id="frame"></div>
             </div>
 
             <footer class="modal-footer">
@@ -148,8 +159,41 @@
             </footer>
         </form>
     </div>
+    <script>
+        $(function () {
+            var frame = document.getElementById("frame")
+            // Multiple images preview in browser
+            var imagesPreview = function (input, frame) {
+
+                if (input.files) {
+                    var filesAmount = input.files.length;
+
+                    for (i = 0; i < filesAmount; i++) {
+                        var reader = new FileReader();
+
+                        reader.onload = function (event) {
+                            $($.parseHTML('<img>')).attr({'src': event.target.result, width:"90", height:"60", class:"remove"}).click().appendTo(frame);
+                        }
+
+                        reader.readAsDataURL(input.files[i]);
+                    }
+                }
+
+            };
+
+            $('#gallery-photo-add').on('change', function () {
+                imagesPreview(this, frame);
+            });
+                      
+            $('body').on('click', $('.remove'), function() {
+                $('.remove').remove();
+            });
+
+        });
+    </script>
     @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
     <script type="text/javascript" src="~/MyAccountAssets/MyAccount/SubNavSide.js"></script>
     <script src="~/MyAccountAssets/ManageFeedback/ManageFeedback.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
 </body>
 </html>
