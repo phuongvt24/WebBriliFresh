@@ -31,6 +31,7 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Uploads\Images\ProductImages\" />
     <Folder Include="wwwroot\MyAccountAssets\UserPhotos\" />
+    <Folder Include="wwwroot\FeedbackImage\" />
   </ItemGroup>
 
   <ItemGroup>
