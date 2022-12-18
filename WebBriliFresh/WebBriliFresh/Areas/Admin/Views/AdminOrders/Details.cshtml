@@ -83,11 +83,15 @@
                                     <td>
                                         @if (@Model.Cus.Gender == 1)
                                         {
+                                            <span>Nam</span>
+                                        }
+                                        else if (@Model.Cus.Gender == 2)
+                                        {
                                             <span>Nữ</span>
                                         }
                                         else
                                         {
-                                            <span>Nam</span>
+                                            <span>Khác</span>
                                         }
                                     </td>
                                 </tr>
