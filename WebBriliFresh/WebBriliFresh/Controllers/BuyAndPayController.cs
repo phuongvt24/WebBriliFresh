@@ -39,10 +39,7 @@ namespace WebBriliFresh.Controllers
             }
         }
 
-        
 
-
-        //
         public IActionResult AddToCart(int proId, int storeid, decimal saleprice, string type = "normal")
         {
             var myCart = Carts;
@@ -68,7 +65,7 @@ namespace WebBriliFresh.Controllers
                 
                 return Json(new
                 {
-                    quantity = Carts.Sum(p=>p.Quantity)
+                    quantity = Carts.Where(x=>x.StoreId== storeid).Sum(p=>p.Quantity)
                 });
             }
             return RedirectToAction("ListFishAndMeat", "OverviewProduct");
@@ -76,16 +73,20 @@ namespace WebBriliFresh.Controllers
 
 
 
-        public IActionResult Delete(int proId)
+        public IActionResult Delete(int proId, int storeid)
         {
             var myCart = Carts;
             if (Carts != null)
             {
-                myCart.RemoveAll(x => x.ProductId == proId);
+                ShoppingCartViewModel model = myCart.Where(x => x.StoreId == storeid).Where(p=>p.ProductId==proId).FirstOrDefault();
+                if (model!=null)
+                {
+                    myCart.Remove(model) ;
+                }               
                 HttpContext.Session.Set(CommonConstants.SessionCart, myCart);
                 return Json(new
                 {
-                    quantity = Carts.Sum(p => p.ProductId)
+                    quantity = Carts.Where(x => x.StoreId == storeid).Sum(p => p.Quantity)
                 }) ;
             }
             return Json(new
@@ -94,15 +95,15 @@ namespace WebBriliFresh.Controllers
             });
         }
 
-        public IActionResult Update(int proId, int quantity)
+        public IActionResult Update(int proId, int quantity, int storeid)
         {
             var myCart = Carts;
-            var item = myCart.SingleOrDefault(p => p.ProductId == proId);
+            var item = myCart.Where(p => p.ProductId == proId).Where(x=>x.StoreId == storeid).FirstOrDefault();
             item.Quantity = quantity;
             HttpContext.Session.Set(CommonConstants.SessionCart, myCart);
             return Json(new
             {
-                quantity = Carts.Sum(p => p.Quantity)
+                quantity = Carts.Where(x => x.StoreId == storeid).Sum(p => p.Quantity)
             });
         }
 
@@ -491,7 +492,8 @@ namespace WebBriliFresh.Controllers
             {                           
                 for (int i = 0; i < order_details.Count; i++)
                 {
-                    myCart.RemoveAll(x => x.ProductId == order_details[i].ProductId);
+                    var item = myCart.Where(p => p.ProductId == order_details[i].ProductId).Where(x => x.StoreId == order_details[i].StoreId).FirstOrDefault();
+                    myCart.Remove(item);
                 };
                 HttpContext.Session.Set(CommonConstants.SessionCart, myCart);
             }

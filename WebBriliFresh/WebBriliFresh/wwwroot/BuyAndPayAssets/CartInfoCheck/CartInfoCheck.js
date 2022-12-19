@@ -40,7 +40,8 @@ $(document).ready(function() {
             url: "/BuyAndPay/Update",
             data: {
                 proId: $(this).data("id"),
-                quantity: count
+                quantity: count,
+                storeid: $(this).data("storeid")
             },
             success: function (data) {
                 console.log($("#quantity_cart"))
@@ -50,8 +51,26 @@ $(document).ready(function() {
         return false;
     });
 
+
+    $(".content__quantity").change(function () {
+        console.log($(this).val())
+        $.ajax({
+            url: "/buyandpay/update",
+            data: {
+                proid: $(this).siblings(".content__plus").data("id"),
+                quantity: $(this).val(),
+                storeid: $(this).siblings(".content__plus").data("storeid")
+            },
+            success: function (data) {
+                console.log($("#quantity_cart"))
+                $("#quantity_cart").html(data.quantity);
+            }
+        });
+    })
+
     //Nút tăng số lượng sản phẩm
     $('.content__plus').click(function () {
+
         var $input = $(this).parent().find('input');
         $input.val(parseInt($input.val()) + 1);
         $input.change();
@@ -59,7 +78,8 @@ $(document).ready(function() {
             url: "/BuyAndPay/Update",
             data: {
                 proId: $(this).data("id"),
-                quantity: $input.val()
+                quantity: $input.val(),
+                storeid: $(this).data("storeid")
             },
             success: function (data) {
                 console.log($("#quantity_cart"))
@@ -121,10 +141,10 @@ $(document).ready(function() {
             $.ajax({
                 url: "/BuyAndPay/Delete",
                 data: {
-                    proId: $(this).data("id")
+                    proId: $(this).data("id"),
+                    storeid: $(this).data("storeid")
                 },
                 success: function (data) {
-                    console.log($("#quantity_cart"))
                     $("#quantity_cart").html(data.quantity);
                 }
             });
@@ -147,9 +167,10 @@ $(document).ready(function() {
             $(".content__empty-message").hide();
         }
     })
-
+   
     //Hiển thị "Thành tiền" trong trường hợp thay đổi số lượng sản phẩm
-    $('.content__quantity').change(function(){
+    $('.content__quantity').change(function () {
+        
         for (var i=0; i < $(".content__unit-price").length; i++) {
             var unitPrice = $(".content__unit-price")[i].innerHTML;
             var quantity = $(".content__quantity")[i].value;

@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<WebBriliFresh.Models.Product>
 @using Microsoft.AspNetCore.Http;
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@inject WebBriliFresh.Models.BriliFreshDbContext _context;
 
 @using WebBriliFresh.Common;
 @{
@@ -126,8 +127,9 @@
                     {
                         @foreach (var item in Model)
                         {
-                                var b = item.Stocks.Where(x => x.ProId == item.ProId).Sum(i => i.Quantity);
-                                if(b>0){
+                              
+                                var c = _context.Stocks.Where(x => x.ProId == item.ProId && x.StoreId == @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId) && x.Quantity>0).FirstOrDefault();
+                                if( c != null){
 
                                     var e = @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId);
                                     var a = item.ProductImages.Where(x => x.ProId == item.ProId && x.ImgData.Contains("is_avt"));

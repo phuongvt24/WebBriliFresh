@@ -71,53 +71,57 @@
                     <div class="container">
                         @foreach(var item in Model){
                             int x = 0;
-                            var item2 = _context.Products.Where(x => x.ProId == item.ProductId).FirstOrDefault();
-                            var a = _context.ProductImages.Where(x => x.ProId == item.ProductId && x.ImgData.Contains("is_avt"));
-                            var i = a.FirstOrDefault();
-                            <div class="row">
-                                <div class="col-sm-1">
-                                    <input type="checkbox" class="content__select">
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="content__pro-info">
-                                        @if (i != null)
-                                         {
-                                           var m = @i.ImgData;
-                                           <img class="content__pro-image" src="~/ImageProduct/@m"></img>
-                                         }
-                                         else
-                                         {                 
-                                            <img class="content__pro-image" src="~/ImageProduct/none.jpg"></img>
-                                         }
-                                        
-                                        <span class="content__pro-name">@item2.ProName (@item2.Unit)</span>
-                                        <span hidden class="pro_id_item">@item.ProductId</span>
-                                        <span hidden class="store_id_item">@item.StoreId</span>
-                                        <span hidden class="price_no_format">@item.SalePrice</span>
+                            var item2 = _context.Products.Where(x => x.ProId == item.ProductId ).FirstOrDefault();
+
+                            if (item.StoreId == @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId))
+                            {
+                                var a = _context.ProductImages.Where(x => x.ProId == item.ProductId && x.ImgData.Contains("is_avt"));
+                                var i = a.FirstOrDefault();
+                                <div class="row">
+                                    <div class="col-sm-1">
+                                        <input type="checkbox" class="content__select">
                                     </div>
+                                    <div class="col-md-4">
+                                        <div class="content__pro-info">
+                                            @if (i != null)
+                                            {
+                                                var m = @i.ImgData;
+                                                <img class="content__pro-image" src="~/ImageProduct/@m"></img>
+                                            }
+                                            else
+                                            {
+                                                <img class="content__pro-image" src="~/ImageProduct/none.jpg"></img>
+                                            }
+
+                                            <span class="content__pro-name">@item2.ProName (@item2.Unit)</span>
+                                            <span hidden class="pro_id_item">@item.ProductId</span>
+                                            <span hidden class="store_id_item">@item.StoreId</span>
+                                            <span hidden class="price_no_format">@item.SalePrice</span>
+                                        </div>
 
 
-                                </div>
-                                <div class="col-md-2">
-                                    <span class="content__unit-price">@item.SalePrice</span>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="content__quantity-info">
-                                        <span type="button"  class="content__minus" data-id="@item.ProductId">-</span>
-                                        <input class="content__quantity" type="text" value="@item.Quantity" />
-                                        <span type="button" class="content__plus" data-id="@item.ProductId">+</span>
                                     </div>
+                                    <div class="col-md-2">
+                                        <span class="content__unit-price">@item.SalePrice</span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="content__quantity-info">
+                                            <span type="button" class="content__minus" data-id="@item.ProductId" data-storeid="@item.StoreId">-</span>
+                                            <input class="content__quantity" type="text" value="@item.Quantity" />
+                                            <span type="button" class="content__plus" data-id="@item.ProductId" data-storeid="@item.StoreId">+</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <span class="content__amount"></span>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button type="button" class="content__remove" data-id="@item.ProductId" data-storeid="@item.StoreId">
+                                            <img src="~/icons/trash.png" class="content__remove-img"></img>
+                                        </button>
+                                    </div>
+
                                 </div>
-                                <div class="col-md-2">
-                                    <span class="content__amount"></span>
-                                </div>
-                                <div class="col-md-1">
-                                    <button type="button" class="content__remove" data-id="@item.ProductId">
-                                        <img src="~/icons/trash.png" class="content__remove-img"></img>
-                                    </button>
-                                </div>
-                                
-                            </div>
+                            }
                         }
                     </div>
                 </div>

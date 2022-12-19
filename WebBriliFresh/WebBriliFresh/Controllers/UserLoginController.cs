@@ -84,6 +84,8 @@ namespace WebBriliFresh.Controllers
                     HttpContext.Session.SetInt32("CUS_SESSION_CUSID", cusID);
                     HttpContext.Session.SetString("CUS_SESSION_CUSNAME", name);
                     HttpContext.Session.SetString("CUS_SESSION_AVATAR", user.Avatar!);
+                    var random_storeid = _context.Stores.Select(x => x.StoreId).FirstOrDefault();
+                    HttpContext.Session.SetInt32(CommonConstants.SessionStoreId, random_storeid);
 
                     return RedirectToAction("Index", "Home");
                 }

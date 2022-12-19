@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Diagnostics;
+using System.Web.Helpers;
 using WebBriliFresh.Common;
+using WebBriliFresh.Helpers;
 using WebBriliFresh.Models;
+using WebBriliFresh.Models.DTO;
 
 namespace WebBriliFresh.Controllers
 {
@@ -19,12 +23,39 @@ namespace WebBriliFresh.Controllers
             _context = context;
         }
 
-
-        public IActionResult Index()
+        public List<ShoppingCartViewModel> Carts
         {
-            int a = _context.Stores.Where(x => x.IsDeleted == 0).Select(c => c.StoreId).FirstOrDefault();
-            HttpContext.Session.SetInt32(CommonConstants.SessionStoreId, a);
-            return View();
+            get
+            {
+                var data = HttpContext.Session.Get<List<ShoppingCartViewModel>>(CommonConstants.SessionCart);
+                if (data == null)
+                {
+                    data = new List<ShoppingCartViewModel>();
+                }
+                return data;
+            }
+        }
+
+        public async Task<IActionResult> changeid(int storeid)
+        {
+            HttpContext.Session.SetInt32(CommonConstants.SessionStoreId, storeid);
+            return Json(new
+            {
+                quantity = Carts.Where(x => x.StoreId == storeid).Sum(p => p.Quantity)
+            });
+        }
+
+
+        public async Task<IActionResult> Index()
+        {
+            var a = _context.Stores.Where(x => x.IsDeleted == 0);
+            if (HttpContext.Session.GetInt32(CommonConstants.SessionStoreId) == null)
+            {
+                var random_storeid = _context.Stores.Select(x => x.StoreId).FirstOrDefault();
+                HttpContext.Session.SetInt32(CommonConstants.SessionStoreId, random_storeid);
+            } 
+
+            return View(await a.ToListAsync());
         }
 
         [Authorize(Policy = "CustomerOnly")]
