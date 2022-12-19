@@ -47,7 +47,6 @@
                         </div>
                     </div>
                     <div class="row">
-
                         @foreach(var item in Model){
                             if(item.Default==1){
                                 <div class="content__address-list">
@@ -62,19 +61,28 @@
                                         <span class="content__district">@item.District</span>
                                         <span>, </span>
                                         <span class="content__city">@item.City</span>
+
+                                        <span class="content__addid">@item.AddId</span>
+
                                         <span>, Việt Nam.</span>
                                     </span>
                                     <br>
                                     <span>Điện thoại: </span><span class="content__phonenum">@item.Cus.Phone</span>
-                                    <br><br>
+                                    <br><br>     
                                     <div class="content__address-option">
-                                        <label class="content__address-change">
-                                            <input type="radio" class="content__address-change-button" name="addressButton" id="addressButton1" checked>
-                                            <label for="addressButton1" class="content__address-change-name">Giao đến địa chỉ này</label>
+                                        <label class="content__address-change">                        
+                                            <input type="radio" class="content__address-change-button" name="addressButton" id="@item.AddId" checked>
+                                            <label for="@item.AddId" class="content__address-change-name">Giao đến địa chỉ này</label>
                                         </label>
                                     </div>
                                 </div>
-                            }else{
+                            }
+                           
+                        }
+                        @foreach (var item in Model)
+                        {
+                            if (item.Default == 0)
+                            {
                                 <div class="content__address-list">
                                     <span class="content__fullname">@item.Cus.LastName @item.Cus.FirstName</span>
                                     <span class="content__default"></span>
@@ -87,30 +95,22 @@
                                         <span class="content__district">@item.District</span>
                                         <span>, </span>
                                         <span class="content__city">@item.City</span>
+                                        <span class="content__addid">@item.AddId</span>
                                         <span>, Việt Nam.</span>
                                     </span>
-
                                     <br>
                                     <span>Điện thoại: </span><span class="content__phonenum">@item.Cus.Phone</span>
                                     <br><br>
                                     <div class="content__address-option">
                                         <label class="content__address-change">
-                                            <input type="radio" class="content__address-change-button" name="addressButton" id="addressButton2">
-                                            <label for="addressButton2" class="content__address-change-name">Giao đến địa chỉ này</label>
+                                            <input type="radio" class="content__address-change-button" name="addressButton" id="@item.AddId" checked>
+                                            <label for="@item.AddId" class="content__address-change-name">Giao đến địa chỉ này</label>
                                         </label>
                                     </div>
-
                                 </div>
                             }
                            
                         }
-
-
-
-
-
-
-
                     </div>
 
                     <div class="row">

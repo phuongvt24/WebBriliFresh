@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<WebBriliFresh.Models.Product>
 @using Microsoft.AspNetCore.Http;
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+
 @using WebBriliFresh.Common;
 @{
     Layout = null;
@@ -23,7 +24,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
         <title>Document</title>
     </head>
     <body>
@@ -31,7 +32,8 @@
         var isLogin = @HttpContextAccessor.HttpContext.Session.GetInt32("CUS_SESSION_USERID");
     }
         @await Html.PartialAsync("~/views/shared/_fishandmeatheaderpartialview_login.cshtml")
-   
+
+
     <div class="main container">
         <div class="header container"></div>
         <div class="container">
@@ -313,33 +315,32 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"
         ></script>
+
     <script src="~/OverviewProductAssets/List/List.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script>
         $(document).ready(function () {
+            toastr.options = {
+                "debug": false,
+                "positionClass": "toast-top-center",
+                "onclick": null,
+                "showDuration": "1000",
+                "hideDuration": "1000",
+                "timeOut": "2000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
             for (var i = 0; i < $(".price_format").length; i++) {
                 var b = $(".price_format")[i].value;
                 b = b.replace('.00', '');
                 $(".main_format")[i].innerHTML = b;
  
             }
-            //$(document).ready(function () {
-            //    $(".product-item-add-btn").click(function () {
-            //        $.ajax({
-            //            url: "/BuyAndPay/AddToCart",
-            //            data: {
-            //                proId: $(this).data("id"),
-            //                storeid: $(this).data("storeid"),
-            //                saleprice: $(this).data("saleprice"),
-            //                type: "ajax"
-            //            },
-            //            success: function (data) {
-            //                console.log($("#quantity_cart"))
-            //                $("#quantity_cart").html(data.quantity);
-            //            }
-            //        });
-            //    });
-            //});
         });
     </script>
-    </body>
+</body>
 </html>

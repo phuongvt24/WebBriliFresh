@@ -29,7 +29,8 @@
         public int PayBy { get; set; }
         public int Status { get; set; }
         public string ListOrder { get; set; }
-        public int UserId { get; set; }
+        public int CusId { get; set; }
         public int AddressId { get; set; }
+        public int DisId { get; set; }
     }
 }

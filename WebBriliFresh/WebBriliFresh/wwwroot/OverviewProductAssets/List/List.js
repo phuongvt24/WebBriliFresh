@@ -1,4 +1,4 @@
-const rangeInput = document.querySelectorAll(".range-input input"),
+﻿const rangeInput = document.querySelectorAll(".range-input input"),
     priceInput = document.querySelectorAll(".price-input input"),
     range = document.querySelector(".slider .progress");
 let priceGap = 10000;
@@ -58,17 +58,19 @@ range.style.left = (minVal / rangeInput[0].max) * 100 + "%";
 range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
 
 $(document).ready(function () {
+    
     $(".product-item-add-btn").click(function () {
+       /* $("#success").click();*/
+        toastr.success("Sản phẩm vào giỏ hàng!!!");
         $.ajax({
             url: "/BuyAndPay/AddToCart",
             data: {
                 proId: $(this).data("id"),
                 storeid: $(this).data("storeid"),
                 saleprice: $(this).data("saleprice"),
-                type: "ajax"
+                type: "ajax"  
             },
             success: function (data) {
-                console.log($("#quantity_cart"))
                 $("#quantity_cart").html(data.quantity);
             }
         });

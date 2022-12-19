@@ -179,8 +179,9 @@
                                     <input asp-for="Gender" value="3" hidden />
                                     <input asp-for="ListOrder" id="listorder" value="" hidden/>
 
-                                    <input asp-for="UserId" id="User_Id" value="" hidden />
+                                    <input asp-for="CusId" id="User_Id" value="@HttpContextAccessor.HttpContext.Session.GetInt32("CUS_SESSION_CUSID")" hidden />
                                     <input asp-for="AddressId" id="Address_Id" value="" hidden />
+                                    <input asp-for="DisId" id="Dis_Id" value="" hidden />
 
 
                                 </div>

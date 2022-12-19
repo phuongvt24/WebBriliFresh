@@ -49,6 +49,9 @@ $(document).ready(function () {
     $district = sessionStorage.getItem("DISTRICT");
     $city = sessionStorage.getItem("CITY");
 
+    $addid = sessionStorage.getItem("ADDID");
+    $disid = sessionStorage.getItem("DISID");
+
     $("#fullname").html($fullname);
     $("#phonenum").html($phonenum);
     $("#specificAddress").html($specificAddress);
@@ -65,6 +68,10 @@ $(document).ready(function () {
     $("#Ward_add").val($ward)
     $("#District_add").val($district)
     $("#City_add").val($city)
+
+
+    $("#Address_Id").val($addid)
+    $("#Dis_Id").val($disid)
 
 
     var checkoutitem = []
