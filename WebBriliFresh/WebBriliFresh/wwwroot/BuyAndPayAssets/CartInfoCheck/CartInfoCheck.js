@@ -44,7 +44,7 @@ $(document).ready(function() {
                 storeid: $(this).data("storeid")
             },
             success: function (data) {
-                console.log($("#quantity_cart"))
+                
                 $("#quantity_cart").html(data.quantity);
             }
         });
