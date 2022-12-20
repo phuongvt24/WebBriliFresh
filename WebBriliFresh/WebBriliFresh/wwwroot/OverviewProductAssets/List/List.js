@@ -58,9 +58,23 @@ range.style.left = (minVal / rangeInput[0].max) * 100 + "%";
 range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
 
 $(document).ready(function () {
+    toastr.options = {
+        "debug": false,
+        "positionClass": "toast-top-center",
+        "onclick": null,
+        "showDuration": "1000",
+        "hideDuration": "1000",
+        "timeOut": "2000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
     
     $(".product-item-add-btn").click(function () {
-       /* $("#success").click();*/
+        /* $("#success").click();*/
+        console.log("Phương")
         toastr.success("Sản phẩm vào giỏ hàng!!!");
         $.ajax({
             url: "/BuyAndPay/AddToCart",

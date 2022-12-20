@@ -83,19 +83,21 @@ namespace WebBriliFresh.Models.DAO
 
                 for (int i = 0; i < selected.Count; i++) {
                     if (selected[i] == "1") {
-                        products = products.Where(x => (DateTime.Now - (DateTime)x.StartDate).TotalDays <= 3).ToList();
+                       
+
+                        products = products.Where(x => db.DiscountProducts.Where(z=>z.Status==true).Select(y => y.ProId).Contains(x.ProId)).ToList();
 
                     }
                     if (selected[i] == "2") {
-                        products = products.Where(x => db.DiscountProducts.Select(y => y.ProId).Contains(x.ProId)).ToList();
+                        products = products.Where(x => (DateTime.Now - (DateTime)x.StartDate).TotalDays <= 3).ToList(); 
 
                     }
                     if (selected[i] == "3") {
-                        products = products.Where(x => x.Source.Equals("Sản phẩm của Brili")).ToList();
+                        products = products.Where(x => x.Source.Equals("Sản phẩm của Brili Fresh")).ToList();
 
                     }
                     if (selected[i] == "4") {
-                        products = products.Where(x => x.Source.Equals("Hàng Nhập khẩu")).ToList();
+                        products = products.Where(x => x.Source.Equals("Sản phẩm nhập khẩu")).ToList();
 
                     }
                 }
@@ -162,12 +164,13 @@ namespace WebBriliFresh.Models.DAO
                 {
                     if (selected[i] == "1")
                     {
-                        products = products.Where(x => (DateTime.Now - (DateTime)x.StartDate).TotalDays <= 3).ToList();
+                        products = products.Where(x => db.DiscountProducts.Select(y => y.ProId).Contains(x.ProId)).ToList();
 
                     }
                     if (selected[i] == "2")
                     {
-                        products = products.Where(x => db.DiscountProducts.Select(y => y.ProId).Contains(x.ProId)).ToList();
+                        products = products.Where(x => (DateTime.Now - (DateTime)x.StartDate).TotalDays <= 3).ToList();
+
 
                     }
                     if (selected[i] == "3")
@@ -177,7 +180,7 @@ namespace WebBriliFresh.Models.DAO
                     }
                     if (selected[i] == "4")
                     {
-                        products = products.Where(x => x.Source.Equals("Hàng Nhập khẩu")).ToList();
+                        products = products.Where(x => x.Source.Equals("Sản phẩm nhập khẩu")).ToList();
 
                     }
                 }
@@ -209,8 +212,21 @@ namespace WebBriliFresh.Models.DAO
         }
         public DiscountProduct getDiscount(int? ProId) {
             var rs = db.Products.Where(x => x.ProId == ProId && x.IsDeleted == 0).FirstOrDefault();
-            var discount = db.DiscountProducts.Where(x => x.ProId == rs.ProId && x.Status==true).FirstOrDefault();
-            return discount;
+            var discount = db.DiscountProducts.Where(x => x.ProId == rs.ProId && x.Status==true).ToList();
+            for(int i = 0; i < discount.Count; i++)
+            {
+                var nowdate=DateTime.Now;
+                if (nowdate > (DateTime)discount[i].StartDate && nowdate < (DateTime)discount[i].EndDate)
+                {
+                    var discount_1 = new DiscountProduct();
+                    discount_1 = discount[i];
+                    return discount_1;
+                }
+            }
+
+                var discount2 = new DiscountProduct();
+                discount2.Value = 0;
+                return discount2;        
         }
 
         public Stock getStock(int? ProId, int? storeID) {

@@ -1,4 +1,12 @@
-﻿@{
+﻿@model IEnumerable<WebBriliFresh.Models.Product>
+@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@inject WebBriliFresh.Models.BriliFreshDbContext _context;
+
+@using WebBriliFresh.Common;
+
+
+@{
     Layout = null;
 }
 
@@ -48,7 +56,7 @@
                   </div>
                   <div class="col-3 col-category mx-auto ">
                     <div class="nav-item category-detail align-item-center text-center">
-                        <a class="nav-link" asp-controller="OverviewProduct" asp-action="ListFishAndMeat" >Bò dê
+                        <a class="nav-link" asp-controller="OverviewProduct" asp-action="IndexListFishAndMeat" >Bò dê
                         </a>
                         <div class="category-img category-img-cow">
                         </div>
@@ -150,7 +158,61 @@
         </div>
         <div class="items-container mt-5 ">
             <div class="list-products col-12 row d-flex" style="justify-content: space-evenly; margin: 0px;">
-                <div class="product-item col-2">
+
+
+                @if (Model != null)
+                {
+                    @foreach (var item in Model)
+                    {
+
+                        var c = _context.Stocks.Where(x => x.ProId == item.ProId && x.StoreId == @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId) && x.Quantity > 0).FirstOrDefault();
+                        if (c != null)
+                        {
+
+                            var e = @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId);
+                            var a = item.ProductImages.Where(x => x.ProId == item.ProId && x.ImgData.Contains("is_avt"));
+                            var i = a.FirstOrDefault();
+                            <div class="product-item col-3">
+                                <div class="product-item-img" onclick='window.location = "@Url.Action("DetailFishAndMeat", "OverviewProduct")"'>
+                                    @if (i != null)
+                                    {
+                                        var m = @i.ImgData;
+                                        <img src="~/ImageProduct/@m" alt="" class="product-item-img-child" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/ImageProduct/none.jpg" alt="" class="product-item-img-child" />
+                                    }
+                                </div>
+                                <div class="product-item-tittle">
+                                    <p class="product-item-tittle-child" onclick='window.location = "@Url.Action("DetailFishAndMeat", "OverviewProduct")"'>@Html.DisplayFor(modelItem => item.ProName) (@Html.DisplayFor(modelItem => item.Unit))</p>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class="product-item-price">
+                                        <input type="hidden" class="price_format" value="@Html.DisplayFor(modelItem => item.PriceString)">
+                                        <p class="product-item-price-child main_format"></p>
+                                    </div>
+                                    <div class="product-item-add">
+                                        <button type="button" data-id="@item.ProId" data-storeid="@e" data-saleprice="@item.Price" class="product-item-add-btn">+</button>
+                                    </div>
+                                </div>
+                                <div class="d-flex ">
+                                    <div class="product-item-price-dis">
+                                        <p class="product-item-price-dis-child">199,000</p>
+                                    </div>
+                                    <div class="dis-rate">
+                                        <p class="dis-rate-child">-20%</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    }
+                }
+
+
+
+               @* <div class="product-item col-2">
                     <div class="product-item-img">
                         <img src="~/OverviewProductAssets/images/items/bongcai.png" alt="" class="product-item-img-child" />
                     </div>
@@ -269,7 +331,7 @@
                             <p class="dis-rate-child">-20%</p>
                         </div>
                     </div>
-                </div>
+                </div>*@
                
             </div>
         </div>

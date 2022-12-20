@@ -1,0 +1,681 @@
+﻿@model WebBriliFresh.Models.ViewModels.FilterViewModel;
+@using WebBriliFresh.Models.DAO;
+@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@inject WebBriliFresh.Models.BriliFreshDbContext _context;
+
+@using WebBriliFresh.Common;
+<div class="products-content">
+    <div class="row" style="width: 105%">
+        <div class="filter-products col-3">
+            <div class="filter-heading">
+                <p class="filter-heading-item">Danh mục sản phẩm</p>
+            </div>
+            <div class="filter-heading-icon">
+                <ti class="ti-angle-down ti-angle-down-icon"> </ti>
+            </div>
+            <div class="filter-heading-line"></div>
+            <div class="filter-heading-check selectedOp">
+                @*<div>@(Model.selectedOp[0])</div>*@
+                @* @foreach (var item in ViewBag.list){
+                <div>@item</div>
+                }*@
+
+                @*<div>@(Model.searchTerm)</div>*@
+
+                <div class="form-check ">
+                    <input class="form-check-input deal-soc" type="checkbox" name="flexCheckDefault" value="1" id="" @(Model.selectedOp.Count!=0 ? Model.selectedOp.Contains("1") ? "checked" : string.Empty : string.Empty) />
+                    <label class="form-check-label" for="flexCheckDefault"> Deal sốc </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input new-products" type="checkbox" name="flexCheckDefault" value="2" id="" @(Model.selectedOp.Count!=0 ? Model.selectedOp.Contains("2") ? "checked" : string.Empty : string.Empty) />
+                    <label class="form-check-label" for="flexCheckChecked"> Thịt mới về </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input origin-product" type="checkbox" name="flexCheckDefault" value="3" id="" @(Model.selectedOp.Count!=0 ? Model.selectedOp.Contains("3") ? "checked" : string.Empty : string.Empty) />
+                    <label class="form-check-label" for="flexCheckDefault"> Sản phẩm của Brili </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input import-prodcut" type="checkbox" name="flexCheckDefault" value="4" id="" @(Model.selectedOp.Count!=0 ? Model.selectedOp.Contains("4") ? "checked" : string.Empty : string.Empty) />
+                    <label class="form-check-label" for="flexCheckChecked"> Hàng nhập khẩu </label>
+                </div>
+            </div>
+            <div class="filter-heading-price">
+                <div class="filter-heading">
+                    <p class="filter-heading-item">Giá</p>
+                </div>
+                <div class="filter-heading-icon-2">
+                    <ti class="ti-angle-down ti-angle-down-icon"> </ti>
+                </div>
+
+                <div class="filter-heading-line"></div>
+                <div class="wrapper">
+                    <div class="slider">
+                        <div class="progress"></div>
+                    </div>
+                    <div class="range-input">
+                        @*<input type="range" class="range-min" min="0" max="500000" value="@Model.MinPrice" step="10000" />
+                        <input type="range" class="range-max" min="0" max="500000" value="@Model.MaximumPrice" step="10000" />*@
+
+                        <input type="range" class="range-min" min="0" max="500000" value="@Model.MinPrice" step="10000" />
+                        <input type="range" class="range-max" min="0" max="500000" value="@Model.MaximumPrice" step="10000" />
+                    </div>
+                </div>
+                <div class="price-input">
+                    <div class="field">
+                        <input type="number" class="input-min" value="@Model.MinPrice" disabled />
+                    </div>
+                    <div class="field">
+                        <input type="number" class="input-max" value="@Model.MaximumPrice" disabled />
+                    </div>
+                </div>
+                <div class="filter-info-price">
+                    <p class="info-price">Giá: 0 - 500.000 VNĐ</p>
+                </div>
+            </div>
+            <div class="filter-check-price">
+                <div class="filter-info-price-check">
+                    <p class="info-price-check">Sắp xếp theo</p>
+                </div>
+                <div class="form-check sortBy">
+                    <input class="form-check-input tang-dan" type="radio" name="check-price" value="1" id="" @(Model.SortBy.HasValue ? Model.SortBy.Value == 1 ? "checked" : string.Empty : string.Empty) />
+                    <label class="form-check-label" for="flexCheckDefault"> Giá tăng dần </label>
+                </div>
+                <div class="form-check sortBy">
+                    <input class="form-check-input giam-dan" type="radio" name="check-price" value="2" id=""
+                           @(Model.SortBy.HasValue ? Model.SortBy.Value == 2 ? "checked" : string.Empty : string.Empty) />
+                    <label class="form-check-label" for="flexCheckChecked"> Giá giảm dần </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="list-products col-9 row d-flex">
+            @foreach (var item in Model.Products)
+            {
+                <div class="product-item col-3">
+                    <input type="hidden" id="@item.ProId" data-id="@item.ProId" data-store="@Model.StoreID" />
+                    <div class="product-item-img">
+                        @{
+                            ProductServices productService = new ProductServices();
+                            var dis = productService.getDiscount(item.ProId);
+                        };
+                        <a href='@Url.Action("DetailFishAndMeat","OverviewProduct" , new { ProId = item.ProId, StoreId = Model.StoreID})'>
+                            <img src="~/OverviewProductAssets/images/items/bouc.png" alt="" class="product-item-img-child" />
+                        </a>
+
+                        @*<img src="~/ImageProduct/@{productService.getImg(@item.ProId);}" alt="" class="product-item-img-child" />*@
+                    </div>
+                    <div class="product-item-tittle">
+                        <p class="product-item-tittle-child">@item.ProName</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div class="product-item-price">
+                            @*<p class="product-item-price-child">99,000</p>*@
+                            <p class="product-item-price-child" value="@(item.Price*(decimal)(1-dis.Value))">@((item.Price * (decimal)(1 - dis.Value)).ToString("#,##0"))</p>
+
+                        </div>
+                        <div class="product-item-add">
+                            <button type="button" data-id="@item.ProId" data-storeid="@HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId)" data-saleprice="@(item.Price*(decimal)(1-dis.Value))" class="product-item-add-btn">+</button>
+                        </div>
+                    </div>
+                    <div class="d-flex ">
+                        <div class="product-item-price-dis">
+                            <p class="product-item-price-dis-child" value="@(item.Price)">@((item.Price).ToString("#,##0"))</p>
+                        </div>
+                        <div class="dis-rate"> 
+                            @if(dis.Value==0){
+                                <p class="dis-rate-child" value="@(dis.Value*100.0)"></p>
+                            }else{
+                                <p class="dis-rate-child" value="@(dis.Value*100.0)">-@(dis.Value * 100.0)%</p>
+                            }
+                            
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="products-pagination d-flex justify-content-end">
+            <div class="pagination">
+                @if (Model.Pager.TotalPages > 0)
+                {
+                    <ul class="pagination justify-content-end">
+                        @if (Model.Pager.CurrentPage > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" data-href="@Url.Action("FilterProductsFruit", "OverviewProduct", new { search=Model.searchTerm, minimumPrice=Model.MinPrice, maximumPrice=Model.MaximumPrice,typeID = Model.TypeID, storeID = Model.StoreID ,selecteString = Model.selectedOp , sortBy = Model.SortBy, pageNo = 1 })">First</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" data-href="@Url.Action("FilterProductsFruit", "OverviewProduct", new {  search=Model.searchTerm, minimumPrice=Model.MinPrice, maximumPrice=Model.MaximumPrice,typeID = Model.TypeID, storeID = Model.StoreID,selecteString = Model.selectedOp , sortBy = Model.SortBy, pageNo = Model.Pager.CurrentPage - 1 })">&laquo;</a>
+                            </li>
+                        }
+                        @for (var pge = Model.Pager.StartPage; pge <= Model.Pager.EndPage; pge++)
+                        {
+
+                            string activeClass = Model.Pager.CurrentPage == pge ? "active bg-info" : string.Empty;
+                            <li class="page-item @activeClass">
+                                <a class="page-link" data-href="@Url.Action("FilterProductsFruit", "OverviewProduct", new { search=Model.searchTerm, minimumPrice=Model.MinPrice, maximumPrice=Model.MaximumPrice,typeID = Model.TypeID,storeID = Model.StoreID ,selecteString = Model.selectedOp , sortBy = Model.SortBy, pageNo = pge })">@pge</a>
+                            </li>
+                        }
+                        @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" data-href="@Url.Action("FilterProductsFruit", "OverviewProduct", new {  search=Model.searchTerm, minimumPrice=Model.MinPrice, maximumPrice=Model.MaximumPrice,typeID = Model.TypeID, storeID = Model.StoreID, selecteString = Model.selectedOp , sortBy = Model.SortBy, pageNo = Model.Pager.CurrentPage  + 1 })">&raquo;</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" data-href="@Url.Action("FilterProductsFruit", "OverviewProduct", new {  search=Model.searchTerm, minimumPrice=Model.MinPrice, maximumPrice=Model.MaximumPrice,typeID = Model.TypeID, selecteString = Model.selectedOp , sortBy = Model.SortBy, pageNo = Model.Pager.TotalPages})">Last</a>
+                            </li>
+                        }
+                    </ul>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/OverviewProductAssets/List/List.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(document).keypress(
+            function (event) {
+                if (event.which == '13') {
+                    event.preventDefault();
+                    $(".search-button #search").click();
+                }
+            });
+
+        $(".search-button #search").one('click', function () {
+
+
+            var looking = $('input[type="search"]').val();
+            //alert(looking);
+            var op = new Array();
+            var check = $(".selectedOp").find(".form-check-input");
+            console.log($(this).val());
+            check.each(function () {
+                if ($(this).is(":checked")) // "this" refers to the element that fired the event
+                {
+                    var opt = $(this).val();
+                    op.push(opt);
+                }
+            })
+
+            var select = op.join(",");
+
+
+            var sort = 1;
+
+            var sortByEle = $(".filter-check-price").find(".form-check-input");
+            sortByEle.each(function () {
+                if ($(this).is(":checked")) // "this" refers to the element that fired the event
+                {
+                    sort = $(this).val();
+
+                }
+            })
+            $.ajax({
+                url: '@Url.Action("FilterProductsFruit", "OverviewProduct")',
+                type: 'post',
+                data: {
+                    search: looking,
+                    minimumPrice: $(".input-min").val(),
+                    maximumPrice: $(".input-max").val(),
+                    typeID: @Model.TypeID,
+                    storeID: @Model.StoreID,
+                    selecteString: select,
+                    sortBy: sort,
+                    pageNo: 1,
+                    pageSize: 16,
+                }
+            })
+                .done(function (response) {
+                    $("#productsDiv").html(response);
+                    $('input[type="search"]').val(looking);
+                });
+
+
+        });
+
+
+
+        $(".selectedOp .new-products").one('click', function () {
+            var op = new Array();
+            var check = $(".selectedOp").find(".form-check-input");
+            console.log($(this).val());
+            check.each(function () {
+                if ($(this).is(":checked")) // "this" refers to the element that fired the event
+                {
+                    var opt = $(this).val();
+                    op.push(opt);
+                }
+            })
+
+            var select = op.join(",");
+
+
+            var sort = 1;
+
+            var sortByEle = $(".filter-check-price").find(".form-check-input");
+            sortByEle.each(function () {
+                if ($(this).is(":checked")) // "this" refers to the element that fired the event
+                {
+                    sort = $(this).val();
+
+                }
+            })
+            $.ajax({
+                url: '@Url.Action("FilterProductsFruit", "OverviewProduct")',
+                type: 'post',
+                data: {
+                    search: '@Model.searchTerm',
+                    minimumPrice: $(".input-min").val(),
+                    maximumPrice: $(".input-max").val(),
+                    typeID: @Model.TypeID,
+                    storeID: @Model.StoreID,
+                    selecteString: select,
+                    sortBy: sort,
+                    pageNo: 1,
+                    pageSize: 16,
+                }
+            })
+                .done(function (response) {
+                    $("#productsDiv").html(response);
+                });
+        });
+
+        $(".selectedOp .deal-soc").one('click', function () {
+            var op = new Array();
+            var check = $(".selectedOp").find(".form-check-input");
+            console.log($(this).val());
+            check.each(function () {
+                if ($(this).is(":checked")) // "this" refers to the element that fired the event
+                {
+                    var opt = $(this).val();
+                    op.push(opt);
+                }
+            })
+
+            var select = op.join(",");
+
+            var sort = 1;
+
+            var sortByEle = $(".filter-check-price").find(".form-check-input");
+            sortByEle.each(function () {
+                if ($(this).is(":checked")) // "this" refers to the element that fired the event
+                {
+                    sort = $(this).val();
+
+                }
+            })
+            $.ajax({
+                url: '@Url.Action("FilterProductsFruit", "OverviewProduct")',
+                type: 'post',
+                data: {
+                    search: '@Model.searchTerm',
+                    minimumPrice: $(".input-min").val(),
+                    maximumPrice: $(".input-max").val(),
+                    typeID: @Model.TypeID,
+                    storeID: @Model.StoreID,
+                    selecteString: select,
+                    sortBy: sort,
+                    pageNo: 1,
+                    pageSize: 16,
+                }
+
+            }).done(function (response) {
+                $("#productsDiv").html(response);
+            });
+        });
+
+
+
+        $(".selectedOp .origin-product").one('click', function () {
+            var op = new Array();
+            var check = $(".selectedOp").find(".form-check-input");
+            console.log($(this).val());
+            check.each(function () {
+                if ($(this).is(":checked")) // "this" refers to the element that fired the event
+                {
+                    var opt = $(this).val();
+                    op.push(opt);
+                }
+            })
+
+            var select = op.join(",");
+
+            var sort = 1;
+
+            var sortByEle = $(".filter-check-price").find(".form-check-input");
+            sortByEle.each(function () {
+                if ($(this).is(":checked")) // "this" refers to the element that fired the event
+                {
+                    sort = $(this).val();
+
+                }
+            })
+            $.ajax({
+                url: '@Url.Action("FilterProductsFruit", "OverviewProduct")',
+                type: 'post',
+                data: {
+                    search: '@Model.searchTerm',
+                    minimumPrice: $(".input-min").val(),
+                    maximumPrice: $(".input-max").val(),
+                    typeID: @Model.TypeID,
+                    storeID: @Model.StoreID,
+                    selecteString: select,
+                    sortBy: sort,
+                    pageNo: 1,
+                    pageSize: 16,
+                }
+            })
+                .done(function (response) {
+                    $("#productsDiv").html(response);
+                });
+        });
+
+        $(".selectedOp .import-prodcut").one('click', function () {
+            var op = new Array();
+            var check = $(".selectedOp").find(".form-check-input");
+            console.log($(this).val());
+            check.each(function () {
+                if ($(this).is(":checked")) // "this" refers to the element that fired the event
+                {
+                    var opt = $(this).val();
+                    op.push(opt);
+                }
+            })
+
+            var select = op.join(",");
+            var sort = 1;
+
+            var sortByEle = $(".filter-check-price").find(".form-check-input");
+            sortByEle.each(function () {
+                if ($(this).is(":checked")) // "this" refers to the element that fired the event
+                {
+                    sort = $(this).val();
+
+                }
+            })
+            $.ajax({
+                url: '@Url.Action("FilterProductsFruit", "OverviewProduct")',
+                type: 'post',
+                data: {
+                    search: '@Model.searchTerm',
+                    minimumPrice: $(".input-min").val(),
+                    maximumPrice: $(".input-max").val(),
+                    typeID: @Model.TypeID,
+                    storeID: @Model.StoreID,
+                    selecteString: select,
+                    sortBy: sort,
+                    pageNo: 1,
+                    pageSize: 16,
+                }
+            })
+                .done(function (response) {
+                    $("#productsDiv").html(response);
+                });
+        });
+        $(".range-min").on('input', function () {
+            setTimeout(
+                function () {
+                    var op = new Array();
+                    var check = $(".selectedOp").find(".form-check-input");
+
+                    check.each(function () {
+                        if ($(this).is(":checked")) // "this" refers to the element that fired the event
+                        {
+                            var opt = $(this).val();
+                            op.push(opt);
+                        }
+                    })
+
+                    var select = op.join(",");
+                    var sort = 1;
+
+                    var sortByEle = $(".filter-check-price").find(".form-check-input");
+                    sortByEle.each(function () {
+                        if ($(this).is(":checked")) // "this" refers to the element that fired the event
+                        {
+                            sort = $(this).val();
+
+                        }
+                    })
+
+                    $.ajax({
+                        url: '@Url.Action("FilterProductsFruit", "OverviewProduct")',
+                        type: 'post',
+                        data: {
+                            search: '@Model.searchTerm',
+                            minimumPrice: $(".input-min").val(),
+                            maximumPrice: $(".input-max").val(),
+                            typeID: @Model.TypeID,
+                            storeID: @Model.StoreID,
+                            selecteString: select,
+                            sortBy: sort,
+                            pageNo: 1,
+                            pageSize: 16,
+                        }
+                    })
+                        .done(function (response) {
+                            $("#productsDiv").html(response);
+                        });
+                },
+                500);
+
+        });
+
+        $(".range-max").on('input', function () {
+
+            setTimeout(
+                function () {
+                    var op = new Array();
+                    var check = $(".selectedOp").find(".form-check-input");
+
+                    check.each(function () {
+                        if ($(this).is(":checked")) // "this" refers to the element that fired the event
+                        {
+                            var opt = $(this).val();
+                            op.push(opt);
+                        }
+                    })
+
+                    var select = op.join(",");
+                    var sort = 1;
+
+                    var sortByEle = $(".filter-check-price").find(".form-check-input");
+                    sortByEle.each(function () {
+                        if ($(this).is(":checked")) // "this" refers to the element that fired the event
+                        {
+                            sort = $(this).val();
+
+                        }
+                    })
+
+                    $.ajax({
+                        url: '@Url.Action("FilterProductsFruit", "OverviewProduct")',
+                        type: 'post',
+                        data: {
+                            search: '@Model.searchTerm',
+                            minimumPrice: $(".input-min").val(),
+                            maximumPrice: $(".input-max").val(),
+                            typeID: @Model.TypeID,
+                            storeID: @Model.StoreID,
+                            selecteString: select,
+                            sortBy: sort,
+                            pageNo: 1,
+                            pageSize: 16,
+                        }
+                    })
+                        .done(function (response) {
+                            $("#productsDiv").html(response);
+                        });
+                },
+                500);
+
+
+        });
+
+
+
+
+
+
+        $(".sortBy .tang-dan").one('click', function () {
+            var op = new Array();
+            var check = $(".selectedOp").find(".form-check-input");
+
+            check.each(function () {
+                if ($(this).is(":checked")) // "this" refers to the element that fired the event
+                {
+                    var opt = $(this).val();
+                    op.push(opt);
+                }
+            })
+
+            var select = op.join(",");
+            var sort = 1;
+
+            var sortByEle = $(".filter-check-price").find(".form-check-input");
+            sortByEle.each(function () {
+                if ($(this).is(":checked")) // "this" refers to the element that fired the event
+                {
+                    sort = $(this).val();
+
+                }
+            })
+
+            console.log(sort)
+
+
+            $.ajax({
+                url: '@Url.Action("FilterProductsFruit", "OverviewProduct")',
+                type: 'post',
+                data: {
+                    search: '@Model.searchTerm',
+                    minimumPrice: $(".input-min").val(),
+                    maximumPrice: $(".input-max").val(),
+                    typeID: @Model.TypeID,
+                    storeID: @Model.StoreID,
+                    selecteString: select,
+                    sortBy: sort,
+                    pageNo: 1,
+                    pageSize: 16,
+                }
+            })
+                .done(function (response) {
+                    $("#productsDiv").html(response);
+                });
+        });
+
+        $(".sortBy .giam-dan").one('click', function () {
+            var op = new Array();
+            var check = $(".selectedOp").find(".form-check-input");
+
+            check.each(function () {
+                if ($(this).is(":checked")) // "this" refers to the element that fired the event
+                {
+                    var opt = $(this).val();
+                    op.push(opt);
+                }
+            })
+
+            var select = op.join(",");
+            var sort = 1;
+
+            var sortByEle = $(".filter-check-price").find(".form-check-input");
+            sortByEle.each(function () {
+                if ($(this).is(":checked")) // "this" refers to the element that fired the event
+                {
+                    sort = $(this).val();
+
+                }
+            })
+
+            console.log(sort)
+
+            $.ajax({
+                url: '@Url.Action("FilterProductsFruit", "OverviewProduct")',
+                type: 'post',
+                data: {
+                    search: '@Model.searchTerm',
+                    minimumPrice: $(".input-min").val(),
+                    maximumPrice: $(".input-max").val(),
+                    typeID: @Model.TypeID,
+                    storeID: @Model.StoreID,
+                    selecteString: select,
+                    sortBy: sort,
+                    pageNo: 1,
+                    pageSize: 16,
+                }
+            })
+                .done(function (response) {
+                    $("#productsDiv").html(response);
+                });
+        });
+
+        //    $(".product-item").click(function (e) {
+        //        var proid = $(this).find('input').data('id');
+        //        var storeid = $(this).find('input').data('store');
+
+        //        window.location.href = 'Url.Action("DetailFishAndMeat","OverviewProduct" , new { ProId = proid, StoreId = Model.StoreID})';
+        //});
+        $(".search-container .search-input").keyup(function () {
+
+            var looking = $('input[type="search"]').val();
+            if (looking != "") {
+                $('#result-search').css('display', 'block');
+
+
+
+                var expression = new RegExp(looking, "i");
+                console.log(expression);
+
+                $.ajax({
+                    url: "@Url.Action("AutoComplete","OverviewProduct")",
+                    dataType: 'json',
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    //data: selectedValue,
+                    processData: false,
+                    cache: false,
+                    data: { search: looking },
+                    success: function (respone) {
+
+                        console.log(respone)
+                        $('#result-search').empty();
+                        //var jsonobj = JSON.parse(sup);
+                        $.each(respone, function (key, value) {
+                            if (value.proName.search(expression) != -1) {
+
+                                //console.log('binggo');
+                                $('#result-search').append('<li style="cursor:pointer; display: block; width : auto ; height: auto;color: #2d2e37 ; background: transparent; background-color: #ffffff;" class="list-group-item link-class ">' + value.proName + ' </li>')
+
+
+                            }
+                        });
+
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+            } else {
+                $('#result-search').css('display', 'none');
+            }
+
+        });
+
+        $('.list-group').on('click', 'li', function () {
+            var click_text = $(this).text()
+            $('.search-container .search-input').val($.trim(click_text));
+
+            $('#result-search').html('');
+            $('#result-search').css('display', 'none');
+
+        })
+    });
+
+</script>

@@ -31,7 +31,7 @@
         </div>
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Id" value="@Model.Id" />
             <input type="hidden" asp-for="UserName" />
             <input type="hidden" asp-for="UserRole" />
             <div class="form-group">
