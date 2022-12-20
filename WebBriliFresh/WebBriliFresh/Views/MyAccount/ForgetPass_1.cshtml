@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -55,19 +57,21 @@
                 <!-- PHẦN TRÊN LÀ PHẦN DÙNG CHUNG-->
                 <!-- Phần riêng cho trang này -->
                 <div class="heading-right">Đổi mật khẩu</div>
-                <form action="" class="form-forgot-password">
+                <form asp-action="ForgotPassword" asp-controller="UserLogin" method="post" class="form-forgot-password" id="forgetPassForm">
                     <div class="form-return">
-                        <a href="./DoiMatKhau.html"><i class="ti-arrow-left"></i></a>
+                        <a asp-controller="MyAccount"
+                           asp-action="ChangePass_1"><i class="ti-arrow-left"></i></a>
                     </div>
 
                     <div class="form-header">Đặt lại mật khẩu</div>
                     <div class="form-body">
                         <p>Vui lòng chọn phương thức mà bạn muốn đặt lại mật khẩu:</p>
                         <div>
-                            <a class="btn-shared" onclick='window.location = "@Url.Action("ForgetPass_2", "MyAccount")"'>
+                            <a class="btn-shared" id="submitButton">
                                 <i class="ti-email"></i>
-                                Email <span id="email-input">quynhchi1311@gmail.com</span>
-                            </a>
+                                <input type="text" id="email-input" value="@HttpContextAccessor.HttpContext.Session.GetString("CUS_SESSION_EMAIL")" hidden name="Email" />
+                                Email <span id="email-input">@HttpContextAccessor.HttpContext.Session.GetString("CUS_SESSION_EMAIL")</span>
+                                <a />
                         </div>
                     </div>
                 </form>
@@ -77,5 +81,10 @@
     </div>
     @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
     <script type="text/javascript" src="~/MyAccountAssets/MyAccount/SubNavSide.js"></script>
+    <script>
+        document.getElementById("submitButton").onclick = function () {
+            document.getElementById("forgetPassForm").submit();
+        }
+    </script>
 </body>
 </html>

@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -59,9 +61,8 @@
                     <div class="form-header">Đặt lại mật khẩu</div>
                     <div class="form-body">
                         <p>Mã xác minh đã được gửi đến địa chỉ email</p>
-                        <span class="email-input">quynhchi1311@gmail.com</span>
+                        <span class="email-input">@HttpContextAccessor.HttpContext.Session.GetString("CUS_SESSION_EMAIL")</span>
                         <p>Vui lòng xác minh.</p>
-                        <div><a class="form-btn" onclick='window.location = "@Url.Action("ForgetPass_3", "MyAccount")"'>OK</a></div>
                     </div>
                 </form>
             </div>

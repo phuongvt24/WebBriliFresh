@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
+using MimeKit.Encodings;
+using System.Collections.Generic;
 using System.Diagnostics;
 using WebBriliFresh.Models;
 
@@ -66,10 +69,10 @@ namespace WebBriliFresh.Controllers
 
                 if (photo != null)
                 {
-                    string picfilename = DoPhotoUpload(photo);
+                    string picfilename = DoPhotoUpload(photo, "MyAccountAssets/UserPhotos/");
                     User user = await _context.Users.FindAsync(UserId);
 
-                    if(user.Avatar != null || user.Avatar != "download.jfif")
+                    if (user.Avatar != null || user.Avatar != "download.jfif")
                     {
                         DeleteOldAvatar(user.Avatar);
                     }
@@ -112,17 +115,221 @@ namespace WebBriliFresh.Controllers
         {
             return View();
         }
-        public IActionResult ManageOrder()
+        public async Task<IActionResult> ManageOrder()
         {
-            return View();
+            int cusID = (int)HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
+            var cusOrders = _context.Orders.Where(c => c.CusId == cusID)
+                .Include(a => a.OrderDetails)
+                .ThenInclude(cs => cs.Pro)
+                .Include(a => a.OrderDetails)
+                .ThenInclude(cs => cs.Pro.ProductImages);
+
+            return View(await cusOrders.ToListAsync());
         }
-        public IActionResult ManageAddress()
+
+        public IActionResult OrderDetail()
         {
-            return View();
+            int id = (int)TempData["id"];
+
+            int cusID = (int)HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
+            var cusOrder = _context.Orders.Where(c => c.CusId == cusID)
+                .Include(a => a.Add)
+                .Include(a => a.OrderDetails)
+                .ThenInclude(cs => cs.Pro)
+                .Include(a => a.OrderDetails)
+                .ThenInclude(cs => cs.Pro.ProductImages)
+                .Include(a => a.Trans).ToList();
+            var order = cusOrder.FirstOrDefault(d => d.OrderId == id);
+            return View(order);
         }
-        public IActionResult ManageFeedback()
+
+
+        [Route("OrderDetailPost/{id}")]
+        public IActionResult OrderDetailPost(int? id)
         {
-            return View();
+            TempData["id"] = id;
+            return RedirectToAction(nameof(OrderDetail));
+        }
+
+        public async Task<IActionResult> ManageAddress()
+        {
+            int cusID = (int)HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
+            var cusAddresses = _context.Addresses.Where(c => c.CusId == cusID).Include(a => a.Cus);
+
+            return View(await cusAddresses.ToListAsync());
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateAddress()
+        {
+            IFormCollection form = HttpContext.Request.Form;
+            int cusId = Int32.Parse(form["CusId"]);
+            int addId = Int32.Parse(form["AddId"]);
+            string city = form["city-select"].ToString().Trim();
+            string district = form["district-select"].ToString().Trim();
+            string ward = form["ward-select"].ToString().Trim();
+            string specificAddress = form["specific-address"].ToString().Trim();
+            string isDefault = form["address-default"].ToString().Trim();
+            int check;
+            bool isCheck = Int32.TryParse(isDefault, out check);
+
+
+            Address address = await _context.Addresses.FindAsync(addId);
+            address.City = city;
+            address.Ward = ward;
+            address.District = district;
+            address.SpecificAddress = specificAddress;
+            if (check == 1)
+            {
+                address.Default = 1;
+                var defaultAddress = _context.Addresses.FirstOrDefault(c => c.CusId == cusId && c.Default == 1);
+                defaultAddress.Default = 0;
+                _context.Update(defaultAddress);
+            }
+
+
+            if (await TryUpdateModelAsync<Address>(
+                       address,
+                       "address",
+                       s => s.City!, s => s.Ward!, s => s.District!, s => s.Default))
+            {
+                // EF will detect the change and update only the column that has changed.
+                await _context.SaveChangesAsync();
+            }
+
+
+            return RedirectToAction(nameof(ManageAddress));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddAddress()
+        {
+            IFormCollection form = HttpContext.Request.Form;
+            int cusId = Int32.Parse(form["CusId"]);
+            string city = form["city-select"].ToString().Trim();
+            string district = form["district-select"].ToString().Trim();
+            string ward = form["ward-select"].ToString().Trim();
+            string specificAddress = form["specific-address"].ToString().Trim();
+            string isDefault = form["address-default"].ToString().Trim();
+            int check;
+            bool isCheck = Int32.TryParse(isDefault, out check);
+
+
+            Address address = new Address();
+            address.City = city;
+            address.Ward = ward;
+            address.District = district;
+            address.SpecificAddress = specificAddress;
+            address.CusId = cusId;
+
+            if (check == 1)
+            {
+                address.Default = 1;
+                var defaultAddress = _context.Addresses.FirstOrDefault(c => c.CusId == cusId && c.Default == 1);
+                defaultAddress.Default = 0;
+                _context.Update(defaultAddress);
+            }
+            else
+            {
+                address.Default = 0;
+
+            }
+
+            _context.Add(address);
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(ManageAddress));
+        }
+
+
+        [Route("SetAsDefaultAddress/{id}")]
+        public async Task<IActionResult> SetAsDefaultAddress(int? id)
+        {
+            Address address = await _context.Addresses.FindAsync(id);
+
+            Address defaultAddress = _context.Addresses.FirstOrDefault(c => c.CusId == address.CusId && c.Default == 1);
+            defaultAddress.Default = 0;
+            address.Default = 1;
+            _context.Update(defaultAddress);
+            _context.Update(address);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(ManageAddress));
+        }
+
+        public async Task<IActionResult> DeleteAddress(int? id)
+        {
+            Address address = await _context.Addresses.Include(x => x.Orders).FirstOrDefaultAsync(c => c.AddId == id);
+            if (address.Orders.Count == 0 && address.Default == 0)
+            {
+                _context.Remove(address);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(ManageAddress));
+        }
+
+        public async Task<IActionResult> ManageFeedback()
+        {
+            int cusID = (int)HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
+
+            var cusOrders = _context.Orders.Where(c => c.CusId == cusID);
+            var deliveredOrders = cusOrders.Where(c => c.Trans.Status == 6);
+            var test = deliveredOrders.Include(c => c.OrderDetails.Where(a => a.Pro.Feedbacks.Where(w => w.OrderId == a.OrderId).First() == null))
+                                        .ThenInclude(q => q.Pro)
+                                        .Include(c => c.OrderDetails.Where(a => a.Pro.Feedbacks.Where(w => w.OrderId == a.OrderId).First() == null))
+                                        .ThenInclude(q => q.Pro.ProductImages)
+                                        .Include(a => a.Feedbacks)
+                                        .Include(a => a.Trans);
+            return View(await test.ToListAsync());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("MyAccount/GiveFeedback")]
+        public async Task<IActionResult> GiveFeedback()
+        {
+
+
+            IFormCollection form = HttpContext.Request.Form;
+            int proId = Int32.Parse(form["ProId"]);
+            int cusId = (int)HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
+            int orderId = Int32.Parse(form["OrderId"]);
+            string color = form["Color"].ToString().Trim();
+            string packaging = form["Packaging"].ToString().Trim();
+            string details = form["Details"].ToString().Trim() ?? "Không có ý kiến";
+            string message = "Màu sắc: " + color + "\nBao bì: " + packaging + "\nÝ kiến: " + details;
+            int star = Int32.Parse(form["star"].ToString().Trim());
+
+            Feedback feedback = new Feedback();
+            feedback.ProId = proId;
+            feedback.CusId = cusId;
+            feedback.OrderId = orderId;
+            feedback.Message = message;
+            feedback.SendDate = DateTime.Now;
+            feedback.Rate = star;
+            _context.Add(feedback);
+            await _context.SaveChangesAsync();
+
+            Feedback newFeedback = _context.Feedbacks.FirstOrDefault(a => a.ProId == proId && a.CusId == cusId && a.OrderId == orderId);
+            if (newFeedback != null)
+            {
+                foreach (var photo in form.Files)
+                {
+                    string fname = DoPhotoUpload(photo, "MyAccountAssets/FeedbackImage/");
+                    FeedbackImage feedbackImage = new FeedbackImage();
+                    feedbackImage.ImgData = fname;
+                    feedbackImage.FbId = newFeedback.FbId;
+                    _context.Add(feedbackImage);
+                }
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(ManageFeedback));
         }
         public IActionResult ChangePass_1()
         {
@@ -139,6 +346,9 @@ namespace WebBriliFresh.Controllers
         }
         public IActionResult ForgetPass_3()
         {
+            TempData["Token"] = TempData["token"];
+            TempData["Email"] = TempData["email"];
+
             return View();
         }
         public IActionResult ForgetPass_4()
@@ -182,12 +392,12 @@ namespace WebBriliFresh.Controllers
             }
         }
 
-        private string DoPhotoUpload(IFormFile photo)
+        private string DoPhotoUpload(IFormFile photo, string pathToSave)
         {
             string fext = Path.GetExtension(photo.FileName);
             string uname = Guid.NewGuid().ToString();
             string fname = uname + fext;
-            string fullpath = Path.Combine(_env.WebRootPath, "MyAccountAssets/UserPhotos/" + fname);
+            string fullpath = Path.Combine(_env.WebRootPath, pathToSave + fname);
             using (FileStream fs = new(fullpath, FileMode.Create))
             {
                 photo.CopyTo(fs);
