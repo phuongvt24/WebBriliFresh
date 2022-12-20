@@ -55,8 +55,8 @@
                     <div id="subnav">
                         <div class="heading-right">Đánh giá sản phẩm</div>
                         <ul class="subnav-order">
-                            <li><a class="active" href="#">Chưa đánh giá</a></li>
-                            <li><a href="/MyAccount/FeedbackHistory">Lịch sử đánh giá</a></li>
+                            <li><a href="/MyAccount/ManageFeedback" href="#">Chưa đánh giá</a></li>
+                            <li><a class="active">Lịch sử đánh giá</a></li>
                         </ul>
                     </div>
 
@@ -77,6 +77,13 @@
                                 </div>
                                 @foreach (OrderDetail orderDetail in order.OrderDetails)
                                 {
+                                    string feedbackMessage = @orderDetail.Pro.Feedbacks.FirstOrDefault(a => a.Pro == orderDetail.Pro && a.OrderId == orderDetail.OrderId).Message;
+                                    string color = "Màu sắc:";
+                                    string package = "Bao bì:";
+                                    string opinion = "Ý kiến:";
+                                    int colorIndex = feedbackMessage.IndexOf(color, StringComparison.Ordinal);
+                                    int packageIndex = feedbackMessage.IndexOf(package, StringComparison.Ordinal);
+                                    int opinionIndex = feedbackMessage.IndexOf(opinion, StringComparison.Ordinal);
                                     <span><i class="ti-home"></i> @orderDetail.Pro.Source</span>
                                     <div class="content-order">
                                         @if (@orderDetail.Pro.ProductImages.FirstOrDefault(f => f.ImgData.ToString().StartsWith("is")) != null)
@@ -92,12 +99,37 @@
                                             <p class="name">@orderDetail.Pro.ProName @orderDetail.ProId</p>
                                             <p style="color: #757575;">Đơn vị: <span class="mass">@orderDetail.Pro.Unit</span></p>
                                         </div>
-                                        <div class="purchase-info unit-price">Đơn giá: <span>@orderDetail.Pro.Price</span></div>
-                                        <div class="purchase-info quantity">Số lượng: <span>@orderDetail.Quantity</span></div>
-                                        <div class="purchase-info amount">Thành tiền: <span>@orderDetail.Price</span></div>
-                                        <div class="order-rating-btn"><a class="btn-shared js-rating-btn" onclick="showModal(@order.OrderId, @orderDetail.ProId)">Đánh giá</a></div>
-                                    </div>
+                                        @if (colorIndex >= 0)
+                                        {
+                                            <div class="purchase-info unit-price">Màu sắc/Hương vị: <span style="color:red">@feedbackMessage.Substring(colorIndex + color.Length, packageIndex - package.Length - 1)</span></div>
 
+                                        }
+                                        else
+                                        {
+                                            <div class="purchase-info unit-price">Màu sắc/Hương vị: <span></span></div>
+
+                                        }
+                                        @if (packageIndex >= 0)
+                                        {
+                                            <div class="purchase-info quantity">Bao bì: <span style="color:red">@feedbackMessage.Substring(packageIndex + package.Length, opinionIndex - packageIndex - package.Length)</span></div>
+                                        }
+                                        else
+                                        {
+                                            <div class="purchase-info quantity">Bao bì: <span></span></div>
+
+                                        }
+                                        @if (packageIndex >= 0)
+                                        {
+                                            <div class="purchase-info quantity">Ý kiến: <span style="color:red">@feedbackMessage.Substring(opinionIndex + opinion.Length)</span></div>
+                                        }
+                                        else
+                                        {
+                                            <div class="purchase-info quantity">Ý kiến: <span></span></div>
+
+                                        }
+
+
+                                    </div>
                                 }
                             </div>
 
@@ -109,89 +141,6 @@
             </div>
         </div>
     </div>
-
-
-
-    <!-- Begin Modal Rating Product-->
-    <div class="modal js-modal">
-        <form asp-action="GiveFeedback" asp-controller="MyAccount" method="post" class="modal-container js-modal-container" enctype="multipart/form-data">
-            <div class="modal-close js-modal-close">
-                <i class="ti-close"></i>
-            </div>
-
-            <header class="modal-header">
-                Đánh giá sản phẩm
-            </header>
-
-            <div class="modal-body" id="body-modal">
-                <p id="modal-label-checkbox" for="address-default">Chất lượng sản phẩm (1 sao: Rất Tệ - 5 sao: Rất Tốt)</p>
-                <div class="stars">
-                    <input class="star star-5" id="star-5" type="radio" name="star" value="1" required />
-                    <label class="star star-5" for="star-5"></label>
-                    <input class="star star-4" id="star-4" type="radio" name="star" value="2" required />
-                    <label class="star star-4" for="star-4"></label>
-                    <input class="star star-3" id="star-3" type="radio" name="star" value="3" required />
-                    <label class="star star-3" for="star-3"></label>
-                    <input class="star star-2" id="star-2" type="radio" name="star" value="4" required />
-                    <label class="star star-2" for="star-2"></label>
-                    <input class="star star-1" id="star-1" type="radio" name="star" value="5" required />
-                    <label class="star star-1" for="star-1"></label>
-                </div>
-
-                <label class="modal-label" for="flavor">Hương vị/ Màu sắc</label>
-                <input id="flavor" class="modal-input" type="text" placeholder="Tươi ngon" name="Color" required>
-
-                <label class="modal-label" for="package">Bao bì, mẫu mã</label>
-                <input id="package" class="modal-input" type="text" placeholder="Chắc chắn" name="Packaging" required>
-
-                <label class="modal-label" for="description">Mô tả</label>
-                <textarea id="description" cols="30" rows="10" name="Details"></textarea>
-
-                <label class="modal-image btn-shared">
-                    <i class="ti-camera"></i>
-                    <span>Thêm hình ảnh</span>
-                    <input type="file" accept="image/*" multiple id="gallery-photo-add" name="feedbackImg">
-                </label>
-                <div id="frame"></div>
-            </div>
-
-            <footer class="modal-footer">
-                <input id="rate-btn" class="btn-modal" type="submit" value="Hoàn tất">
-            </footer>
-        </form>
-    </div>
-    <script>
-        $(function () {
-            var frame = document.getElementById("frame")
-            // Multiple images preview in browser
-            var imagesPreview = function (input, frame) {
-
-                if (input.files) {
-                    var filesAmount = input.files.length;
-
-                    for (i = 0; i < filesAmount; i++) {
-                        var reader = new FileReader();
-
-                        reader.onload = function (event) {
-                            $($.parseHTML('<img>')).attr({ 'src': event.target.result, width: "90", height: "60", class: "remove" }).click().appendTo(frame);
-                        }
-
-                        reader.readAsDataURL(input.files[i]);
-                    }
-                }
-
-            };
-
-            $('#gallery-photo-add').on('change', function () {
-                imagesPreview(this, frame);
-            });
-
-            $('body').on('click', $('.remove'), function () {
-                $('.remove').remove();
-            });
-
-        });
-    </script>
     @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
     <script type="text/javascript" src="~/MyAccountAssets/MyAccount/SubNavSide.js"></script>
     <script src="~/MyAccountAssets/ManageFeedback/ManageFeedback.js"></script>
