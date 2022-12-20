@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\MyAccount\OrderDetail.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Areas\Admin\Views\AdminStores\Edit.cshtml~RF192609b.TMP" />
   </ItemGroup>
 
@@ -42,6 +46,7 @@
     <None Include="Areas\Admin\Views\AdminProducts\Index.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
     <None Include="Views\Home\Privacy.cshtml" />
+    <None Include="Views\MyAccount\OrderDetail.cshtml" />
     <None Include="Views\OverviewProduct\FishAndMeat.cshtml" />
     <None Include="Views\OverviewProduct\Fruit.cshtml" />
     <None Include="Views\OverviewProduct\ListFishAndMeat.cshtml" />

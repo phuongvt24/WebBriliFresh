@@ -117,7 +117,11 @@ namespace WebBriliFresh.Controllers
         public async Task<IActionResult> ManageOrder()
         {
             int cusID = (int)HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
-            var cusOrders = _context.Orders.Where(c => c.CusId == cusID).Include(a => a.OrderDetails).ThenInclude(cs => cs.Pro);
+            var cusOrders = _context.Orders.Where(c => c.CusId == cusID)
+                .Include(a => a.OrderDetails)
+                .ThenInclude(cs => cs.Pro)
+                .Include(a => a.OrderDetails)
+                .ThenInclude(cs=>cs.Pro.ProductImages);
             
             return View(await cusOrders.ToListAsync());
         }
@@ -257,6 +261,11 @@ namespace WebBriliFresh.Controllers
                                         .Include(a => a.Trans);
             return View(await test.ToListAsync());
         }
+        public async Task<IActionResult> OrderDetail()
+        {
+            return View();
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

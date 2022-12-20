@@ -57,10 +57,7 @@
                         <ul class="subnav-order">
                             <li><a class="active" id="all" href="#">Tất cả đơn</a></li>
                             <li><a href="#" class="tab">Chờ thanh toán</a></li>
-                            <li><a href="#" class="tab">Đang xử lý</a></li>
-                            <li><a href="#" class="tab">Đang vận chuyển</a></li>
-                            <li><a href="#" class="tab">Đã giao</a></li>
-                            <li><a href="#" class="tab">Đã hủy</a></li>
+                            <li><a href="#" class="tab">Đã thanh toán</a></li>
                         </ul>
                     </div>
 
@@ -81,10 +78,10 @@
                                     <span><i class="ti-timer"></i> Đã thanh toán</span>
 
                                 }
-                              
+
                                 else
                                 {
-                                    <span><i class="ti-timer"></i> Chưa thành toán</span>
+                                    <span><i class="ti-timer"></i> Chờ thanh toán</span>
 
                                 }
 
@@ -93,7 +90,15 @@
                             {
                                 <div style="margin-top:10px"><i class="ti-home"></i> @orderDetail.Pro.Source</div>
                                 <div class="content-order">
-                                    <div class="img-product"><img src="./assets/image/item_1.jpg" alt=""></div>
+                                    @if (@orderDetail.Pro.ProductImages.FirstOrDefault(f => f.ImgData.ToString().StartsWith("is")) != null)
+                                    {
+                                        <div class="img-product"><img src="~/ImageProduct/@orderDetail.Pro.ProductImages.FirstOrDefault(f => f.ImgData.ToString().StartsWith("is")).ImgData" alt=""></div>
+                                    }
+                                    else
+                                    {
+                                        <div class="img-product"><img src="" alt=""></div>
+
+                                    }
                                     <div class="product-info">
                                         <p class="name">@orderDetail.Pro.ProName</p>
                                         <p style="color: #757575;"> Đơn vị: <span class="mass">@orderDetail.Pro.Unit</span></p>
@@ -115,8 +120,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
     </div>
     <!-- End content -->
     @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
