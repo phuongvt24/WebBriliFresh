@@ -110,8 +110,9 @@
                             }
 
                             <p>Tổng tiền: <b><span class="total-order">@order.OrderTotal</span></b></p>
+
                             <div class="footer-order">
-                                <a class="btn-shared order-info-btn" href="#">Xem chi tiết</a>
+                                <a class="btn-shared order-info-btn" onclick="location.href='@Url.Action("OrderDetailPost", "MyAccount", new { id = order.OrderId })'">Xem chi tiết</a>
                             </div>
                         </div>
 

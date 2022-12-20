@@ -1,5 +1,4 @@
-@model WebBriliFresh.Models.Order
-
+﻿@model WebBriliFresh.Models.Order
 @{
     Layout = null;
 }
@@ -64,7 +63,7 @@
                         <span></span>
                         <span><i class="ti-truck"></i> @Model.Trans.Status</span>
                     </div>
-                    @foreach (OrderDetail orderDetail in @Model.OrderDetails)
+                    @foreach (var orderDetail in @Model.OrderDetails)
                     {
                         <div style="margin-top:10px"><i class="ti-home"></i> @orderDetail.Pro.Source</div>
 
@@ -96,7 +95,7 @@
                     <div class="the-end__first">
                         <div class="heading-column-end">Địa chỉ nhận hàng</div>
                         @{
-                            string address = Model.Add.SpecificAddress + ", "+ Model.Add.Ward + ", " + Model.Add.District + ","+ Model.Add.City;
+                            string address = Model.Add.SpecificAddress + ", " + Model.Add.Ward + ", " + Model.Add.District + "," + Model.Add.City;
                             <p id="address-order">@address</p>
                         }
                     </div>

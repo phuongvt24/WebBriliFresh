@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using MimeKit.Encodings;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -125,20 +126,29 @@ namespace WebBriliFresh.Controllers
 
             return View(await cusOrders.ToListAsync());
         }
-        public async Task<IActionResult> OrderDetail(int id)
+
+        public IActionResult OrderDetail()
         {
+            int id = (int)TempData["id"];
+
             int cusID = (int)HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
-            var cusOrders = _context.Orders.Where(c => c.CusId == cusID)
+            var cusOrder = _context.Orders.Where(c => c.CusId == cusID)
+                .Include(a => a.Add)
                 .Include(a => a.OrderDetails)
                 .ThenInclude(cs => cs.Pro)
                 .Include(a => a.OrderDetails)
                 .ThenInclude(cs => cs.Pro.ProductImages)
-                .Include(a => a.Trans)
-                .Include(a=>a.Add);
-            id = 17;
-            var order = cusOrders.FirstOrDefault(d => d.OrderId == id);
-
+                .Include(a => a.Trans).ToList();
+            var order = cusOrder.FirstOrDefault(d => d.OrderId == id);
             return View(order);
+        }
+
+
+        [Route("OrderDetailPost/{id}")]
+        public IActionResult OrderDetailPost(int? id)
+        {
+            TempData["id"] = id;
+            return RedirectToAction(nameof(OrderDetail));
         }
 
         public async Task<IActionResult> ManageAddress()
