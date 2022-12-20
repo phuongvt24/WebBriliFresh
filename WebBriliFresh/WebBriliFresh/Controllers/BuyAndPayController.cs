@@ -108,12 +108,12 @@ namespace WebBriliFresh.Controllers
         }
 
 
-        [HttpPost]
-        public JsonResult checkout(string checkoutitem )
-        {
-            var model2 = JsonConvert.DeserializeObject<List<ShoppingCartViewModel>>(checkoutitem);
-            return Json(model2);
-        }
+        //[HttpPost]
+        //public JsonResult checkout(string checkoutitem )
+        //{
+        //    var model2 = JsonConvert.DeserializeObject<List<ShoppingCartViewModel>>(checkoutitem);
+        //    return Json(model2);
+        //}
 
 
 
