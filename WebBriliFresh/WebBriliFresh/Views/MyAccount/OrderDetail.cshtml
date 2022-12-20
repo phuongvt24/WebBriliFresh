@@ -1,3 +1,5 @@
+@model WebBriliFresh.Models.Order
+
 @{
     Layout = null;
 }
@@ -26,8 +28,6 @@
     <!-- Begin header -->
     @await Html.PartialAsync("~/Views/Shared/_HomeHeaderPartialView_login.cshtml")
     <!-- End header -->
-
-
     <!-- Begin content -->
     <div class="container">
         <div class="row">
@@ -36,9 +36,9 @@
                     <div class="container-fluid">
                         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                              <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-                              <li class="breadcrumb-item"><a href="#">Quản lý đơn hàng</a></li>
-                              <li class="breadcrumb-item active" aria-current="page">Chi tiết đơn hàng</li>
+                                <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                                <li class="breadcrumb-item"><a href="#">Quản lý đơn hàng</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Chi tiết đơn hàng</li>
                             </ol>
                         </nav>
                     </div>
@@ -51,84 +51,88 @@
 
             <div class="col-12 col-xl-9 container-right">
                 <div class="right-content"></div>
-                    <div class="heading-right">Chi tiết đơn hàng</div>
+                <div class="heading-right">Chi tiết đơn hàng</div>
 
-                    <div class="transfer-info">
-                        <p>Đơn hàng <span id="order-id">380373322120636</span></p>
-                        <p>Đặt ngày <span id="order-date">11/11/2022 02:01:34</span></p>
-                        <p>Trả tiền bởi <span id="pay-by">ví MoMo</span></p>
-                        <p>Kiện hàng của bạn đã được giao thành công vào ngày <span id="shipping-date">13/11/2022 12:38:45</span></p>
+                <div class="transfer-info">
+                    <p>Đơn hàng <span id="order-id">@Model.OrderId</span></p>
+                    <p>Đặt ngày <span id="order-date">@Model.OrderDate</span></p>
+                    <p>Kiện hàng của bạn đã được giao thành công vào ngày <span id="shipping-date">@Model.Trans.ShippingDate</span></p>
+                </div>
+
+                <div class="sucess-order order-info mt-3">
+                    <div class="header-order">
+                        <span></span>
+                        <span><i class="ti-truck"></i> @Model.Trans.Status</span>
                     </div>
+                    @foreach (OrderDetail orderDetail in @Model.OrderDetails)
+                    {
+                        <div style="margin-top:10px"><i class="ti-home"></i> @orderDetail.Pro.Source</div>
 
-                    <div class="sucess-order order-info mt-3">
-                        <div class="header-order">
-                            <span><i class="ti-home"></i> JFruit</span>
-                            <span><i class="ti-truck"></i> Đã giao</span>
-                        </div>
                         <div class="content-order">
-                            <div class="img-product"><img src="./assets/image/item_2.jpg" alt=""></div>
+                            @if (@orderDetail.Pro.ProductImages.FirstOrDefault(f => f.ImgData.ToString().StartsWith("is")) != null)
+                            {
+                                <div class="img-product"><img src="~/ImageProduct/@orderDetail.Pro.ProductImages.FirstOrDefault(f => f.ImgData.ToString().StartsWith("is")).ImgData" alt=""></div>
+                            }
+                            else
+                            {
+                                <div class="img-product"><img src="" alt=""></div>
+
+                            }
                             <div class="product-info">
-                                <p class="name">Dưa hấu ruột đỏ Long An</p>
-                                <p style="color: #757575;">Đơn vị: <span class="mass">1kg</span></p>
+                                <p class="name">@orderDetail.Pro.ProName</p>
+                                <p style="color: #757575;">Đơn vị: <span class="mass">@orderDetail.Pro.Unit</span></p>
                             </div>
-                            <div class="purchase-info unit-price">Đơn giá: <span>35,000</span></div>
-                            <div class="purchase-info quantity">Số lượng: <span>1</span></div>
-                            <div class="purchase-info amount">Thành tiền: <span>35,000</span></div>
+                            <div class="purchase-info unit-price">Đơn giá: <span>@orderDetail.Pro.Price</span></div>
+                            <div class="purchase-info quantity">Số lượng: <span>@orderDetail.Quantity</span></div>
+                            <div class="purchase-info amount">Thành tiền: <span>@orderDetail.Price</span></div>
                         </div>
-                        <div class="content-order">
-                            <div class="img-product"><img src="./assets/image/item_3.jpg" alt=""></div>
-                            <div class="product-info">
-                                <p class="name">Cá hồi tươi Fillet Na Uy</p>
-                                <p style="color: #757575;">Đơn vị: <span class="mass">200g</span></p>
-                            </div>
-                            <div class="purchase-info unit-price">Đơn giá: <span>128,000</span></div>
-                            <div class="purchase-info quantity">Số lượng: <span>1</span></div>
-                            <div class="purchase-info amount">Thành tiền: <span>128,000</span></div>
-                        </div>
-                        <p>Tổng tiền: <b><span class="total-order">163,000</span></b></p>
+                    }
+
+                    <p>Tổng tiền: <b><span class="total-order">@Model.SubTotal</span></b></p>
+                </div>
+
+                <!-- End -->
+                <div class="the-end">
+                    <div class="the-end__first">
+                        <div class="heading-column-end">Địa chỉ nhận hàng</div>
+                        @{
+                            string address = Model.Add.SpecificAddress + ", "+ Model.Add.Ward + ", " + Model.Add.District + ","+ Model.Add.City;
+                            <p id="address-order">@address</p>
+                        }
                     </div>
-
-                    <!-- End -->
-                    <div class="the-end">
-                        <div class="the-end__first">
-                            <div class="heading-column-end">Địa chỉ nhận hàng</div>
-                            <span id="name">Minh Tuấn</span>
-                            <span id="phone-address">(+84)454354545</span>
-                            <p id="address-order">941 Kha Vạn Cân, Thành phố Thủ Đức, Thành phố Hồ Chí Minh</p>
+                    <div class="the-end__second">
+                        <div class="heading-column-end">Tổng cộng</div>
+                        <div class="info-payment">
+                            <span>Tổng tiền hàng</span>
+                            <span>@Model.SubTotal</span>
                         </div>
-                        <div class="the-end__second">
-                            <div class="heading-column-end">Tổng cộng</div>
-                            <div class="info-payment">
-                                <span>Tổng tiền hàng</span>
-                                <span>163,000</span>
-                            </div>
 
-                            <div class="info-payment">
-                                <span>Phí vận chuyển</span>
-                                <span>19,200</span>
-                            </div>
+                        <div class="info-payment">
+                            <span>Phí vận chuyển</span>
+                            <span>@Model.Trans.Fee</span>
+                        </div>
 
-                            <div class="info-payment">
-                                <span>Voucher tích lũy</span>
-                                <span>30,000</span>
-                            </div>
+                        <div class="info-payment">
+                            <span>Voucher tích lũy</span>
+                            <span>@Model.PayBy</span>
+                        </div>
 
-                            <hr>
+                        <hr>
 
-                            <div class="info-payment">
-                                <span>Tổng số tiền</span>
-                                <span>152,200</span>
-                            </div>
+                        <div class="info-payment">
+                            <span>Tổng số tiền</span>
+                            <span>152,200</span>
+                        </div>
 
-                            <div class="info-payment">
-                                <span>Phương thức thanh toán</span>
-                                <span>Ví MoMo</span>
-                            </div>
+                        <div class="info-payment">
+                            <span>Phương thức thanh toán</span>
+                            <span>Ví MoMo</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
     <script src="./DanhGiaSanPham.js"></script>
 </body>

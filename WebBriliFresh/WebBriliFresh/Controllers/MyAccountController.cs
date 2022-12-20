@@ -121,10 +121,26 @@ namespace WebBriliFresh.Controllers
                 .Include(a => a.OrderDetails)
                 .ThenInclude(cs => cs.Pro)
                 .Include(a => a.OrderDetails)
-                .ThenInclude(cs=>cs.Pro.ProductImages);
-            
+                .ThenInclude(cs => cs.Pro.ProductImages);
+
             return View(await cusOrders.ToListAsync());
         }
+        public async Task<IActionResult> OrderDetail(int id)
+        {
+            int cusID = (int)HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
+            var cusOrders = _context.Orders.Where(c => c.CusId == cusID)
+                .Include(a => a.OrderDetails)
+                .ThenInclude(cs => cs.Pro)
+                .Include(a => a.OrderDetails)
+                .ThenInclude(cs => cs.Pro.ProductImages)
+                .Include(a => a.Trans)
+                .Include(a=>a.Add);
+            id = 17;
+            var order = cusOrders.FirstOrDefault(d => d.OrderId == id);
+
+            return View(order);
+        }
+
         public async Task<IActionResult> ManageAddress()
         {
             int cusID = (int)HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
@@ -213,8 +229,8 @@ namespace WebBriliFresh.Controllers
             }
 
             _context.Add(address);
-           
-           await _context.SaveChangesAsync();
+
+            await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(ManageAddress));
         }
@@ -231,19 +247,19 @@ namespace WebBriliFresh.Controllers
             _context.Update(defaultAddress);
             _context.Update(address);
             await _context.SaveChangesAsync();
-   
+
             return RedirectToAction(nameof(ManageAddress));
         }
 
         public async Task<IActionResult> DeleteAddress(int? id)
         {
             Address address = await _context.Addresses.Include(x => x.Orders).FirstOrDefaultAsync(c => c.AddId == id);
-            if(address.Orders.Count == 0 && address.Default == 0)
+            if (address.Orders.Count == 0 && address.Default == 0)
             {
                 _context.Remove(address);
                 await _context.SaveChangesAsync();
             }
-            
+
             return RedirectToAction(nameof(ManageAddress));
         }
 
@@ -261,11 +277,6 @@ namespace WebBriliFresh.Controllers
                                         .Include(a => a.Trans);
             return View(await test.ToListAsync());
         }
-        public async Task<IActionResult> OrderDetail()
-        {
-            return View();
-        }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -273,7 +284,7 @@ namespace WebBriliFresh.Controllers
         public async Task<IActionResult> GiveFeedback()
         {
 
-                
+
             IFormCollection form = HttpContext.Request.Form;
             int proId = Int32.Parse(form["ProId"]);
             int cusId = (int)HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
@@ -281,7 +292,7 @@ namespace WebBriliFresh.Controllers
             string color = form["Color"].ToString().Trim();
             string packaging = form["Packaging"].ToString().Trim();
             string details = form["Details"].ToString().Trim() ?? "Không có ý kiến";
-            string message = "Màu sắc: " + color + "\nBao bì: " + packaging + "\nÝ kiến: " +details;
+            string message = "Màu sắc: " + color + "\nBao bì: " + packaging + "\nÝ kiến: " + details;
             int star = Int32.Parse(form["star"].ToString().Trim());
 
             Feedback feedback = new Feedback();
@@ -293,7 +304,7 @@ namespace WebBriliFresh.Controllers
             feedback.Rate = star;
             _context.Add(feedback);
             await _context.SaveChangesAsync();
-            
+
             Feedback newFeedback = _context.Feedbacks.FirstOrDefault(a => a.ProId == proId && a.CusId == cusId && a.OrderId == orderId);
             if (newFeedback != null)
             {
