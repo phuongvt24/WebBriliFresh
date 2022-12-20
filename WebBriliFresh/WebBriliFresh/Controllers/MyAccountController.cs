@@ -269,6 +269,10 @@ namespace WebBriliFresh.Controllers
                 _context.Remove(address);
                 await _context.SaveChangesAsync();
             }
+            else
+            {
+                TempData["Error"] = "Không thể xóa địa chỉ đã được dùng để mua hàng hoặc địa chỉ mặc định";
+            }
 
             return RedirectToAction(nameof(ManageAddress));
         }

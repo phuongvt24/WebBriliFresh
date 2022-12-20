@@ -61,30 +61,57 @@
                 <div class="sucess-order order-info mt-3">
                     <div class="header-order">
                         <span></span>
-                        <span><i class="ti-truck"></i> @Model.Trans.Status</span>
+                        @if (@Model.Trans.Status == 1)
+                        {
+                                      <span><i class="ti-truck"></i> Đang xử lý</span>
+                        }
+                        else if (@Model.Trans.Status == 2)
+                        {
+                                        <span><i class="ti-truck"></i> Đang chuẩn bị hàng</span>
+                        }
+                        else if (@Model.Trans.Status == 3)
+                        {
+                                        <span><i class="ti-truck"></i> Đang đóng gói</span>
+                        }
+                        else if (@Model.Trans.Status == 4)
+                        {
+                                        <span><i class="ti-truck"></i> Đã giao cho đơn vị vận chuyển</span>
+                        }
+                        else if (@Model.Trans.Status == 5)
+                        {
+                                        <span><i class="ti-truck"></i> Đang vận chuyển</span>
+                        }
+                        else if (@Model.Trans.Status == 6)
+                        {
+                                        <span><i class="ti-truck"></i> Đã giao</span>
+                        }
+                        else
+                        {
+                                         <span><i class="ti-truck"></i> Đã hủy</span>
+                        }
                     </div>
                     @foreach (var orderDetail in @Model.OrderDetails)
                     {
-                        <div style="margin-top:10px"><i class="ti-home"></i> @orderDetail.Pro.Source</div>
+                                    <div style="margin-top:10px"><i class="ti-home"></i> @orderDetail.Pro.Source</div>
 
-                        <div class="content-order">
+                                    <div class="content-order">
                             @if (@orderDetail.Pro.ProductImages.FirstOrDefault(f => f.ImgData.ToString().StartsWith("is")) != null)
                             {
-                                <div class="img-product"><img src="~/ImageProduct/@orderDetail.Pro.ProductImages.FirstOrDefault(f => f.ImgData.ToString().StartsWith("is")).ImgData" alt=""></div>
+                                                        <div class="img-product"><img src="~/ImageProduct/@orderDetail.Pro.ProductImages.FirstOrDefault(f => f.ImgData.ToString().StartsWith("is")).ImgData" alt=""></div>
                             }
                             else
                             {
-                                <div class="img-product"><img src="" alt=""></div>
+                                                        <div class="img-product"><img src="" alt=""></div>
 
                             }
-                            <div class="product-info">
-                                <p class="name">@orderDetail.Pro.ProName</p>
-                                <p style="color: #757575;">Đơn vị: <span class="mass">@orderDetail.Pro.Unit</span></p>
-                            </div>
-                            <div class="purchase-info unit-price">Đơn giá: <span>@orderDetail.Pro.Price</span></div>
-                            <div class="purchase-info quantity">Số lượng: <span>@orderDetail.Quantity</span></div>
-                            <div class="purchase-info amount">Thành tiền: <span>@orderDetail.Price</span></div>
-                        </div>
+                                        <div class="product-info">
+                                            <p class="name">@orderDetail.Pro.ProName</p>
+                                            <p style="color: #757575;">Đơn vị: <span class="mass">@orderDetail.Pro.Unit</span></p>
+                                        </div>
+                                        <div class="purchase-info unit-price">Đơn giá: <span>@orderDetail.Pro.Price</span></div>
+                                        <div class="purchase-info quantity">Số lượng: <span>@orderDetail.Quantity</span></div>
+                                        <div class="purchase-info amount">Thành tiền: <span>@orderDetail.Price</span></div>
+                                    </div>
                     }
 
                     <p>Tổng tiền: <b><span class="total-order">@Model.SubTotal</span></b></p>
@@ -96,7 +123,7 @@
                         <div class="heading-column-end">Địa chỉ nhận hàng</div>
                         @{
                             string address = Model.Add.SpecificAddress + ", " + Model.Add.Ward + ", " + Model.Add.District + "," + Model.Add.City;
-                            <p id="address-order">@address</p>
+                                        <p id="address-order">@address</p>
                         }
                     </div>
                     <div class="the-end__second">
