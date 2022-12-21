@@ -1,6 +1,8 @@
 ﻿@{
     Layout = null;
 }
+@model WebBriliFresh.Models.ChangePasswordModel
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +17,6 @@
     <link rel="stylesheet" href="~/HomeAssets/HomeFooter.css" />
     <link rel="stylesheet" href="~/MyAccountAssets/MyAccount/MyAccountMain.css" />
     <link href="~/myaccountassets/changepass/changepass.css" rel="stylesheet" />
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" integrity="sha512-17egcferpgzkcm0j0feq1ycjuyawdz9kutv1ejvuaoz8pdnh/0nzxmu6bbxwaaxqoi9pqxnrwqlcdb027hgv9a==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -50,31 +51,34 @@
 
             <div class="col-12 col-xl-9 container-right">
                 <div class="heading-right">Đổi mật khẩu</div>
-                <form action="" class="form-change-password">
+                <form asp-action="ChangePassword" asp-controller="UserLogin" method="post" class="form-change-password">
                     <div class="form-header">Đổi mật khẩu</div>
                     <div class="form-body">
                         <div class="input_field">
                             <label for="current-password"> Mật khẩu hiện tại </label>
-                            <input type="password" name="current-password" id="current-password" />
+                            <input asp-for="CurrentPassword" type="password" id="current-password"/>
                             <div><a onclick='window.location = "@Url.Action("ForgetPass_1", "MyAccount")"' style="color:#0d6efd;">Quên mật khẩu?</a></div>
                         </div>
                         <div class="input_field">
                             <label for="new-password"> Mật khẩu mới </label>
-                            <input type="password" name="new-password" id="new-password" />
+                            <input asp-for="NewPassword" type="password" id="new-password" />
                         </div>
                         <div class="input_field">
                             <label for="confirm-password"> Xác nhận mật khẩu </label>
-                            <input type="password" name="confirm-password" id="confirm-password" />
+                            <input asp-for="PasswordConfirm" type="password" name="confirm-password" id="confirm-password" />
                         </div>
                     </div>
                     <div class="form-footer">
-                        <a onclick='window.location = "@Url.Action("ForgetPass_4", "MyAccount")"' id="btn-validate">Xác nhận</a>
+                        <input type="submit" value="Xác nhận" id="btn-validate" formmethod="post">
                     </div>
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <span class="text-danger">@TempData["msg"]</span>
                 </form>
             </div>
-
         </div>
     </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
     @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
     <script type="text/javascript" src="~/MyAccountAssets/MyAccount/SubNavSide.js"></script>
 </body>

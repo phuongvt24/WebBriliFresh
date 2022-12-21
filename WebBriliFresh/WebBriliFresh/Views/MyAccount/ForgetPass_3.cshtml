@@ -1,4 +1,8 @@
-﻿@{
+﻿@model WebBriliFresh.Models.ResetPasswordModel
+@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -51,7 +55,7 @@
                 <!-- PHẦN TRÊN LÀ PHẦN DÙNG CHUNG-->
                 <!-- Phần riêng cho trang này -->
                 <div class="heading-right">Đổi mật khẩu</div>
-                <form action="" class="form-forgot-password">
+                <form asp-action="ResetPassword" asp-controller="UserLogin" method="post" class="form-forgot-password" id="forgetPassForm">
                     <div class="form-return">
                         <a href="./QuenMatKhau2.html"><i class="ti-arrow-left"></i></a>
                     </div>
@@ -59,23 +63,32 @@
                     <div class="form-header">Thiết lập mật khẩu mới</div>
                     <div class="form-body">
                         <p>Tạo mật khẩu mới cho</p>
-                        <span class="email-input">quynhchi1311@gmail.com</span>
+                        <span class="email-input">@HttpContextAccessor.HttpContext.Session.GetString("CUS_SESSION_CUSNAME")</span>
                         <div class="input_field">
                             <label for="new-password">Mật khẩu mới</label>
-                            <input type="password" name="" id="new-password">
+                            <input asp-for="Password" type="password" id="new-password">
                         </div>
                         <div class="input_field">
                             <label for="confirm-password">Xác nhận mật khẩu</label>
-                            <input type="password" name="" id="confirm-password">
+                            <input asp-for="ConfirmPassword" type="password" id="confirm-password">
                         </div>
-                        <div><a class="form-btn" onclick='window.location = "@Url.Action("ForgetPass_4", "MyAccount")"'>Tiếp tục</a></div>
+                        <div><a class="form-btn" id="submitButton">Tiếp tục</a></div>
                     </div>
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <input type="hidden" asp-for="Email" class="form-control" value="@TempData["Email"]" />
+                    <input type="hidden" asp-for="Token" class="form-control" value="@TempData["Token"]" />
                 </form>
             </div>
 
         </div>
     </div>
     @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
+    @await Html.PartialAsync("_ValidationScriptsPartial")
     <script type="text/javascript" src="~/MyAccountAssets/MyAccount/SubNavSide.js"></script>
+    <script>
+        document.getElementById("submitButton").onclick = function () {
+            document.getElementById("forgetPassForm").submit();
+        }
+    </script>
 </body>
 </html>

@@ -138,6 +138,8 @@
         </div>
     </div>
     @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
      <script>
        function preview() {
             frame.src = URL.createObjectURL(event.target.files[0]);

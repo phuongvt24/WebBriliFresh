@@ -33,6 +33,8 @@
     <Folder Include="wwwroot\ImageUser\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Uploads\Images\ProductImages\" />
+    <Folder Include="wwwroot\MyAccountAssets\FeedbackImage\" />
+    <Folder Include="wwwroot\MyAccountAssets\UserPhotos\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,6 +43,11 @@
     <None Include="Areas\Admin\Views\AdminProducts\Details.cshtml" />
     <None Include="Areas\Admin\Views\AdminProducts\Edit.cshtml" />
     <None Include="Areas\Admin\Views\AdminProducts\Index.cshtml" />
+    <None Include="Areas\Admin\Views\CustomerDiscountOrders\Create.cshtml" />
+    <None Include="Areas\Admin\Views\CustomerDiscountOrders\Delete.cshtml" />
+    <None Include="Areas\Admin\Views\CustomerDiscountOrders\Details.cshtml" />
+    <None Include="Areas\Admin\Views\CustomerDiscountOrders\Edit.cshtml" />
+    <None Include="Areas\Admin\Views\CustomerDiscountOrders\Index.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
     <None Include="Views\Home\Privacy.cshtml" />
     <None Include="Views\OverviewProduct\FishAndMeat.cshtml" />

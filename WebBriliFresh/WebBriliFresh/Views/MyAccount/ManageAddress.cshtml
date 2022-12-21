@@ -1,4 +1,8 @@
-﻿@{
+﻿@model IEnumerable<WebBriliFresh.Models.Address>
+@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -27,81 +31,67 @@
 </head>
 <body>
     <!-- Begin header -->
-   
     <!-- End header -->
     @await Html.PartialAsync("~/Views/Shared/_HomeHeaderPartialView_login.cshtml")
-
     <!-- Begin content -->
     <div class="container">
         <div class="row">
-                    
+
             <section class="directory mt-3">
                 <nav class="navbar navbar-expand-xl navbar-light ">
                     <div class="container-fluid">
                         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                              <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-                              <li class="breadcrumb-item active" id="ManageAddress" aria-current="page">Sổ địa chỉ</li>
+                                <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                                <li class="breadcrumb-item active" id="ManageAddress" aria-current="page">Sổ địa chỉ</li>
                             </ol>
                         </nav>
                     </div>
                 </nav>
             </section>
 
-             @await Html.PartialAsync("~/Views/Shared/_SubNavPartialView.cshtml")
+            @await Html.PartialAsync("~/Views/Shared/_SubNavPartialView.cshtml")
             <!-- End SlideBar -->
-
             <!-- Start Content -->
             <div class="col-12 col-xl-9 container-right">
+                <span style="color:red">@TempData["Error"]</span>
                 <div class="heading-right">
                     Sổ địa chỉ
-                    <button style="border: 1px solid #000" id="js-newaddress-btn">+ Thêm địa chỉ</button>
+                    <button style="border: 1px solid #000" id="js-newaddress-btn" onclick="showEditAddress('Update')">+ Thêm địa chỉ</button>
                 </div>
 
-                <div class="address-card">
-                    <div class="first-row">
-                        <div class="left-first-row">
-                            <span id="name">Minh Tuấn</span>
-                            <span id="stripes"></span>
-                            <span id="phone-address">0454354545</span>
+                @foreach (Address address in @Model)
+                {
+                    var addressSmall = address.Ward + ", " + address.District + ", " + address.City;
+                    <div class="address-card">
+                        <div class="first-row">
+                            <div class="left-first-row">
+                                @address.SpecificAddress
+                            </div>
+                            <div class="right-first-row">
+                                <a class="js-edit-address" onclick="showEditAddress(@address.AddId)">Cập nhật</a>
+                                <a class="js-delete-address" onclick="showDeleteAddress(@address.AddId)">Xóa</a>
+                            </div>
                         </div>
-                        <div class="right-first-row">
-                            <a class="js-edit-address">Cập nhật</a>
-                            <a class="js-delete-address">Xóa</a>
-                        </div>
-                    </div>
 
-                    <div class="second-row">
-                        <div class="left-second-row">
-                            <div>Tòa nhà Citilight Tower, 45 Võ Thị Sáu</div>
-                            <div>Phường Đa Kao, Quận 1, TP. Hồ Chí Minh</div>
+                        <div class="second-row">
+                            <div class="left-second-row">
+                                <div>@addressSmall</div>
+                            </div>
+                            @if (address.Default == 1)
+                            {
+                                <span class="third-row">Mặc định</span>
+                            }
+                            else
+                            {
+                                <button class="btn-shared right-second-row" onclick="location.href='@Url.Action("SetAsDefaultAddress", "MyAccount", new { id = address.AddId })'">Chọn làm mặc định</button>
+                            }
                         </div>
+  
                     </div>
+                }
 
-                    <span class="third-row">Mặc định</span>
-                </div>
 
-                <div class="address-card">
-                    <div class="first-row">
-                        <div class="left-first-row">
-                            <span id="name">Minh Cường</span>
-                            <span id="stripes"></span>
-                            <span id="phone-address">0123456789</span>
-                        </div>
-                        <div class="right-first-row">
-                            <a class="js-edit-address">Cập nhật</a>
-                            <a class="js-delete-address">Xóa</a>
-                        </div>
-                    </div>
-
-                    <div class="second-row">
-                        <div class="left-second-row">
-                            <div>Tòa nhà Citilight Tower, 45 Võ Thị Sáu</div>
-                            <div>Phường Đa Kao, Quận 1, TP. Hồ Chí Minh</div>
-                        </div>
-                        <button class="btn-shared right-second-row">Chọn làm mặc định</button>
-                    </div>
-                </div>
             </div>
             <!-- End Content -->
         </div>
@@ -111,35 +101,29 @@
 
     <!-- Begin Modal Edit Address-->
     <div class="modal js-modal-edit">
-        <form action="" class="modal-container js-modal-container">
+        <form method="post" class="modal-container js-modal-container">
             <div class="modal-close js-modalEdit-close">
                 <i class="ti-close"></i>
             </div>
 
             <header class="modal-header"></header>
-
+            <input value="@HttpContextAccessor.HttpContext.Session.GetInt32("CUS_SESSION_CUSID")" name="CusId" hidden>
             <div class="modal-body">
-                <label class="modal-label" for="name-edit">Họ tên</label>
-                <input id="name-edit" class="modal-input" type="text" value="Minh Tuấn">
-
-                <label class="modal-label" for="phone-edit">Số điện thoại</label>
-                <input id="phone-edit" class="modal-input" type="text" value="(+84)454354545">
-
                 <label class="modal-label" for="city">Tỉnh/Thành phố, Quận/Huyện, Phường/Xã</label>
-                <select class="select-address" name="city-select" id="city">
-                    <option value="" selected disabled>Chọn Tỉnh/Thành phố</option> 
+                <select class="select-address" name="city-select" id="city" required>
+                    <option value="" selected disabled>Chọn Tỉnh/Thành phố</option>
                 </select>
-                <select class="select-address" name="district-select" id="district">
-                    <option value="" selected disabled>Chọn Quận/Huyện</option> 
+                <select class="select-address" name="district-select" id="district" required>
+                    <option value="" selected disabled>Chọn Quận/Huyện</option>
                 </select>
-                <select class="select-address" name="ward-select" id="ward">
-                    <option value="" selected disabled>Chọn Phường/Xã</option> 
+                <select class="select-address" name="ward-select" id="ward" required>
+                    <option value="" selected disabled>Chọn Phường/Xã</option>
                 </select>
 
                 <label class="modal-label" for="specific-address">Địa chỉ cụ thể</label>
-                <textarea name="specific-address" id="specific-address" cols="30" rows="10"></textarea>
+                <textarea name="specific-address" id="specific-address" cols="30" rows="10" required></textarea>
 
-                <input type="checkbox" name="address-default" id="address-default">
+                <input type="checkbox" name="address-default" id="address-default" value="1">
                 <label id="modal-label-checkbox" for="address-default">Đặt làm địa chỉ mặc định</label>
             </div>
 
@@ -165,7 +149,7 @@
             </div>
 
             <footer class="modal-footer">
-                <input id="delete-address-btn" class="btn-modal" type="submit" value="Xác nhận">
+                <a id="delete-address-btn" class="btn-modal">Xác nhận</a>
             </footer>
         </form>
     </div>
