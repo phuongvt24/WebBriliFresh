@@ -8,6 +8,7 @@ using MimeKit.Encodings;
 using System.Collections.Generic;
 using System.Diagnostics;
 using WebBriliFresh.Models;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WebBriliFresh.Controllers
 {
@@ -269,6 +270,10 @@ namespace WebBriliFresh.Controllers
                 _context.Remove(address);
                 await _context.SaveChangesAsync();
             }
+            else
+            {
+                TempData["Error"] = "Không thể xóa địa chỉ đã được dùng để mua hàng hoặc địa chỉ mặc định";
+            }
 
             return RedirectToAction(nameof(ManageAddress));
         }
@@ -279,14 +284,29 @@ namespace WebBriliFresh.Controllers
 
             var cusOrders = _context.Orders.Where(c => c.CusId == cusID);
             var deliveredOrders = cusOrders.Where(c => c.Trans.Status == 6);
-            var test = deliveredOrders.Include(c => c.OrderDetails.Where(a => a.Pro.Feedbacks.Where(w => w.OrderId == a.OrderId).First() == null))
+            var finalOrders = deliveredOrders.Include(c => c.OrderDetails.Where(a => a.Pro.Feedbacks.Where(w => w.OrderId == a.OrderId).First() == null))
                                         .ThenInclude(q => q.Pro)
                                         .Include(c => c.OrderDetails.Where(a => a.Pro.Feedbacks.Where(w => w.OrderId == a.OrderId).First() == null))
                                         .ThenInclude(q => q.Pro.ProductImages)
                                         .Include(a => a.Feedbacks)
                                         .Include(a => a.Trans);
-            return View(await test.ToListAsync());
+            return View(await finalOrders.ToListAsync());
         }
+        public async Task<IActionResult> FeedbackHistory()
+        {
+            int cusID = (int)HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
+            var cusOrders = _context.Orders.Where(c => c.CusId == cusID);
+            var deliveredOrders = cusOrders.Where(c => c.Trans.Status == 6);
+            var finalOrders = deliveredOrders.Include(c => c.OrderDetails.Where(a => a.Pro.Feedbacks.Where(w => w.OrderId == a.OrderId).First() != null))
+                            .ThenInclude(q => q.Pro)
+                            .Include(c => c.OrderDetails.Where(a => a.Pro.Feedbacks.Where(w => w.OrderId == a.OrderId).First() != null))
+                            .ThenInclude(q => q.Pro.ProductImages)
+                            .Include(a => a.Feedbacks)
+                            .Include(a => a.Trans);
+            return View(await finalOrders.ToListAsync());
+
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
