@@ -58,7 +58,6 @@ public partial class BriliFreshDbContext : IdentityDbContext<User, ApplicationRo
     public virtual DbSet<Transport> Transports { get; set; }
 
     public virtual DbSet<Type> Types { get; set; }
-    public virtual DbSet<CustomerDiscountOrder> CustomerDiscountOrders { get; set; }
 
     public virtual new DbSet<User> Users { get; set; }
 

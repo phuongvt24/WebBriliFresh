@@ -49,5 +49,4 @@ public partial class DiscountOrder
     public bool? Status { get; set; } = false;
 
     public virtual ICollection<Order> Orders { get; } = new List<Order>();
-    public virtual ICollection<Customer> Customers { get; set; } = new List<Customer>();
 }

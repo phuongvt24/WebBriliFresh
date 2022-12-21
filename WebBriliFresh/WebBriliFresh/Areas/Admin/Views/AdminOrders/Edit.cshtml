@@ -182,16 +182,12 @@
         else if ($("#status").val() == 3) {
             $("#transporter").prop('disabled', false);
             $("#transporter").show();
-            if ($("#transporter").val()) {
-                $("#status").val("4");
-            }
+            $("#status").val("4");
         }
         else if ($("#status").val() == 4) {
-            $("#transporter").prop('disabled', false);
             $("#status").val("5");
         }
         else if ($("#status").val() == 5) {
-            $("#transporter").prop('disabled', false);
             $("#status").val("6");
             $("#payment-status").val("1");
             var currentdate = new Date();
@@ -204,7 +200,6 @@
     $("#cancel-btn").click(function (e) {
         let text = "Xác nhận hủy đơn hàng?"
         if (confirm(text)==true) {
-            $("#transporter").prop('disabled', false);
             $("#status").val("7");
         }
         else {
