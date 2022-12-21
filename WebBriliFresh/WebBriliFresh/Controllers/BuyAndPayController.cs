@@ -40,12 +40,34 @@ namespace WebBriliFresh.Controllers
         }
 
 
-        public IActionResult AddToCart(int proId, int storeid, decimal saleprice, string type = "normal")
+        public IActionResult AddToCart(int proId, int storeid, decimal saleprice,int? quantity ,string type = "normal")
         {
             var myCart = Carts;
             var item = myCart.Where(z=>z.StoreId==storeid).Where(p => p.ProductId == proId).SingleOrDefault();
-            if(item == null)
+            if(quantity != null)
             {
+                if (item == null)
+                {
+                    item = new ShoppingCartViewModel
+                    {
+                        ProductId = proId,
+                        Quantity = (int)quantity,
+                        StoreId = storeid,
+                        SalePrice = saleprice
+                    };
+                    myCart.Add(item);
+                }
+                else
+                {
+                    item.Quantity = (int)quantity;
+                }
+            }
+            else
+            {
+                
+
+                if (item == null)
+                {
                     item = new ShoppingCartViewModel
                     {
                         ProductId = proId,
@@ -53,11 +75,12 @@ namespace WebBriliFresh.Controllers
                         StoreId = storeid,
                         SalePrice = saleprice
                     };
-                    myCart.Add(item);      
-            }
-            else
-            {
-                item.Quantity++;
+                    myCart.Add(item);
+                }
+                else
+                {
+                    item.Quantity++;
+                }
             }
             HttpContext.Session.Set(CommonConstants.SessionCart, myCart);
             if(type == "ajax")

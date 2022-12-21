@@ -23,10 +23,29 @@
                     <button class="btnHome inline-block" type="button" onclick="location.href='@Url.Action("Index", "Home")'">
                         <!-- <img id="home" src="~/OverviewProductAssets/images/Homebutton.png" class="imgHome me-auto mx-sm-auto"></img> -->
                     </button>
-                    <div class="direction ms-3 me-3 d-flex">
-                        <i class="fa-sharp fa-solid fa-location-dot ms-2"></i>
-                        <p class="direction-detail mt-3 ms-3">Chọn cửa hàng: 17 Trần Khắc Chân... <a href="" class="">Thay đổi</a> </p>
-                    </div>
+                    <div class="location_container">
+                                <div class="direction change-location-store ms-3 me-3 d-flex">
+                                    <i class="ti-location-pin" style="font-size:20px !important;padding-left: 4px;padding-bottom: 16px;"></i>
+                                    <p class="direction-detail ms-3" style="margin-top: 5px;">Chọn cửa hàng: 17 Trần Khắc Chân...  </p> <br>
+                                    <!-- <a style="font-size: 12px; width: 50px;;" href="#" class="change_location">Thay đổi</a>  -->
+                                </div>
+                        
+                                <div class="list_location display_list_location">
+                                    <div class="location_item">
+                                        <ol class="location_item_list">
+                                            <li class="location_item_child"><a href="#" class="location_item_child_link">Số nhà 61, ấp vườn xoài xã thuận nghĩa hòa, Thạnh hóa, Long an</a></li>                             
+                                            <li class="location_item_child"><a href="#" class="location_item_child_link">Số nhà 62, ấp vườn xoài xã thuận nghĩa hòa, Thạnh hóa, Long an</a></li>
+                                            <li class="location_item_child"><a href="#" class="location_item_child_link">Số nhà 63, ấp vườn xoài xã thuận nghĩa hòa, Thạnh hóa, Long an</a></li>
+                                            <li class="location_item_child"><a href="#" class="location_item_child_link">Số nhà 64, ấp vườn xoài xã thuận nghĩa hòa, Thạnh hóa, Long an</a></li>
+                                            <li class="location_item_child"><a href="#" class="location_item_child_link">Số nhà 65, ấp vườn xoài xã thuận nghĩa hòa, Thạnh hóa, Long an</a></li>
+                                            <li class="location_item_child"><a href="#" class="location_item_child_link">Số nhà 66, ấp vườn xoài xã thuận nghĩa hòa, Thạnh hóa, Long an</a></li>
+                                            <li class="location_item_child"><a href="#" class="location_item_child_link">Số nhà 67, ấp vườn xoài xã thuận nghĩa hòa, Thạnh hóa, Long an</a></li>
+                                            <li class="location_item_child"><a href="#" class="location_item_child_link">Số nhà 68, ấp vườn xoài xã thuận nghĩa hòa, Thạnh hóa, Long an</a></li>
+                                            <li class="location_item_child"><a href="#" class="location_item_child_link">Số nhà 69, ấp vườn xoài xã thuận nghĩa hòa, Thạnh hóa, Long an</a></li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
                     <div class="search-container">
                         <input class="form-control ms-0 search-input" type="search" placeholder="Tìm kiếm thực phẩm" aria-label="Search" >
                         </input>
@@ -47,7 +66,7 @@
                     {
                         <div class="nav-item col-11 mt-1 d-flex justify-content-between align-item-center">
                             <li class="header__navbar-name nav-link active">@info_cus.LastName @info_cus.FirstName</li>
-                            <li class="header__navbar-avt nav-link active"><img src="~/imageuser/@info_account.Avatar" alt="" id="avartar_user"></li>
+                            <li class="header__navbar-avt nav-link active"><img src="~/MyAccountAssets/UserPhotos/@HttpContextAccessor.HttpContext.Session.GetString("CUS_SESSION_AVATAR")" alt="" id="avartar_user"></li>
                         </div>
                     }
                     else

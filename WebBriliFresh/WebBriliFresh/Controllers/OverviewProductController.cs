@@ -31,7 +31,8 @@ namespace WebBriliFresh.Controllers
 
         public IActionResult FishAndMeat()
         {
-            return View();
+            var list = _context.Products.Include(p=>p.ProductImages).Where(x => x.IsDeleted == 0 && x.Type.MainType == "Thịt cá").ToList();
+            return View(list);
         }
 
         //[Authorize(Policy = "LoggedIn")]

@@ -87,7 +87,8 @@ $(document).ready(function() {
         });
         $(".description .more-desc").click(function(){
             $(".product").css("height","auto");
-            $(this).css("display","none");
+            $(this).css("display", "none");
+            $(".description-body").css("display", "inline");
            
             // $(".description p:last-child").append("<button class="+"less-desc>"+" Rút gọn</button>");
             $(".description .less-desc").css("display","inline");
@@ -96,7 +97,7 @@ $(document).ready(function() {
             }, 100);
         })
         $(".description .less-desc").click(function(){
-            
+            $(".description-body").css("display", "block");
             $(".product").css("height","515px");
             $(this).css("display","none");
             $(".description .more-desc").css("display","inline");

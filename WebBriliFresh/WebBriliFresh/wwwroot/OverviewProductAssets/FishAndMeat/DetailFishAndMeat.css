@@ -594,7 +594,7 @@ input[placeholder="Tìm kiếm thực phẩm"] {
     font-style: normal;
     font-weight: 400;
     font-size: 15px;
-    line-height: 19px;
+    line-height: 22px !important;
 
     color: #000000;
 }
@@ -603,7 +603,7 @@ input[placeholder="Tìm kiếm thực phẩm"] {
     font-style: normal;
     font-weight: 400;
     font-size: 15px;
-    line-height: 19px;
+    line-height: 22px;
 
     color: #000000;
 }

@@ -36,7 +36,7 @@
                             {
                                 if (item.StoreId != HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId))
                                 {
-                                    <li class="location_item_child"><a type="button" data-storeid="@item.StoreId" href="#" class="location_item_child_link">@item.SpecificAddress, @item.Ward, @item.District, @item.City</a></li>
+                                    <li class="location_item_child"><a type="button" data-storeid="@item.StoreId" href="@Url.Action("changeid","Home" , new {  storeid = @item.StoreId})">@item.SpecificAddress, @item.Ward, @item.District, @item.City</a></li>
                                 }
                             }                            
                         </ol>

@@ -1,17 +1,17 @@
 ﻿
     $(document).ready(function () {
         $(".location_item_child_link").click(function () {
-            console.log($(this).data("storeid"))
-            $.ajax({
-                url: "/Home/changeid",
-                data: {
-                    storeid: $(this).data("storeid")
-                },
-                success: function (data) {
-                    $("#quantity_cart").html(data.quantity);
-                }
-            });
-
+            //console.log($(this).data("storeid"))
+            //$.ajax({
+            //    url: "/Home/changeid",
+            //    data: {
+            //        storeid: $(this).data("storeid")
+            //    },
+            //    success: function (data) {
+            //        $("#quantity_cart").html(data.quantity);
+            //    }
+            //});
+            console.log("thanh phuong")
             var id_selecting = $(".direction-detail").data("storeid")
             var id_selected = $(this).data("storeid")
 
@@ -25,7 +25,8 @@
             $(this).text(text_is_selecting)
         });
 
-    $(".change-location-store").click(function () {
+        $(".change-location-store").click(function () {
+            console.log("thanh phuong")
         $(".list_location").removeClass("display_list_location")
     });
 });

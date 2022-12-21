@@ -18,6 +18,7 @@ namespace WebBriliFresh.Models.ViewModels
     }
     public class FilterViewModel {
         public List<Product> Products { get; set; }
+
         public string searchTerm { get; set; }
 
         public int MaximumPrice { get; set; }

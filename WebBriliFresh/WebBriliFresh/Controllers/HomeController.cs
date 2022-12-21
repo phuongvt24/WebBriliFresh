@@ -9,6 +9,7 @@ using WebBriliFresh.Common;
 using WebBriliFresh.Helpers;
 using WebBriliFresh.Models;
 using WebBriliFresh.Models.DTO;
+using System.Web;
 
 namespace WebBriliFresh.Controllers
 {
@@ -39,10 +40,7 @@ namespace WebBriliFresh.Controllers
         public async Task<IActionResult> changeid(int storeid)
         {
             HttpContext.Session.SetInt32(CommonConstants.SessionStoreId, storeid);
-            return Json(new
-            {
-                quantity = Carts.Where(x => x.StoreId == storeid).Sum(p => p.Quantity)
-            });
+            return  RedirectToAction("Index");
         }
 
 

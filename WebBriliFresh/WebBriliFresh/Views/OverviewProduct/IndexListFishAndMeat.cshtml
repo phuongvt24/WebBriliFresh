@@ -38,7 +38,26 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="">Sản phẩm</a></li>
                     <li class="breadcrumb-item"><a href="">Thịt cá</a></li>
-                    <li class="breadcrumb-item"><a href="">Bò dê</a></li>
+                    @if(Model.TypeID==1){
+                        <li class="breadcrumb-item"><a href="">Thịt heo</a></li>
+                    }
+                    else if (Model.TypeID == 2)
+                    {
+                        <li class="breadcrumb-item"><a href="">Bò dê</a></li>
+                    }
+                    else if (Model.TypeID == 3)
+                    {
+                        <li class="breadcrumb-item"><a href="">Gà vịt</a></li>
+                    }
+                    else if (Model.TypeID == 4)
+                    {
+                        <li class="breadcrumb-item"><a href="">Trứng</a></li>
+                    }
+                    else if (Model.TypeID == 5)
+                    {
+                        <li class="breadcrumb-item"><a href="">Hải sản</a></li>
+                    }
+                    
                 </ol>
             </div>
             <div class="" id="productsDiv">
