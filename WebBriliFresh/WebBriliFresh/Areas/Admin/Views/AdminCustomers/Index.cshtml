@@ -107,17 +107,25 @@
                                 }
                                 <td>@Html.DisplayFor(modelItem => item.Phone)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                                @if (item.Reward.CusType == 1)
+                               
+                                @if (item.Reward != null)
                                 {
-                                    <td><span class="rank">Vàng</span></td>
-                                }
-                                else if (item.Reward.CusType == 2)
-                                {
-                                    <td><span class="rank">Bạc</span></td>
+                                    if (item.Reward.CusType == 1)
+                                    {
+                                        <td><span class="rank">Vàng</span></td>
+                                    }
+                                    else if (item.Reward.CusType == 2)
+                                    {
+                                        <td><span class="rank">Bạc</span></td>
+                                    }
+                                    else
+                                    {
+                                        <td><span class="rank">Đồng</span></td>
+                                    }
                                 }
                                 else
                                 {
-                                    <td><span class="rank">Đồng</span></td>
+                                    <td><span class="rank">Null Vì Một Thằng Ngu</span></td>
                                 }
 
                                 <td class="text-right">
