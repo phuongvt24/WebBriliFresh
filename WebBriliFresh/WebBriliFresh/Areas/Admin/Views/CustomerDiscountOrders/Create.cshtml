@@ -1,0 +1,97 @@
+﻿@model WebBriliFresh.Models.CustomerDiscountOrder
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Tạo mã khuyến mãi</h1>
+
+<h4>Mã khuyến mãi khách hàng</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="CreatePost">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DiscountOrdersDisId" class="control-label"></label>
+                <select asp-for="DiscountOrdersDisId" class="form-control" asp-items="ViewBag.DisId"></select>
+                <span asp-validation-for="DiscountOrdersDisId" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+            <label asp-for="CustomersCusId" class="control-label"></label>
+            <select asp-for="CustomersCusId" class="form-control" asp-items="ViewBag.CusId"></select>
+            <span asp-validation-for="CustomersCusId" class="text-danger"></span>
+            </div>*@
+            @*            <div class="form-group">
+            <label asp-for="IsDeleted" class="control-label"></label>
+            <input asp-for="IsDeleted" class="form-control" />
+            <span asp-validation-for="IsDeleted" class="text-danger"></span>
+            </div>*@
+            <div class="table-responsive">
+                <table class="table table-hover e-commerce-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>ID khách</th>
+                            <th>Họ tên</th>
+                            <th>Loại khách hàng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewData["CusId"] as IEnumerable<WebBriliFresh.Models.Customer>)
+                        {
+                            <tr class="rowitem">
+                                <td><input type="checkbox" value="@item.CusId" name="Customers[]" /></td>
+                                <td>@Html.DisplayFor(modelItem => item.CusId)</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.LastName)</h6>
+                                        <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.FirstName)</h6>
+                                    </div>
+                                </td>
+
+                                @if (item.Reward != null)
+                                {
+                                    if (item.Reward.CusType == 1)
+                                    {
+                                        <td><span class="rank">Vàng</span></td>
+                                    }
+                                    else if (item.Reward.CusType == 2)
+                                    {
+                                        <td><span class="rank">Bạc</span></td>
+                                    }
+                                    else
+                                    {
+                                        <td><span class="rank">Đồng</span></td>
+                                    }
+                                }
+                                else
+                                {
+                                    <td><span class="rank">Null Vì Một Thằng Ngu</span></td>
+                                }
+
+
+                                <td class="text-right">
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Tạo" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
