@@ -356,3 +356,17 @@ ol
     text-decoration: none;
     color: #8f8c8c;
 }
+
+.location_item
+{
+    height: fit-content;
+    font-family: 'Lexend';
+}
+
+
+.navbar-expand-xl .navbar-nav .nav-link
+{
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+    font-family:lexend;
+}

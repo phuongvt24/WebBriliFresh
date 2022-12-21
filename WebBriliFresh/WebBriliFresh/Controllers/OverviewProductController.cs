@@ -39,7 +39,8 @@ namespace WebBriliFresh.Controllers
         public IActionResult Fruit()
         {
 
-            return View();
+            var list = _context.Products.Include(p => p.ProductImages).Where(x => x.IsDeleted == 0 && x.Type.MainType == "Trái cây 4 mùa").ToList();
+            return View(list);
         }
 
         public IActionResult Vegetable()

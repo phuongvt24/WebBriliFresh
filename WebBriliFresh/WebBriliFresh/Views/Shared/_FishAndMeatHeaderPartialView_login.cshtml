@@ -1,10 +1,19 @@
 ﻿@inject WebBriliFresh.Models.BriliFreshDbContext _context;
 @using Microsoft.AspNetCore.Http;
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@inject WebBriliFresh.Models.BriliFreshDbContext _context;
+@using Microsoft.AspNetCore.Http;
+@using WebBriliFresh.Common;
+@using WebBriliFresh.Helpers;
+@using WebBriliFresh.Models.DTO;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
 @{
     var user_id = @HttpContextAccessor.HttpContext.Session.GetInt32("CUS_SESSION_USERID");
     var info_account = _context.Users.Where(x => x.Id == user_id).FirstOrDefault();
     var info_cus = _context.Customers.Where(x => x.UserId == user_id).FirstOrDefault();
+
+   var Model = _context.Stores.Where(x => x.IsDeleted == 0).ToList();
+
 }
 <section class="header scaled-header mx-lg-1 mx-sm-auto my-auto">
     <nav class="navbar navbar-expand-xl navbar-light">
@@ -24,28 +33,30 @@
                         <!-- <img id="home" src="~/OverviewProductAssets/images/Homebutton.png" class="imgHome me-auto mx-sm-auto"></img> -->
                     </button>
                     <div class="location_container">
+                        @foreach (var item in Model)
+                        {
+                            if (item.StoreId == HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId)){
                                 <div class="direction change-location-store ms-3 me-3 d-flex">
-                                    <i class="ti-location-pin" style="font-size:20px !important;padding-left: 4px;padding-bottom: 16px;"></i>
-                                    <p class="direction-detail ms-3" style="margin-top: 5px;">Chọn cửa hàng: 17 Trần Khắc Chân...  </p> <br>
-                                    <!-- <a style="font-size: 12px; width: 50px;;" href="#" class="change_location">Thay đổi</a>  -->
+                                    <i class="ti-location-pin" style="font-size:20px !important;padding-right: 8px;padding-bottom: 16px;"></i>
+                                    <p class="direction-detail" data-storeid="@item.StoreId" type="button" style="margin-top: 5px;">@item.SpecificAddress, @item.Ward, @item.District, @item.City</p>
                                 </div>
-                        
-                                <div class="list_location display_list_location">
-                                    <div class="location_item">
-                                        <ol class="location_item_list">
-                                            <li class="location_item_child"><a href="#" class="location_item_child_link">Số nhà 61, ấp vườn xoài xã thuận nghĩa hòa, Thạnh hóa, Long an</a></li>                             
-                                            <li class="location_item_child"><a href="#" class="location_item_child_link">Số nhà 62, ấp vườn xoài xã thuận nghĩa hòa, Thạnh hóa, Long an</a></li>
-                                            <li class="location_item_child"><a href="#" class="location_item_child_link">Số nhà 63, ấp vườn xoài xã thuận nghĩa hòa, Thạnh hóa, Long an</a></li>
-                                            <li class="location_item_child"><a href="#" class="location_item_child_link">Số nhà 64, ấp vườn xoài xã thuận nghĩa hòa, Thạnh hóa, Long an</a></li>
-                                            <li class="location_item_child"><a href="#" class="location_item_child_link">Số nhà 65, ấp vườn xoài xã thuận nghĩa hòa, Thạnh hóa, Long an</a></li>
-                                            <li class="location_item_child"><a href="#" class="location_item_child_link">Số nhà 66, ấp vườn xoài xã thuận nghĩa hòa, Thạnh hóa, Long an</a></li>
-                                            <li class="location_item_child"><a href="#" class="location_item_child_link">Số nhà 67, ấp vườn xoài xã thuận nghĩa hòa, Thạnh hóa, Long an</a></li>
-                                            <li class="location_item_child"><a href="#" class="location_item_child_link">Số nhà 68, ấp vườn xoài xã thuận nghĩa hòa, Thạnh hóa, Long an</a></li>
-                                            <li class="location_item_child"><a href="#" class="location_item_child_link">Số nhà 69, ấp vườn xoài xã thuận nghĩa hòa, Thạnh hóa, Long an</a></li>
-                                        </ol>
-                                    </div>
-                                </div>
+                            }
+                        }
+                
+                        <div class="list_location display_list_location">
+                            <div class="location_item">
+                                <ol class="location_item_list">
+                                    @foreach (var item in Model)
+                                    {
+                                        if (item.StoreId != HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId))
+                                        {
+                                            <li class="location_item_child"><a type="button" data-storeid="@item.StoreId" href="@Url.Action("changeid","Home" , new {  storeid = @item.StoreId})">@item.SpecificAddress, @item.Ward, @item.District, @item.City</a></li>
+                                        }
+                                    }                            
+                                </ol>
                             </div>
+                        </div>
+                     </div>
                     <div class="search-container">
                         <input class="form-control ms-0 search-input" type="search" placeholder="Tìm kiếm thực phẩm" aria-label="Search" >
                         </input>
@@ -71,7 +82,7 @@
                     }
                     else
                     {
-                        <div class="nav-item col-4 mt-1">
+                        <div class="nav-item col-4 mt-1" style="width: fit-content; padding-left: 40px; padding-right: 4px;">
                             <a class="nav-link active" href="#">Đăng kí</a>
                         </div>
                         <div class="nav-item mt-2">
@@ -85,14 +96,24 @@
                     
                     <!-- <div class="vr mt-2"></div> -->
                     <div class="mt-2 " style="border-left:1px solid #8F8C8C;height:25px"></div>
-                    <div class="d-flex nav-item mt-2 ms-3 align-item-center justify-content-center" style="margin-top: 0px !important;">
+                    <div class="d-flex nav-item mt-2 ms-3 align-item-center justify-content-center" style="margin-top: 0px !important;" onclick='window.location = "@Url.Action("CartInfoCheck", "BuyAndPay")"'>
                         <div class="i_cart_shoping">
                             <i class="fa-solid fa-cart-shopping"></i>
                         </div>
                     </div>
                     <div class="nav-item">
-                        <div class="nav-item count_product align-item-right ms-2 mt-2">
-                            <p id="quantity_cart" class="bought_product pe-1">0</p>
+                        <div class="nav-item count_product align-item-right ms-2 mt-2" onclick='window.location = "@Url.Action("CartInfoCheck", "BuyAndPay")"'>
+                           @* <p id="quantity_cart" class="bought_product pe-1">0</p>*@
+                            <p id="quantity_cart" class="number-item bought_product pe-1">
+                                @{
+                                    var data = HttpContextAccessor.HttpContext.Session.Get<List<ShoppingCartViewModel>>(CommonConstants.SessionCart);
+                                    if (data == null)
+                                    {
+                                        data = new List<ShoppingCartViewModel>();
+                                    }
+                                    @data.Where(x=>x.StoreId==HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId)).Sum(x=>x.Quantity)
+                                }
+                            </p>
                         </div>
                     </div>
 
