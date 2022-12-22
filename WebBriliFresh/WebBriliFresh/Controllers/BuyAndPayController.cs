@@ -96,8 +96,6 @@ namespace WebBriliFresh.Controllers
             return RedirectToAction("ListFishAndMeat", "OverviewProduct");
         }
 
-
-
         public IActionResult Delete(int proId, int storeid)
         {
             var myCart = Carts;
@@ -146,49 +144,16 @@ namespace WebBriliFresh.Controllers
         {
             var check_address_1 = _context.Addresses.Where(x => x.CusId == cre_Ord.CusId).ToList();
             var order_details = JsonConvert.DeserializeObject<List<ShoppingCartViewModel>>(cre_Ord.ListOrder);
+            var domain = "https://localhost:44307/";
+
+            Transport transport = new Transport();
+            Order order = new Order();
+
+
             if (cre_Ord.CusId > 0)
             {
                 if (cre_Ord.AddressId > 0)
                 {
-                    var domain = "https://localhost:44307/";
-                    var options = new SessionCreateOptions
-                    {
-                        PaymentMethodTypes = new List<string>
-                {
-                    "card",
-                },
-                        LineItems = new List<SessionLineItemOptions>
-                {
-                },
-                        Mode = "payment",
-                        SuccessUrl = domain + $"BuyAndPay/SuccessPayment?id=4",
-                        CancelUrl = domain + $"BuyAndPay/Cancel",
-                    };
-                    foreach (var item in Carts)
-                    {
-                        var sessionLineItem = new SessionLineItemOptions
-                        {
-                            PriceData = new SessionLineItemPriceDataOptions
-                            {
-                                UnitAmount = (long?)(item.SalePrice),
-                                Currency = "VND",
-                                ProductData = new SessionLineItemPriceDataProductDataOptions
-                                {
-                                    Name = item.ProductId.ToString(),
-                                },
-                            },
-                            Quantity = item.Quantity,
-                        };
-                        options.LineItems.Add(sessionLineItem);
-                    }
-
-                    var service = new SessionService();
-                    Session session = service.Create(options);
-
-                    Response.Headers.Add("location", session.Url);
-                    return new StatusCodeResult(303);
-
-                    Transport transport = new Transport();
                     transport.ShippingDate = null;
                     transport.Transporter = null;
                     transport.Status = 1;
@@ -204,7 +169,6 @@ namespace WebBriliFresh.Controllers
                     _context.Transports.Add(transport);
                     await _context.SaveChangesAsync();
 
-                    Order order = new Order();
                     order.AddId = cre_Ord.AddressId;
                     order.CusId = cre_Ord.CusId;
                     order.TransId = transport.TransId;
@@ -262,9 +226,7 @@ namespace WebBriliFresh.Controllers
                     }
 
                     _context.Addresses.Add(address);
-                    await _context.SaveChangesAsync();
 
-                    Transport transport = new Transport();
                     transport.ShippingDate = null;
                     transport.Transporter = null;
                     transport.Status = 1;
@@ -278,9 +240,7 @@ namespace WebBriliFresh.Controllers
                         transport.Fee = 32000;
                     }
                     _context.Transports.Add(transport);
-                    await _context.SaveChangesAsync();
 
-                    Order order = new Order();
                     order.AddId = address.AddId;
                     order.CusId = cre_Ord.CusId;
                     order.TransId = transport.TransId;
@@ -334,7 +294,6 @@ namespace WebBriliFresh.Controllers
                                                           .FirstOrDefault();
                     if (check_address > 0)
                     {
-                        Transport transport = new Transport();
                         transport.ShippingDate = null;
                         transport.Transporter = null;
                         transport.Status = 1;
@@ -350,7 +309,6 @@ namespace WebBriliFresh.Controllers
                         _context.Transports.Add(transport);
                         await _context.SaveChangesAsync();
 
-                        Order order = new Order();
                         order.AddId = check_address;
                         order.CusId = cus_id_num;
                         order.TransId = transport.TransId;
@@ -360,14 +318,9 @@ namespace WebBriliFresh.Controllers
                         order.SubTotal = cre_Ord.SubTotal;
                         order.OrderTotal = cre_Ord.OrderTotal;
                         order.PayBy = cre_Ord.PayBy;
-                        if (cre_Ord.PayBy == 1)
-                        {
-                            order.Status = 0;
-                        }
-                        else
-                        {
-                            order.Status = 1;
-                        }
+                        order.Status = 0;
+                        order.Status = 1;
+
                         _context.Orders.Add(order);
                         await _context.SaveChangesAsync();
 
@@ -404,7 +357,6 @@ namespace WebBriliFresh.Controllers
                         _context.Addresses.Add(address);
                         await _context.SaveChangesAsync();
 
-                        Transport transport = new Transport();
                         transport.ShippingDate = null;
                         transport.Transporter = null;
                         transport.Status = 1;
@@ -420,7 +372,6 @@ namespace WebBriliFresh.Controllers
                         _context.Transports.Add(transport);
                         await _context.SaveChangesAsync();
 
-                        Order order = new Order();
                         order.AddId = address.AddId;
                         order.CusId = cus_id_num;
                         order.TransId = transport.TransId;
@@ -430,14 +381,9 @@ namespace WebBriliFresh.Controllers
                         order.SubTotal = cre_Ord.SubTotal;
                         order.OrderTotal = cre_Ord.OrderTotal;
                         order.PayBy = cre_Ord.PayBy;
-                        if (cre_Ord.PayBy == 1)
-                        {
-                            order.Status = 0;
-                        }
-                        else
-                        {
-                            order.Status = 1;
-                        }
+                        order.Status = 0;
+
+
                         _context.Orders.Add(order);
                         await _context.SaveChangesAsync();
 
@@ -478,7 +424,6 @@ namespace WebBriliFresh.Controllers
                     await _context.SaveChangesAsync();
 
                     //tạo vận chuyển
-                    Transport transport = new Transport();
                     transport.ShippingDate = null;
                     transport.Transporter = null;
                     transport.Status = 1;
@@ -495,7 +440,6 @@ namespace WebBriliFresh.Controllers
                     await _context.SaveChangesAsync();
 
                     //tạo hóa đơn
-                    Order order = new Order();
                     order.AddId = address.AddId;
                     order.CusId = customer.CusId;
                     order.TransId = transport.TransId;
@@ -504,15 +448,8 @@ namespace WebBriliFresh.Controllers
                     order.OrderDate = DateTime.Now;
                     order.SubTotal = cre_Ord.SubTotal;
                     order.OrderTotal = cre_Ord.OrderTotal;
+                    order.Status = 0;
                     order.PayBy = cre_Ord.PayBy;
-                    if (cre_Ord.PayBy == 1)
-                    {
-                        order.Status = 0;
-                    }
-                    else
-                    {
-                        order.Status = 1;
-                    }
                     _context.Orders.Add(order);
                     await _context.SaveChangesAsync();
 
@@ -528,8 +465,6 @@ namespace WebBriliFresh.Controllers
                     }
                 }
             }
-
-
 
             if (cre_Ord.DisId > 0)
             {
@@ -548,25 +483,44 @@ namespace WebBriliFresh.Controllers
                 await _context.SaveChangesAsync();
             };
 
-
-
-            var myCart = Carts;
-            if (Carts != null)
+            if (cre_Ord.PayBy == 7)
             {
-                for (int i = 0; i < order_details.Count; i++)
+                var options = new SessionCreateOptions
                 {
-                    var item = myCart.Where(p => p.ProductId == order_details[i].ProductId).Where(x => x.StoreId == order_details[i].StoreId).FirstOrDefault();
-                    myCart.Remove(item);
+                    LineItems = new List<SessionLineItemOptions>
+                    {
+                    },
+                    Mode = "payment",
+                    SuccessUrl = domain + $"BuyAndPay/SuccessPayment?{order.OrderId}",
+                    CancelUrl = domain + $"BuyAndPay/Cancel",
                 };
-                HttpContext.Session.Set(CommonConstants.SessionCart, myCart);
+                foreach (var item in order_details)
+                {
+                    string itemName = _context.Products.FirstOrDefault(a => a.ProId == item.ProductId).ProName;
+                    var sessionLineItem = new SessionLineItemOptions
+                    {
+                        PriceData = new SessionLineItemPriceDataOptions
+                        {
+                            UnitAmount = (long?)(item.SalePrice),
+                            Currency = "VND",
+                            ProductData = new SessionLineItemPriceDataProductDataOptions
+                            {
+                                Name = itemName,
+                            },
+                        },
+                        Quantity = item.Quantity,
+                    };
+                    options.LineItems.Add(sessionLineItem);
+                }
+
+                var service = new SessionService();
+                Session session = service.Create(options);
+
+                Response.Headers.Add("location", session.Url);
+                return new StatusCodeResult(303);
             }
-
-
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(SuccessPayment));
         }
-
-
-     
 
         public IActionResult CartInfoCheck()
         {
@@ -582,9 +536,33 @@ namespace WebBriliFresh.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult SuccessPayment(int id)
+        public void ClearCard(int orderId)
         {
+            var myCart = Carts;
+            var order = _context.Orders.Include(a => a.OrderDetails).FirstOrDefault(a => a.OrderId == orderId);
+            if (order != null)
+            {
+                order.Status = 1;
+                var order_details = order.OrderDetails.ToList();
+
+                if (Carts != null)
+                {
+                    for (int i = 0; i < order_details.Count; i++)
+                    {
+                        var item = myCart.Where(p => p.ProductId == order_details[i].ProId).Where(x => x.StoreId == order.StoreId).FirstOrDefault();
+                        if (item != null)
+                            myCart.Remove(item);
+                    };
+                    HttpContext.Session.Set(CommonConstants.SessionCart, myCart);
+                }
+            }
+        }
+
+        [HttpGet]
+        public IActionResult SuccessPayment(int orderId)
+        {
+            ClearCard(orderId);
+         
             return View();
         }
         [HttpGet]
