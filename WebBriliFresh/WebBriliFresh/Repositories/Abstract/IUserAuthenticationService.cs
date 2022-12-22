@@ -11,5 +11,7 @@ namespace WebBriliFresh.Repositories.Abstract
         Task<Status> RegisterAsync(RegistrationModel model);
         Task<Status> ChangePasswordAsync(ChangePasswordModel model, string username);
         Task<Status> ResetPasswordAsync(ResetPasswordModel model);
+        Task<User> FindByNameAsync(string name);
+
     }
 }

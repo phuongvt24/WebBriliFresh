@@ -42,6 +42,12 @@ namespace WebBriliFresh.Repositories.Implementation
                 UserRole = model.UserRole,
                 IsDeleted = 0
             };
+
+            if(user.UserRole == 2)
+            {
+                user.EmailConfirmed = true;
+            }
+
             var result = await userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
@@ -50,6 +56,7 @@ namespace WebBriliFresh.Repositories.Implementation
                 return status;
             }
 
+            if(user.UserRole == 1)
             await userManager.AddToRoleAsync(user, "Customer");
 
 
@@ -166,6 +173,12 @@ namespace WebBriliFresh.Repositories.Implementation
             status.Message = "Đặt lại mật khẩu thành công";
             status.StatusCode = 1;
             return status;
+        }
+
+        public async Task<User> FindByNameAsync(string username)
+        {
+            User user = await userManager.FindByNameAsync(username);
+            return user;
         }
     }
 }

@@ -4,10 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebBriliFresh.Models;
+using WebBriliFresh.Models.DTO;
+using WebBriliFresh.Repositories.Abstract;
 
 namespace WebBriliFresh.Areas.Admin.Controllers
 {
@@ -18,11 +21,13 @@ namespace WebBriliFresh.Areas.Admin.Controllers
     {
         private readonly BriliFreshDbContext _context;
         public INotyfService _notifyService { get; }
+        private readonly IUserAuthenticationService _authService;
 
-        public AdminEmployeesController(BriliFreshDbContext context, INotyfService notyfService)
+        public AdminEmployeesController(BriliFreshDbContext context, INotyfService notyfService, IUserAuthenticationService authService)
         {
             _context = context;
             _notifyService = notyfService;
+            _authService = authService;
         }
 
         // GET: Admin/AdminEmployees
@@ -152,24 +157,27 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 return View();
             }
 
-
-
-
             if (ModelState.IsValid)
             {
-               
-                var model = new User();
-                model.UserName = employee.UserName;
-                model.UserPassword = employee.UserPassword;
-                model.IsDeleted =0;
+                RegistrationModel model = new RegistrationModel();
+                model.Username = employee.UserName;
+                model.Password = employee.UserPassword;
+                model.PasswordConfirm = employee.UserPassword;
                 model.UserRole = 2;
-                _context.Add(model);
-                await _context.SaveChangesAsync();
-                int userid = model.Id;
-                employee.UserId = userid;
-                employee.IsDeleted = 0;
-                _context.Add(employee);
-                await _context.SaveChangesAsync();
+                model.Gender = (int)employee.Gender;
+
+                Status status = await _authService.RegisterAsync(model);
+
+                if(status.StatusCode == 1)
+                {
+                    User user = await _authService.FindByNameAsync(model.Username);
+
+                    employee.UserId = user.Id;
+                    employee.IsDeleted = 0;
+                    _context.Add(employee);
+                    await _context.SaveChangesAsync();
+                }
+              
 
                 return RedirectToAction(nameof(Index));
             }
