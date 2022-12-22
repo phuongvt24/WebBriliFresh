@@ -26,9 +26,6 @@
 </head>
 <body>
     @await Html.PartialAsync("~/Views/Shared/_FruitHeaderPartialView_login.cshtml")
-
-
-
     <section class="directory mt-3 scaled-body">
         <nav class="navbar navbar-expand-xl navbar-light ">
             <div class="container-fluid ms-2" style="    font-family: 'Lexend';">
@@ -165,7 +162,7 @@
                                     @if (i != null)
                                     {
                                         var m = @i.ImgData;
-                                        <a href='@Url.Action("DetailFishAndMeat","OverviewProduct" , new { ProId = item.ProId, StoreId = @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId) })'>
+                                        <a href='@Url.Action("DetailFruit","OverviewProduct" , new { ProId = item.ProId, StoreId = @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId) })'>
                                             <img src="~/ImageProduct/@m" alt="" class="product-item-img-child" />
                                         </a>
 
@@ -248,7 +245,7 @@
                                     @if (i != null)
                                     {
                                         var m = @i.ImgData;
-                                        <a href='@Url.Action("DetailFishAndMeat","OverviewProduct" , new { ProId = item.ProId, StoreId = @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId) })'>
+                                        <a href='@Url.Action("DetailFruit","OverviewProduct" , new { ProId = item.ProId, StoreId = @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId) })'>
                                             <img src="~/ImageProduct/@m" alt="" class="product-item-img-child" />
                                         </a>
                                     }

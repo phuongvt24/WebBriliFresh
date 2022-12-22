@@ -170,10 +170,10 @@
                         @if (Model.Pager.CurrentPage > 1)
                         {
                             <li class="page-item">
-                                <a class="page-link" data-href="@Url.Action("FilterProductsFishAndMeat", "OverviewProduct", new { search=Model.searchTerm, minimumPrice=Model.MinPrice, maximumPrice=Model.MaximumPrice,typeID = Model.TypeID, storeID = Model.StoreID ,selecteString = Model.selectedOp , sortBy = Model.SortBy, pageNo = 1 })">First</a>
+                                <a class="page-link" href="@Url.Action("IndexListFishAndMeat", "OverviewProduct", new { search=Model.searchTerm, minimumPrice=Model.MinPrice, maximumPrice=Model.MaximumPrice,typeID = Model.TypeID, storeID = Model.StoreID ,selecteString = Model.selectedOp , sortBy = Model.SortBy, pageNo = 1 })">First</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" data-href="@Url.Action("FilterProductsFishAndMeat", "OverviewProduct", new {  search=Model.searchTerm, minimumPrice=Model.MinPrice, maximumPrice=Model.MaximumPrice,typeID = Model.TypeID, storeID = Model.StoreID,selecteString = Model.selectedOp , sortBy = Model.SortBy, pageNo = Model.Pager.CurrentPage - 1 })">&laquo;</a>
+                                <a class="page-link" href="@Url.Action("IndexListFishAndMeat", "OverviewProduct", new {  search=Model.searchTerm, minimumPrice=Model.MinPrice, maximumPrice=Model.MaximumPrice,typeID = Model.TypeID, storeID = Model.StoreID,selecteString = Model.selectedOp , sortBy = Model.SortBy, pageNo = Model.Pager.CurrentPage - 1 })">&laquo;</a>
                             </li>
                         }
                         @for (var pge = Model.Pager.StartPage; pge <= Model.Pager.EndPage; pge++)
@@ -181,16 +181,16 @@
 
                             string activeClass = Model.Pager.CurrentPage == pge ? "active bg-info" : string.Empty;
                             <li class="page-item @activeClass">
-                                <a class="page-link" data-href="@Url.Action("FilterProductsFishAndMeat", "OverviewProduct", new { search=Model.searchTerm, minimumPrice=Model.MinPrice, maximumPrice=Model.MaximumPrice,typeID = Model.TypeID,storeID = Model.StoreID ,selecteString = Model.selectedOp , sortBy = Model.SortBy, pageNo = pge })">@pge</a>
+                                <a class="page-link" href="@Url.Action("IndexListFishAndMeat", "OverviewProduct", new { search=Model.searchTerm, minimumPrice=Model.MinPrice, maximumPrice=Model.MaximumPrice,typeID = Model.TypeID,storeID = Model.StoreID ,selecteString = Model.selectedOp , sortBy = Model.SortBy, pageNo = pge })">@pge</a>
                             </li>
                         }
                         @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
                         {
                             <li class="page-item">
-                                <a class="page-link" data-href="@Url.Action("FilterProductsFishAndMeat", "OverviewProduct", new {  search=Model.searchTerm, minimumPrice=Model.MinPrice, maximumPrice=Model.MaximumPrice,typeID = Model.TypeID, storeID = Model.StoreID, selecteString = Model.selectedOp , sortBy = Model.SortBy, pageNo = Model.Pager.CurrentPage  + 1 })">&raquo;</a>
+                                <a class="page-link" href="@Url.Action("IndexListFishAndMeat", "OverviewProduct", new {  search=Model.searchTerm, minimumPrice=Model.MinPrice, maximumPrice=Model.MaximumPrice,typeID = Model.TypeID, storeID = Model.StoreID, selecteString = Model.selectedOp , sortBy = Model.SortBy, pageNo = Model.Pager.CurrentPage  + 1 })">&raquo;</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" data-href="@Url.Action("FilterProductsFishAndMeat", "OverviewProduct", new {  search=Model.searchTerm, minimumPrice=Model.MinPrice, maximumPrice=Model.MaximumPrice,typeID = Model.TypeID, selecteString = Model.selectedOp , sortBy = Model.SortBy, pageNo = Model.Pager.TotalPages})">Last</a>
+                                <a class="page-link" href="@Url.Action("IndexListFishAndMeat", "OverviewProduct", new {  search=Model.searchTerm, minimumPrice=Model.MinPrice, maximumPrice=Model.MaximumPrice,typeID = Model.TypeID, selecteString = Model.selectedOp , sortBy = Model.SortBy, pageNo = Model.Pager.TotalPages})">Last</a>
                             </li>
                         }
                     </ul>
@@ -254,7 +254,7 @@
                     storeID : @Model.StoreID,
                     selecteString: select,
                     sortBy: sort,
-                    pageNo: 1,
+                    pageNo: @ViewBag.pageCurrent,
                     pageSize: 16,
                 }
             })
@@ -305,7 +305,7 @@
                     storeID : @Model.StoreID,
                     selecteString: select,
                     sortBy: sort,
-                    pageNo: 1,
+                    pageNo: @ViewBag.pageCurrent,
                     pageSize: 16,
                 }
             })
@@ -350,7 +350,7 @@
                     storeID: @Model.StoreID,
                             selecteString: select,
                             sortBy: sort,
-                            pageNo: 1,
+                            pageNo: @ViewBag.pageCurrent,
                             pageSize: 16,
                         }
 
@@ -396,7 +396,7 @@
                     storeID: @Model.StoreID,
                     selecteString: select,
                     sortBy: sort,
-                    pageNo: 1,
+                    pageNo: @ViewBag.pageCurrent,
                     pageSize: 16,
                 }
             })
@@ -439,7 +439,7 @@
                     storeID: @Model.StoreID,
                     selecteString: select,
                     sortBy: sort,
-                    pageNo: 1,
+                    pageNo: @ViewBag.pageCurrent,
                     pageSize: 16,
                 }
             })
@@ -484,7 +484,7 @@
                             storeID: @Model.StoreID,
                             selecteString: select,
                             sortBy: sort,
-                            pageNo: 1,
+                            pageNo: @ViewBag.pageCurrent,
                             pageSize: 16,
                         }
                     })
@@ -534,7 +534,7 @@
                             storeID : @Model.StoreID,
                             selecteString: select,
                             sortBy: sort,
-                            pageNo: 1,
+                            pageNo: @ViewBag.pageCurrent,
                             pageSize: 16,
                         }
                     })
@@ -590,7 +590,7 @@
                     storeID: @Model.StoreID,
                         selecteString: select,
                         sortBy: sort,
-                        pageNo: 1,
+                        pageNo: @ViewBag.pageCurrent,
                         pageSize: 16,
                     }
                      })
@@ -636,7 +636,7 @@
                     storeID: @Model.StoreID,
                         selecteString: select,
                     sortBy: sort,
-                        pageNo: 1,
+                    pageNo: @ViewBag.pageCurrent,
                         pageSize: 16,
                     }
                      })

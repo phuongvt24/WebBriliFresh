@@ -1,5 +1,12 @@
 ﻿@model WebBriliFresh.Models.ViewModels.FilterViewModel;
 @using WebBriliFresh.Models.DAO;
+@using WebBriliFresh.Models.DAO;
+@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@inject WebBriliFresh.Models.BriliFreshDbContext _context;
+
+@using WebBriliFresh.Common;
+@using WebBriliFresh.Models.DAO;
 <div class="products-content">
     <div class="row" style="width: 105%">
         <div class="filter-products col-3">
@@ -87,16 +94,32 @@
         <div class="list-products col-9 row d-flex">
             @foreach (var item in Model.Products)
             {
-                <div class="product-item col-3">
+                var c = _context.Stocks.Where(x => x.ProId == item.ProId && x.StoreId == @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId) && x.Quantity > 0).FirstOrDefault();
+                var a = _context.ProductImages.Where(x => x.ProId == item.ProId && x.ImgData.Contains("is_avt"));
+                var i = a.FirstOrDefault();
+
+               if(c!=null){
+
+                    <div class="product-item col-3">
                     <input type="hidden" id="@item.ProId" data-id="@item.ProId" data-store="@Model.StoreID" />
                     <div class="product-item-img">
                         @{
                             ProductServices productService = new ProductServices();
                             var dis = productService.getDiscount(item.ProId);
-                        };
-                        <a href='@Url.Action("DetailFishAndMeat","OverviewProduct" , new { ProId = item.ProId, StoreId = Model.StoreID})'>
-                            <img src="~/OverviewProductAssets/images/items/bouc.png" alt="" class="product-item-img-child" />
-                        </a>
+                        }
+                        @if (i != null)
+                        {
+                            var m = @i.ImgData;
+                            <a href='@Url.Action("DetailVegetable","OverviewProduct" , new { ProId = item.ProId, StoreId = Model.StoreID})'>
+                                <img src="~/ImageProduct/@m" alt="" class="product-item-img-child" />
+                            </a>
+                        }
+                        else
+                        {
+                            <img src="~/ImageProduct/none.jpg" alt="" class="product-item-img-child" />
+                        }
+
+
 
                         @*<img src="~/ImageProduct/@{productService.getImg(@item.ProId);}" alt="" class="product-item-img-child" />*@
                     </div>
@@ -114,14 +137,32 @@
                         </div>
                     </div>
                     <div class="d-flex ">
-                        <div class="product-item-price-dis">
-                            <p class="product-item-price-dis-child" value="@(item.OriginalPrice)">@((item.OriginalPrice).ToString("#,##0"))</p>
-                        </div>
-                        <div class="dis-rate">
-                            <p class="dis-rate-child" value="@(dis.Value*100.0)">-@(dis.Value * 100.0)%</p>
-                        </div>
+                            <div class="product-item-price-dis">
+
+                                @if (dis.Value == 0)
+                                {
+                                    <p class="product-item-price-dis-child" value="@(item.Price)"></p>
+                                }
+                                else
+                                {
+                                    <p class="product-item-price-dis-child" value="@(item.Price)">@((item.Price).ToString("#,##0"))</p>
+                                }
+                            </div>
+
+                            <div class="dis-rate">
+                                @if (dis.Value == 0)
+                                {
+                                    <p class="dis-rate-child" value="@(dis.Value*100.0)"></p>
+                                }
+                                else
+                                {
+                                    <p class="dis-rate-child" value="@(dis.Value*100.0)">-@(dis.Value * 100.0)%</p>
+                                }
+
+                            </div>
                     </div>
                 </div>
+               }
             }
         </div>
 
@@ -217,7 +258,7 @@
                     storeID: @Model.StoreID,
                     selecteString: select,
                     sortBy: sort,
-                    pageNo: 1,
+                    pageNo: @ViewBag.pageCurrent,
                     pageSize: 16,
                 }
             })
@@ -267,7 +308,7 @@
                     storeID: @Model.StoreID,
                     selecteString: select,
                     sortBy: sort,
-                    pageNo: 1,
+                    pageNo: @ViewBag.pageCurrent,
                     pageSize: 16,
                 }
             })
@@ -311,7 +352,7 @@
                     storeID: @Model.StoreID,
                     selecteString: select,
                     sortBy: sort,
-                    pageNo: 1,
+                    pageNo: @ViewBag.pageCurrent,
                     pageSize: 16,
                 }
 
@@ -357,7 +398,7 @@
                     storeID: @Model.StoreID,
                     selecteString: select,
                     sortBy: sort,
-                    pageNo: 1,
+                    pageNo: @ViewBag.pageCurrent,
                     pageSize: 16,
                 }
             })
@@ -400,7 +441,7 @@
                     storeID: @Model.StoreID,
                     selecteString: select,
                     sortBy: sort,
-                    pageNo: 1,
+                    pageNo: @ViewBag.pageCurrent,
                     pageSize: 16,
                 }
             })
@@ -445,7 +486,7 @@
                             storeID: @Model.StoreID,
                             selecteString: select,
                             sortBy: sort,
-                            pageNo: 1,
+                            pageNo: @ViewBag.pageCurrent,
                             pageSize: 16,
                         }
                     })
@@ -495,7 +536,7 @@
                             storeID: @Model.StoreID,
                             selecteString: select,
                             sortBy: sort,
-                            pageNo: 1,
+                            pageNo: @ViewBag.pageCurrent,
                             pageSize: 16,
                         }
                     })
@@ -551,7 +592,7 @@
                     storeID: @Model.StoreID,
                     selecteString: select,
                     sortBy: sort,
-                    pageNo: 1,
+                    pageNo: @ViewBag.pageCurrent,
                     pageSize: 16,
                 }
             })
@@ -597,7 +638,7 @@
                     storeID: @Model.StoreID,
                     selecteString: select,
                     sortBy: sort,
-                    pageNo: 1,
+                    pageNo: @ViewBag.pageCurrent,
                     pageSize: 16,
                 }
             })

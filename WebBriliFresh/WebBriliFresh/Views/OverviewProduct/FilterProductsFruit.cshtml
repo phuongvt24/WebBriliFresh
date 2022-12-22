@@ -134,24 +134,25 @@
                         <div class="d-flex ">
                             <div class="product-item-price-dis">
 
-                        @if (dis.Value == 0)
-                        {
-                                        <p class="product-item-price-dis-child" value="@(item.Price)"></p>
-                        }
-                        else
-                        {
-                                        <p class="product-item-price-dis-child" value="@(item.Price)">@((item.Price).ToString("#,##0"))</p>
-                        }
+                                @if (dis.Value == 0)
+                                {
+                                    <p class="product-item-price-dis-child" value="@(item.Price)"></p>
+                                }
+                                else
+                                {
+                                    <p class="product-item-price-dis-child" value="@(item.Price)">@((item.Price).ToString("#,##0"))</p>
+                                }
                             </div>
+
                             <div class="dis-rate">
-                        @if (dis.Value == 0)
-                        {
-                                        <p class="dis-rate-child" value="@(dis.Value*100.0)"></p>
-                        }
-                        else
-                        {
-                                        <p class="dis-rate-child" value="@(dis.Value*100.0)">-@(dis.Value * 100.0)%</p>
-                        }
+                                @if (dis.Value == 0)
+                                {
+                                    <p class="dis-rate-child" value="@(dis.Value*100.0)"></p>
+                                }
+                                else
+                                {
+                                     <p class="dis-rate-child" value="@(dis.Value*100.0)">-@(dis.Value * 100.0)%</p>
+                                }
 
                             </div>
                         </div>
@@ -252,7 +253,7 @@
                     storeID: @Model.StoreID,
                     selecteString: select,
                     sortBy: sort,
-                    pageNo: 1,
+                    pageNo: @ViewBag.pageCurrent,
                     pageSize: 16,
                 }
             })
@@ -302,7 +303,7 @@
                     storeID: @Model.StoreID,
                     selecteString: select,
                     sortBy: sort,
-                    pageNo: 1,
+                    pageNo: @ViewBag.pageCurrent,
                     pageSize: 16,
                 }
             })
@@ -346,7 +347,7 @@
                     storeID: @Model.StoreID,
                     selecteString: select,
                     sortBy: sort,
-                    pageNo: 1,
+                    pageNo: @ViewBag.pageCurrent,
                     pageSize: 16,
                 }
 
@@ -392,7 +393,7 @@
                     storeID: @Model.StoreID,
                     selecteString: select,
                     sortBy: sort,
-                    pageNo: 1,
+                    pageNo: @ViewBag.pageCurrent,
                     pageSize: 16,
                 }
             })
@@ -435,7 +436,7 @@
                     storeID: @Model.StoreID,
                     selecteString: select,
                     sortBy: sort,
-                    pageNo: 1,
+                    pageNo: @ViewBag.pageCurrent,
                     pageSize: 16,
                 }
             })
@@ -480,7 +481,7 @@
                             storeID: @Model.StoreID,
                             selecteString: select,
                             sortBy: sort,
-                            pageNo: 1,
+                            pageNo: @ViewBag.pageCurrent,
                             pageSize: 16,
                         }
                     })
@@ -530,7 +531,7 @@
                             storeID: @Model.StoreID,
                             selecteString: select,
                             sortBy: sort,
-                            pageNo: 1,
+                            pageNo: @ViewBag.pageCurrent,
                             pageSize: 16,
                         }
                     })
@@ -586,7 +587,7 @@
                     storeID: @Model.StoreID,
                     selecteString: select,
                     sortBy: sort,
-                    pageNo: 1,
+                    pageNo: @ViewBag.pageCurrent,
                     pageSize: 16,
                 }
             })
@@ -632,7 +633,7 @@
                     storeID: @Model.StoreID,
                     selecteString: select,
                     sortBy: sort,
-                    pageNo: 1,
+                    pageNo: @ViewBag.pageCurrent,
                     pageSize: 16,
                 }
             })

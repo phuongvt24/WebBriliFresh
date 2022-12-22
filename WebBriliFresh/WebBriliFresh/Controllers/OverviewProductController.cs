@@ -45,7 +45,8 @@ namespace WebBriliFresh.Controllers
 
         public IActionResult Vegetable()
         {
-            return View();
+            var list = _context.Products.Include(p => p.ProductImages).Where(x => x.IsDeleted == 0 && x.Type.MainType == "Rau củ").ToList();
+            return View(list);
         }
 
         //List sản phẩm chính
@@ -95,6 +96,7 @@ namespace WebBriliFresh.Controllers
             pageNo = pageNo.HasValue ? pageNo.Value > 0 ? pageNo.Value : 1 : 1;
             int totalCount = await productService.SearchProductsCount(model.searchTerm, model.MinPrice, model.MaximumPrice, model.TypeID, model.StoreID, model.selectedOp, model.SortBy);
             model.Products = await productService.SearchProducts(model.searchTerm, model.MinPrice, model.MaximumPrice, model.TypeID, model.StoreID, model.selectedOp, model.SortBy, (int)pageNo, pageSize);
+            ViewBag.pageCurrent = pageNo;
 
             model.Pager = new Pager(totalCount, (int)pageNo, pageSize);
             return View(model);
@@ -165,7 +167,7 @@ namespace WebBriliFresh.Controllers
             pageNo = pageNo.HasValue ? pageNo.Value > 0 ? pageNo.Value : 1 : 1;
             int totalCount = await productService.SearchProductsCount(model.searchTerm, minimumPrice, maximumPrice, typeID, storeID, model.selectedOp, sortBy);
             model.Products = await productService.SearchProducts(model.searchTerm, minimumPrice, maximumPrice, typeID, storeID, model.selectedOp, sortBy, (int)pageNo, (int)pageSize);
-
+            ViewBag.pageCurrent = pageNo;
             model.Pager = new Pager(totalCount, (int)pageNo, (int)pageSize);
             return PartialView(model);
         }
@@ -216,6 +218,7 @@ namespace WebBriliFresh.Controllers
             pageNo = pageNo.HasValue ? pageNo.Value > 0 ? pageNo.Value : 1 : 1;
             int totalCount = await productService.SearchProductsCount(model.searchTerm, model.MinPrice, model.MaximumPrice, model.TypeID, model.StoreID, model.selectedOp, model.SortBy);
             model.Products = await productService.SearchProducts(model.searchTerm, model.MinPrice, model.MaximumPrice, model.TypeID, model.StoreID, model.selectedOp, model.SortBy, (int)pageNo, pageSize);
+            ViewBag.pageCurrent = pageNo;
 
             model.Pager = new Pager(totalCount, (int)pageNo, pageSize);
             return View(model);
@@ -286,7 +289,7 @@ namespace WebBriliFresh.Controllers
             pageNo = pageNo.HasValue ? pageNo.Value > 0 ? pageNo.Value : 1 : 1;
             int totalCount = await productService.SearchProductsCount(model.searchTerm, minimumPrice, maximumPrice, typeID, storeID, model.selectedOp, sortBy);
             model.Products = await productService.SearchProducts(model.searchTerm, minimumPrice, maximumPrice, typeID, storeID, model.selectedOp, sortBy, (int)pageNo, (int)pageSize);
-
+            ViewBag.pageCurrent = pageNo;
             model.Pager = new Pager(totalCount, (int)pageNo, (int)pageSize);
             return PartialView(model);
         }
@@ -338,6 +341,7 @@ namespace WebBriliFresh.Controllers
             pageNo = pageNo.HasValue ? pageNo.Value > 0 ? pageNo.Value : 1 : 1;
             int totalCount = await productService.SearchProductsCount(model.searchTerm, model.MinPrice, model.MaximumPrice, model.TypeID, model.StoreID, model.selectedOp, model.SortBy);
             model.Products = await productService.SearchProducts(model.searchTerm, model.MinPrice, model.MaximumPrice, model.TypeID, model.StoreID, model.selectedOp, model.SortBy, (int)pageNo, pageSize);
+            ViewBag.pageCurrent = pageNo;
 
             model.Pager = new Pager(totalCount, (int)pageNo, pageSize);
             return View(model);
@@ -408,7 +412,7 @@ namespace WebBriliFresh.Controllers
             pageNo = pageNo.HasValue ? pageNo.Value > 0 ? pageNo.Value : 1 : 1;
             int totalCount = await productService.SearchProductsCount(model.searchTerm, minimumPrice, maximumPrice, typeID, storeID, model.selectedOp, sortBy);
             model.Products = await productService.SearchProducts(model.searchTerm, minimumPrice, maximumPrice, typeID, storeID, model.selectedOp, sortBy, (int)pageNo, (int)pageSize);
-
+            ViewBag.pageCurrent = pageNo;
             model.Pager = new Pager(totalCount, (int)pageNo, (int)pageSize);
             return PartialView(model);
         }

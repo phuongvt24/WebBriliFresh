@@ -1,8 +1,15 @@
 ﻿@{
     Layout = null;
 }
+@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@inject WebBriliFresh.Models.BriliFreshDbContext _context;
+@using WebBriliFresh.Models.DAO;
+
+@using WebBriliFresh.Common;
 @using WebBriliFresh.Models.ViewModels;
 @model WebBriliFresh.Models.ViewModels.ListProductsModel;
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,7 +75,7 @@
                     filterviewmodel.Pager = Model.Pager;
                     filterviewmodel.SortBy = Model.SortBy;
                     filterviewmodel.TypeID = Model.TypeID;
-                    filterviewmodel.StoreID = Model.StoreID;
+                    filterviewmodel.StoreID = @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId);
 
                     filterviewmodel.selectedOp = Model.selectedOp;
                     filterviewmodel.searchTerm = Model.searchTerm;

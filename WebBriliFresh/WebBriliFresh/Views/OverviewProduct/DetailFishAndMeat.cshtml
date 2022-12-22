@@ -8,6 +8,7 @@
 @using Microsoft.AspNetCore.Http;
 @using WebBriliFresh.Models.DAO;
 @using WebBriliFresh.Common;
+@using WebBriliFresh.Models.ViewModels;
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,7 +65,10 @@
             </div>
         </nav>
     </section>
-
+    @{
+        ProductServices productService = new ProductServices();
+        var dis = productService.getDiscount(Model.product.ProId);
+     }
     <section class="product scaled-product">
         <div class="container-fluid">
             <div class="d-flex justify-content-between align-item-center mx-auto">
@@ -134,15 +138,24 @@
                         <div class="product-info-cost-detail ps-4 pt-1 pb-2 me-auto justify-content-center align-items-center">
                                 <div class="new-cost">
                                     @*<span value="80000">80.000 đ</span>*@
-                                <span value="@(Model.product.OriginalPrice*(decimal)(1-Model.discount.Value))">@((Model.product.OriginalPrice * (decimal)(1 - Model.discount.Value)).ToString("#,##0"))</span>
+                                    <span value="@(Model.product.Price*(decimal)(1-Model.discount.Value))">@((Model.product.Price * (decimal)(1 - Model.discount.Value)).ToString("#,##0"))</span>
                                 </div>
-
-                                <div class="old-dis-cost d-flex">
-                                <span class="old-cost me-2" value="@Model.product.OriginalPrice">@Model.product.OriginalPrice.ToString("#,##0")</span>
-                                    <span class="dis-cost" value="@(Model.discount.Value*100.0)">@(Model.discount.Value*100.0)%</span>
-                                </div>
+                                
+                                @if(dis.Value!=0){
+                                    <div class="old-dis-cost d-flex">
+                                        <span class="old-cost me-2" value="@Model.product.Price">@Model.product.Price.ToString("#,##0")</span>
+                                        <span class="dis-cost" value="@(Model.discount.Value*100.0)">@(Model.discount.Value*100.0)%</span>
+                                    </div>
+                                }else{
+                                    <div class="old-dis-cost d-flex" style="visibility: hidden;">
+                                        <span class="old-cost me-2" style="visibility: hidden;" value="@Model.product.Price">@Model.product.Price.ToString("#,##0")</span>
+                                        <span class="dis-cost" style="visibility: hidden;" value="@(Model.discount.Value*100.0)">@(Model.discount.Value * 100.0)%</span>
+                                    </div>
+                                }
+                                
                         </div>
-                        <div class="countdown-sale align-items-center justify-content-center me-2 ">
+                        @if(dis.Value!=0){
+                            <div class="countdown-sale align-items-center justify-content-center me-2 ">
                             <div class="info mx-2 my-auto">
                                 <span>Kết thúc sau</span>
                             </div>
@@ -170,6 +183,8 @@
                             </div>
 
                         </div>
+                        }
+                        
                     </div>
                     <div class="c-title mt-3">
                         <span>Số lượng</span>
@@ -197,10 +212,10 @@
                     </div>
 
                     <div class="d-flex mt-4">
-                        @{
+                       @* @{
                             ProductServices productService = new ProductServices();
                             var dis = productService.getDiscount(Model.product.ProId);
-                        }
+                        }*@
 
                         <div class="btn-buy me-2">
                             @*<input type="button" id="btn-buy"  value="CHỌN MUA"></input>*@
@@ -224,21 +239,28 @@
                         </div>
                     </div>
                     <div class="description mt-3 mb-auto">
-                        <span class="description-title">
-                                @Model.product.Des.Substring(0, 235)<button class="more-desc">Xem thêm</button>
+                        @if(@Model.product.Des.Length<=240)
+                        {
+                            <span class="description-title">
+                                @Model.product.Des
+                            </span>
+                               
+                        }
+                        else{
+                            <span class="description-title">
+                                @Model.product.Des.Substring(0, 240)<button class="more-desc">Xem thêm</button>
                         </span>
                             <span class="description-body" style="display: block;">
                             @{
                                 var length = Model.product.Des.Length;
                             }
-                            @Model.product.Des.Substring(235,@length-235)
+                            @Model.product.Des.Substring(240,@length-240)
                         </span>
-
-                        
-                       
                         <p class="description-body">
                             <button class="less-desc">Rút gọn</button>
                         </p>
+                        }
+                        
 
                     </div>
 
@@ -973,9 +995,6 @@
             </div>
         </div>
     </section>
-
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script src="~/Overviewproductassets\fishandmeat\detailfishandmeat.js"></script>

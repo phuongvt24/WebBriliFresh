@@ -50,8 +50,10 @@
             </div>
         </nav>
     </section>
-
-
+    @{
+        ProductServices productService = new ProductServices();
+        var dis = productService.getDiscount(Model.product.ProId);
+    }
     <section class="product scaled-product">
         <div class="container-fluid">
             <div class="d-flex justify-content-between align-item-center mx-auto">
@@ -70,7 +72,7 @@
                         {
                             <img src="~/ImageProduct/none.jpg" alt="" class="product-item-img-child" />
                         }
-
+                    
                     </div>
                     <div class="product-img-album align-items-center">
                         <ul class="d-flex img-album-list">
@@ -95,78 +97,89 @@
 
                         </ul>
                     </div>
-
+                    
                 </div>
                 <div class="product-info justify-content-center align-items-center">
                     <div class="product-info-title">
                         @*Ba rọi heo (Nhập khẩu) 500g*@
                         @Model.product.ProName (@Model.product.Unit)
-                        <div class="product-info-star d-flex justify-content-left align-items-left mb-auto ">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="ratings">
-                                    <i class="fa fa-star    "></i>
-                                    <i class="fa fa-star rating-color"></i>
-                                    <i class="fa fa-star rating-color"></i>
-                                    <i class="fa fa-star rating-color"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>&nbsp;
-                                (Xem&nbsp;<span comment-count> @Model.feedbacks.Count </span>&nbsp;đánh giá)
-                                &nbsp;<div class="mt-2" style="border-left:1px solid #8F8C8C;height:20px"></div>&nbsp;
-                                &nbsp;Đã bán&nbsp;<span sold-count>5000</span>+
-
-                            </div>
+                    <div class="product-info-star d-flex justify-content-left align-items-left mb-auto ">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="ratings">
+                                <i class="fa fa-star    "></i>
+                                <i class="fa fa-star rating-color"></i>
+                                <i class="fa fa-star rating-color"></i>
+                                <i class="fa fa-star rating-color"></i>
+                                <i class="fa fa-star"></i>
+                            </div>&nbsp;
+                            (Xem&nbsp;<span comment-count> @Model.feedbacks.Count </span>&nbsp;đánh giá)
+                            &nbsp;<div class="mt-2" style="border-left:1px solid #8F8C8C;height:20px"></div>&nbsp;
+                            &nbsp;Đã bán&nbsp;<span sold-count>5000</span>+
 
                         </div>
-                        <div class="product-info-cost d-flex  align-items-center mt-3 me-auto">
-                            <div class="product-info-cost-detail ps-4 pt-1 pb-2 me-auto justify-content-center align-items-center">
+
+                    </div>
+                    <div class="product-info-cost d-flex  align-items-center mt-3 me-auto">
+                        <div class="product-info-cost-detail ps-4 pt-1 pb-2 me-auto justify-content-center align-items-center">
                                 <div class="new-cost">
                                     @*<span value="80000">80.000 đ</span>*@
-                                    <span value="@(Model.product.OriginalPrice*(decimal)(1-Model.discount.Value))">@((Model.product.OriginalPrice * (decimal)(1 - Model.discount.Value)).ToString("#,##0"))</span>
+                                    <span value="@(Model.product.Price*(decimal)(1-Model.discount.Value))">@((Model.product.Price * (decimal)(1 - Model.discount.Value)).ToString("#,##0"))</span>
                                 </div>
-
-                                <div class="old-dis-cost d-flex">
-                                    <span class="old-cost me-2" value="@Model.product.OriginalPrice">@Model.product.OriginalPrice.ToString("#,##0")</span>
-                                    <span class="dis-cost" value="@(Model.discount.Value*100.0)">@(Model.discount.Value * 100.0)%</span>
-                                </div>
-                            </div>
+                                
+                                @if(dis.Value!=0){
+                                    <div class="old-dis-cost d-flex">
+                                        <span class="old-cost me-2" value="@Model.product.Price">@Model.product.Price.ToString("#,##0")</span>
+                                        <span class="dis-cost" value="@(Model.discount.Value*100.0)">@(Model.discount.Value*100.0)%</span>
+                                    </div>
+                                }else{
+                                    <div class="old-dis-cost d-flex" style="visibility: hidden;">
+                                        <span class="old-cost me-2" style="visibility: hidden;" value="@Model.product.Price">@Model.product.Price.ToString("#,##0")</span>
+                                        <span class="dis-cost" style="visibility: hidden;" value="@(Model.discount.Value*100.0)">@(Model.discount.Value * 100.0)%</span>
+                                    </div>
+                                }
+                                
+                        </div>
+                        @if(dis.Value!=0){
                             <div class="countdown-sale align-items-center justify-content-center me-2 ">
-                                <div class="info mx-2 my-auto">
-                                    <span>Kết thúc sau</span>
-                                </div>
-                                <div class="count-down-sale d-flex mt-1 mb-1">
-                                    <div class="hours-countdown box-countdown cd-bg mx-1">
-                                        <div class="countdown-num mx-auto">
-                                            06
-                                        </div>
-                                    </div>
-                                    <div class="count-down-sale-split">:</div>
-                                    <div class="minute-countdown box-countdown cd-bg mx-1">
-                                        <div class="countdown-num mx-auto">
-                                            06
-                                        </div>
-                                    </div>
-                                    <div class="count-down-sale-split">:</div>
-                                    <div class="second-countdown box-countdown cd-bg mx-1">
-                                        <div class="countdown-num mx-auto ">
-                                            06
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="info mx-2 my-auto">
-                                    <span>Vừa mở bán</span>
-                                </div>
-
+                            <div class="info mx-2 my-auto">
+                                <span>Kết thúc sau</span>
                             </div>
+                            <div class="count-down-sale d-flex mt-1 mb-1">
+                                <div class="hours-countdown box-countdown cd-bg mx-1">
+                                        <div class="countdown-num mx-auto">
+                                            06
+                                        </div>
+                                </div>
+                                <div class="count-down-sale-split">:</div>
+                                <div class="minute-countdown box-countdown cd-bg mx-1">
+                                    <div class="countdown-num mx-auto">
+                                        06
+                                    </div>
+                                </div>
+                                <div class="count-down-sale-split">:</div>
+                                <div class="second-countdown box-countdown cd-bg mx-1">
+                                    <div class="countdown-num mx-auto ">
+                                        06
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="info mx-2 my-auto">
+                                <span>Vừa mở bán</span>
+                            </div>
+
                         </div>
-                        <div class="c-title mt-3">
-                            <span>Số lượng</span>
-                        </div>
-                        <div class="row product-quantity ">
-                            <div class="col-xl-3 ">
+                        }
+                        
+                    </div>
+                    <div class="c-title mt-3">
+                        <span>Số lượng</span>
+                    </div>
+                    <div class="row product-quantity ">
+                        <div class="col-xl-3 ">
                                 <div class="input-group">
                                     <div class="input-group-btn justify-content-end align-items-center ">
 
-                                        <button type="button" class="quantity-left-minus btn btn-default btn-number" data-type="minus" data-field="">
+                                        <button type="button" class="quantity-left-minus btn btn-default btn-number"  data-type="minus" data-field="">
                                             <i class="fa fa-minus"></i>
 
                                         </button>
@@ -180,77 +193,84 @@
                                         </button>
                                     </div>
                                 </div>
-                            </div>
                         </div>
+                    </div>
 
-                        <div class="d-flex mt-4">
-                            @{
-                                ProductServices productService = new ProductServices();
-                                var dis = productService.getDiscount(Model.product.ProId);
-                            }
+                    <div class="d-flex mt-4">
+                       @* @{
+                            ProductServices productService = new ProductServices();
+                            var dis = productService.getDiscount(Model.product.ProId);
+                        }*@
 
-                            <div class="btn-buy me-2">
-                                @*<input type="button" id="btn-buy"  value="CHỌN MUA"></input>*@
-                                <button type="button" id="btn-buy" data-id="@Model.product.ProId" data-storeid="@HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId)" data-saleprice="@(Model.product.Price*((decimal)(1-dis.Value)))" class="product-item-add-btn">Mua hàng</button>
-                            </div>
-                            <div class="btn-chat me-4">
+                        <div class="btn-buy me-2">
+                            @*<input type="button" id="btn-buy"  value="CHỌN MUA"></input>*@
+                            <button type="button" id="btn-buy" data-id="@Model.product.ProId" data-storeid="@HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId)" data-saleprice="@(Model.product.Price*((decimal)(1-dis.Value)))" class="product-item-add-btn">Mua hàng</button>
+                        </div>
+                        <div class="btn-chat me-4">
 
-                                <input type="button" id="btn-chat" value="CHAT"></input>
-
-                            </div>
+                            <input type="button" id="btn-chat" value="CHAT"></input>
 
                         </div>
-
-                        <div class="cr-info mt-5" style="display: flex;">
-                            <div class="brand-info d-flex col-2">
-                                <span class="name brand-name me-auto">Thương hiệu:</span>
-
-                            </div>
-                            <div class="country d-flex col-6">
-                                <span id="content">@Model.product.Source</span>
-                            </div>
-                        </div>
-                        <div class="description mt-3 mb-auto">
-                            <span class="description-title">
-                                @Model.product.Des.Substring(0, 100)<button class="more-desc">Xem thêm</button>
-                            </span>
-                            <span class="description-body" style="display: block;">
-                                @{
-                                    var length = Model.product.Des.Length;
-                                }
-                                @Model.product.Des.Substring(100,@length-100)
-                            </span>
-
-
-
-                            <p class="description-body">
-                                <button class="less-desc">Rút gọn</button>
-                            </p>
-
-                        </div>
-
-
 
                     </div>
+
+                    <div class="cr-info mt-5" style="display: flex;">
+                        <div class="brand-info d-flex col-2">
+                            <span class="name brand-name me-auto">Thương hiệu:</span>
+                            
+                        </div>
+                        <div class="country d-flex col-6">
+                                <span id="content">@Model.product.Source</span>
+                        </div>
+                    </div>
+                    <div class="description mt-3 mb-auto">
+                         @if(@Model.product.Des.Length<=240)
+                        {
+                            <span class="description-title">
+                                @Model.product.Des
+                            </span>
+                               
+                        }
+                        else{
+                            <span class="description-title">
+                                @Model.product.Des.Substring(0, 240)<button class="more-desc">Xem thêm</button>
+                        </span>
+                            <span class="description-body" style="display: block;">
+                            @{
+                                var length = Model.product.Des.Length;
+                            }
+                            @Model.product.Des.Substring(240,@length-240)
+                        </span>
+                        <p class="description-body">
+                            <button class="less-desc">Rút gọn</button>
+                        </p>
+                        }
+                        
+
+                    </div>
+
+
+
                 </div>
             </div>
+        </div>
     </section>
     <section class="items-recommended scaled-recommended justify-content-center align-items-center">
         <div class="container-fluid mt-5">
-            <div class="row justify-content-center text-align-center scale-container">
-                <div class="">
-                    <div class="items-recommended-bar d-flex align-items-center">
-                        <p class="items-recommended-title col-2 pt-3 ms-3">
-                            Gợi ý cho bạn
-                        </p>
+           <div class="row justify-content-center text-align-center scale-container">
+            <div class="">
+                <div class="items-recommended-bar d-flex align-items-center">
+                    <p class="items-recommended-title col-2 pt-3 ms-3">
+                        Gợi ý cho bạn
+                    </p>
 
-                        <div class="more-items text-center align-item-center me-3">
-                            <a href="#" class="p-more-item">Xem thêm <i class="fa-solid fa-arrow-right"></i></a>
-                        </div>
+                    <div class="more-items text-center align-item-center me-3">
+                        <a href="#" class="p-more-item">Xem thêm <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
-
                 </div>
+
             </div>
+           </div>
         </div>
         <div class="items-container mt-5 ms-3">
             <div class="d-flex justify-content-between align-items-center text-align-center ms-0 p-0 list-items">
@@ -381,6 +401,7 @@
         </div>
     </section>
     <div class="gap mt-5">
+
     </div>
     <section class="comments scaled-comments">
         <div class="container-fluid mt-5">
@@ -425,7 +446,7 @@
                                             <i class="fa fa-star rating-color checked"></i>
                                             <i class="fa fa-star rating-color checked"></i>
                                             <i class="fa fa-star rating-color checked"></i>
-                                            <i class="fa fa-star checked"></i>
+                                            <i class="fa fa-star checked"></i>                                          
                                         </div>
                                     </div>
                                 </div>
@@ -441,8 +462,8 @@
                                             <i class="fa fa-star checked"></i>
                                             <i class="fa fa-star rating-color checked"></i>
                                             <i class="fa fa-star rating-color checked"></i>
-                                            <i class="fa fa-star rating-color checked"></i>
-                                            <i class="fa fa-star non-checked"></i>
+                                            <i class="fa fa-star rating-color checked"></i>       
+                                            <i class="fa fa-star non-checked"></i>       
                                         </div>
                                     </div>
                                 </div>
@@ -459,7 +480,7 @@
                                             <i class="fa fa-star rating-color checked"></i>
                                             <i class="fa fa-star rating-color checked"></i>
                                             <i class="fa fa-star rating-color non-checked"></i>
-                                            <i class="fa fa-star non-checked"></i>
+                                            <i class="fa fa-star non-checked"></i>                                          
                                         </div>
                                     </div>
                                 </div>
@@ -476,7 +497,7 @@
                                             <i class="fa fa-star rating-color checked"></i>
                                             <i class="fa fa-star rating-color non-checked"></i>
                                             <i class="fa fa-star rating-color non-checked"></i>
-                                            <i class="fa fa-star non-checked"></i>
+                                            <i class="fa fa-star non-checked"></i>                                          
                                         </div>
                                     </div>
                                 </div>
@@ -493,7 +514,7 @@
                                             <i class="fa fa-star rating-color non-checked"></i>
                                             <i class="fa fa-star rating-color non-checked"></i>
                                             <i class="fa fa-star rating-color non-checked"></i>
-                                            <i class="fa fa-star non-checked"></i>
+                                            <i class="fa fa-star non-checked"></i>                                          
                                         </div>
                                     </div>
                                 </div>
@@ -507,7 +528,7 @@
                     <div class="col-6 comment-info-imgs me-auto ms-5">
                         <span class="title ms-4">Tất cả hình ảnh</span><span class="title" id="total-comment"> &nbsp;(25)</span>
                         <div class="product-img-album mt-3 ms-0 me-auto col-12">
-                            <ul class="row d-flex comment-img-album-list">
+                            <ul class="row d-flex comment-img-album-list"> 
                                 <li class="ms-0 me-4">
                                     <img src="./images/comment/cmt1.png" alt="" id="img comment-img-album-1">
                                 </li>
@@ -546,7 +567,7 @@
                                 <div class="filter-comment-star mx-auto text-center me-3 col-2" id="4-start">
                                     <span>4<i class="fa-regular fa-star mt-2"></i>  </span>
                                 </div>
-                                <div class="filter-comment-star  mx-auto text-center me-3 col-2" id="3-start">
+                                <div class="filter-comment-star  mx-auto text-center me-3 col-2"id="3-start">
                                     <span>3<i class="fa-regular fa-star mt-2"></i>  </span>
                                 </div>
                                 <div class="filter-comment-star  mx-auto text-center me-3 col-2" id="2-start">
@@ -570,6 +591,7 @@
                 <div class="container container-comment d-flex mt-4 ms-0 me-1">
                     <div class="user-comment-info d-flex">
                         <div class="user-avatar me-3" id="user-avatar">
+
                         </div>
                         <div class="user-name me-5">
                             <span id="user-name">Nguyễn Minh Cường</span>
@@ -580,7 +602,7 @@
                                         <i class="fa fa-star rating-color checked"></i>
                                         <i class="fa fa-star rating-color checked"></i>
                                         <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star checked    "></i>
+                                        <i class="fa fa-star checked    "></i>                                          
                                     </div>
                                 </div>
                             </div>
@@ -611,7 +633,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <a href="#" value="">
+                    <a href="#" value="">
                             <div class="liked ms-0 d-flex justify-content-center align-items-center">
                                 <i class="fa-regular fa-thumbs-up"></i>&nbsp;
                                 <span class="user-like" id="user-like-id">Hữu ích</span>
@@ -629,6 +651,7 @@
                 <div class="container-fluid container-comment d-flex mt-4">
                     <div class="user-comment-info d-flex">
                         <div class="user-avatar me-3" id="user-avatar">
+
                         </div>
                         <div class="user-name me-auto">
                             <span id="user-name">Nguyễn Minh Cường</span>
@@ -639,7 +662,7 @@
                                         <i class="fa fa-star rating-color checked"></i>
                                         <i class="fa fa-star rating-color checked"></i>
                                         <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star checked    "></i>
+                                        <i class="fa fa-star checked    "></i>                                          
                                     </div>
                                 </div>
                             </div>
@@ -670,11 +693,11 @@
                                 </ul>
                             </div>
                         </div>
-                        <a href="#" value="">
-                            <div class="liked ms-auto d-flex justify-content-center align-items-center">
-                                <i class="fa-regular fa-thumbs-up"></i>&nbsp;
-                                <span class="user-like" id="user-like-id">Hữu ích</span>
-                            </div>
+                    <a href="#" value="">
+                        <div class="liked ms-auto d-flex justify-content-center align-items-center">
+                            <i class="fa-regular fa-thumbs-up"></i>&nbsp;
+                            <span class="user-like" id="user-like-id">Hữu ích</span>
+                        </div>
 
                         </a>
 
@@ -688,6 +711,7 @@
                 <div class="container-fluid container-comment d-flex mt-4">
                     <div class="user-comment-info d-flex">
                         <div class="user-avatar me-3" id="user-avatar">
+
                         </div>
                         <div class="user-name me-auto">
                             <span id="user-name">Nguyễn Minh Cường</span>
@@ -698,7 +722,7 @@
                                         <i class="fa fa-star rating-color checked"></i>
                                         <i class="fa fa-star rating-color checked"></i>
                                         <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star checked    "></i>
+                                        <i class="fa fa-star checked    "></i>                                          
                                     </div>
                                 </div>
                             </div>
@@ -729,11 +753,11 @@
                                 </ul>
                             </div>
                         </div>
-                        <a href="#" value="">
-                            <div class="liked ms-auto d-flex justify-content-center align-items-center">
-                                <i class="fa-regular fa-thumbs-up"></i>&nbsp;
-                                <span class="user-like" id="user-like-id">Hữu ích</span>
-                            </div>
+                    <a href="#" value="">
+                        <div class="liked ms-auto d-flex justify-content-center align-items-center">
+                            <i class="fa-regular fa-thumbs-up"></i>&nbsp;
+                            <span class="user-like" id="user-like-id">Hữu ích</span>
+                        </div>
 
                         </a>
 
@@ -747,6 +771,7 @@
                 <div class="container-fluid container-comment d-flex mt-4">
                     <div class="user-comment-info d-flex">
                         <div class="user-avatar me-3" id="user-avatar">
+
                         </div>
                         <div class="user-name me-auto">
                             <span id="user-name">Nguyễn Minh Cường</span>
@@ -757,7 +782,7 @@
                                         <i class="fa fa-star rating-color checked"></i>
                                         <i class="fa fa-star rating-color checked"></i>
                                         <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star checked    "></i>
+                                        <i class="fa fa-star checked    "></i>                                          
                                     </div>
                                 </div>
                             </div>
@@ -788,11 +813,11 @@
                                 </ul>
                             </div>
                         </div>
-                        <a href="#" value="">
-                            <div class="liked ms-auto d-flex justify-content-center align-items-center">
-                                <i class="fa-regular fa-thumbs-up"></i>&nbsp;
-                                <span class="user-like" id="user-like-id">Hữu ích</span>
-                            </div>
+                    <a href="#" value="">
+                        <div class="liked ms-auto d-flex justify-content-center align-items-center">
+                            <i class="fa-regular fa-thumbs-up"></i>&nbsp;
+                            <span class="user-like" id="user-like-id">Hữu ích</span>
+                        </div>
 
                         </a>
 
@@ -804,7 +829,7 @@
         <section class="pag mt-3">
             <div class="row ">
                 <div class="container d-flex ">
-                    <ul class="list-page d-flex text-dark align-items-right justify-content-right ms-auto me-5  ">
+                        <ul class="list-page d-flex text-dark align-items-right justify-content-right ms-auto me-5  ">
                         <li class="page-item-pre mx-auto">
                             <a class="page-link-nonebs text-dark" href="#" aria-label="Previous" id="pre">
                                 <i class="fa-solid fa-angle-left"></i>
@@ -819,7 +844,7 @@
                                 <i class="fa-solid fa-angle-right"></i>
                             </a>
                         </li>
-                    </ul>
+                        </ul>
                 </div>
             </div>
         </section>

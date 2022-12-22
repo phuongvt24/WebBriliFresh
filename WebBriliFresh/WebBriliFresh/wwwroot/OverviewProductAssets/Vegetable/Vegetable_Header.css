@@ -239,3 +239,7 @@ input[placeholder="Tìm kiếm thực phẩm"] {
     color: #7b7575;
     /* background-color: #FCF4A8; */
 }
+
+.breadcrumb-item{
+    font-family:lexend !important;
+}
