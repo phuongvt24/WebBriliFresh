@@ -13,6 +13,7 @@ using Nancy.Json;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Ocsp;
 using Nancy;
+using Stripe.Checkout;
 
 namespace WebBriliFresh.Controllers
 {
@@ -20,6 +21,7 @@ namespace WebBriliFresh.Controllers
     {
         private readonly BriliFreshDbContext _context;
         public INotyfService _notifyService { get; }
+
         public BuyAndPayController(BriliFreshDbContext context, INotyfService notyfService)
         {
             _context = context;
@@ -31,7 +33,7 @@ namespace WebBriliFresh.Controllers
             get
             {
                 var data = HttpContext.Session.Get<List<ShoppingCartViewModel>>(CommonConstants.SessionCart);
-                if(data == null)
+                if (data == null)
                 {
                     data = new List<ShoppingCartViewModel>();
                 }
@@ -40,11 +42,11 @@ namespace WebBriliFresh.Controllers
         }
 
 
-        public IActionResult AddToCart(int proId, int storeid, decimal saleprice,int? quantity ,string type = "normal")
+        public IActionResult AddToCart(int proId, int storeid, decimal saleprice, int? quantity, string type = "normal")
         {
             var myCart = Carts;
-            var item = myCart.Where(z=>z.StoreId==storeid).Where(p => p.ProductId == proId).SingleOrDefault();
-            if(quantity != null)
+            var item = myCart.Where(z => z.StoreId == storeid).Where(p => p.ProductId == proId).SingleOrDefault();
+            if (quantity != null)
             {
                 if (item == null)
                 {
@@ -64,7 +66,7 @@ namespace WebBriliFresh.Controllers
             }
             else
             {
-                
+
 
                 if (item == null)
                 {
@@ -83,12 +85,12 @@ namespace WebBriliFresh.Controllers
                 }
             }
             HttpContext.Session.Set(CommonConstants.SessionCart, myCart);
-            if(type == "ajax")
+            if (type == "ajax")
             {
-                
+
                 return Json(new
                 {
-                    quantity = Carts.Where(x=>x.StoreId== storeid).Sum(p=>p.Quantity)
+                    quantity = Carts.Where(x => x.StoreId == storeid).Sum(p => p.Quantity)
                 });
             }
             return RedirectToAction("ListFishAndMeat", "OverviewProduct");
@@ -101,16 +103,16 @@ namespace WebBriliFresh.Controllers
             var myCart = Carts;
             if (Carts != null)
             {
-                ShoppingCartViewModel model = myCart.Where(x => x.StoreId == storeid).Where(p=>p.ProductId==proId).FirstOrDefault();
-                if (model!=null)
+                ShoppingCartViewModel model = myCart.Where(x => x.StoreId == storeid).Where(p => p.ProductId == proId).FirstOrDefault();
+                if (model != null)
                 {
-                    myCart.Remove(model) ;
-                }               
+                    myCart.Remove(model);
+                }
                 HttpContext.Session.Set(CommonConstants.SessionCart, myCart);
                 return Json(new
                 {
                     quantity = Carts.Where(x => x.StoreId == storeid).Sum(p => p.Quantity)
-                }) ;
+                });
             }
             return Json(new
             {
@@ -121,7 +123,7 @@ namespace WebBriliFresh.Controllers
         public IActionResult Update(int proId, int quantity, int storeid)
         {
             var myCart = Carts;
-            var item = myCart.Where(p => p.ProductId == proId).Where(x=>x.StoreId == storeid).FirstOrDefault();
+            var item = myCart.Where(p => p.ProductId == proId).Where(x => x.StoreId == storeid).FirstOrDefault();
             item.Quantity = quantity;
             HttpContext.Session.Set(CommonConstants.SessionCart, myCart);
             return Json(new
@@ -148,6 +150,44 @@ namespace WebBriliFresh.Controllers
             {
                 if (cre_Ord.AddressId > 0)
                 {
+                    var domain = "https://localhost:44307/";
+                    var options = new SessionCreateOptions
+                    {
+                        PaymentMethodTypes = new List<string>
+                {
+                    "card",
+                },
+                        LineItems = new List<SessionLineItemOptions>
+                {
+                },
+                        Mode = "payment",
+                        SuccessUrl = domain + $"BuyAndPay/SuccessPayment?id=4",
+                        CancelUrl = domain + $"BuyAndPay/Cancel",
+                    };
+                    foreach (var item in Carts)
+                    {
+                        var sessionLineItem = new SessionLineItemOptions
+                        {
+                            PriceData = new SessionLineItemPriceDataOptions
+                            {
+                                UnitAmount = (long?)(item.SalePrice),
+                                Currency = "VND",
+                                ProductData = new SessionLineItemPriceDataProductDataOptions
+                                {
+                                    Name = item.ProductId.ToString(),
+                                },
+                            },
+                            Quantity = item.Quantity,
+                        };
+                        options.LineItems.Add(sessionLineItem);
+                    }
+
+                    var service = new SessionService();
+                    Session session = service.Create(options);
+
+                    Response.Headers.Add("location", session.Url);
+                    return new StatusCodeResult(303);
+
                     Transport transport = new Transport();
                     transport.ShippingDate = null;
                     transport.Transporter = null;
@@ -176,7 +216,7 @@ namespace WebBriliFresh.Controllers
                     {
                         order.DisId = null;
                     }
-                    
+
                     order.StoreId = cre_Ord.StoreId;
                     order.OrderDate = DateTime.Now;
                     order.SubTotal = cre_Ord.SubTotal;
@@ -220,7 +260,7 @@ namespace WebBriliFresh.Controllers
                     {
                         address.Default = 0;
                     }
-                                      
+
                     _context.Addresses.Add(address);
                     await _context.SaveChangesAsync();
 
@@ -491,7 +531,7 @@ namespace WebBriliFresh.Controllers
 
 
 
-            if (cre_Ord.DisId >0)
+            if (cre_Ord.DisId > 0)
             {
                 var discount = _context.DiscountOrders.Where(x => x.DisId == cre_Ord.DisId).FirstOrDefault();
                 discount.Status = true;
@@ -512,7 +552,7 @@ namespace WebBriliFresh.Controllers
 
             var myCart = Carts;
             if (Carts != null)
-            {                           
+            {
                 for (int i = 0; i < order_details.Count; i++)
                 {
                     var item = myCart.Where(p => p.ProductId == order_details[i].ProductId).Where(x => x.StoreId == order_details[i].StoreId).FirstOrDefault();
@@ -526,25 +566,7 @@ namespace WebBriliFresh.Controllers
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+     
 
         public IActionResult CartInfoCheck()
         {
@@ -560,19 +582,29 @@ namespace WebBriliFresh.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult SuccessPayment(int id)
+        {
+            return View();
+        }
+        [HttpGet]
+        public IActionResult Cancel()
+        {
+            return View();
+        }
         public async Task<IActionResult> DeliveryInfoLogin()
         {
             var cusid = HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
-            var address = _context.Addresses.Include(x=>x.Cus).Where(x => x.CusId == cusid);
+            var address = _context.Addresses.Include(x => x.Cus).Where(x => x.CusId == cusid);
             return View(await address.ToListAsync());
         }
 
         public IActionResult PayInfo()
         {
-            
+
             return View();
         }
 
-        
+
     }
 }

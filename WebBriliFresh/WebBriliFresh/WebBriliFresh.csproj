@@ -25,6 +25,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.11" />
     <PackageReference Include="MimeKit" Version="3.4.3" />
     <PackageReference Include="Nancy" Version="2.0.0" />
+    <PackageReference Include="Stripe.net" Version="41.2.0" />
     <PackageReference Include="toastr" Version="2.1.1" />
   </ItemGroup>
 

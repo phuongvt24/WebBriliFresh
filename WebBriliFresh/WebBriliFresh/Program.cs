@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using WebBriliFresh.Repositories.Abstract;
 using WebBriliFresh.Repositories.Implementation;
 using WebBriliFresh.Utils;
+using WebBriliFresh.Repositories.Utils;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,7 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddDbContext<BriliFreshDbContext>(options => options.UseSqlServer(
 builder.Configuration.GetConnectionString("BriliFreshDB")
 ));
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(10);
@@ -81,6 +84,8 @@ app.UseStaticFiles();
 //});
 
 app.UseRouting();
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
+
 app.UseSession();
 
 app.UseAuthentication();

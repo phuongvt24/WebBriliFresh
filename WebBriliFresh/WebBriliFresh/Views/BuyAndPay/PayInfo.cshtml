@@ -3,6 +3,8 @@
 @using Microsoft.AspNetCore.Http;
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
 @using WebBriliFresh.Common;
+@using Microsoft.Extensions.Options;
+@inject IOptions<WebBriliFresh.Repositories.Utils.StripeSettings> Stripe;
 @{
     Layout = null;
 }
