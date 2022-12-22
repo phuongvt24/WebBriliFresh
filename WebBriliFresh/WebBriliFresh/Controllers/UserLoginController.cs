@@ -53,45 +53,49 @@ namespace WebBriliFresh.Controllers
             {
                 User user = await _userManager.FindByNameAsync(model.UserName);
 
-                int? role = user.UserRole;
 
-                if (role == 3 || role == 2)
+                if(user.IsDeleted != 1)
                 {
-                    var empID = (from item in _context.Employees
-                                 where item.UserId == user.Id
-                                 select item.EmpId).First();
+                    int? role = user.UserRole;
 
-                    HttpContext.Session.SetInt32("ADMIN_SESSION_USERID", user.Id);
-                    HttpContext.Session.SetInt32("ADMIN_SESSION_EMPID", empID);
-
-                    return RedirectToAction("Index", "Home", new
+                    if (role == 3 || role == 2)
                     {
-                        area = "Admin",
-                    });
+                        var empID = (from item in _context.Employees
+                                     where item.UserId == user.Id
+                                     select item.EmpId).First();
+
+                        HttpContext.Session.SetInt32("ADMIN_SESSION_USERID", user.Id);
+                        HttpContext.Session.SetInt32("ADMIN_SESSION_EMPID", empID);
+
+                        return RedirectToAction("Index", "Home", new
+                        {
+                            area = "Admin",
+                        });
+                    }
+                    else if (role == 1)
+                    {
+                        var cusID = (from item in _context.Customers
+                                     where item.UserId == user.Id
+                                     select item.CusId).First();
+
+                        Customer currentCustomer = _context.Customers.FirstOrDefault(x => x.CusId == cusID)!;
+                        String name = currentCustomer.LastName + " " + currentCustomer.FirstName;
+
+
+                        HttpContext.Session.SetInt32("CUS_SESSION_USERID", user.Id);
+                        HttpContext.Session.SetInt32("CUS_SESSION_CUSID", cusID);
+                        HttpContext.Session.SetString("CUS_SESSION_CUSNAME", name);
+                        HttpContext.Session.SetString("CUS_SESSION_AVATAR", user.Avatar!);
+                        HttpContext.Session.SetString("CUS_SESSION_EMAIL", user.Email!);
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home"); //chua lam trang loi
+
+                    }
                 }
-                else if (role == 1)
-                {
-                    var cusID = (from item in _context.Customers
-                                 where item.UserId == user.Id
-                                 select item.CusId).First();
-
-                    Customer currentCustomer = _context.Customers.FirstOrDefault(x => x.CusId == cusID)!;
-                    String name = currentCustomer.LastName + " " + currentCustomer.FirstName;
-
-
-                    HttpContext.Session.SetInt32("CUS_SESSION_USERID", user.Id);
-                    HttpContext.Session.SetInt32("CUS_SESSION_CUSID", cusID);
-                    HttpContext.Session.SetString("CUS_SESSION_CUSNAME", name);
-                    HttpContext.Session.SetString("CUS_SESSION_AVATAR", user.Avatar!);
-                    HttpContext.Session.SetString("CUS_SESSION_EMAIL", user.Email!);
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Home"); //chua lam trang loi
-
-                }
-
+                else { return RedirectToAction("Index", "Home"); }//User bi xoa (Employee) //chua lam trang loi
             }
             else
             {

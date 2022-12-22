@@ -165,6 +165,8 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 model.PasswordConfirm = employee.UserPassword;
                 model.UserRole = 2;
                 model.Gender = (int)employee.Gender;
+                model.Email = employee.Email;
+                model.Phone = employee.Phone;
 
                 Status status = await _authService.RegisterAsync(model);
 
