@@ -1,6 +1,62 @@
-﻿<h1>Thanks for your order!</h1>
+﻿@model IEnumerable<WebBriliFresh.Models.DTO.ShoppingCartViewModel>
+@inject WebBriliFresh.Models.BriliFreshDbContext _context;
+@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@using WebBriliFresh.Common;
+@{
+    Layout = null;
+}
 
-<p>
-    Đơn hàng đã được đặt thành công!
-    Xin chân thành cảm ơn sự ủng hộ của quý khách!
-</p>
+<html lang="en">
+<head>
+    <title>Giỏ hàng</title>
+    <link rel="icon" type="image/x-icon" href="./assets/images/logo.png">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="~/HomeAssets/asset/fonts/themify-icons/themify-icons.css">
+    @*<link rel="stylesheet" href="~/HomeAssets/asset/base.css" />*@
+    <link rel="stylesheet" href="~/HomeAssets/homeheadermain.css" />
+    <link rel="stylesheet" href="~/HomeAssets/HomeFooter.css" />
+    <link rel="stylesheet" href="~/BuyAndPayAssets/CartInfoCheck/CartInfoCheck.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="header">
+        @await Html.PartialAsync("~/Views/Shared/_HomeHeaderPartialView_login.cshtml")
+    </div>
+
+    <div class="content">
+        <div class="content__title">
+            <h3 class="content__headline" style="text-align:center">ĐƠN HÀNG ĐÃ ĐƯỢC ĐẶT THÀNH CÔNG</h3>
+        </div>
+
+        <div class="content__description">
+            <div class="content__header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12" style="text-align:center">
+                            <h1></h1>
+
+                            <p>
+                                Đơn hàng đã được đặt thành công!
+                                Xin chân thành cảm ơn sự ủng hộ của quý khách!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <
+    </div>
+    @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
+    <script src="~/homeassets/header.js"></script>
+</body>
+</html>
