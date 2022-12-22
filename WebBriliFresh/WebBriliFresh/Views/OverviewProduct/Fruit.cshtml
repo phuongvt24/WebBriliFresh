@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <link rel="stylesheet" href="~/OverviewProductAssets/Fruit/Fruit.js">
     <script src="https://kit.fontawesome.com/03c302d752.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
 
 </head>
 <body>
@@ -30,11 +31,11 @@
 
     <section class="directory mt-3 scaled-body">
         <nav class="navbar navbar-expand-xl navbar-light ">
-            <div class="container-fluid ms-2">
+            <div class="container-fluid ms-2" style="    font-family: 'Lexend';">
                 <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#">Sản phẩm</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Trái cây 4 mùa</li>
+                        <li class="breadcrumb-item active" aria-current="page" style="color:#f69708">Trái cây 4 mùa</li>
                     </ol>
                 </nav>
             </div>
@@ -46,7 +47,7 @@
                 <div class="d-flex justify-content-center mx-auto col-6">
                     <div class="col-6 col-category">
                         <div class="nav-item category-detail align-item-center text-center">
-                            <a class="nav-link" asp-controller="OverviewProduct" asp-action="IndexListFruit" asp-route-typeID="1">
+                            <a class="nav-link" asp-controller="OverviewProduct" asp-action="IndexListFruit" asp-route-typeID="6">
                                 Trái cây nhập khẩu
                             </a>
                             <div class="category-img category-img-cherry ">
@@ -56,7 +57,7 @@
                     </div>
                     <div class="col-6 col-category mx-auto ">
                         <div class="nav-item category-detail align-item-center text-center">
-                            <a class="nav-link" asp-controller="OverviewProduct" asp-action="IndexListFruit" asp-route-typeID="1">
+                            <a class="nav-link" asp-controller="OverviewProduct" asp-action="IndexListFruit" asp-route-typeID="7">
                                 Đặc sản Việt Nam
                             </a>
                             <div class="category-img category-img-durian">
@@ -416,5 +417,42 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script src="~/OverviewProductAssets/Fruit/Fruit.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="~/homeassets/header.js"></script>
+    <script>
+        $(document).ready(function () {
+            toastr.options = {
+                "debug": false,
+                "positionClass": "toast-top-center",
+                "onclick": null,
+                "showDuration": "1000",
+                "hideDuration": "1000",
+                "timeOut": "2000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+
+            $(".product-item-add-btn").click(function () {
+                /* $("#success").click();*/
+                console.log("Phương")
+                toastr.success("Sản phẩm vào giỏ hàng!!!");
+                $.ajax({
+                    url: "/BuyAndPay/AddToCart",
+                    data: {
+                        proId: $(this).data("id"),
+                        storeid: $(this).data("storeid"),
+                        saleprice: $(this).data("saleprice"),
+                        type: "ajax"
+                    },
+                    success: function (data) {
+                        $("#quantity_cart").html(data.quantity);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

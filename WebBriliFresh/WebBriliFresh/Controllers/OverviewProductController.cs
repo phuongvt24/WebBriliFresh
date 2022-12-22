@@ -71,7 +71,7 @@ namespace WebBriliFresh.Controllers
             }
             if (storeID == null)
             {
-                storeID = HttpContext.Session.GetInt32(CommonConstants.SessionStoreId); ;
+                storeID = HttpContext.Session.GetInt32(CommonConstants.SessionStoreId);
             }
             model.StoreID = storeID;
             //List<int> defaultSelectOp = new List<int>();
@@ -132,7 +132,7 @@ namespace WebBriliFresh.Controllers
             }
             if (storeID == null)
             {
-                storeID = 1;
+                storeID = HttpContext.Session.GetInt32(CommonConstants.SessionStoreId);
             }
             model.StoreID = storeID;
             string[]? temp = selecteString?.Trim().Split(',');
@@ -192,7 +192,7 @@ namespace WebBriliFresh.Controllers
             }
             if (storeID == null)
             {
-                storeID = 1;
+                storeID = HttpContext.Session.GetInt32(CommonConstants.SessionStoreId);
             }
             model.StoreID = storeID;
             //List<int> defaultSelectOp = new List<int>();
@@ -253,7 +253,7 @@ namespace WebBriliFresh.Controllers
             }
             if (storeID == null)
             {
-                storeID = 1;
+                storeID = HttpContext.Session.GetInt32(CommonConstants.SessionStoreId);
             }
             model.StoreID = storeID;
             string[]? temp = selecteString?.Trim().Split(',');
@@ -314,7 +314,7 @@ namespace WebBriliFresh.Controllers
             }
             if (storeID == null)
             {
-                storeID = 1;
+                storeID = HttpContext.Session.GetInt32(CommonConstants.SessionStoreId);
             }
             model.StoreID = storeID;
             //List<int> defaultSelectOp = new List<int>();
@@ -375,7 +375,7 @@ namespace WebBriliFresh.Controllers
             }
             if (storeID == null)
             {
-                storeID = 1;
+                storeID = HttpContext.Session.GetInt32(CommonConstants.SessionStoreId);
             }
             model.StoreID = storeID;
             string[]? temp = selecteString?.Trim().Split(',');
@@ -421,7 +421,7 @@ namespace WebBriliFresh.Controllers
             model.product = product;
             if (StoreId == null)
             {
-                StoreId = 1;
+                StoreId = HttpContext.Session.GetInt32(CommonConstants.SessionStoreId);
             }
             model.productImgs = productService.getImg(model.product.ProId);
             model.feedbacks = (List<Feedback>)productService.getFeedback(model.product.ProId);
@@ -440,15 +440,41 @@ namespace WebBriliFresh.Controllers
 
             return Json(products);
         }
-        public IActionResult DetailFruit()
+        public IActionResult DetailFruit(int? ProId, int? StoreId)
         {
 
-            return View();
+            DetailsProduct model = new DetailsProduct();
+
+            var product = db.Products.Where(x => x.ProId == ProId).FirstOrDefault();
+
+            model.product = product;
+            if (StoreId == null)
+            {
+                StoreId = HttpContext.Session.GetInt32(CommonConstants.SessionStoreId);
+            }
+            model.productImgs = productService.getImg(model.product.ProId);
+            model.feedbacks = (List<Feedback>)productService.getFeedback(model.product.ProId);
+            model.discount = productService.getDiscount(model.product.ProId);
+            model.stock = productService.getStock(model.product.ProId, StoreId);
+            return View(model);
         }
 
-        public IActionResult DetailVegetable()
+        public IActionResult DetailVegetable(int? ProId, int? StoreId)
         {
-            return View();
+            DetailsProduct model = new DetailsProduct();
+
+            var product = db.Products.Where(x => x.ProId == ProId).FirstOrDefault();
+
+            model.product = product;
+            if (StoreId == null)
+            {
+                StoreId = HttpContext.Session.GetInt32(CommonConstants.SessionStoreId);
+            }
+            model.productImgs = productService.getImg(model.product.ProId);
+            model.feedbacks = (List<Feedback>)productService.getFeedback(model.product.ProId);
+            model.discount = productService.getDiscount(model.product.ProId);
+            model.stock = productService.getStock(model.product.ProId, StoreId);
+            return View(model);
         }
 
 

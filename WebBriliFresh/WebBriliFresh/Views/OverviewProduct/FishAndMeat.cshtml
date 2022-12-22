@@ -171,7 +171,7 @@
                         
 
                         var c = _context.Stocks.Where(x => x.ProId == item.ProId && x.StoreId == @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId) && x.Quantity > 0).FirstOrDefault();
-                        if (c != null && dis.Value!=0 && count<6)
+                        if (c != null && dis.Value!=0 && count<5)
                         {
 
                             var e = @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId);
@@ -254,7 +254,7 @@
 
 
                         var c = _context.Stocks.Where(x => x.ProId == item.ProId && x.StoreId == @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId) && x.Quantity > 0).FirstOrDefault();
-                        if (c != null && dis.Value == 0 && count_2 < 6)
+                        if (c != null && dis.Value == 0 && count_2 < 5)
                         {
 
                             var e = @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId);
@@ -296,8 +296,9 @@
                                     </div>
                                 </div>
                             </div>
+                            count_2++;
                         }
-                        count_2++;
+                        
 
                     }
 
