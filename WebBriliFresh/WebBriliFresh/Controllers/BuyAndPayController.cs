@@ -496,7 +496,7 @@ namespace WebBriliFresh.Controllers
                 var discount = _context.DiscountOrders.Where(x => x.DisId == cre_Ord.DisId).FirstOrDefault();
                 discount.Status = true;
                 _context.DiscountOrders.Update(discount);
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(); 
             }
 
             for (int i = 0; i < order_details.Count; i++)
