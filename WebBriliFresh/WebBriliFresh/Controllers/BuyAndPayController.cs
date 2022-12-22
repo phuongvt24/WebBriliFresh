@@ -491,7 +491,7 @@ namespace WebBriliFresh.Controllers
                     {
                     },
                     Mode = "payment",
-                    SuccessUrl = domain + $"BuyAndPay/SuccessPayment?{order.OrderId}",
+                    SuccessUrl = domain + $"BuyAndPay/SuccessPayment?id={order.OrderId}",
                     CancelUrl = domain + $"BuyAndPay/Cancel",
                 };
                 foreach (var item in order_details)
@@ -536,7 +536,7 @@ namespace WebBriliFresh.Controllers
             return View();
         }
 
-        public void ClearCard(int orderId)
+        public void ClearCard(int? orderId)
         {
             var myCart = Carts;
             var order = _context.Orders.Include(a => a.OrderDetails).FirstOrDefault(a => a.OrderId == orderId);
@@ -559,9 +559,9 @@ namespace WebBriliFresh.Controllers
         }
 
         [HttpGet]
-        public IActionResult SuccessPayment(int orderId)
+        public IActionResult SuccessPayment(int? id)
         {
-            ClearCard(orderId);
+            ClearCard(id);
          
             return View();
         }
