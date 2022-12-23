@@ -562,12 +562,24 @@
     </section>
     <div class="gap mt-5"></div>
     <section class="user-comments scaled-comment">
+
+        @{
+            ProductServices productService3 = new ProductServices();
+            var listfb = productService3.getFeedback(Model.product.ProId);
+             
+        }
+
+        @foreach (var item in listfb){
+
+        }
+
+
         <div class="user-comment mb-5 " id="user-id">
             <div class=" row mt-2">
                 <div class="container container-comment d-flex mt-4 ms-0 me-1">
                     <div class="user-comment-info d-flex">
                         <div class="user-avatar me-3" id="user-avatar">
-
+                            <img class="avt-user-feedback" src="./images/newlogo.png" alt="">
                         </div>
                         <div class="user-name me-5">
                             <span id="user-name">Nguyễn Minh Cường</span>
@@ -622,6 +634,11 @@
             </div>
 
         </div>
+
+
+
+
+
         <div class="user-comment mb-5 " id="user-id">
             <div class="row mt-2">
                 <div class="container-fluid container-comment d-flex mt-4">

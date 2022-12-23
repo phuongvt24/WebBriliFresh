@@ -1358,3 +1358,10 @@ input[placeholder="Tìm kiếm thực phẩm"] {
     display: inline-block;
     border-radius: 50%;
 }
+
+.avt-user-feedback
+{
+    width: 38px !important;
+    height: 40px !important;
+}
+
