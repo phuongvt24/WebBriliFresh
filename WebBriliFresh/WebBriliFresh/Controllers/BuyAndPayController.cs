@@ -59,12 +59,11 @@ namespace WebBriliFresh.Controllers
                 }
                 else
                 {
-                    item.Quantity = (int)quantity;
+                    item.Quantity += (int)quantity;
                 }
             }
             else
-            {
-                
+            {                
 
                 if (item == null)
                 {

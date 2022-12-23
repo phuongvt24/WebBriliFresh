@@ -30,7 +30,7 @@
 </head>
 <body>
     @*@await Html.PartialAsync("~/Views/Shared/_FishAndMeatHeaderPartialView.cshtml")*@
-    @await Html.PartialAsync("~/Views/Shared/_VegetableHeaderPartialView.cshtml")
+    @await Html.PartialAsync("~/Views/Shared/_FruitHeaderPartialView_login.cshtml")
 
     <div class="main container">
         <div class="header container"></div>
@@ -41,7 +41,7 @@
             <div class="location-bar" style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="">Sản phẩm</a></li>
-                    <li class="breadcrumb-item"><a href="">Thịt cá</a></li>
+                    <li class="breadcrumb-item"><a href="">Rau củ</a></li>
                     @if (Model.TypeID == 8)
                     {
                         <li class="breadcrumb-item"><a href="">Rau lá</a></li>
