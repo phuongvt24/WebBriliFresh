@@ -512,6 +512,20 @@ namespace WebBriliFresh.Controllers
                     };
                     options.LineItems.Add(sessionLineItem);
                 }
+                var sessionLineItemDelivery = new SessionLineItemOptions
+                {
+                    PriceData = new SessionLineItemPriceDataOptions
+                    {
+                        UnitAmount = (long?)(transport.Fee),
+                        Currency = "VND",
+                        ProductData = new SessionLineItemPriceDataProductDataOptions
+                        {
+                            Name = "Phí vận chuyển",
+                        },
+                    },
+                    Quantity = 1,
+                };
+                options.LineItems.Add(sessionLineItemDelivery);
 
                 var service = new SessionService();
                 Session session = service.Create(options);
@@ -553,6 +567,7 @@ namespace WebBriliFresh.Controllers
                         if (item != null)
                             myCart.Remove(item);
                     };
+                    
                     HttpContext.Session.Set(CommonConstants.SessionCart, myCart);
                 }
             }
