@@ -117,7 +117,7 @@ namespace WebBriliFresh.Controllers
                 return View(model);
 
             model.Role = "Customer";
-            var result = await this._authService.RegisterAsync(model);
+            var result = await _authService.RegisterAsync(model);
 
 
             if (result.StatusCode == 1)

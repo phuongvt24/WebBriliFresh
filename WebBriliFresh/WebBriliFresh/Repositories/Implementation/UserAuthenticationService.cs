@@ -34,6 +34,7 @@ namespace WebBriliFresh.Repositories.Implementation
                 status.Message = "Tên đăng nhập đã tồn tại";
                 return status;
             }
+
             User user = new User()
             {
                 Email = model.Email,
@@ -43,6 +44,7 @@ namespace WebBriliFresh.Repositories.Implementation
                 IsDeleted = 0
             };
             var result = await userManager.CreateAsync(user, model.Password);
+
             if (!result.Succeeded)
             {
                 status.StatusCode = 0;
@@ -51,8 +53,6 @@ namespace WebBriliFresh.Repositories.Implementation
             }
 
             await userManager.AddToRoleAsync(user, "Customer");
-
-
 
             status.StatusCode = 1;
             status.Message = "Đăng ký thành công";
