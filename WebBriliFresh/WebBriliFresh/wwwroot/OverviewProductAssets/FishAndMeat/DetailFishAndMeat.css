@@ -999,9 +999,10 @@ input[placeholder="Tìm kiếm thực phẩm"] {
 
     /* border-top: 0.3px solid #000000; */
 }
-.user-comment img {
-    height: 140px;
-    width: 140px;
+.user-comment img
+{
+    width: 38px !important;
+    height: 40px !important;
 }
 .user-avatar {
     width: 38px;
@@ -1345,8 +1346,9 @@ input[placeholder="Tìm kiếm thực phẩm"] {
 .product-item-add {
     padding-right: 14px;
 }
-
-.product-item-add-btn {
+.product-item-add-btn-2,
+.product-item-add-btn
+{
     font-size: 16px;
     width: 30px;
     height: 30px;

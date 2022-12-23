@@ -313,7 +313,7 @@
                                 
                                 var a2 = _context.ProductImages.Where(x => x.ProId == b.ProId && x.ImgData.Contains("is_avt"));
                                 var i2 = a2.FirstOrDefault();
-                                <div class="product-item col-3">
+                                <div class="product-item col-3" style="font-family:'Lexend'">
                                     <div class="product-item-img">
                                         @if (i2 != null)
                                         {
@@ -335,7 +335,7 @@
                                             <p class="product-item-price-child" value="@(b.Price*(decimal)(1-dis3.Value))">@((b.Price * (decimal)(1 - dis3.Value)).ToString("#,##0"))</p>
                                         </div>
                                         <div class="product-item-add">
-                                            <button type="button" data-id="@b.ProId" data-storeid="@HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId)" data-saleprice="@(b.Price*(decimal)(1-dis3.Value))" class="product-item-add-btn">+</button>
+                                            <button type="button" data-id="@b.ProId" data-storeid="@HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId)" data-saleprice="@(b.Price*(decimal)(1-dis3.Value))" class="product-item-add-btn-2">+</button>
                                         </div>
                                     </div>
                                     <div class="d-flex ">
@@ -564,262 +564,98 @@
     <section class="user-comments scaled-comment">
 
         @{
-            ProductServices productService3 = new ProductServices();
-            var listfb = productService3.getFeedback(Model.product.ProId);
+            ProductServices productService4 = new ProductServices();
+            var listfb = productService4.getFeedback(Model.product.ProId);
              
         }
 
-        @foreach (var item in listfb){
+        @if (listfb.Count() > 0)
+        {
+            foreach (var item in listfb)
+            {
+                <div class="user-comment mb-5 " id="user-id">
+                    <div class=" row mt-2">
+                        <div class="container container-comment d-flex mt-4 ms-0 me-1">
+                            <div class="user-comment-info d-flex">
+                                <div class="user-avatar me-3" id="user-avatar">
+                                    @{
+                                        var cus_fb = _context.Customers.Where(cs => cs.CusId == item.CusId).FirstOrDefault();
+                                        var avt = _context.Users.Where(us => us.Id == cus_fb.UserId).Select(us=>us.Avatar).FirstOrDefault();
+                                    }
+                                    <img class="avt-user-feedback" src="~/myaccountassets/userphotos/@avt" alt="">
+                                </div>
+                                <div class="user-name me-5">
+                                    <span id="user-name">@cus_fb.LastName @cus_fb.FirstName</span>
+                                    <div class="user-star d-flex justify-content-left align-items-left mt-auto mb-auto me-auto">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="rating">
+                                                @for (int fb = 0; fb < item.Rate; fb++)
+                                                {
+                                                    <i class="fa fa-star checked"></i>
+                                                }
+                                                @for (int fb = 0; fb < 5 - item.Rate; fb++)
+                                                {
+                                                    <i class="fa fa-star"></i>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="user-comment-time mt-2">
+                                        <span id="user-comment-time">@item.SendDate</span>
+                                    </div>
+                                    <div class="smell d-flex mt-4">
+                                        <span id="smell">Hương vị:&nbsp;</span>
+                                        <span id="smell-comment">@item.Message</span>
+                                    </div>
+                                    <div class="pack d-flex mt-4">
+                                        <span id="pack">Bao bì/Mẫu mã:&nbsp;</span>
+                                        <span id="pack-comment">@item.Message</span>
+                                    </div>
+                                    <div class="desc-detail mt-4">
+                                        <span id="desc-detail">@item.Message</span>
+                                    </div>
+                                    <div class="img-comment mt-4 mb-5 ">
+                                        <ul class="d-flex user-cmt-imgs p-0">
+                                            @{
+                                                var listimgfb = productService4.getImgFB(item.FbId);
+                                            }
+                                            @for (int img = 0; img < listimgfb.Count; img++)
+                                            {
+                                                <li class="ms-0 ">
+                                                    <img src="~/myaccountassets/FeedbackImage/@listimgfb[img]" alt="" id="comment-img-album-1">
+                                                </li>
+                                            }
 
-        }
 
 
-        <div class="user-comment mb-5 " id="user-id">
-            <div class=" row mt-2">
-                <div class="container container-comment d-flex mt-4 ms-0 me-1">
-                    <div class="user-comment-info d-flex">
-                        <div class="user-avatar me-3" id="user-avatar">
-                            <img class="avt-user-feedback" src="./images/newlogo.png" alt="">
-                        </div>
-                        <div class="user-name me-5">
-                            <span id="user-name">Nguyễn Minh Cường</span>
-                            <div class="user-star d-flex justify-content-left align-items-left mt-auto mb-auto me-auto">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="rating">
-                                        <i class="fa fa-star checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star checked    "></i>                                          
+                                        </ul>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="user-comment-time mt-2">
-                                <span id="user-comment-time">2022-10-07  15:46</span>
-                            </div>
-                            <div class="smell d-flex mt-4">
-                                <span id="smell">Hương vị:&nbsp;</span>
-                                <span id="smell-comment">tươi ngon</span>
-                            </div>
-                            <div class="pack d-flex mt-4">
-                                <span id="pack">Bao bì/Mẫu mã:&nbsp;</span>
-                                <span id="pack-comment">đẹp</span>
-                            </div>
-                            <div class="desc-detail mt-4">
-                                <span id="desc-detail">Shop đóng gói đẹp, thịt thơm ngon vẫn còn tươi, mềm</span>
-                            </div>
-                            <div class="img-comment mt-4 mb-5 ">
-                                <ul class="d-flex user-cmt-imgs p-0">
-                                    <li class="ms-0 ">
-                                        <img src="./images/comment/cmt1.png" alt="" id="comment-img-album-1">
-                                    </li>
-                                    <li class="ms-4 ">
-                                        <img src="./images/comment/cmt2.png" alt="" id="comment-img-album-2">
-
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </div>
-                    <a href="#" value="">
-                            <div class="liked ms-0 d-flex justify-content-center align-items-center">
-                                <i class="fa-regular fa-thumbs-up"></i>&nbsp;
-                                <span class="user-like" id="user-like-id">Hữu ích</span>
-                            </div>
-
-                        </a>
-
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-
-
-
-
-        <div class="user-comment mb-5 " id="user-id">
-            <div class="row mt-2">
-                <div class="container-fluid container-comment d-flex mt-4">
-                    <div class="user-comment-info d-flex">
-                        <div class="user-avatar me-3" id="user-avatar">
-
-                        </div>
-                        <div class="user-name me-auto">
-                            <span id="user-name">Nguyễn Minh Cường</span>
-                            <div class="user-star d-flex justify-content-left align-items-left mt-auto mb-auto me-auto">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="rating">
-                                        <i class="fa fa-star checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star checked    "></i>                                          
+                                <a href="#" value="">
+                                    <div class="liked ms-0 d-flex justify-content-center align-items-center">
+                                        <i class="fa-regular fa-thumbs-up"></i>&nbsp;
+                                        <span class="user-like" id="user-like-id">Hữu ích</span>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="user-comment-time mt-2">
-                                <span id="user-comment-time">2022-10-07  15:46</span>
-                            </div>
-                            <div class="smell d-flex mt-4">
-                                <span id="smell">Hương vị:&nbsp;</span>
-                                <span id="smell-comment">tươi ngon</span>
-                            </div>
-                            <div class="pack d-flex mt-4">
-                                <span id="pack">Bao bì/Mẫu mã:&nbsp;</span>
-                                <span id="pack-comment">đẹp</span>
-                            </div>
-                            <div class="desc-detail mt-4">
-                                <span id="desc-detail">Shop đóng gói đẹp, thịt thơm ngon vẫn còn tươi, mềm</span>
-                            </div>
-                            <div class="img-comment mt-4 mb-5 ">
-                                <ul class="d-flex user-cmt-imgs p-0">
-                                    <li class="ms-0">
-                                        <img src="./images/comment/cmt1.png" alt="" id="comment-img-album-1">
-                                    </li>
-                                    <li class="ms-4">
-                                        <img src="./images/comment/cmt2.png" alt="" id="comment-img-album-2">
 
-                                    </li>
+                                </a>
 
-                                </ul>
                             </div>
                         </div>
-                    <a href="#" value="">
-                        <div class="liked ms-auto d-flex justify-content-center align-items-center">
-                            <i class="fa-regular fa-thumbs-up"></i>&nbsp;
-                            <span class="user-like" id="user-like-id">Hữu ích</span>
-                        </div>
-
-                        </a>
-
                     </div>
+
                 </div>
-            </div>
+            }
+       }
 
-        </div>
-        <div class="user-comment mb-5 " id="user-id">
-            <div class="row mt-2">
-                <div class="container-fluid container-comment d-flex mt-4">
-                    <div class="user-comment-info d-flex">
-                        <div class="user-avatar me-3" id="user-avatar">
 
-                        </div>
-                        <div class="user-name me-auto">
-                            <span id="user-name">Nguyễn Minh Cường</span>
-                            <div class="user-star d-flex justify-content-left align-items-left mt-auto mb-auto me-auto">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="rating">
-                                        <i class="fa fa-star checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star checked    "></i>                                          
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="user-comment-time mt-2">
-                                <span id="user-comment-time">2022-10-07  15:46</span>
-                            </div>
-                            <div class="smell d-flex mt-4">
-                                <span id="smell">Hương vị:&nbsp;</span>
-                                <span id="smell-comment">tươi ngon</span>
-                            </div>
-                            <div class="pack d-flex mt-4">
-                                <span id="pack">Bao bì/Mẫu mã:&nbsp;</span>
-                                <span id="pack-comment">đẹp</span>
-                            </div>
-                            <div class="desc-detail mt-4">
-                                <span id="desc-detail">Shop đóng gói đẹp, thịt thơm ngon vẫn còn tươi, mềm</span>
-                            </div>
-                            <div class="img-comment mt-4 mb-5 ">
-                                <ul class="d-flex user-cmt-imgs p-0">
-                                    <li class="ms-0">
-                                        <img src="./images/comment/cmt1.png" alt="" id="comment-img-album-1">
-                                    </li>
-                                    <li class="ms-4">
-                                        <img src="./images/comment/cmt2.png" alt="" id="comment-img-album-2">
+        
 
-                                    </li>
 
-                                </ul>
-                            </div>
-                        </div>
-                    <a href="#" value="">
-                        <div class="liked ms-auto d-flex justify-content-center align-items-center">
-                            <i class="fa-regular fa-thumbs-up"></i>&nbsp;
-                            <span class="user-like" id="user-like-id">Hữu ích</span>
-                        </div>
 
-                        </a>
 
-                    </div>
-                </div>
-            </div>
 
-        </div>
-        <div class="user-comment mb-5 " id="user-id">
-            <div class="row mt-2">
-                <div class="container-fluid container-comment d-flex mt-4">
-                    <div class="user-comment-info d-flex">
-                        <div class="user-avatar me-3" id="user-avatar">
 
-                        </div>
-                        <div class="user-name me-auto">
-                            <span id="user-name">Nguyễn Minh Cường</span>
-                            <div class="user-star d-flex justify-content-left align-items-left mt-auto mb-auto me-auto">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="rating">
-                                        <i class="fa fa-star checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star checked    "></i>                                          
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="user-comment-time mt-2">
-                                <span id="user-comment-time">2022-10-07  15:46</span>
-                            </div>
-                            <div class="smell d-flex mt-4">
-                                <span id="smell">Hương vị:&nbsp;</span>
-                                <span id="smell-comment">tươi ngon</span>
-                            </div>
-                            <div class="pack d-flex mt-4">
-                                <span id="pack">Bao bì/Mẫu mã:&nbsp;</span>
-                                <span id="pack-comment">đẹp</span>
-                            </div>
-                            <div class="desc-detail mt-4">
-                                <span id="desc-detail">Shop đóng gói đẹp, thịt thơm ngon vẫn còn tươi, mềm</span>
-                            </div>
-                            <div class="img-comment mt-4 mb-5 ">
-                                <ul class="d-flex user-cmt-imgs p-0">
-                                    <li class="ms-0">
-                                        <img src="./images/comment/cmt1.png" alt="" id="comment-img-album-1">
-                                    </li>
-                                    <li class="ms-4">
-                                        <img src="./images/comment/cmt2.png" alt="" id="comment-img-album-2">
-
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </div>
-                    <a href="#" value="">
-                        <div class="liked ms-auto d-flex justify-content-center align-items-center">
-                            <i class="fa-regular fa-thumbs-up"></i>&nbsp;
-                            <span class="user-like" id="user-like-id">Hữu ích</span>
-                        </div>
-
-                        </a>
-
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <section class="pag mt-3">
+    @*    <section class="pag mt-3">
             <div class="row ">
                 <div class="container d-flex ">
                         <ul class="list-page d-flex text-dark align-items-right justify-content-right ms-auto me-5  ">
@@ -840,7 +676,7 @@
                         </ul>
                 </div>
             </div>
-        </section>
+        </section>*@
 
     </section>
 
@@ -1004,6 +840,24 @@
                         storeid: $(this).data("storeid"),
                         saleprice: $(this).data("saleprice"),
                         quantity:$("#quantity").val(),
+                        type: "ajax"
+                    },
+                    success: function (data) {
+                        $("#quantity_cart").html(data.quantity);
+                    }
+                });
+            });
+
+            $(".product-item-add-btn-2").click(function () {
+                /* $("#success").click();*/
+                console.log("Phương")
+                toastr.success("Sản phẩm vào giỏ hàng!!!");
+                $.ajax({
+                    url: "/BuyAndPay/AddToCart",
+                    data: {
+                        proId: $(this).data("id"),
+                        storeid: $(this).data("storeid"),
+                        saleprice: $(this).data("saleprice"),
                         type: "ajax"
                     },
                     success: function (data) {
