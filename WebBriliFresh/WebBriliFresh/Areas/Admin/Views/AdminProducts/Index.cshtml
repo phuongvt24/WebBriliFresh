@@ -18,20 +18,17 @@
             <div class="col-lg-8">
                 <div class="d-md-flex">
                     <div class="m-b-10 m-r-15">
-                        <select class="custom-select" style="min-width: 180px;">
-                            <option selected>Catergory</option>
-                            <option value="all">All</option>
-                            <option value="homeDeco">Home Decoration</option>
-                            <option value="eletronic">Eletronic</option>
-                            <option value="jewellery">Jewellery</option>
+                        <b>Loại sản phẩm</b>
+                        <select id="type" class="form-control" asp-items="ViewBag.SubType">
+                            <option value="" selected>Tất cả</option>
                         </select>
                     </div>
-                    <div class="m-b-10">
-                        <select class="custom-select" style="min-width: 180px;">
-                            <option selected>Status</option>
-                            <option value="all">All</option>
-                            <option value="inStock">In Stock </option>
-                            <option value="outOfStock">Out of Stock</option>
+                    <div class="m-b-10 m-r-15" style="margin-left: 12px">
+                        <b>Tình trạng tồn kho</b>
+                        <select id="status" class="form-control">
+                            <option value="" selected>Tất cả</option>
+                            <option value="Còn hàng">Còn hàng</option>
+                            <option value="Hết hàng">Hết hàng</option>
                         </select>
                     </div>
                 </div>
@@ -66,7 +63,7 @@
                             var a = item.ProductImages.Where(x => x.ProId == item.ProId && x.ImgData.Contains("is_avt"));
                             var i = a.FirstOrDefault();
                             var b = item.Stocks.Where(x => x.ProId == item.ProId).Sum(i => i.Quantity);
-                            <tr>
+                            <tr class="rowitem">
                                 <td>@Html.DisplayFor(modelItem =>  item.ProId)</td>
                                 <td>
                                     <div class="d-flex align-items-center">
@@ -83,7 +80,7 @@
                                         <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.ProName)</h6>
                                     </div>
                                 </td>
-                                <td>@Html.DisplayFor(modelItem => item.Type.SubType)</td>
+                                <td class="type">@Html.DisplayFor(modelItem => item.Type.SubType)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Unit)</td>
                                 <td>
                                     <input type="hidden" class="price_2" value="@Html.DisplayFor(modelItem => item.OriginalPriceString)">
@@ -104,13 +101,13 @@
                                     {
                                         <div class="d-flex align-items-center">
                                             <div class="badge badge-success badge-dot m-r-10"></div>
-                                            <div>Còn hàng</div>
+                                            <div class="status">Còn hàng</div>
                                         </div>
                                     }else
                                     {
                                         <div class="d-flex align-items-center">
                                             <div class="badge badge-danger badge-dot m-r-10"></div>
-                                            <div>Hết hàng</div>
+                                            <div class="status">Hết hàng</div>
                                         </div>
                                     }
                                     
@@ -141,6 +138,14 @@
 
 
 <script>
+    $('#type, #status').change(function(){
+        var a = $('#type').val();
+        var b = $('#status').val();
+        $("input[type=search]").val(a + " " + b).trigger("keyup");
+        $("input[type=search]").val("");
+    })
+
+
     for(var i =0 ; i < $(".price").length; i++){
         var a = $(".price")[i].value;
         a = a.replace('.00','');

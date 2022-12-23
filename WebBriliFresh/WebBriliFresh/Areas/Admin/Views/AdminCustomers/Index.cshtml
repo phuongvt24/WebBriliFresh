@@ -87,10 +87,7 @@
                                 <td>@Html.DisplayFor(modelItem => item.CusId)</td>
 
                                 <td>
-                                    <div class="d-flex align-items-center">
-                                        <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.LastName)</h6>
-                                        <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.FirstName)</h6>
-                                    </div>
+                                    @Html.DisplayFor(modelItem => item.LastName) @Html.DisplayFor(modelItem => item.FirstName)
                                 </td>
 
                                 @if (item.Gender == 1)
@@ -122,10 +119,9 @@
                                     {
                                         <td><span class="rank">Đồng</span></td>
                                     }
-                                }
-                                else
+                                } else
                                 {
-                                    <td><span class="rank">Null</span></td>
+                                    <td><span class="rank">Không có tài khoản</span></td>
                                 }
 
                                 <td class="text-right">
@@ -150,14 +146,8 @@
     $('#customer-filter, #gender-filter').change(function () {
         var a = $('#customer-filter').val();
         var b = $('#gender-filter').val();
-        $(".rowitem").show();
-        for (var i = 0; i < $(".rank").length; i++) {
-            var c = $(".rank")[i].innerText;
-            var d = $(".gender")[i].innerText;
-            if  (((a != c) && (a != "")) || ((b != d) && (b != ""))) {
-                $(".rowitem")[i].style.display = 'none';
-            }
-        }
+        $("input[type=search]").val(a + " " + b).trigger("keyup");
+        $("input[type=search]").val("");
     })
 
     $(document).ready(function () {

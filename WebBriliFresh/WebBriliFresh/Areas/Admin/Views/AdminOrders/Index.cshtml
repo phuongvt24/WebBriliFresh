@@ -139,14 +139,7 @@
         var a = $('#store').val();
         var b = $('#paymentStatus').val();
         var c = $('#status').val();
-        $(".rowitem").show();
-        for (var i = 0; i < $(".storeId").length; i++) {
-            var d = $(".storeId")[i].innerText;
-            var e = $(".paymentStatus")[i].innerText;
-            var f = $(".status")[i].innerText;
-            if (((a != d) && (a != "")) || ((b != e) && (b!= "")) || ((c != f) && (c != ""))) {
-                $(".rowitem")[i].style.display = 'none';
-            }
-        }
+        $("input[type=search]").val(a + " " + b + " " + c).trigger("keyup");
+        $("input[type=search]").val("");
     })
 </script>
