@@ -35,6 +35,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         // GET: Admin/AdminProducts
         public async Task<IActionResult> Index()
         {
+            ViewData["SubType"] = new SelectList(_context.Types, "SubType", "SubType");
             var products = _context.Products.Include(s => s.Type).Include(p => p.ProductImages).Include(a=>a.Stocks).Where(x => x.IsDeleted == 0);
             return View(await products.ToListAsync());
         }

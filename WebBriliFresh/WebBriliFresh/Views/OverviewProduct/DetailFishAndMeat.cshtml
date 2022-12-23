@@ -1,6 +1,10 @@
-﻿@{
+﻿
+
+
+@{
     Layout = null;
 }
+@using WebBriliFresh.Models.DAO;
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
 @inject WebBriliFresh.Models.BriliFreshDbContext _context;
@@ -212,13 +216,10 @@
                     </div>
 
                     <div class="d-flex mt-4">
-                       @* @{
-                            ProductServices productService = new ProductServices();
-                            var dis = productService.getDiscount(Model.product.ProId);
-                        }*@
+
 
                         <div class="btn-buy me-2">
-                            @*<input type="button" id="btn-buy"  value="CHỌN MUA"></input>*@
+
                             <button type="button" id="btn-buy" data-id="@Model.product.ProId" data-storeid="@HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId)" data-saleprice="@(Model.product.Price*((decimal)(1-dis.Value)))" class="product-item-add-btn">Mua hàng</button>
                         </div>
                         <div class="btn-chat me-4">
@@ -275,141 +276,101 @@
            <div class="row justify-content-center text-align-center scale-container">
             <div class="">
                 <div class="items-recommended-bar d-flex align-items-center">
-                    <p class="items-recommended-title col-2 pt-3 ms-3">
-                        Gợi ý cho bạn
+                    <p class="items-recommended-title col-10 pt-3 ms-3">
+                       Sản phẩm được mua cùng <span style="color:#58b63a">@Model.product.ProName</span> nhiều nhất!!!
                     </p>
 
                     <div class="more-items text-center align-item-center me-3">
-                        <a href="#" class="p-more-item">Xem thêm <i class="fa-solid fa-arrow-right"></i></a>
+                        <a href="#" class="p-more-item"> <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
                 </div>
 
             </div>
            </div>
         </div>
+        @{
+            ProductServices productService2 = new ProductServices();
+            var list_recomend = productService2.list_recomend(Model.product.ProId);
+        }
         <div class="items-container mt-5 ms-3">
             <div class="d-flex justify-content-between align-items-center text-align-center ms-0 p-0 list-items">
                 <div class="list-products col-12 row d-flex" style="justify-content: space-evenly; margin: 0px;">
-                    <div class="product-item col-2">
-                        <div class="product-item-img">
-                            <img src="./images/items/bongcai.png" alt="" class="product-item-img-child" />
-                        </div>
-                        <div class="product-item-tittle">
-                            <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <div class="product-item-price">
-                                <p class="product-item-price-child">99,000</p>
-                            </div>
-                            <div class="product-item-add">
-                                <button class="product-item-add-btn">+</button>
-                            </div>
-                        </div>
-                        <div class="d-flex ">
-                            <div class="product-item-price-dis">
-                                <p class="product-item-price-dis-child">199,000</p>
-                            </div>
-                            <div class="dis-rate">
-                                <p class="dis-rate-child">-20%</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-item col-2">
-                        <div class="product-item-img">
-                            <img src="./images/items/bongcai.png" alt="" class="product-item-img-child" />
-                        </div>
-                        <div class="product-item-tittle">
-                            <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <div class="product-item-price">
-                                <p class="product-item-price-child">99,000</p>
-                            </div>
-                            <div class="product-item-add">
-                                <button class="product-item-add-btn">+</button>
-                            </div>
-                        </div>
-                        <div class="d-flex ">
-                            <div class="product-item-price-dis">
-                                <p class="product-item-price-dis-child">199,000</p>
-                            </div>
-                            <div class="dis-rate">
-                                <p class="dis-rate-child">-20%</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-item col-2">
-                        <div class="product-item-img">
-                            <img src="./images/items/bongcai.png" alt="" class="product-item-img-child" />
-                        </div>
-                        <div class="product-item-tittle">
-                            <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <div class="product-item-price">
-                                <p class="product-item-price-child">99,000</p>
-                            </div>
-                            <div class="product-item-add">
-                                <button class="product-item-add-btn">+</button>
-                            </div>
-                        </div>
-                        <div class="d-flex ">
-                            <div class="product-item-price-dis">
-                                <p class="product-item-price-dis-child">199,000</p>
-                            </div>
-                            <div class="dis-rate">
-                                <p class="dis-rate-child">-20%</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-item col-2">
-                        <div class="product-item-img">
-                            <img src="./images/items/bongcai.png" alt="" class="product-item-img-child" />
-                        </div>
-                        <div class="product-item-tittle">
-                            <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <div class="product-item-price">
-                                <p class="product-item-price-child">99,000</p>
-                            </div>
-                            <div class="product-item-add">
-                                <button class="product-item-add-btn">+</button>
-                            </div>
-                        </div>
-                        <div class="d-flex ">
-                            <div class="product-item-price-dis">
-                                <p class="product-item-price-dis-child">199,000</p>
-                            </div>
-                            <div class="dis-rate">
-                                <p class="dis-rate-child">-20%</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-item col-2">
-                        <div class="product-item-img">
-                            <img src="./images/items/bongcai.png" alt="" class="product-item-img-child" />
-                        </div>
-                        <div class="product-item-tittle">
-                            <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <div class="product-item-price">
-                                <p class="product-item-price-child">99,000</p>
-                            </div>
-                            <div class="product-item-add">
-                                <button class="product-item-add-btn">+</button>
-                            </div>
-                        </div>
-                        <div class="d-flex ">
-                            <div class="product-item-price-dis">
-                                <p class="product-item-price-dis-child">199,000</p>
-                            </div>
-                            <div class="dis-rate">
-                                <p class="dis-rate-child">-20%</p>
-                            </div>
-                        </div>
-                    </div>
+
+                    @if (Model != null)
+                    {
+                        var count = 0;
+                        @foreach (var item in list_recomend)
+                        {
+                            ProductServices productService3 = new ProductServices();
+                            var dis3 = productService.getDiscount(item);
+                            var b = _context.Products.Find(item);
+
+                            var c = _context.Stocks.Where(x => x.ProId == item && x.StoreId == @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId) && x.Quantity > 0).FirstOrDefault();
+                            if (c != null  && count < 5 && item!=Model.product.ProId)
+                            {
+
+                                var e = @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId);
+                                
+                                var a2 = _context.ProductImages.Where(x => x.ProId == b.ProId && x.ImgData.Contains("is_avt"));
+                                var i2 = a2.FirstOrDefault();
+                                <div class="product-item col-3" style="font-family:'Lexend'">
+                                    <div class="product-item-img">
+                                        @if (i2 != null)
+                                        {
+                                            var m = @i2.ImgData;
+                                            <a href='@Url.Action("DetailFishAndMeat","OverviewProduct" , new { ProId = b.ProId, StoreId = @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId) })'>
+                                                <img src="~/ImageProduct/@m" alt="" class="product-item-img-child" />
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <img src="~/ImageProduct/none.jpg" alt="" class="product-item-img-child" />
+                                        }
+                                    </div>
+                                    <div class="product-item-tittle">
+                                        <p class="product-item-tittle-child" onclick='window.location = "@Url.Action("DetailFishAndMeat", "OverviewProduct")"'>@Html.DisplayFor(modelItem => b.ProName) (@Html.DisplayFor(modelItem => b.Unit))</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="product-item-price">
+                                            <p class="product-item-price-child" value="@(b.Price*(decimal)(1-dis3.Value))">@((b.Price * (decimal)(1 - dis3.Value)).ToString("#,##0"))</p>
+                                        </div>
+                                        <div class="product-item-add">
+                                            <button type="button" data-id="@b.ProId" data-storeid="@HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId)" data-saleprice="@(b.Price*(decimal)(1-dis3.Value))" class="product-item-add-btn-2">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex ">
+                                        <div class="product-item-price-dis">
+
+                                            @if (dis3.Value == 0)
+                                            {
+                                                <p class="product-item-price-dis-child" value="@(b.Price)"></p>
+                                            }
+                                            else
+                                            {
+                                                <p class="product-item-price-dis-child" value="@(b.Price)">@((b.Price).ToString("#,##0"))</p>
+                                            }
+                                        </div>
+                                        <div class="dis-rate">
+                                            @if (dis3.Value == 0)
+                                            {
+                                                <p class="dis-rate-child" value="@(dis3.Value*100.0)"></p>
+                                            }
+                                            else
+                                            {
+                                                <p class="dis-rate-child" value="@(dis3.Value*100.0)">-@(dis3.Value * 100.0)%</p>
+                                            }
+
+                                        </div>
+                                    </div>
+                                </div>
+                                count++;
+                            }
+
+
+                        }
+
+
+                    }
 
                 </div>
             </div>
@@ -601,247 +562,100 @@
     </section>
     <div class="gap mt-5"></div>
     <section class="user-comments scaled-comment">
-        <div class="user-comment mb-5 " id="user-id">
-            <div class=" row mt-2">
-                <div class="container container-comment d-flex mt-4 ms-0 me-1">
-                    <div class="user-comment-info d-flex">
-                        <div class="user-avatar me-3" id="user-avatar">
 
-                        </div>
-                        <div class="user-name me-5">
-                            <span id="user-name">Nguyễn Minh Cường</span>
-                            <div class="user-star d-flex justify-content-left align-items-left mt-auto mb-auto me-auto">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="rating">
-                                        <i class="fa fa-star checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star checked    "></i>                                          
+        @{
+            ProductServices productService4 = new ProductServices();
+            var listfb = productService4.getFeedback(Model.product.ProId);
+             
+        }
+
+        @if (listfb.Count() > 0)
+        {
+            foreach (var item in listfb)
+            {
+                <div class="user-comment mb-5 " id="user-id">
+                    <div class=" row mt-2">
+                        <div class="container container-comment d-flex mt-4 ms-0 me-1">
+                            <div class="user-comment-info d-flex">
+                                <div class="user-avatar me-3" id="user-avatar">
+                                    @{
+                                        var cus_fb = _context.Customers.Where(cs => cs.CusId == item.CusId).FirstOrDefault();
+                                        var avt = _context.Users.Where(us => us.Id == cus_fb.UserId).Select(us=>us.Avatar).FirstOrDefault();
+                                    }
+                                    <img class="avt-user-feedback" src="~/myaccountassets/userphotos/@avt" alt="">
+                                </div>
+                                <div class="user-name me-5">
+                                    <span id="user-name">@cus_fb.LastName @cus_fb.FirstName</span>
+                                    <div class="user-star d-flex justify-content-left align-items-left mt-auto mb-auto me-auto">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="rating">
+                                                @for (int fb = 0; fb < item.Rate; fb++)
+                                                {
+                                                    <i class="fa fa-star checked"></i>
+                                                }
+                                                @for (int fb = 0; fb < 5 - item.Rate; fb++)
+                                                {
+                                                    <i class="fa fa-star"></i>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="user-comment-time mt-2">
+                                        <span id="user-comment-time">@item.SendDate</span>
+                                    </div>
+                                    <div class="smell d-flex mt-4">
+                                        <span id="smell">Hương vị:&nbsp;</span>
+                                        <span id="smell-comment">@item.Message</span>
+                                    </div>
+                                    <div class="pack d-flex mt-4">
+                                        <span id="pack">Bao bì/Mẫu mã:&nbsp;</span>
+                                        <span id="pack-comment">@item.Message</span>
+                                    </div>
+                                    <div class="desc-detail mt-4">
+                                        <span id="desc-detail">@item.Message</span>
+                                    </div>
+                                    <div class="img-comment mt-4 mb-5 ">
+                                        <ul class="d-flex user-cmt-imgs p-0">
+                                            @{
+                                                var listimgfb = productService4.getImgFB(item.FbId);
+                                            }
+                                            @for (int img = 0; img < listimgfb.Count; img++)
+                                            {
+                                                <li class="ms-0 ">
+                                                    <img src="~/myaccountassets/FeedbackImage/@listimgfb[img]" alt="" id="comment-img-album-1">
+                                                </li>
+                                            }
+
+
+
+                                        </ul>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="user-comment-time mt-2">
-                                <span id="user-comment-time">2022-10-07  15:46</span>
-                            </div>
-                            <div class="smell d-flex mt-4">
-                                <span id="smell">Hương vị:&nbsp;</span>
-                                <span id="smell-comment">tươi ngon</span>
-                            </div>
-                            <div class="pack d-flex mt-4">
-                                <span id="pack">Bao bì/Mẫu mã:&nbsp;</span>
-                                <span id="pack-comment">đẹp</span>
-                            </div>
-                            <div class="desc-detail mt-4">
-                                <span id="desc-detail">Shop đóng gói đẹp, thịt thơm ngon vẫn còn tươi, mềm</span>
-                            </div>
-                            <div class="img-comment mt-4 mb-5 ">
-                                <ul class="d-flex user-cmt-imgs p-0">
-                                    <li class="ms-0 ">
-                                        <img src="./images/comment/cmt1.png" alt="" id="comment-img-album-1">
-                                    </li>
-                                    <li class="ms-4 ">
-                                        <img src="./images/comment/cmt2.png" alt="" id="comment-img-album-2">
-
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </div>
-                    <a href="#" value="">
-                            <div class="liked ms-0 d-flex justify-content-center align-items-center">
-                                <i class="fa-regular fa-thumbs-up"></i>&nbsp;
-                                <span class="user-like" id="user-like-id">Hữu ích</span>
-                            </div>
-
-                        </a>
-
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="user-comment mb-5 " id="user-id">
-            <div class="row mt-2">
-                <div class="container-fluid container-comment d-flex mt-4">
-                    <div class="user-comment-info d-flex">
-                        <div class="user-avatar me-3" id="user-avatar">
-
-                        </div>
-                        <div class="user-name me-auto">
-                            <span id="user-name">Nguyễn Minh Cường</span>
-                            <div class="user-star d-flex justify-content-left align-items-left mt-auto mb-auto me-auto">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="rating">
-                                        <i class="fa fa-star checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star checked    "></i>                                          
+                                <a href="#" value="">
+                                    <div class="liked ms-0 d-flex justify-content-center align-items-center">
+                                        <i class="fa-regular fa-thumbs-up"></i>&nbsp;
+                                        <span class="user-like" id="user-like-id">Hữu ích</span>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="user-comment-time mt-2">
-                                <span id="user-comment-time">2022-10-07  15:46</span>
-                            </div>
-                            <div class="smell d-flex mt-4">
-                                <span id="smell">Hương vị:&nbsp;</span>
-                                <span id="smell-comment">tươi ngon</span>
-                            </div>
-                            <div class="pack d-flex mt-4">
-                                <span id="pack">Bao bì/Mẫu mã:&nbsp;</span>
-                                <span id="pack-comment">đẹp</span>
-                            </div>
-                            <div class="desc-detail mt-4">
-                                <span id="desc-detail">Shop đóng gói đẹp, thịt thơm ngon vẫn còn tươi, mềm</span>
-                            </div>
-                            <div class="img-comment mt-4 mb-5 ">
-                                <ul class="d-flex user-cmt-imgs p-0">
-                                    <li class="ms-0">
-                                        <img src="./images/comment/cmt1.png" alt="" id="comment-img-album-1">
-                                    </li>
-                                    <li class="ms-4">
-                                        <img src="./images/comment/cmt2.png" alt="" id="comment-img-album-2">
 
-                                    </li>
+                                </a>
 
-                                </ul>
                             </div>
                         </div>
-                    <a href="#" value="">
-                        <div class="liked ms-auto d-flex justify-content-center align-items-center">
-                            <i class="fa-regular fa-thumbs-up"></i>&nbsp;
-                            <span class="user-like" id="user-like-id">Hữu ích</span>
-                        </div>
-
-                        </a>
-
                     </div>
+
                 </div>
-            </div>
+            }
+       }
 
-        </div>
-        <div class="user-comment mb-5 " id="user-id">
-            <div class="row mt-2">
-                <div class="container-fluid container-comment d-flex mt-4">
-                    <div class="user-comment-info d-flex">
-                        <div class="user-avatar me-3" id="user-avatar">
 
-                        </div>
-                        <div class="user-name me-auto">
-                            <span id="user-name">Nguyễn Minh Cường</span>
-                            <div class="user-star d-flex justify-content-left align-items-left mt-auto mb-auto me-auto">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="rating">
-                                        <i class="fa fa-star checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star checked    "></i>                                          
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="user-comment-time mt-2">
-                                <span id="user-comment-time">2022-10-07  15:46</span>
-                            </div>
-                            <div class="smell d-flex mt-4">
-                                <span id="smell">Hương vị:&nbsp;</span>
-                                <span id="smell-comment">tươi ngon</span>
-                            </div>
-                            <div class="pack d-flex mt-4">
-                                <span id="pack">Bao bì/Mẫu mã:&nbsp;</span>
-                                <span id="pack-comment">đẹp</span>
-                            </div>
-                            <div class="desc-detail mt-4">
-                                <span id="desc-detail">Shop đóng gói đẹp, thịt thơm ngon vẫn còn tươi, mềm</span>
-                            </div>
-                            <div class="img-comment mt-4 mb-5 ">
-                                <ul class="d-flex user-cmt-imgs p-0">
-                                    <li class="ms-0">
-                                        <img src="./images/comment/cmt1.png" alt="" id="comment-img-album-1">
-                                    </li>
-                                    <li class="ms-4">
-                                        <img src="./images/comment/cmt2.png" alt="" id="comment-img-album-2">
+        
 
-                                    </li>
 
-                                </ul>
-                            </div>
-                        </div>
-                    <a href="#" value="">
-                        <div class="liked ms-auto d-flex justify-content-center align-items-center">
-                            <i class="fa-regular fa-thumbs-up"></i>&nbsp;
-                            <span class="user-like" id="user-like-id">Hữu ích</span>
-                        </div>
 
-                        </a>
 
-                    </div>
-                </div>
-            </div>
 
-        </div>
-        <div class="user-comment mb-5 " id="user-id">
-            <div class="row mt-2">
-                <div class="container-fluid container-comment d-flex mt-4">
-                    <div class="user-comment-info d-flex">
-                        <div class="user-avatar me-3" id="user-avatar">
 
-                        </div>
-                        <div class="user-name me-auto">
-                            <span id="user-name">Nguyễn Minh Cường</span>
-                            <div class="user-star d-flex justify-content-left align-items-left mt-auto mb-auto me-auto">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="rating">
-                                        <i class="fa fa-star checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star rating-color checked"></i>
-                                        <i class="fa fa-star checked    "></i>                                          
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="user-comment-time mt-2">
-                                <span id="user-comment-time">2022-10-07  15:46</span>
-                            </div>
-                            <div class="smell d-flex mt-4">
-                                <span id="smell">Hương vị:&nbsp;</span>
-                                <span id="smell-comment">tươi ngon</span>
-                            </div>
-                            <div class="pack d-flex mt-4">
-                                <span id="pack">Bao bì/Mẫu mã:&nbsp;</span>
-                                <span id="pack-comment">đẹp</span>
-                            </div>
-                            <div class="desc-detail mt-4">
-                                <span id="desc-detail">Shop đóng gói đẹp, thịt thơm ngon vẫn còn tươi, mềm</span>
-                            </div>
-                            <div class="img-comment mt-4 mb-5 ">
-                                <ul class="d-flex user-cmt-imgs p-0">
-                                    <li class="ms-0">
-                                        <img src="./images/comment/cmt1.png" alt="" id="comment-img-album-1">
-                                    </li>
-                                    <li class="ms-4">
-                                        <img src="./images/comment/cmt2.png" alt="" id="comment-img-album-2">
-
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </div>
-                    <a href="#" value="">
-                        <div class="liked ms-auto d-flex justify-content-center align-items-center">
-                            <i class="fa-regular fa-thumbs-up"></i>&nbsp;
-                            <span class="user-like" id="user-like-id">Hữu ích</span>
-                        </div>
-
-                        </a>
-
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <section class="pag mt-3">
+    @*    <section class="pag mt-3">
             <div class="row ">
                 <div class="container d-flex ">
                         <ul class="list-page d-flex text-dark align-items-right justify-content-right ms-auto me-5  ">
@@ -862,7 +676,7 @@
                         </ul>
                 </div>
             </div>
-        </section>
+        </section>*@
 
     </section>
 
@@ -1026,6 +840,24 @@
                         storeid: $(this).data("storeid"),
                         saleprice: $(this).data("saleprice"),
                         quantity:$("#quantity").val(),
+                        type: "ajax"
+                    },
+                    success: function (data) {
+                        $("#quantity_cart").html(data.quantity);
+                    }
+                });
+            });
+
+            $(".product-item-add-btn-2").click(function () {
+                /* $("#success").click();*/
+                console.log("Phương")
+                toastr.success("Sản phẩm vào giỏ hàng!!!");
+                $.ajax({
+                    url: "/BuyAndPay/AddToCart",
+                    data: {
+                        proId: $(this).data("id"),
+                        storeid: $(this).data("storeid"),
+                        saleprice: $(this).data("saleprice"),
                         type: "ajax"
                     },
                     success: function (data) {

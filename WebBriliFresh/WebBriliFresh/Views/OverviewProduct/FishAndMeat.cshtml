@@ -198,8 +198,6 @@
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <div class="product-item-price">
-                                        @*<input type="hidden" class="price_format" value="@Html.DisplayFor(modelItem => item.PriceString)">
-                                        <p class="product-item-price-child main_format"></p>*@
                                         <p class="product-item-price-child" value="@(item.Price*(decimal)(1-dis.Value))">@((item.Price * (decimal)(1 - dis.Value)).ToString("#,##0"))</p>
                                     </div>
                                     <div class="product-item-add">
@@ -215,8 +213,9 @@
                                     </div>
                                 </div>
                             </div>
+                            count++;
                         }
-                        count++;
+                        
 
                     }
 

@@ -50,22 +50,7 @@ body {
     margin-right: 132px;
     margin-left: 132px;
 }
-/* .scaled-header{
-   transform: scale(0.9);
- }
-  .scaled {
-   transform: scale(0.9); 
-  }
-  .scaled-comment{
-   transform: scale(0.85); 
-  }; */
 
-/* .scaled-product{
-   transform: scale(0.85); 
-} */
-/* .user-comment{
-   transform: scale(0.85); 
-} */
 #logo {
     height: 56px;
     width: 75px;
@@ -594,8 +579,7 @@ input[placeholder="Tìm kiếm thực phẩm"] {
     font-style: normal;
     font-weight: 400;
     font-size: 15px;
-    line-height: 19px;
-
+    line-height: 22px;
     color: #000000;
 }
 .description-body {
@@ -603,8 +587,7 @@ input[placeholder="Tìm kiếm thực phẩm"] {
     font-style: normal;
     font-weight: 400;
     font-size: 15px;
-    line-height: 19px;
-
+    line-height: 22px;
     color: #000000;
 }
 .cr-info #content {

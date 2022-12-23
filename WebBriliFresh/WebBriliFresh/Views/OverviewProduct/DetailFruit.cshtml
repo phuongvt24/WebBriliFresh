@@ -50,6 +50,7 @@
             </div>
         </nav>
     </section>
+
     @{
         ProductServices productService = new ProductServices();
         var dis = productService.getDiscount(Model.product.ProId);
@@ -403,6 +404,8 @@
     <div class="gap mt-5">
 
     </div>
+
+
     <section class="comments scaled-comments">
         <div class="container-fluid mt-5">
             <div class="row comments-header mb-4">
@@ -984,7 +987,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script src="~/Overviewproductassets/fruit/detailfruit.js"></script>
-       @* <script src="~/Overviewproductassets\fishandmeat\detailfishandmeat.js"></script>*@
      <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="~/homeassets/header.js"></script>
       <script>
