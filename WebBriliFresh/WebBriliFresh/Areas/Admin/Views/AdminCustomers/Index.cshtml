@@ -87,10 +87,7 @@
                                 <td>@Html.DisplayFor(modelItem => item.CusId)</td>
 
                                 <td>
-                                    <div class="d-flex align-items-center">
-                                        <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.LastName)</h6>
-                                        <h6 class="m-b-0 m-l-10">@Html.DisplayFor(modelItem => item.FirstName)</h6>
-                                    </div>
+                                    @Html.DisplayFor(modelItem => item.LastName) @Html.DisplayFor(modelItem => item.FirstName)
                                 </td>
 
                                 @if (item.Gender == 1)
@@ -107,17 +104,23 @@
                                 }
                                 <td>@Html.DisplayFor(modelItem => item.Phone)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                                @if (item.Reward.CusType == 1)
+                                @if (item.Reward != null)
                                 {
-                                    <td><span class="rank">Vàng</span></td>
-                                }
-                                else if (item.Reward.CusType == 2)
+                                    if (item.Reward.CusType == 1)
+                                    {
+                                        <td><span class="rank">Vàng</span></td>
+                                    }
+                                    else if (item.Reward.CusType == 2)
+                                    {
+                                        <td><span class="rank">Bạc</span></td>
+                                    }
+                                    else
+                                    {
+                                        <td><span class="rank">Đồng</span></td>
+                                    }
+                                } else
                                 {
-                                    <td><span class="rank">Bạc</span></td>
-                                }
-                                else
-                                {
-                                    <td><span class="rank">Đồng</span></td>
+                                    <td><span class="rank">Không có tài khoản</span></td>
                                 }
 
                                 <td class="text-right">
@@ -142,14 +145,8 @@
     $('#customer-filter, #gender-filter').change(function () {
         var a = $('#customer-filter').val();
         var b = $('#gender-filter').val();
-        $(".rowitem").show();
-        for (var i = 0; i < $(".rank").length; i++) {
-            var c = $(".rank")[i].innerText;
-            var d = $(".gender")[i].innerText;
-            if  (((a != c) && (a != "")) || ((b != d) && (b != ""))) {
-                $(".rowitem")[i].style.display = 'none';
-            }
-        }
+        $("input[type=search]").val(a + " " + b).trigger("keyup");
+        $("input[type=search]").val("");
     })
 
     $(document).ready(function () {

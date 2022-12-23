@@ -122,12 +122,12 @@
                     for (const k of result[0].Districts) {
                         districts.options[districts.options.length] = new Option(k.Name, k.Id);
                     }
-                    for (var i = 0; i < $(".rowitem").length; i++) {
-                        var a = $(".city")[i].innerText;
-                        if (a != this.options[this.selectedIndex].text) {
-                            $(".rowitem")[i].style.display = 'none';
-                        }
-                    }
+                    $("input[type=search]").val(this.options[this.selectedIndex].text).trigger("keyup");
+                    $("input[type=search]").val("");
+                }
+                else {
+                    $("input[type=search]").val(" ").trigger("keyup");
+                    $("input[type=search]").val("");
                 }
             };
             districts.onchange = function () {
@@ -141,24 +141,14 @@
                         wards.options[wards.options.length] = new Option(w.Name, w.Id);
                     }
 
-                    for (var i = 0; i < $(".rowitem").length; i++) {
-                        var b = $(".district")[i].innerText;
-                        if (b != this.options[this.selectedIndex].text) {
-                            $(".rowitem")[i].style.display = 'none';
-                        }
-                    }
+                    $("input[type=search]").val(this.options[this.selectedIndex].text).trigger("keyup");
+                    $("input[type=search]").val("");
                 }
             };
             wards.onchange = function () {
                 $(".rowitem").show();
-                if (this.value != "") {
-                    for (var i = 0; i < $(".rowitem").length; i++) {
-                        var c = $(".ward")[i].innerText;
-                        if (c != this.options[this.selectedIndex].text) {
-                            $(".rowitem")[i].style.display = 'none';
-                        }
-                    }
-                }
+                $("input[type=search]").val(this.options[this.selectedIndex].text).trigger("keyup");
+                $("input[type=search]").val("");
             }
         }
     })
