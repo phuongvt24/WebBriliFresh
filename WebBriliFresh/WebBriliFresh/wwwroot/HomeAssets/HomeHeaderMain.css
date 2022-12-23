@@ -247,3 +247,83 @@
 ti-location-pin {
     font-size: 10px !important;
 }
+
+/*css for list location*/
+
+.location_item_list
+{
+    padding-top: 12px;
+}
+
+.location_item
+{
+    background-color: #f2dede;
+    border-radius: 8px;
+    width: 250px;
+    height: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.location_item_child_link + .location_item_child_link
+{
+    /* margin-top: 12px; */
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-bottom: 16px;
+    height: 56px;
+    cursor: pointer;
+    list-style-type: none;
+    /* text-align: center; */
+}
+
+.location_item_child
+{
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.location_item::-webkit-scrollbar
+{
+    display: none; /* cho Chrome, Safari, and Opera */
+}
+
+.display_list_location
+{
+    display: none;
+}
+
+.direction-detail
+{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
+ol
+{
+    padding-left: 0 !important;
+}
+
+.location_item_child:hover > a
+{
+    color: #000000;
+}
+
+/*.display_list_location
+{
+    display: none;
+}*/
+
+.location_container
+{
+    cursor: pointer;
+}
+
+.location_item
+{
+    height: fit-content; 
+}

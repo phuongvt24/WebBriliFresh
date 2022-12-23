@@ -36,14 +36,56 @@ $(document).ready(function() {
         count = count < 1 ? 1 : count;
         $input.val(count);
         $input.change();
+        $.ajax({
+            url: "/BuyAndPay/Update",
+            data: {
+                proId: $(this).data("id"),
+                quantity: count,
+                storeid: $(this).data("storeid")
+            },
+            success: function (data) {
+                
+                $("#quantity_cart").html(data.quantity);
+            }
+        });
         return false;
     });
 
+
+    $(".content__quantity").change(function () {
+        console.log($(this).val())
+        $.ajax({
+            url: "/buyandpay/update",
+            data: {
+                proid: $(this).siblings(".content__plus").data("id"),
+                quantity: $(this).val(),
+                storeid: $(this).siblings(".content__plus").data("storeid")
+            },
+            success: function (data) {
+                console.log($("#quantity_cart"))
+                $("#quantity_cart").html(data.quantity);
+            }
+        });
+    })
+
     //Nút tăng số lượng sản phẩm
     $('.content__plus').click(function () {
+
         var $input = $(this).parent().find('input');
         $input.val(parseInt($input.val()) + 1);
         $input.change();
+        $.ajax({
+            url: "/BuyAndPay/Update",
+            data: {
+                proId: $(this).data("id"),
+                quantity: $input.val(),
+                storeid: $(this).data("storeid")
+            },
+            success: function (data) {
+                console.log($("#quantity_cart"))
+                $("#quantity_cart").html(data.quantity);
+            }
+        });
         return false;
     });
 
@@ -94,7 +136,18 @@ $(document).ready(function() {
     $('.content__remove').click(function() {
         //Thông báo xác nhận trước khi xóa
         var result = confirm("Xác nhận xóa sản phẩm ra khỏi giỏ hàng?");
+        
         if (result) {
+            $.ajax({
+                url: "/BuyAndPay/Delete",
+                data: {
+                    proId: $(this).data("id"),
+                    storeid: $(this).data("storeid")
+                },
+                success: function (data) {
+                    $("#quantity_cart").html(data.quantity);
+                }
+            });
             //Xóa sản phẩm đó
             $(this).parent().parent().remove();
             //Cập nhật số lượng sản phẩm trong giỏ
@@ -114,9 +167,10 @@ $(document).ready(function() {
             $(".content__empty-message").hide();
         }
     })
-
+   
     //Hiển thị "Thành tiền" trong trường hợp thay đổi số lượng sản phẩm
-    $('.content__quantity').change(function(){
+    $('.content__quantity').change(function () {
+        
         for (var i=0; i < $(".content__unit-price").length; i++) {
             var unitPrice = $(".content__unit-price")[i].innerHTML;
             var quantity = $(".content__quantity")[i].value;
@@ -150,6 +204,9 @@ $(document).ready(function() {
             var cArray = new Array();
             var dArray = new Array();
             var eArray = new Array();
+            var fArray = new Array();
+            var gArray = new Array();
+            var hArray = new Array();
             
             for (var i=0; i < checkboxes.length; i++) {
                 if (checkboxes[i].checked) {
@@ -158,6 +215,9 @@ $(document).ready(function() {
                     var unitPrice = $('.content__unit-price')[i].innerHTML;
                     var quantity = $('.content__quantity')[i].value;
                     var amount = $('.content__amount')[i].innerHTML;
+                    var proid = $('.pro_id_item')[i].innerHTML;
+                    var storeid = $('.store_id_item')[i].innerHTML;
+                    var priceformat = $('.price_no_format')[i].innerHTML;
 
                     //Thêm phần tử vào mảng theo từng dòng sản phẩm
                     aArray.push(image);
@@ -165,16 +225,21 @@ $(document).ready(function() {
                     cArray.push(unitPrice);
                     dArray.push(quantity);
                     eArray.push(amount);
+                    fArray.push(proid);
+                    gArray.push(storeid);
+                    hArray.push(priceformat);
                 }
                 
             }
-
             //Lưu mảng
             sessionStorage.setItem("PROIMAGE", JSON.stringify(aArray));
             sessionStorage.setItem("PRONAME", JSON.stringify(bArray));
             sessionStorage.setItem("UNITPRICE", JSON.stringify(cArray));
             sessionStorage.setItem("QUANTITY", JSON.stringify(dArray));
             sessionStorage.setItem("AMOUNT", JSON.stringify(eArray));
+            sessionStorage.setItem("PROID", JSON.stringify(fArray));
+            sessionStorage.setItem("STOREID", JSON.stringify(gArray));
+            sessionStorage.setItem("PRICE", JSON.stringify(hArray));
         }
     })
 });

@@ -1,4 +1,9 @@
-﻿@{
+﻿@model IEnumerable<WebBriliFresh.Models.DTO.ShoppingCartViewModel>
+@inject WebBriliFresh.Models.BriliFreshDbContext _context;
+@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@using WebBriliFresh.Common;
+@{
     Layout = null;
 }
 
@@ -28,7 +33,7 @@
 <body>
     <form action="@Url.Action("CartInfo", "BuyAndPay")" method="GET" class="giohangform">
         <div class="header">
-            @await Html.PartialAsync("~/Views/Shared/_HomeHeaderPartialView.cshtml")
+            @await Html.PartialAsync("~/Views/Shared/_HomeHeaderPartialView_login.cshtml")
         </div>
 
         <div class="content">
@@ -51,7 +56,7 @@
                             <div class="col-md-2">Thành tiền</div>
                             <div class="col-md-1">
                                 <button type="button" class="content__remove-all">
-                                    <img src="./assets/icons/trash.png" class="content__remove-img"></img>
+                                    <img src="~/icons/trash.png" class="content__remove-img"></img>
                                 </button>
                             </div>
                         </div>
@@ -64,67 +69,60 @@
 
                 <div class="content__data">
                     <div class="container">
-                        <div class="row">
-                            <div class="col-sm-1">
-                                <input type="checkbox" class="content__select">
-                            </div>
-                            <div class="col-md-4">
-                                <div class="content__pro-info">
-                                    <img class="content__pro-image" src="./assets/images/baroi500g.jpg"></img>
-                                    <span class="content__pro-name">Ba rọi heo (Nhập khẩu) - 500g</span>
-                                </div>
+                        @foreach(var item in Model){
+                            int x = 0;
+                            var item2 = _context.Products.Where(x => x.ProId == item.ProductId ).FirstOrDefault();
 
-                            </div>
-                            <div class="col-md-2">
-                                <span class="content__unit-price">80000</span>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="content__quantity-info">
-                                    <span class="content__minus">-</span>
-                                    <input class="content__quantity" type="text" value="1" />
-                                    <span class="content__plus">+</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <span class="content__amount"></span>
-                            </div>
-                            <div class="col-md-1">
-                                <button type="button" class="content__remove">
-                                    <img src="./assets/icons/trash.png" class="content__remove-img"></img>
-                                </button>
-                            </div>
-                        </div>
+                            if (item.StoreId == @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId))
+                            {
+                                var a = _context.ProductImages.Where(x => x.ProId == item.ProductId && x.ImgData.Contains("is_avt"));
+                                var i = a.FirstOrDefault();
+                                <div class="row">
+                                    <div class="col-sm-1">
+                                        <input type="checkbox" class="content__select">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="content__pro-info">
+                                            @if (i != null)
+                                            {
+                                                var m = @i.ImgData;
+                                                <img class="content__pro-image" src="~/ImageProduct/@m"></img>
+                                            }
+                                            else
+                                            {
+                                                <img class="content__pro-image" src="~/ImageProduct/none.jpg"></img>
+                                            }
 
-                        <div class="row">
-                            <div class="col-sm-1">
-                                <input type="checkbox" class="content__select">
-                            </div>
-                            <div class="col-md-4">
-                                <div class="content__pro-info">
-                                    <img class="content__pro-image" src="./assets/images/DuahauruotdoLongAn-1kg.jpg"></img>
-                                    <span class="content__pro-name">Dưa hấu ruột đỏ Long An - 1kg</span>
-                                </div>
+                                            <span class="content__pro-name">@item2.ProName (@item2.Unit)</span>
+                                            <span hidden class="pro_id_item">@item.ProductId</span>
+                                            <span hidden class="store_id_item">@item.StoreId</span>
+                                            <span hidden class="price_no_format">@item.SalePrice</span>
+                                        </div>
 
-                            </div>
-                            <div class="col-md-2">
-                                <span class="content__unit-price">38000</span>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="content__quantity-info">
-                                    <span class="content__minus">-</span>
-                                    <input class="content__quantity" type="text" value="1" />
-                                    <span class="content__plus">+</span>
+
+                                    </div>
+                                    <div class="col-md-2">
+                                        <span class="content__unit-price">@item.SalePrice</span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="content__quantity-info">
+                                            <span type="button" class="content__minus" data-id="@item.ProductId" data-storeid="@item.StoreId">-</span>
+                                            <input class="content__quantity" type="text" value="@item.Quantity" />
+                                            <span type="button" class="content__plus" data-id="@item.ProductId" data-storeid="@item.StoreId">+</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <span class="content__amount"></span>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button type="button" class="content__remove" data-id="@item.ProductId" data-storeid="@item.StoreId">
+                                            <img src="~/icons/trash.png" class="content__remove-img"></img>
+                                        </button>
+                                    </div>
+
                                 </div>
-                            </div>
-                            <div class="col-md-2">
-                                <span class="content__amount"></span>
-                            </div>
-                            <div class="col-md-1">
-                                <button type="button" class="content__remove">
-                                    <img src="/assets/icons/trash.png" class="content__remove-img"></img>
-                                </button>
-                            </div>
-                        </div>
+                            }
+                        }
                     </div>
                 </div>
 
@@ -138,11 +136,13 @@
                 <input class="content__order-button" type="submit" value="TIẾN HÀNH ĐẶT HÀNG">
             </div>
         </div>
-
             @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
-        
-
     </form>
     <script type="text/javascript" src="~/BuyAndPayAssets/CartInfoCheck/CartInfoCheck.js"></script>
+    <script src="~/homeassets/header.js"></script>
+    <script>
+
+        
+    </script>
 </body>
 </html>

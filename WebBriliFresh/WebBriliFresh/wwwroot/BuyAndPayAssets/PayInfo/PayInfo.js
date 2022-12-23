@@ -23,10 +23,15 @@ $(document).ready(function () {
     }
 
     //Lấy danh sách "Ảnh sản phẩm", "Tên sản phẩm", "Đơn giá", "Số lượng"
+    var h = JSON.parse(sessionStorage.getItem("PRICE"));
     var a = JSON.parse(sessionStorage.getItem("PROIMAGE"));
     var b = JSON.parse(sessionStorage.getItem("PRONAME"));
     var c = JSON.parse(sessionStorage.getItem("UNITPRICE"));
     var d = JSON.parse(sessionStorage.getItem("QUANTITY"));
+    var e = JSON.parse(sessionStorage.getItem("PROID"));
+    var f = JSON.parse(sessionStorage.getItem("STOREID"));
+    
+
     //Chèn dữ liệu vào từng dòng sản phẩm
     for (var i=0; i < $(".content__pro-name").length; i++) {
         $(".content__pro-image")[i].src=a[i];
@@ -44,13 +49,42 @@ $(document).ready(function () {
     $district = sessionStorage.getItem("DISTRICT");
     $city = sessionStorage.getItem("CITY");
 
+    $addid = sessionStorage.getItem("ADDID");
+    $disid = sessionStorage.getItem("DISID");
+
     $("#fullname").html($fullname);
     $("#phonenum").html($phonenum);
     $("#specificAddress").html($specificAddress);
     $("#ward").html($ward);
     $("#district").html($district);
     $("#city").html($city);
+
     
+
+
+    $("#First_Name").val($fullname)
+    $("#Phone_cus").val($phonenum)
+    $("#SpecificAddress_add").val($specificAddress)
+    $("#Ward_add").val($ward)
+    $("#District_add").val($district)
+    $("#City_add").val($city)
+
+
+    $("#Address_Id").val($addid)
+    $("#Dis_Id").val($disid)
+
+
+    var checkoutitem = []
+    for (var i = 0; i < e.length; i++) {
+        checkoutitem.push({ productId: e[i], quantity: d[i], storeId: f[i], saleprice: h[i] });
+    };
+    $("#listorder").val(JSON.stringify(checkoutitem));
+    
+
+
+
+
+
     //Ẩn dấu phẩy nếu địa chỉ cụ thể trống
     if ($specificAddress =="")
     {
@@ -62,6 +96,9 @@ $(document).ready(function () {
     $subtotal = sessionStorage.getItem("SUBTOTAL");
     $discount = sessionStorage.getItem("DISCOUNT");
     $total = sessionStorage.getItem("TOTAL");
+
+    $("#Sub_Total").val($subtotal);
+    $("#Order_Total").val($total - (-14000));
     //Tính lại tổng tiền sau khi có phí vận chuyển
     var $transortFee = $("#transort-fee").text();
     $total = parseFloat($total) + parseFloat($transortFee);
@@ -73,13 +110,15 @@ $(document).ready(function () {
 
     //Chọn hình thức giao hàng
     $(".content__delivery-method").click(function () {
-        $(".content__delivery-method-button").each(function() {
+        $(".content__delivery-method-button").each(function () {         
             if ($(this).is(':checked')) {
                 $(this).parent().css("border", "1px solid #1ED330");
                 $(this).parent().css("background-color", "#C2F49B");
                 
                 $("#deliveryName").html($(this).siblings().text().toUpperCase());
 
+                
+                $("#type_trans").val($(this).val())
                 switch ($(this).val()) {
                     case "1":
                         $transortFee = 14000;
@@ -94,6 +133,7 @@ $(document).ready(function () {
                 $total = sessionStorage.getItem("TOTAL");
                 $total = parseFloat($total) + parseFloat($transortFee);
                 $("#total").html(Number($total).toLocaleString('en') + " ₫");
+                $("#Order_Total").val($total);
 
             }
             else {
@@ -117,6 +157,19 @@ $(document).ready(function () {
             $("#E-wallet-button1").prop('required', false);
             $("#E-wallet-message").hide();
         }
+
+        if ($("#payment-method-button1").is(':checked')) {
+            $("#Pay_by").val($("#payment-method-button1").val())
+        }
+        if ($("#payment-method-button3").is(':checked')) {
+            $("#Pay_by").val($("#payment-method-button3").val())
+        }
+        if ($("#payment-method-button4").is(':checked')) {
+            $("#Pay_by").val($("#payment-method-button4").val())
+        }
+        
+
+        
     });
 
     //Chọn loại ví điện tử
@@ -132,6 +185,21 @@ $(document).ready(function () {
                 $(this).parent().css("border", "1px solid #826C6C");
             }
         })
+        if ($("#E-wallet-button1").is(':checked')) {
+            $("#Pay_by").val($("#E-wallet-button1").val())
+        }
+        if ($("#E-wallet-button2").is(':checked')) {
+            $("#Pay_by").val($("#E-wallet-button2").val())
+        }
+        if ($("#E-wallet-button3").is(':checked')) {
+            $("#Pay_by").val($("#E-wallet-button3").val())
+        }
+        if ($("#E-wallet-button4").is(':checked')) {
+            $("#Pay_by").val($("#E-wallet-button4").val())
+        }
+        if ($("#E-wallet-button5").is(':checked')) {
+            $("#Pay_by").val($("#E-wallet-button5").val())
+        }
     });
 
     $("#products").hide();
@@ -142,12 +210,33 @@ $(document).ready(function () {
         $("#products").toggle();
     });
 
+    
 
+    /**/
     //Nút đặt hàng
-    $("#order-button").click (function () {
+    $("#order-button-fake").click(function (event) {
         //Thông báo nếu chưa chọn ví điện tử trong trường hợp chọn thanh toán bằng ví điện tử
         if ($("#E-wallet-button1").is(':invalid')) {
             $("#E-wallet-message").show();
         }
+        //event.preventDefault();
+
+        //var checkoutitem = []
+        //for (var i = 0; i < e.length; i++)
+        //{
+        //    checkoutitem.push ({ productId: e[i], quantity: d[i], storeId: f[i], saleprice: h[i] });
+        //}
+        //$.ajax({
+        //    dataType: 'text',
+        //    type: 'POST',
+        //    url: '/BuyAndPay/checkout',
+        //    data: { checkoutitem: JSON.stringify(checkoutitem) },
+        //    success: function (data) {
+        //        console.log(data)
+        //    }
+        //});
+        //$("#order-button").click();
     });
+
+
 });

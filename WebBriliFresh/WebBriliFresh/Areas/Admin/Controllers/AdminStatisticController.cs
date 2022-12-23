@@ -93,7 +93,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
                 {
                     topProEarning.Add(ProEarning(item.ProId));
                 }
-                var a = _context.ProductImages.Where(pi => pi.ProId == item.ProId);
+                var a = _context.ProductImages.Where(pi => pi.ProId == item.ProId && pi.ImgData.Contains("is_avt"));
                 var item1 = a.FirstOrDefault();
                 if (item1 == null)
                 {

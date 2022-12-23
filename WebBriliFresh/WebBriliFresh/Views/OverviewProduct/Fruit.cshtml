@@ -1,4 +1,10 @@
-﻿
+﻿@model IEnumerable<WebBriliFresh.Models.Product>
+@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@inject WebBriliFresh.Models.BriliFreshDbContext _context;
+@using WebBriliFresh.Models.DAO;
+
+@using WebBriliFresh.Common;
 @{
     Layout = null;
 }
@@ -15,22 +21,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <link rel="stylesheet" href="~/OverviewProductAssets/Fruit/Fruit.js">
     <script src="https://kit.fontawesome.com/03c302d752.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
 
 </head>
 <body>
-
-    @*@await Html.PartialAsync("~/Views/Shared/_FruitHeaderPartialView.cshtml")*@
     @await Html.PartialAsync("~/Views/Shared/_FruitHeaderPartialView_login.cshtml")
-
-
-
     <section class="directory mt-3 scaled-body">
         <nav class="navbar navbar-expand-xl navbar-light ">
-            <div class="container-fluid ms-2">
+            <div class="container-fluid ms-2" style="    font-family: 'Lexend';">
                 <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#">Sản phẩm</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Trái cây 4 mùa</li>
+                        <li class="breadcrumb-item active" aria-current="page" style="color:#f69708">Trái cây 4 mùa</li>
                     </ol>
                 </nav>
             </div>
@@ -42,7 +44,7 @@
                 <div class="d-flex justify-content-center mx-auto col-6">
                     <div class="col-6 col-category">
                         <div class="nav-item category-detail align-item-center text-center">
-                            <a class="nav-link" asp-controller="OverviewProduct" asp-action="ListFruit">
+                            <a class="nav-link" asp-controller="OverviewProduct" asp-action="IndexListFruit" asp-route-typeID="6">
                                 Trái cây nhập khẩu
                             </a>
                             <div class="category-img category-img-cherry ">
@@ -52,7 +54,7 @@
                     </div>
                     <div class="col-6 col-category mx-auto ">
                         <div class="nav-item category-detail align-item-center text-center">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" asp-controller="OverviewProduct" asp-action="IndexListFruit" asp-route-typeID="7">
                                 Đặc sản Việt Nam
                             </a>
                             <div class="category-img category-img-durian">
@@ -99,6 +101,7 @@
         </div>
     </section>
 
+
     <section class="items-discount scaled-body">
         <div class="container-fluid mt-5 p-0">
             <div class="justify-content-center text-align-center scale-container ">
@@ -137,127 +140,69 @@
         </div>
         <div class="items-container mt-5 ">
             <div class="list-products col-12 row d-flex" style="justify-content: space-evenly; margin: 0px;">
-                <div class="product-item col-2">
-                    <div class="product-item-img">
-                        <img src="~/OverviewProductAssets/images/items/bongcai.png" alt="" class="product-item-img-child" />
-                    </div>
-                    <div class="product-item-tittle">
-                        <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <div class="product-item-price">
-                            <p class="product-item-price-child">99,000</p>
-                        </div>
-                        <div class="product-item-add">
-                            <button class="product-item-add-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="d-flex ">
-                        <div class="product-item-price-dis">
-                            <p class="product-item-price-dis-child">199,000</p>
-                        </div>
-                        <div class="dis-rate">
-                            <p class="dis-rate-child">-20%</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-item col-2">
-                    <div class="product-item-img">
-                        <img src="~/OverviewProductAssets/images/items/bongcai.png" alt="" class="product-item-img-child" />
-                    </div>
-                    <div class="product-item-tittle">
-                        <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <div class="product-item-price">
-                            <p class="product-item-price-child">99,000</p>
-                        </div>
-                        <div class="product-item-add">
-                            <button class="product-item-add-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="d-flex ">
-                        <div class="product-item-price-dis">
-                            <p class="product-item-price-dis-child">199,000</p>
-                        </div>
-                        <div class="dis-rate">
-                            <p class="dis-rate-child">-20%</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-item col-2">
-                    <div class="product-item-img">
-                        <img src="~/OverviewProductAssets/images/items/bongcai.png" alt="" class="product-item-img-child" />
-                    </div>
-                    <div class="product-item-tittle">
-                        <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <div class="product-item-price">
-                            <p class="product-item-price-child">99,000</p>
-                        </div>
-                        <div class="product-item-add">
-                            <button class="product-item-add-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="d-flex ">
-                        <div class="product-item-price-dis">
-                            <p class="product-item-price-dis-child">199,000</p>
-                        </div>
-                        <div class="dis-rate">
-                            <p class="dis-rate-child">-20%</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-item col-2">
-                    <div class="product-item-img">
-                        <img src="~/OverviewProductAssets/images/items/bongcai.png" alt="" class="product-item-img-child" />
-                    </div>
-                    <div class="product-item-tittle">
-                        <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <div class="product-item-price">
-                            <p class="product-item-price-child">99,000</p>
-                        </div>
-                        <div class="product-item-add">
-                            <button class="product-item-add-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="d-flex ">
-                        <div class="product-item-price-dis">
-                            <p class="product-item-price-dis-child">199,000</p>
-                        </div>
-                        <div class="dis-rate">
-                            <p class="dis-rate-child">-20%</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-item col-2">
-                    <div class="product-item-img">
-                        <img src="~/OverviewProductAssets/images/items/bongcai.png" alt="" class="product-item-img-child" />
-                    </div>
-                    <div class="product-item-tittle">
-                        <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <div class="product-item-price">
-                            <p class="product-item-price-child">99,000</p>
-                        </div>
-                        <div class="product-item-add">
-                            <button class="product-item-add-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="d-flex ">
-                        <div class="product-item-price-dis">
-                            <p class="product-item-price-dis-child">199,000</p>
-                        </div>
-                        <div class="dis-rate">
-                            <p class="dis-rate-child">-20%</p>
-                        </div>
-                    </div>
-                </div>
 
+                @if (Model != null)
+                {
+                    var count = 0;
+                    @foreach (var item in Model)
+                    {
+                        ProductServices productService = new ProductServices();
+                        var dis = productService.getDiscount(item.ProId);
+
+
+                        var c = _context.Stocks.Where(x => x.ProId == item.ProId && x.StoreId == @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId) && x.Quantity > 0).FirstOrDefault();
+                        if (c != null && dis.Value != 0 && count < 6)
+                        {
+
+                            var e = @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId);
+                            var a = item.ProductImages.Where(x => x.ProId == item.ProId && x.ImgData.Contains("is_avt"));
+                            var i = a.FirstOrDefault();
+                            <div class="product-item col-3">
+                                <div class="product-item-img">
+                                    @if (i != null)
+                                    {
+                                        var m = @i.ImgData;
+                                        <a href='@Url.Action("DetailFruit","OverviewProduct" , new { ProId = item.ProId, StoreId = @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId) })'>
+                                            <img src="~/ImageProduct/@m" alt="" class="product-item-img-child" />
+                                        </a>
+
+
+                                    }
+                                    else
+                                    {
+                                        <img src="~/ImageProduct/none.jpg" alt="" class="product-item-img-child" />
+                                    }
+                                </div>
+                                <div class="product-item-tittle">
+                                    <p class="product-item-tittle-child" onclick='window.location = "@Url.Action("DetailFishAndMeat", "OverviewProduct")"'>@Html.DisplayFor(modelItem => item.ProName) (@Html.DisplayFor(modelItem => item.Unit))</p>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class="product-item-price">
+                                        @*<input type="hidden" class="price_format" value="@Html.DisplayFor(modelItem => item.PriceString)">
+                            <p class="product-item-price-child main_format"></p>*@
+                                        <p class="product-item-price-child" value="@(item.Price*(decimal)(1-dis.Value))">@((item.Price * (decimal)(1 - dis.Value)).ToString("#,##0"))</p>
+                                    </div>
+                                    <div class="product-item-add">
+                                        <button type="button" data-id="@item.ProId" data-storeid="@HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId)" data-saleprice="@(item.Price*(decimal)(1-dis.Value))" class="product-item-add-btn">+</button>
+                                    </div>
+                                </div>
+                                <div class="d-flex ">
+                                    <div class="product-item-price-dis">
+                                        <p class="product-item-price-dis-child" value="@(item.Price)">@((item.Price).ToString("#,##0"))</p>
+                                    </div>
+                                    <div class="dis-rate">
+                                        <p class="dis-rate-child" value="@(dis.Value*100.0)">-@(dis.Value * 100.0)%</p>
+                                    </div>
+                                </div>
+                            </div>
+                            count++;
+                        }
+                        
+
+                    }
+
+
+                }
             </div>
         </div>
     </section>
@@ -280,276 +225,69 @@
         </div>
         <div class="items-container mt-5 ">
             <div class="list-products col-12 row d-flex" style="justify-content: space-evenly; margin: 0px;">
-                <div class="product-item col-2">
-                    <div class="product-item-img">
-                        <img src="~/OverviewProductAssets/images/items/bongcai.png" alt="" class="product-item-img-child" />
-                    </div>
-                    <div class="product-item-tittle">
-                        <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <div class="product-item-price">
-                            <p class="product-item-price-child">99,000</p>
-                        </div>
-                        <div class="product-item-add">
-                            <button class="product-item-add-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="d-flex ">
-                        <div class="product-item-price-dis">
-                            <p class="product-item-price-dis-child">199,000</p>
-                        </div>
-                        <div class="dis-rate">
-                            <p class="dis-rate-child">-20%</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-item col-2">
-                    <div class="product-item-img">
-                        <img src="~/OverviewProductAssets/images/items/bongcai.png" alt="" class="product-item-img-child" />
-                    </div>
-                    <div class="product-item-tittle">
-                        <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <div class="product-item-price">
-                            <p class="product-item-price-child">99,000</p>
-                        </div>
-                        <div class="product-item-add">
-                            <button class="product-item-add-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="d-flex ">
-                        <div class="product-item-price-dis">
-                            <p class="product-item-price-dis-child">199,000</p>
-                        </div>
-                        <div class="dis-rate">
-                            <p class="dis-rate-child">-20%</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-item col-2">
-                    <div class="product-item-img">
-                        <img src="~/OverviewProductAssets/images/items/bongcai.png" alt="" class="product-item-img-child" />
-                    </div>
-                    <div class="product-item-tittle">
-                        <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <div class="product-item-price">
-                            <p class="product-item-price-child">99,000</p>
-                        </div>
-                        <div class="product-item-add">
-                            <button class="product-item-add-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="d-flex ">
-                        <div class="product-item-price-dis">
-                            <p class="product-item-price-dis-child">199,000</p>
-                        </div>
-                        <div class="dis-rate">
-                            <p class="dis-rate-child">-20%</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-item col-2">
-                    <div class="product-item-img">
-                        <img src="~/OverviewProductAssets/images/items/bongcai.png" alt="" class="product-item-img-child" />
-                    </div>
-                    <div class="product-item-tittle">
-                        <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <div class="product-item-price">
-                            <p class="product-item-price-child">99,000</p>
-                        </div>
-                        <div class="product-item-add">
-                            <button class="product-item-add-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="d-flex ">
-                        <div class="product-item-price-dis">
-                            <p class="product-item-price-dis-child">199,000</p>
-                        </div>
-                        <div class="dis-rate">
-                            <p class="dis-rate-child">-20%</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-item col-2">
-                    <div class="product-item-img">
-                        <img src="~/OverviewProductAssets/images/items/bongcai.png" alt="" class="product-item-img-child" />
-                    </div>
-                    <div class="product-item-tittle">
-                        <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <div class="product-item-price">
-                            <p class="product-item-price-child">99,000</p>
-                        </div>
-                        <div class="product-item-add">
-                            <button class="product-item-add-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="d-flex ">
-                        <div class="product-item-price-dis">
-                            <p class="product-item-price-dis-child">199,000</p>
-                        </div>
-                        <div class="dis-rate">
-                            <p class="dis-rate-child">-20%</p>
-                        </div>
-                    </div>
-                </div>
+                @if (Model != null)
+                {
+                    var count_2 = 0;
+                    @foreach (var item in Model)
+                    {
+                        ProductServices productService = new ProductServices();
+                        var dis = productService.getDiscount(item.ProId);
+
+
+                        var c = _context.Stocks.Where(x => x.ProId == item.ProId && x.StoreId == @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId) && x.Quantity > 0).FirstOrDefault();
+                        if (c != null && dis.Value == 0 && count_2 < 6)
+                        {
+
+                            var e = @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId);
+                            var a = item.ProductImages.Where(x => x.ProId == item.ProId && x.ImgData.Contains("is_avt"));
+                            var i = a.FirstOrDefault();
+                            <div class="product-item col-3">
+                                <div class="product-item-img">
+                                    @if (i != null)
+                                    {
+                                        var m = @i.ImgData;
+                                        <a href='@Url.Action("DetailFruit","OverviewProduct" , new { ProId = item.ProId, StoreId = @HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId) })'>
+                                            <img src="~/ImageProduct/@m" alt="" class="product-item-img-child" />
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <img src="~/ImageProduct/none.jpg" alt="" class="product-item-img-child" />
+                                    }
+                                </div>
+                                <div class="product-item-tittle">
+                                    <p class="product-item-tittle-child" onclick='window.location = "@Url.Action("DetailFishAndMeat", "OverviewProduct")"'>@Html.DisplayFor(modelItem => item.ProName) (@Html.DisplayFor(modelItem => item.Unit))</p>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class="product-item-price">
+                                        @*<input type="hidden" class="price_format" value="@Html.DisplayFor(modelItem => item.PriceString)">
+                            <p class="product-item-price-child main_format"></p>*@
+                                        <p class="product-item-price-child" value="@(item.Price*(decimal)(1-dis.Value))">@((item.Price * (decimal)(1 - dis.Value)).ToString("#,##0"))</p>
+                                    </div>
+                                    <div class="product-item-add">
+                                        <button type="button" data-id="@item.ProId" data-storeid="@HttpContextAccessor.HttpContext.Session.GetInt32(CommonConstants.SessionStoreId)" data-saleprice="@(item.Price*(decimal)(1-dis.Value))" class="product-item-add-btn">+</button>
+                                    </div>
+                                </div>
+                                <div class="d-flex ">
+                                    <div class="product-item-price-dis">
+                                        <p class="product-item-price-dis-child" value="@(item.Price)"></p>
+                                    </div>
+                                    <div class="dis-rate">
+                                        <p class="dis-rate-child" value="@(dis.Value*100.0)"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        count_2++;
+
+                    }
+
+
+                }
 
             </div>
         </div>
     </section>
-    <section class="items-today scaled-body">
-        <div class="container-fluid mt-5 p-0">
-            <div class="row justify-content-center text-align-center scale-container">
-                <div class="">
-                    <div class="items-today-bar d-flex align-items-center">
-                        <p class="items-discount-title col-2 pt-3 ms-3">
-                            Hôm nay ăn gì ?
-                        </p>
-                        <div class="more-items text-center align-item-center me-3">
-                            <a href="#" class="p-more-item">Xem thêm <i class="fa-solid fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <div class="items-container mt-5 ">
-            <div class="list-products col-12 row d-flex" style="justify-content: space-evenly; margin: 0px;">
-                <div class="product-item col-2">
-                    <div class="product-item-img">
-                        <img src="~/OverviewProductAssets/images/items/bongcai.png" alt="" class="product-item-img-child" />
-                    </div>
-                    <div class="product-item-tittle">
-                        <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <div class="product-item-price">
-                            <p class="product-item-price-child">99,000</p>
-                        </div>
-                        <div class="product-item-add">
-                            <button class="product-item-add-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="d-flex ">
-                        <div class="product-item-price-dis">
-                            <p class="product-item-price-dis-child">199,000</p>
-                        </div>
-                        <div class="dis-rate">
-                            <p class="dis-rate-child">-20%</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-item col-2">
-                    <div class="product-item-img">
-                        <img src="~/OverviewProductAssets/images/items/bongcai.png" alt="" class="product-item-img-child" />
-                    </div>
-                    <div class="product-item-tittle">
-                        <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <div class="product-item-price">
-                            <p class="product-item-price-child">99,000</p>
-                        </div>
-                        <div class="product-item-add">
-                            <button class="product-item-add-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="d-flex ">
-                        <div class="product-item-price-dis">
-                            <p class="product-item-price-dis-child">199,000</p>
-                        </div>
-                        <div class="dis-rate">
-                            <p class="dis-rate-child">-20%</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-item col-2">
-                    <div class="product-item-img">
-                        <img src="~/OverviewProductAssets/images/items/bongcai.png" alt="" class="product-item-img-child" />
-                    </div>
-                    <div class="product-item-tittle">
-                        <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <div class="product-item-price">
-                            <p class="product-item-price-child">99,000</p>
-                        </div>
-                        <div class="product-item-add">
-                            <button class="product-item-add-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="d-flex ">
-                        <div class="product-item-price-dis">
-                            <p class="product-item-price-dis-child">199,000</p>
-                        </div>
-                        <div class="dis-rate">
-                            <p class="dis-rate-child">-20%</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-item col-2">
-                    <div class="product-item-img">
-                        <img src="~/OverviewProductAssets/images/items/bongcai.png" alt="" class="product-item-img-child" />
-                    </div>
-                    <div class="product-item-tittle">
-                        <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <div class="product-item-price">
-                            <p class="product-item-price-child">99,000</p>
-                        </div>
-                        <div class="product-item-add">
-                            <button class="product-item-add-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="d-flex ">
-                        <div class="product-item-price-dis">
-                            <p class="product-item-price-dis-child">199,000</p>
-                        </div>
-                        <div class="dis-rate">
-                            <p class="dis-rate-child">-20%</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-item col-2">
-                    <div class="product-item-img">
-                        <img src="~/OverviewProductAssets/images/items/bongcai.png" alt="" class="product-item-img-child" />
-                    </div>
-                    <div class="product-item-tittle">
-                        <p class="product-item-tittle-child">Thăn lưng bò mỹ (200g)</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <div class="product-item-price">
-                            <p class="product-item-price-child">99,000</p>
-                        </div>
-                        <div class="product-item-add">
-                            <button class="product-item-add-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="d-flex ">
-                        <div class="product-item-price-dis">
-                            <p class="product-item-price-dis-child">199,000</p>
-                        </div>
-                        <div class="dis-rate">
-                            <p class="dis-rate-child">-20%</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-
-
-
     <section class="footer mt-5 ">
         <div class="container-fluid">
             <div class="row brand-footer mt-2">
@@ -677,5 +415,42 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script src="~/OverviewProductAssets/Fruit/Fruit.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="~/homeassets/header.js"></script>
+    <script>
+        $(document).ready(function () {
+            toastr.options = {
+                "debug": false,
+                "positionClass": "toast-top-center",
+                "onclick": null,
+                "showDuration": "1000",
+                "hideDuration": "1000",
+                "timeOut": "2000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+
+            $(".product-item-add-btn").click(function () {
+                /* $("#success").click();*/
+                console.log("Phương")
+                toastr.success("Sản phẩm vào giỏ hàng!!!");
+                $.ajax({
+                    url: "/BuyAndPay/AddToCart",
+                    data: {
+                        proId: $(this).data("id"),
+                        storeid: $(this).data("storeid"),
+                        saleprice: $(this).data("saleprice"),
+                        type: "ajax"
+                    },
+                    success: function (data) {
+                        $("#quantity_cart").html(data.quantity);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

@@ -128,12 +128,20 @@ $(document).ready(function () {
     }
 
     //Địa chỉ ở ô đầu tiên là mặc định
-    $(".content__default")[0].innerHTML = "Mặc định";
-    $(".content__address-change")[0].style.backgroundColor = "#58B63A";
-    $(".content__address-change")[0].style.backgroundColor = "##a1e08c";
-    $(".content__address-change")[0].style.border = "1px solid #118129";
-    $(".content__address-list")[0].style.backgroundColor = "#D9EBFB";
-    $(".content__address-list")[0].style.border = "1px dashed #1A86E9";
+    if ($(".content__default")[0]) {
+        $(".content__default")[0].innerHTML = "Mặc định";
+    }
+    if ($(".content__address-change")[0]) {
+        $(".content__address-change")[0].style.backgroundColor = "#58B63A";
+        $(".content__address-change")[0].style.backgroundColor = "##a1e08c";
+        $(".content__address-change")[0].style.border = "1px solid #118129";
+    }
+    
+    if ($(".content__address-list")[0]) {
+        $(".content__address-list")[0].style.backgroundColor = "#D9EBFB";
+        $(".content__address-list")[0].style.border = "1px dashed #1A86E9";
+    }
+
 
     // Ẩn dấu phẩy nếu không có địa chỉ cụ thể
     $(".content__specificAddress").each(function () {
@@ -473,6 +481,7 @@ $(document).ready(function () {
                 $ward = $(this).parent().parent().siblings(".content__address").children(".content__ward").text();
                 $district = $(this).parent().parent().siblings(".content__address").children(".content__district").text();
                 $city = $(this).parent().parent().siblings(".content__address").children(".content__city").text();
+                $addid = $(this).parent().parent().siblings(".content__address").children(".content__addid").text();
 
                 sessionStorage.setItem("FULLNAME", $fullname);
                 sessionStorage.setItem("PHONENUM", $phonenum);
@@ -480,6 +489,7 @@ $(document).ready(function () {
                 sessionStorage.setItem("WARD", $ward);
                 sessionStorage.setItem("DISTRICT", $district);
                 sessionStorage.setItem("CITY", $city);
+                sessionStorage.setItem("ADDID", $addid);
 
                 $boolean = 1;
             }
@@ -508,7 +518,7 @@ $(document).ready(function () {
                 isFullfill = 0;
             }
 
-            if (isFullFill == 1) {
+            if (isFullfill == 1) {
                 $fullname = $("#fullname").val();
                 $phonenum = $("#phonenum").val();
                 $city = $("#city option:selected").text();
@@ -522,6 +532,7 @@ $(document).ready(function () {
                 sessionStorage.setItem("WARD", $ward);
                 sessionStorage.setItem("DISTRICT", $district);
                 sessionStorage.setItem("CITY", $city);
+                sessionStorage.setItem("ADDID", null);
             }
         }
 
@@ -561,4 +572,7 @@ $(document).ready(function () {
     $("#wardEdit").change(function () {
         $("#ward-message-edit").hide();
     })
+
+
+
 });

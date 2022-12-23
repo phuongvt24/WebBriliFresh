@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     //Số lượng loại sản phẩm tất cả
     $numPro = sessionStorage.getItem("NUMPRO");
     $("#numPro").html($numPro);
@@ -61,6 +61,7 @@ $(document).ready(function() {
     //Trường hợp có nhập mã giảm giá
     $(".content__coupon-button").click(function() {
         //Giả sử mã là 12345
+       
         if ($(".content__coupon-text").val() == "12345") {
             $(".content__coupon-message").hide();
             //Bỏ ẩn

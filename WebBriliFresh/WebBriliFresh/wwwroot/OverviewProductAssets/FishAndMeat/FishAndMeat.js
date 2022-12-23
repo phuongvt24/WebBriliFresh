@@ -4,7 +4,7 @@ $(document).ready(function() {
     const minutes = $(".minute-countdown .countdown-num");
     const seconds = $(".second-countdown .countdown-num");
     
-    const targetDate = new Date('Nov 1, 2022 23:24:00');
+    const targetDate = new Date('Dec 30, 2022 23:24:00');
     
     function convertMillis(milliseconds, format) {
     var days, hours, minutes, seconds, total_hours, total_minutes, total_seconds;

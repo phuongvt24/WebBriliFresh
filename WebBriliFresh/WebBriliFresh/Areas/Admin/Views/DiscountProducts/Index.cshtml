@@ -125,13 +125,8 @@
 <script>
     $('#statusSelect').change(function () {
         var status = $('#statusSelect').val();
-        $(".rowTable").show();
-        for (var i = 0; i < $(".ManyDisId").length; i++) {
-            var statusModel = $(".statusValue")[i].innerText;
-            if (status !== statusModel && status !== "") {
-                $(".rowTable")[i].style.display = 'none';
-            }
-        }
+        $("input[type=search]").val(status).trigger("keyup");
+        $("input[type=search]").val("");
     })
 </script>
 

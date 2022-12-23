@@ -11,7 +11,7 @@
                 </div>
             </div>
             <ul class="header__navbar-list">
-                <li class="header__navbar-item"><a href="#">Trang chủ</a></li>
+                <li class="header__navbar-item"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
                 <li class="header__navbar-item"><a href="#">Giới thiệu</a></li>
                 <li class="header__navbar-item">
                     <a href="#">Sản phẩm</a>
@@ -27,15 +27,15 @@
                 <li class="header__navbar-item"><a href="#">Liên hệ</a></li>
             </ul>
             <ul class="header__navbar-list " style="margin-right: -52px;">
-                <li class="header__navbar-register">Đăng ký /</li>
-                <li class="header__navbar-login" > Đăng nhập</li>
+                <li class="header__navbar-register" onclick='window.location = "@Url.Action("Registration", "UserLogin")"'>Đăng ký /</li>
+                <li class="header__navbar-login" onclick='window.location = "@Url.Action("Index", "UserLogin")"'> Đăng nhập</li>
             </ul>
             <div class="line">
             </div>
             <div class="header__cart " style="margin-left: -32px;" >
                 <i class="ti-shopping-cart" onclick='window.location = "@Url.Action("CartInfoCheck", "BuyAndPay")"'></i>
                 <div class="header__cart-number" onclick='window.location = "@Url.Action("CartInfoCheck", "BuyAndPay")"'>
-                    <p class="number-item" onclick='window.location = "@Url.Action("CartInfoCheck", "BuyAndPay")"'>
+                    <p id="quantity_cart" class="number-item" onclick='window.location = "@Url.Action("CartInfoCheck", "BuyAndPay")"'>
                         9
                     </p>
                 </div>

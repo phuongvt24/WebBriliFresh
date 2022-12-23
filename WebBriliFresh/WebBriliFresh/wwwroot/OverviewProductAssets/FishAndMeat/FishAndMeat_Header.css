@@ -66,6 +66,9 @@
 
 .header__navbar-name
 {
+    font-family: 'Lexend' !important;
+    color: rgba(0,0,0,.55) !important;
+    font-weight: 600 !important;
     padding-left: 12px;
 }
 
@@ -169,18 +172,16 @@
       background: #F2DEDE;
       border-radius: 4px;
     }
-    button[name="search"] {
-
-      position: relative;
-      width: 55px;
-      color: white;
-      height:33px;
-      background: #BD2037;
-      border:none;
-      border-radius: 2px;
-      /* background:url("./images/search.png") */
-    
-    }
+ .search-button #search {
+    position: relative;
+    width: 55px;
+    color: white;
+    height: 33px;
+    background: #BD2037;
+    border: none;
+    border-radius: 2px;
+    /* background:url("./images/search.png") */
+}
     .search-container{
       /* height:35px; */
       
@@ -250,3 +251,122 @@
    
       color: #7B7575;
      }
+
+    /*css địa chỉ*/
+.location_item_list
+{
+    padding-top: 12px;
+}
+
+.location_item
+{
+    background-color: #f2dede;
+    border-radius: 8px;
+    width: 250px;
+    height: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.location_item_child_link + .location_item_child_link
+{
+    /* margin-top: 12px; */
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-bottom: 16px;
+    height: 56px;
+    cursor: pointer;
+    list-style-type: none;
+    /* text-align: center; */
+}
+
+.location_item_child
+{
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.location_item::-webkit-scrollbar
+{
+    display: none; /* cho Chrome, Safari, and Opera */
+}
+
+.display_list_location
+{
+    display: none;
+}
+
+.direction-detail
+{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
+ol
+{
+    padding-left: 0 !important;
+}
+
+.location_item_child:hover > a
+{
+    color: #000000;
+}
+
+.display_list_location
+{
+    display: none;
+}
+
+.location_container
+{
+    cursor: pointer;
+}
+
+/* .location_container {
+    width: 200px;
+    height: 50px;
+    background-color: #f2dede;
+    border-radius: 8px;
+} */
+
+.ti-location-pin
+{
+    font-size: 16px !important;
+}
+
+.list_location
+{
+    padding-top: 4px !important;
+    padding-left: 16px !important;
+    z-index: 10000000000000000000 !important;
+    position: fixed !important;
+}
+
+.change-location-store
+{
+    padding-top: 12px;
+}
+
+.location_item_list li a
+{
+    text-decoration: none;
+    color: #8f8c8c;
+}
+
+.location_item
+{
+    height: fit-content;
+    font-family: 'Lexend';
+}
+
+
+.navbar-expand-xl .navbar-nav .nav-link
+{
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+    font-family:lexend;
+}

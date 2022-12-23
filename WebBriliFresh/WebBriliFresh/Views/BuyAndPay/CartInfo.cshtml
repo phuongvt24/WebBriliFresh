@@ -1,136 +1,450 @@
-﻿@{
-    Layout = null;
+﻿@model IEnumerable<WebBriliFresh.Models.DTO.ShoppingCartViewModel>
+@inject WebBriliFresh.Models.BriliFreshDbContext _context;
+@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@using WebBriliFresh.Common;
+@{
+    Layout = null;  
 }
+
 <html lang="en">
-<head>
-    <title>Thông tin đơn hàng</title>
-    <link rel="icon" type="image/x-icon" href="./assets/images/logo.png">
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <head>
+        <title>Thông tin đơn hàng</title>
+        <link rel="icon" type="image/x-icon" href="./assets/images/logo.png">
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" integrity="sha512-17egcferpgzkcm0j0feq1ycjuyawdz9kutv1ejvuaoz8pdnh/0nzxmu6bbxwaaxqoi9pqxnrwqlcdb027hgv9a==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" integrity="sha512-yhknp1/awr+yx26cb1y0cjvqumvea2pfzt1c9lls4prq5notzfwbhbig+x9g9eyw/8m0/4oxnx8pxj6z57x0dw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" integrity="sha512-17egcferpgzkcm0j0feq1ycjuyawdz9kutv1ejvuaoz8pdnh/0nzxmu6bbxwaaxqoi9pqxnrwqlcdb027hgv9a==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" integrity="sha512-yhknp1/awr+yx26cb1y0cjvqumvea2pfzt1c9lls4prq5notzfwbhbig+x9g9eyw/8m0/4oxnx8pxj6z57x0dw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     
-    <link rel="stylesheet" href="~/HomeAssets/asset/fonts/themify-icons/themify-icons.css">
-    <link rel="stylesheet" href="~/HomeAssets/homeheadermain.css" />
-    <link rel="stylesheet" href="~/HomeAssets/HomeFooter.css" />
-    <link rel="stylesheet" href="~/BuyAndPayAssets/CartInfo/CartInfo.css">
+        <link rel="stylesheet" href="~/HomeAssets/asset/fonts/themify-icons/themify-icons.css">
+        <link rel="stylesheet" href="~/HomeAssets/homeheadermain.css" />
+        <link rel="stylesheet" href="~/HomeAssets/HomeFooter.css" />
+        <link rel="stylesheet" href="~/BuyAndPayAssets/CartInfo/CartInfo.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-</head>
-<body>
-    <form action="@Url.Action("DeliveryInfo", "BuyAndPay")" method="GET" class="thongtindonhangform">
-        <div class="header">
-            @await Html.PartialAsync("~/Views/Shared/_HomeHeaderPartialView.cshtml")
-        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    </head>
+    <body>
+    @{
+        var isLogin = @HttpContextAccessor.HttpContext.Session.GetInt32("CUS_SESSION_USERID");
+    }
+    @if (isLogin != null)
+    {
+        <form action="@Url.Action("DeliveryInfoLogin", "BuyAndPay")" method="GET" class="thongtindonhangform">
+            <div class="header">
 
-        <div class="content">
-            <div class="content__title">
-                <h3 class="content__headline"><center>THÔNG TIN ĐƠN HÀNG</center></h3>
-            </div>
-            <div class="content__description">
-                <div class="content__header">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-1">
-                            </div>
-                            <div class="col-md-4">
-                                <span style="margin-left: 20px"><b>Tất cả (<span id="numPro"></span> sản phẩm)</b></span>
-                            </div>
-                            <div class="col-md-2">Đơn giá</div>
-                            <div class="col-md-2">Số lượng</div>
-                            <div class="col-md-2">Thành tiền</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content__data">
-                    <div id="products" class="container">
-                    </div>
+                @await Html.PartialAsync("~/Views/Shared/_HomeHeaderPartialView_login.cshtml")
 
-                </div>
+
             </div>
 
-            <div class="content__sumary">
-                <div class="content__coupon">
-                    <span class="content__coupon-icon"><img id="couponicon" src="./assets/icons/coupon.png"></span>
-                    <input class="content__coupon-text" type="text" placeholder="Nhập mã giảm giá">
-                    <input class="content__coupon-button" type="button" value="Áp dụng" disabled>
-                    <span class="content__coupon-message">Mã giảm giá không đúng hoặc đã hết hạn!</span>
+            <div class="content">
+                <div class="content__title">
+                    <h3 class="content__headline"><center>THÔNG TIN ĐƠN HÀNG</center></h3>
                 </div>
-                <div class="content__cost">
-                    <div id="costinfo" class="container">
-                        <div class="row">
-                            <div class="col-md-6">
-                            </div>
-                            <div class="col-md-3">
-                                <br>
-                                <span class="content__subtotal">Tạm tính</span>
-                            </div>
-                            <div class="col-md-3">
-                                <br>
-                                <span class="content__subtotal-value"></span>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                            </div>
-                            <div class="col-md-3">
-                                <span class="content__discount">Giảm giá</span>
-                            </div>
-                            <div class="col-md-3">
-                                <span class="content__discount-value"></span>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                            </div>
-                            <div class="col-md-6">
-                                <hr class="content-line">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                            </div>
-                            <div class="col-md-6">
-                                <span class="content__total">Tổng tiền</span>
-                                <span class="content__total-value"></span>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                            </div>
-                            <div class="col-md-6">
-                                <span class="content__vat">(Đã bao gồm VAT nếu có)</span>
+                <div class="content__description">
+                    <div class="content__header">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-1">
+                                </div>
+                                <div class="col-md-4">
+                                    <span style="margin-left: 20px"><b>Tất cả (<span id="numPro"></span> sản phẩm)</b></span>
+                                </div>
+                                <div class="col-md-2">Đơn giá</div>
+                                <div class="col-md-2">Số lượng</div>
+                                <div class="col-md-2">Thành tiền</div>
                             </div>
                         </div>
                     </div>
+                    <div class="content__data">
+                        <div id="products" class="container">
+                        </div>
+
+                    </div>
                 </div>
+
+                <div class="content__sumary">
+
+                    @if (isLogin != null)
+                    {
+                        <div class="content__coupon">
+                            <span class="content__coupon-icon"><img id="couponicon" src="./assets/icons/coupon.png"></span>
+                            <input class="content__coupon-text" type="text" placeholder="Nhập mã giảm giá">
+                            <input class="content__coupon-button" type="button" value="Áp dụng" disabled>
+                            <span class="content__coupon-message">Mã giảm giá không đúng hoặc đã hết hạn!</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="content__coupon">
+                            <span class="content__coupon-icon"><img id="couponicon" src="./assets/icons/coupon.png"></span>
+                            <div>
+                                <input class="content__coupon-text" disabled type="text" placeholder="Nhập mã giảm giá"><br>
+                                <label style="margin-left: -40px;">Đăng nhập để dùng mã khuyến mãi, nếu có!</label>
+                            </div>
+                            <input class="content__coupon-button" type="button" value="Áp dụng" disabled>
+                            <span class="content__coupon-message">Mã giảm giá không đúng hoặc đã hết hạn!</span>
+                        </div>
+                    }
+
+                    <div class="content__cost">
+                        <div id="costinfo" class="container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-3">
+                                    <br>
+                                    <span class="content__subtotal">Tạm tính</span>
+                                </div>
+                                <div class="col-md-3">
+                                    <br>
+                                    <span class="content__subtotal-value"></span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="content__discount">Giảm giá</span>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="content__discount-value"></span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
+                                    <hr class="content-line">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
+                                    <span class="content__total">Tổng tiền</span>
+                                    <span class="content__total-value"></span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
+                                    <span class="content__vat">(Đã bao gồm VAT nếu có)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
-        </div>
+            <div class="content__continue">
+                <input class="content__continue-button" type="submit" value="Tiếp tục">
+            </div>
 
-        <div class="content__continue">
-            <input class="content__continue-button" type="submit" value="Tiếp tục">
-        </div>
+            <div class="content__info">
+                <span>Bằng việc tiến hành Đặt Mua, khách hàng đồng ý với các Điều Kiện Giao Dịch Chung được ban hành bởi BriliFresh:</span>
+                <br>
+                <span>Quy chế hoạt động | Chính sách giải quyết khiếu nại | Chính sách bảo hành | Chính sách bảo mật thanh toán | Chính sách bảo mật thông tin cá nhân</span>
+                <br>
+                <span>© 2019 - Bản quyền của Công Ty Cổ Phần BriliFresh - BriliFresh.vn</span>
+            </div>
+            @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
+        </form>
+    }
+    else
+    {
+        <form action="@Url.Action("DeliveryInfo", "BuyAndPay")" method="GET" class="thongtindonhangform">
+            <div class="header">
 
-        <div class="content__info">
-            <span>Bằng việc tiến hành Đặt Mua, khách hàng đồng ý với các Điều Kiện Giao Dịch Chung được ban hành bởi BriliFresh:</span>
-            <br>
-            <span>Quy chế hoạt động | Chính sách giải quyết khiếu nại | Chính sách bảo hành | Chính sách bảo mật thanh toán | Chính sách bảo mật thông tin cá nhân</span>
-            <br>
-            <span>© 2019 - Bản quyền của Công Ty Cổ Phần BriliFresh - BriliFresh.vn</span>
-        </div>
-        @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
-    </form>
-    <script type="text/javascript" src="~/BuyAndPayAssets/CartInfo/CartInfo.js"></script>
-</body>
+                @await Html.PartialAsync("~/Views/Shared/_HomeHeaderPartialView_login.cshtml")
+
+
+            </div>
+
+            <div class="content">
+                <div class="content__title">
+                    <h3 class="content__headline"><center>THÔNG TIN ĐƠN HÀNG</center></h3>
+                </div>
+                <div class="content__description">
+                    <div class="content__header">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-1">
+                                </div>
+                                <div class="col-md-4">
+                                    <span style="margin-left: 20px"><b>Tất cả (<span id="numPro"></span> sản phẩm)</b></span>
+                                </div>
+                                <div class="col-md-2">Đơn giá</div>
+                                <div class="col-md-2">Số lượng</div>
+                                <div class="col-md-2">Thành tiền</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content__data">
+                        <div id="products" class="container">
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="content__sumary">
+
+                    @if (isLogin != null)
+                    {
+                        <div class="content__coupon">
+                            <span class="content__coupon-icon"><img id="couponicon" src="~/icons/coupon.png"></span>
+                            <input class="content__coupon-text" type="text" placeholder="Nhập mã giảm giá">
+                            <input class="content__coupon-button" type="button" value="Áp dụng" disabled>
+                            <span class="content__coupon-message">Mã giảm giá không đúng hoặc đã hết hạn!</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="content__coupon">
+                            <span class="content__coupon-icon"><img id="couponicon" src="~/icons/coupon.png"></span>
+                            <div>
+                                <input class="content__coupon-text" disabled type="text" placeholder="Nhập mã giảm giá"><br>
+                                <label style="margin-left: -40px; color:yellow">Đăng nhập để dùng mã khuyến mãi, nếu có!</label>
+                            </div>
+                            <input class="content__coupon-button" type="button" value="Áp dụng" disabled>
+                            <span class="content__coupon-message">Mã giảm giá không đúng hoặc đã hết hạn!</span>
+                        </div>
+                    }
+
+                    <div class="content__cost">
+                        <div id="costinfo" class="container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-3">
+                                    <br>
+                                    <span class="content__subtotal">Tạm tính</span>
+                                </div>
+                                <div class="col-md-3">
+                                    <br>
+                                    <span class="content__subtotal-value"></span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="content__discount">Giảm giá</span>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="content__discount-value"></span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
+                                    <hr class="content-line">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
+                                    <span class="content__total">Tổng tiền</span>
+                                    <span class="content__total-value"></span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
+                                    <span class="content__vat">(Đã bao gồm VAT nếu có)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="content__continue">
+                <input class="content__continue-button" type="submit" value="Tiếp tục">
+            </div>
+
+            <div class="content__info">
+                <span>Bằng việc tiến hành Đặt Mua, khách hàng đồng ý với các Điều Kiện Giao Dịch Chung được ban hành bởi BriliFresh:</span>
+                <br>
+                <span>Quy chế hoạt động | Chính sách giải quyết khiếu nại | Chính sách bảo hành | Chính sách bảo mật thanh toán | Chính sách bảo mật thông tin cá nhân</span>
+                <br>
+                <span>© 2019 - Bản quyền của Công Ty Cổ Phần BriliFresh - BriliFresh.vn</span>
+            </div>
+            @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
+        </form>
+    }
+        
+        @*<script type="text/javascript" src="~/BuyAndPayAssets/CartInfo/CartInfo.js"></script>*@
+    <script src="~/homeassets/header.js"></script>
+       <script>
+            $(document).ready(function () {
+                //Số lượng loại sản phẩm tất cả
+                $numPro = sessionStorage.getItem("NUMPRO");
+                $("#numPro").html($numPro);
+
+                //Chèn dòng sản phẩm tùy theo số lượng loại sản phẩm đã chọn trước đó
+                var $row = `<div class="row">
+                                        <div class="col-sm-1">
+                                            <span class="content__pro-no"></span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="content__pro-info">
+                                                <img class="content__pro-image" ></img>
+                                                <span class="content__pro-name"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2"><span class="content__unit-price"></span> </div>
+                                        <div class="col-md-2"><span class="content__quantity"></span></div>
+                                        <div class="col-md-2"><span class="content__amount"></span></div>
+                                    </div>`;
+                for (var i = 0; i < $numPro; i++) {
+                    //Thêm một dòng sản phẩm
+                    $("#products").append($row);
+                    //Thứ tự của dòng sản phẩm
+                    $('.content__pro-no')[i].innerHTML = (i + 1);
+                }
+
+                //Lấy danh sách "Ảnh sản phẩm", "Tên sản phẩm", "Đơn giá", "Số lượng", "Thành tiền"
+                var a = JSON.parse(sessionStorage.getItem("PROIMAGE"));
+                var b = JSON.parse(sessionStorage.getItem("PRONAME"));
+                var c = JSON.parse(sessionStorage.getItem("UNITPRICE"));
+                var d = JSON.parse(sessionStorage.getItem("QUANTITY"));
+                var e = JSON.parse(sessionStorage.getItem("AMOUNT"));
+                //Chèn dữ liệu vào từng dòng sản phẩm
+                for (var i = 0; i < $(".content__pro-name").length; i++) {
+                    $(".content__pro-image")[i].src = a[i];
+                    $(".content__pro-name")[i].innerHTML = b[i];
+                    $(".content__unit-price")[i].innerHTML = c[i];
+                    $(".content__quantity")[i].innerHTML = d[i];
+                    $(".content__amount")[i].innerHTML = e[i];
+                }
+
+                //Hiển thị "Tạm tính" và "Tổng tiền"
+                var $subtotal = 0;
+                var $discount = 0;
+                var $total = 0;
+
+                for (var i = 0; i < $(".content__amount").length; i++) {
+                    var $amount = $(".content__amount")[i].innerHTML;
+                    //Chuyển "Thành tiền" từ dạng tiền tệ sang dạng số
+                    $amount = $amount.replace(/\D/g, '');
+                    $amount = parseFloat($amount);
+                    $subtotal += $amount;
+                    $total = $subtotal;
+                }
+                //Chuyển "Tạm tính" từ dạng số sang dạng tiền tệ
+                $(".content__subtotal-value").html(Number($subtotal).toLocaleString('en') + " ₫");
+                //"Tổng tiền" bằng "Tạm tính" trong trường hợp không nhập mã giảm giá
+                $(".content__total-value").html($(".content__subtotal-value").text());
+                var $disid;
+                //Trường hợp có nhập mã giảm giá
+                $(".content__coupon-button").click(function () {
+                    //Giả sử mã là 12345
+                @{
+                    var isLogin2 = @HttpContextAccessor.HttpContext.Session.GetInt32("CUS_SESSION_USERID");
+                    var reward_id = _context.Customers.Where(x => x.UserId == isLogin2).Select(x => x.RewardId).FirstOrDefault();
+                    var cus_type = _context.Rewards.Where(x => x.RewardId == reward_id).Select(x => x.CusType).FirstOrDefault();
+                    var list_coup = _context.DiscountOrders.Where(x => x.CusType == cus_type).ToList();
+                }
+
+                    var list_coup_js = JSON.parse('@Html.Raw(Json.Serialize(list_coup))');
+
+                    if (list_coup_js.findIndex(e => e.disCode === $(".content__coupon-text").val()) > -1) {
+                        var index = list_coup_js.findIndex(e => e.disCode === $(".content__coupon-text").val())
+                        var nowdate = new Date();
+                        var startdate = new Date(list_coup_js[index].startDate);
+                        var enddate = new Date(list_coup_js[index].endDate);
+                        if (nowdate > startdate && nowdate < enddate)
+                        {
+                        $disid = list_coup_js[index].disId
+                        console.log($disid)
+
+                            $(".content__coupon-message").hide();
+                            //Bỏ ẩn
+                            $(".content__discount").show();
+                            $(".content__discount-value").show();
+                            //Giả sử phần trăm giảm giá của mã là 10%
+
+                            $(".content__discount-value").html(list_coup_js[index].disRate);
+                            var $discountPercent = $(".content__discount-value").text();
+                            //Tính số tiền được giảm
+                            $discount = $subtotal * $discountPercent;
+
+                            if ($discount > list_coup_js[index].maxDis) {
+                                $discount = list_coup_js[index].maxDis
+                            }
+                            //Tính "Tổng tiền"
+                            $total = $subtotal - $discount;
+                            //Chuyển "Giảm giá" từ dạng số sang dạng tiền tệ
+                            $(".content__discount-value").html("- " + Number($discount).toLocaleString('en') + " ₫");
+                            //Chuyển "Tổng tiền" từ dạng số sang dạng tiền tệ
+                            $(".content__total-value").html(Number($total).toLocaleString('en') + " ₫");
+                        }else{
+                            $(".content__coupon-message").show();
+                        }
+                    }
+                    else {
+                        $(".content__coupon-message").show();
+                    }
+                });
+
+
+
+                // Giao diện khi có nhập mã khuyến mãi
+                $(".content__coupon-text").keyup(function (e) {
+                    //Phím Enter
+                    $(window).keydown(function (e) {
+                        if (e.keyCode == 13) {
+                            e.preventDefault();
+                            $(".content__coupon-button").click();
+                        }
+                    });
+
+                    if ($(".content__coupon-text").val() == "") {
+                        $(".content__coupon-button").css("background-color", "#DBDADA");
+                        $(".content__coupon-button").css("color", "#504a4a");
+                        $(".content__coupon-button").attr("disabled", true);
+                        $(".content__coupon-button").css("cursor", "auto");
+                        $(".content__coupon-message").hide();
+                    }
+                    else {
+                        $(".content__coupon-button").css("background-color", "#71D30F");
+                        $(".content__coupon-button").css("color", "#FFFFFF");
+                        $(".content__coupon-button").attr("disabled", false);
+                        $(".content__coupon-button").css("cursor", "pointer");
+                    }
+                });
+                //Nút Tiếp tục
+                $('.content__continue-button').click(function () {
+                    //Lưu "Tạm tính", "Giảm giá", "Tổng tiền"
+                    sessionStorage.setItem("SUBTOTAL", $subtotal);
+                    sessionStorage.setItem("DISCOUNT", $discount);
+                    sessionStorage.setItem("TOTAL", $total);
+                    sessionStorage.setItem("DISID", $disid);
+                })
+            })
+     
+            
+       </script>
+    </body>
 </html>
