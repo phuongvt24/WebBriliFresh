@@ -143,7 +143,10 @@ namespace WebBriliFresh.Controllers
         public async Task<IActionResult> Create([Bind("FirstName,Gender,Phone,City,District,Ward,SpecificAddress,Type,StoreId,OrderTotal,SubTotal,PayBy,Status,ListOrder,CusId,AddressId,DisId")] CreateOrderModel cre_Ord)
         {
             var check_address_1 = _context.Addresses.Where(x => x.CusId == cre_Ord.CusId).ToList();
+
             var order_details = JsonConvert.DeserializeObject<List<ShoppingCartViewModel>>(cre_Ord.ListOrder);
+
+
             if (cre_Ord.CusId > 0)
             {
                 if (cre_Ord.AddressId > 0)
