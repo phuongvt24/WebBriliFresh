@@ -26,11 +26,12 @@
     <link rel="stylesheet" href="~/HomeAssets/homeheadermain.css" />
     <link rel="stylesheet" href="~/HomeAssets/HomeFooter.css" />
     <link rel="stylesheet" href="~/BuyAndPayAssets/CartInfoCheck/CartInfoCheck.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
+    @*action="@Url.Action("CartInfo", "BuyAndPay")"*@
     <form action="@Url.Action("CartInfo", "BuyAndPay")" method="GET" class="giohangform">
         <div class="header">
             @await Html.PartialAsync("~/Views/Shared/_HomeHeaderPartialView_login.cshtml")
@@ -132,17 +133,35 @@
                 <label class="content__error-message">Vui lòng chọn sản phẩm!</label>
             </div>
 
+            <div hidden class="content__order">
+                <input hidden class="content__order-button" type="submit" value="TIẾN HÀNH ĐẶT HÀNG">
+            </div>
             <div class="content__order">
-                <input class="content__order-button" type="submit" value="TIẾN HÀNH ĐẶT HÀNG">
+                <input class="content__order-button_fake" type="button"  value="TIẾN HÀNH ĐẶT HÀNG">
             </div>
         </div>
             @await Html.PartialAsync("~/Views/Shared/_FooterPartialView.cshtml")
     </form>
     <script type="text/javascript" src="~/BuyAndPayAssets/CartInfoCheck/CartInfoCheck.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="~/homeassets/header.js"></script>
     <script>
+
         $(document).ready(function () {
             // Số lượng loại sản phẩm tất cả
+            toastr.options = {
+                "debug": false,
+                "positionClass": "toast-top-center",
+                "onclick": null,
+                "showDuration": "1000",
+                "hideDuration": "1000",
+                "timeOut": "2000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
             $("#numPro").html($('.content__pro-info').length)
 
             //An thong bao
@@ -328,8 +347,82 @@
                 }
             })
 
+
+
+
+
+
+
+            $('.content__order-button_fake').click(function (e) {
+
+
+                var checkboxes = $('input.content__select');
+                var checkedboxes = checkboxes.filter(':checked');
+                    var dArray = new Array();
+                    var fArray = new Array();
+
+
+                    for (var i = 0; i < checkboxes.length; i++) {
+                        if (checkboxes[i].checked) {
+
+                            var quantity = $('.content__quantity')[i].value;
+                            var proid = $('.pro_id_item')[i].innerHTML;
+
+
+                            //Thêm phần tử vào mảng theo từng dòng sản phẩm
+                            
+                            dArray.push(quantity);
+                          
+                            fArray.push(proid);
+                
+                        }
+
+                    }
+
+
+                    var listquantity = []
+                    for (var i = 0; i < fArray.length; i++) {
+                        listquantity.push({ productId: fArray[i], quantity: dArray[i] });
+                    };
+                $.ajax({
+                    dataType: 'text',
+                    type: 'POST',
+                    url: '/BuyAndPay/checkquantity',
+                    data: { listquantity: JSON.stringify(listquantity) },
+                    success: function (data) {
+                       
+
+                        if (data.length > 2) 
+                        {
+                            var json = JSON.parse(data)
+                            for (var i = 0; i < json.length; i++) {
+                                toastr.warning(json + " không còn đủ số lượng tại cửa hàng hiện tại");
+                            }
+                        }else{
+                            console.log("test")
+                            $('.content__order-button').click();
+                        }
+                        
+
+                    }
+
+                })
+            
+            })
+
+
+
+
+
+
+
+
+
+
             //Nút Đặt hàng
             $('.content__order-button').click(function (e) {
+                
+
                 //Trước đó phải chọn ít nhất một loại sản phẩm
                 if (!$('input.content__select').is(":checked")) {
                     e.preventDefault();
@@ -376,15 +469,16 @@
                     }
 
 
+                    var listquantity = []
+                    for (var i = 0; i < fArray.length; i++) {
+                        listquantity.push({ productId: fArray[i], quantity: dArray[i] });
+                    };
+
                     
 
+                
 
-
-
-
-
-
-
+                    
                     //Lưu mảng
                     sessionStorage.setItem("PROIMAGE", JSON.stringify(aArray));
                     sessionStorage.setItem("PRONAME", JSON.stringify(bArray));
@@ -395,6 +489,7 @@
                     sessionStorage.setItem("STOREID", JSON.stringify(gArray));
                     sessionStorage.setItem("PRICE", JSON.stringify(hArray));
                 }
+               
             })
         });
 

@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using Org.BouncyCastle.Ocsp;
 using Nancy;
 using Stripe.Checkout;
+using AspNetCoreHero.ToastNotification.Helpers;
 
 namespace WebBriliFresh.Controllers
 {
@@ -131,13 +132,23 @@ namespace WebBriliFresh.Controllers
         }
 
 
-        //[HttpPost]
-        //public JsonResult checkout(string checkoutitem )
-        //{
-        //    var model2 = JsonConvert.DeserializeObject<List<ShoppingCartViewModel>>(checkoutitem);
-        //    return Json(model2);
-        //}
-
+        
+        public async Task<JsonResult> checkquantity(string listquantity)
+        {
+            var list_quantity = JsonConvert.DeserializeObject<List<CheckQuantityModel>>(listquantity);
+            List<string> list_check_proid = new List<string>();
+            var storeid = HttpContext.Session.GetInt32(CommonConstants.SessionStoreId);
+            for (int i = 0; i < list_quantity.Count; i++)
+            {
+                var count = _context.Stocks.Where(x=>x.ProId== list_quantity[i].ProductId && x.StoreId== storeid).Sum(z=>z.Quantity);
+                if (list_quantity[i].Quantity > count)
+                {
+                    string name = _context.Products.Where(x => x.ProId == list_quantity[i].ProductId).Select(x => x.ProName).FirstOrDefault();
+                    list_check_proid.Add(name);
+                }
+            }
+            return Json(list_check_proid);
+        }
 
 
         public async Task<IActionResult> Create([Bind("FirstName,Gender,Phone,City,District,Ward,SpecificAddress,Type,StoreId,OrderTotal,SubTotal,PayBy,Status,ListOrder,CusId,AddressId,DisId")] CreateOrderModel cre_Ord)

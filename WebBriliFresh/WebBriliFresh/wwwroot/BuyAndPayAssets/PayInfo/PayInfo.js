@@ -74,11 +74,11 @@ $(document).ready(function () {
     $("#Dis_Id").val($disid)
 
 
-    var checkoutitem = []
-    for (var i = 0; i < e.length; i++) {
-        checkoutitem.push({ productId: e[i], quantity: d[i], storeId: f[i], saleprice: h[i] });
-    };
-    $("#listorder").val(JSON.stringify(checkoutitem));
+        var checkoutitem = []
+        for (var i = 0; i < e.length; i++) {
+            checkoutitem.push({ productId: e[i], quantity: d[i], storeId: f[i], saleprice: h[i] });
+        };
+        $("#listorder").val(JSON.stringify(checkoutitem));
     
 
 
