@@ -13,6 +13,7 @@ using Nancy.Json;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Ocsp;
 using Nancy;
+using Stripe.Checkout;
 
 namespace WebBriliFresh.Controllers
 {
@@ -20,6 +21,7 @@ namespace WebBriliFresh.Controllers
     {
         private readonly BriliFreshDbContext _context;
         public INotyfService _notifyService { get; }
+
         public BuyAndPayController(BriliFreshDbContext context, INotyfService notyfService)
         {
             _context = context;
@@ -31,7 +33,7 @@ namespace WebBriliFresh.Controllers
             get
             {
                 var data = HttpContext.Session.Get<List<ShoppingCartViewModel>>(CommonConstants.SessionCart);
-                if(data == null)
+                if (data == null)
                 {
                     data = new List<ShoppingCartViewModel>();
                 }
@@ -40,11 +42,11 @@ namespace WebBriliFresh.Controllers
         }
 
 
-        public IActionResult AddToCart(int proId, int storeid, decimal saleprice,int? quantity ,string type = "normal")
+        public IActionResult AddToCart(int proId, int storeid, decimal saleprice, int? quantity, string type = "normal")
         {
             var myCart = Carts;
-            var item = myCart.Where(z=>z.StoreId==storeid).Where(p => p.ProductId == proId).SingleOrDefault();
-            if(quantity != null)
+            var item = myCart.Where(z => z.StoreId == storeid).Where(p => p.ProductId == proId).SingleOrDefault();
+            if (quantity != null)
             {
                 if (item == null)
                 {
@@ -59,11 +61,12 @@ namespace WebBriliFresh.Controllers
                 }
                 else
                 {
-                    item.Quantity += (int)quantity;
+                    item.Quantity = (int)quantity;
                 }
             }
             else
-            {                
+            {
+
 
                 if (item == null)
                 {
@@ -82,34 +85,32 @@ namespace WebBriliFresh.Controllers
                 }
             }
             HttpContext.Session.Set(CommonConstants.SessionCart, myCart);
-            if(type == "ajax")
+            if (type == "ajax")
             {
-                
+
                 return Json(new
                 {
-                    quantity = Carts.Where(x=>x.StoreId== storeid).Sum(p=>p.Quantity)
+                    quantity = Carts.Where(x => x.StoreId == storeid).Sum(p => p.Quantity)
                 });
             }
             return RedirectToAction("ListFishAndMeat", "OverviewProduct");
         }
-
-
 
         public IActionResult Delete(int proId, int storeid)
         {
             var myCart = Carts;
             if (Carts != null)
             {
-                ShoppingCartViewModel model = myCart.Where(x => x.StoreId == storeid).Where(p=>p.ProductId==proId).FirstOrDefault();
-                if (model!=null)
+                ShoppingCartViewModel model = myCart.Where(x => x.StoreId == storeid).Where(p => p.ProductId == proId).FirstOrDefault();
+                if (model != null)
                 {
-                    myCart.Remove(model) ;
-                }               
+                    myCart.Remove(model);
+                }
                 HttpContext.Session.Set(CommonConstants.SessionCart, myCart);
                 return Json(new
                 {
                     quantity = Carts.Where(x => x.StoreId == storeid).Sum(p => p.Quantity)
-                }) ;
+                });
             }
             return Json(new
             {
@@ -120,7 +121,7 @@ namespace WebBriliFresh.Controllers
         public IActionResult Update(int proId, int quantity, int storeid)
         {
             var myCart = Carts;
-            var item = myCart.Where(p => p.ProductId == proId).Where(x=>x.StoreId == storeid).FirstOrDefault();
+            var item = myCart.Where(p => p.ProductId == proId).Where(x => x.StoreId == storeid).FirstOrDefault();
             item.Quantity = quantity;
             HttpContext.Session.Set(CommonConstants.SessionCart, myCart);
             return Json(new
@@ -142,15 +143,17 @@ namespace WebBriliFresh.Controllers
         public async Task<IActionResult> Create([Bind("FirstName,Gender,Phone,City,District,Ward,SpecificAddress,Type,StoreId,OrderTotal,SubTotal,PayBy,Status,ListOrder,CusId,AddressId,DisId")] CreateOrderModel cre_Ord)
         {
             var check_address_1 = _context.Addresses.Where(x => x.CusId == cre_Ord.CusId).ToList();
-
             var order_details = JsonConvert.DeserializeObject<List<ShoppingCartViewModel>>(cre_Ord.ListOrder);
+            var domain = "https://localhost:44307/";
+
+            Transport transport = new Transport();
+            Order order = new Order();
 
 
             if (cre_Ord.CusId > 0)
             {
                 if (cre_Ord.AddressId > 0)
                 {
-                    Transport transport = new Transport();
                     transport.ShippingDate = null;
                     transport.Transporter = null;
                     transport.Status = 1;
@@ -166,7 +169,6 @@ namespace WebBriliFresh.Controllers
                     _context.Transports.Add(transport);
                     await _context.SaveChangesAsync();
 
-                    Order order = new Order();
                     order.AddId = cre_Ord.AddressId;
                     order.CusId = cre_Ord.CusId;
                     order.TransId = transport.TransId;
@@ -178,7 +180,7 @@ namespace WebBriliFresh.Controllers
                     {
                         order.DisId = null;
                     }
-                    
+
                     order.StoreId = cre_Ord.StoreId;
                     order.OrderDate = DateTime.Now;
                     order.SubTotal = cre_Ord.SubTotal;
@@ -222,11 +224,9 @@ namespace WebBriliFresh.Controllers
                     {
                         address.Default = 0;
                     }
-                                      
-                    _context.Addresses.Add(address);
-                    await _context.SaveChangesAsync();
 
-                    Transport transport = new Transport();
+                    _context.Addresses.Add(address);
+
                     transport.ShippingDate = null;
                     transport.Transporter = null;
                     transport.Status = 1;
@@ -240,9 +240,7 @@ namespace WebBriliFresh.Controllers
                         transport.Fee = 32000;
                     }
                     _context.Transports.Add(transport);
-                    await _context.SaveChangesAsync();
 
-                    Order order = new Order();
                     order.AddId = address.AddId;
                     order.CusId = cre_Ord.CusId;
                     order.TransId = transport.TransId;
@@ -296,7 +294,6 @@ namespace WebBriliFresh.Controllers
                                                           .FirstOrDefault();
                     if (check_address > 0)
                     {
-                        Transport transport = new Transport();
                         transport.ShippingDate = null;
                         transport.Transporter = null;
                         transport.Status = 1;
@@ -312,7 +309,6 @@ namespace WebBriliFresh.Controllers
                         _context.Transports.Add(transport);
                         await _context.SaveChangesAsync();
 
-                        Order order = new Order();
                         order.AddId = check_address;
                         order.CusId = cus_id_num;
                         order.TransId = transport.TransId;
@@ -322,14 +318,9 @@ namespace WebBriliFresh.Controllers
                         order.SubTotal = cre_Ord.SubTotal;
                         order.OrderTotal = cre_Ord.OrderTotal;
                         order.PayBy = cre_Ord.PayBy;
-                        if (cre_Ord.PayBy == 1)
-                        {
-                            order.Status = 0;
-                        }
-                        else
-                        {
-                            order.Status = 1;
-                        }
+                        order.Status = 0;
+                        order.Status = 1;
+
                         _context.Orders.Add(order);
                         await _context.SaveChangesAsync();
 
@@ -366,7 +357,6 @@ namespace WebBriliFresh.Controllers
                         _context.Addresses.Add(address);
                         await _context.SaveChangesAsync();
 
-                        Transport transport = new Transport();
                         transport.ShippingDate = null;
                         transport.Transporter = null;
                         transport.Status = 1;
@@ -382,7 +372,6 @@ namespace WebBriliFresh.Controllers
                         _context.Transports.Add(transport);
                         await _context.SaveChangesAsync();
 
-                        Order order = new Order();
                         order.AddId = address.AddId;
                         order.CusId = cus_id_num;
                         order.TransId = transport.TransId;
@@ -392,14 +381,9 @@ namespace WebBriliFresh.Controllers
                         order.SubTotal = cre_Ord.SubTotal;
                         order.OrderTotal = cre_Ord.OrderTotal;
                         order.PayBy = cre_Ord.PayBy;
-                        if (cre_Ord.PayBy == 1)
-                        {
-                            order.Status = 0;
-                        }
-                        else
-                        {
-                            order.Status = 1;
-                        }
+                        order.Status = 0;
+
+
                         _context.Orders.Add(order);
                         await _context.SaveChangesAsync();
 
@@ -440,7 +424,6 @@ namespace WebBriliFresh.Controllers
                     await _context.SaveChangesAsync();
 
                     //tạo vận chuyển
-                    Transport transport = new Transport();
                     transport.ShippingDate = null;
                     transport.Transporter = null;
                     transport.Status = 1;
@@ -457,7 +440,6 @@ namespace WebBriliFresh.Controllers
                     await _context.SaveChangesAsync();
 
                     //tạo hóa đơn
-                    Order order = new Order();
                     order.AddId = address.AddId;
                     order.CusId = customer.CusId;
                     order.TransId = transport.TransId;
@@ -466,15 +448,8 @@ namespace WebBriliFresh.Controllers
                     order.OrderDate = DateTime.Now;
                     order.SubTotal = cre_Ord.SubTotal;
                     order.OrderTotal = cre_Ord.OrderTotal;
+                    order.Status = 0;
                     order.PayBy = cre_Ord.PayBy;
-                    if (cre_Ord.PayBy == 1)
-                    {
-                        order.Status = 0;
-                    }
-                    else
-                    {
-                        order.Status = 1;
-                    }
                     _context.Orders.Add(order);
                     await _context.SaveChangesAsync();
 
@@ -491,14 +466,12 @@ namespace WebBriliFresh.Controllers
                 }
             }
 
-
-
-            if (cre_Ord.DisId >0)
+            if (cre_Ord.DisId > 0)
             {
                 var discount = _context.DiscountOrders.Where(x => x.DisId == cre_Ord.DisId).FirstOrDefault();
                 discount.Status = true;
                 _context.DiscountOrders.Update(discount);
-                await _context.SaveChangesAsync(); 
+                await _context.SaveChangesAsync();
             }
 
             for (int i = 0; i < order_details.Count; i++)
@@ -510,43 +483,58 @@ namespace WebBriliFresh.Controllers
                 await _context.SaveChangesAsync();
             };
 
-
-
-            var myCart = Carts;
-            if (Carts != null)
-            {                           
-                for (int i = 0; i < order_details.Count; i++)
+            if (cre_Ord.PayBy == 7)
+            {
+                var options = new SessionCreateOptions
                 {
-                    var item = myCart.Where(p => p.ProductId == order_details[i].ProductId).Where(x => x.StoreId == order_details[i].StoreId).FirstOrDefault();
-                    myCart.Remove(item);
+                    LineItems = new List<SessionLineItemOptions>
+                    {
+                    },
+                    Mode = "payment",
+                    SuccessUrl = domain + $"BuyAndPay/SuccessPayment?id={order.OrderId}",
+                    CancelUrl = domain + $"BuyAndPay/Cancel",
                 };
-                HttpContext.Session.Set(CommonConstants.SessionCart, myCart);
+                foreach (var item in order_details)
+                {
+                    string itemName = _context.Products.FirstOrDefault(a => a.ProId == item.ProductId).ProName;
+                    var sessionLineItem = new SessionLineItemOptions
+                    {
+                        PriceData = new SessionLineItemPriceDataOptions
+                        {
+                            UnitAmount = (long?)(item.SalePrice),
+                            Currency = "VND",
+                            ProductData = new SessionLineItemPriceDataProductDataOptions
+                            {
+                                Name = itemName,
+                            },
+                        },
+                        Quantity = item.Quantity,
+                    };
+                    options.LineItems.Add(sessionLineItem);
+                }
+                var sessionLineItemDelivery = new SessionLineItemOptions
+                {
+                    PriceData = new SessionLineItemPriceDataOptions
+                    {
+                        UnitAmount = (long?)(transport.Fee),
+                        Currency = "VND",
+                        ProductData = new SessionLineItemPriceDataProductDataOptions
+                        {
+                            Name = "Phí vận chuyển",
+                        },
+                    },
+                    Quantity = 1,
+                };
+                options.LineItems.Add(sessionLineItemDelivery);
+
+                var service = new SessionService();
+                Session session = service.Create(options);
+
+                Response.Headers.Add("location", session.Url);
+                return new StatusCodeResult(303);
             }
-
-
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(SuccessPayment));
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         public IActionResult CartInfoCheck()
         {
@@ -562,19 +550,54 @@ namespace WebBriliFresh.Controllers
             return View();
         }
 
+        public void ClearCard(int? orderId)
+        {
+            var myCart = Carts;
+            var order = _context.Orders.Include(a => a.OrderDetails).FirstOrDefault(a => a.OrderId == orderId);
+            if (order != null)
+            {
+                order.Status = 1;
+                var order_details = order.OrderDetails.ToList();
+
+                if (Carts != null)
+                {
+                    for (int i = 0; i < order_details.Count; i++)
+                    {
+                        var item = myCart.Where(p => p.ProductId == order_details[i].ProId).Where(x => x.StoreId == order.StoreId).FirstOrDefault();
+                        if (item != null)
+                            myCart.Remove(item);
+                    };
+                    
+                    HttpContext.Session.Set(CommonConstants.SessionCart, myCart);
+                }
+            }
+        }
+
+        [HttpGet]
+        public IActionResult SuccessPayment(int? id)
+        {
+            ClearCard(id);
+         
+            return View();
+        }
+        [HttpGet]
+        public IActionResult Cancel()
+        {
+            return View();
+        }
         public async Task<IActionResult> DeliveryInfoLogin()
         {
             var cusid = HttpContext.Session.GetInt32("CUS_SESSION_CUSID");
-            var address = _context.Addresses.Include(x=>x.Cus).Where(x => x.CusId == cusid);
+            var address = _context.Addresses.Include(x => x.Cus).Where(x => x.CusId == cusid);
             return View(await address.ToListAsync());
         }
 
         public IActionResult PayInfo()
         {
-            
+
             return View();
         }
 
-        
+
     }
 }

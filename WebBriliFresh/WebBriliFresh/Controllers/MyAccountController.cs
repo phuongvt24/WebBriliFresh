@@ -253,9 +253,12 @@ namespace WebBriliFresh.Controllers
             Address address = await _context.Addresses.FindAsync(id);
 
             Address defaultAddress = _context.Addresses.FirstOrDefault(c => c.CusId == address.CusId && c.Default == 1);
-            defaultAddress.Default = 0;
+            if (defaultAddress != null)
+            {
+                defaultAddress.Default = 0;
+                _context.Update(defaultAddress);
+            }
             address.Default = 1;
-            _context.Update(defaultAddress);
             _context.Update(address);
             await _context.SaveChangesAsync();
 

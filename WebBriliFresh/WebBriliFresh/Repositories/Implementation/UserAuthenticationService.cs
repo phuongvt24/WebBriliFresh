@@ -40,8 +40,16 @@ namespace WebBriliFresh.Repositories.Implementation
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.Username,
                 UserRole = model.UserRole,
-                IsDeleted = 0
+                PhoneNumber = model.Phone,
+                IsDeleted = 0,
+                UserPassword = model.Password
             };
+
+            if(user.UserRole == 2 || user.UserRole == 3)
+            {
+                user.EmailConfirmed = true;
+            }
+
             var result = await userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
@@ -50,8 +58,12 @@ namespace WebBriliFresh.Repositories.Implementation
                 return status;
             }
 
+            if(user.UserRole == 1)
             await userManager.AddToRoleAsync(user, "Customer");
-
+            else if(user.UserRole == 2)
+            await userManager.AddToRoleAsync(user, "Employee");
+            else if (user.UserRole == 3)
+            await userManager.AddToRoleAsync(user, "Admin");
 
 
             status.StatusCode = 1;
@@ -166,6 +178,12 @@ namespace WebBriliFresh.Repositories.Implementation
             status.Message = "Đặt lại mật khẩu thành công";
             status.StatusCode = 1;
             return status;
+        }
+
+        public async Task<User> FindByNameAsync(string username)
+        {
+            User user = await userManager.FindByNameAsync(username);
+            return user;
         }
     }
 }
