@@ -26,7 +26,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["StoreId"] = new SelectList(_context.Stores.Where(x => x.IsDeleted == 0), "StoreId", "StoreId");
-            var briliFreshDbContext = _context.Orders.Include(o => o.Add).Include(o => o.Dis).Include(o => o.Store).Include(o => o.Trans).Include(o => o.Cus); 
+            var briliFreshDbContext = _context.Orders.Include(o => o.Add).Include(o => o.Dis).Include(o => o.Store).Include(o => o.Trans).Include(o => o.Cus);
             return View(await briliFreshDbContext.ToListAsync());
         }
 
@@ -222,7 +222,7 @@ namespace WebBriliFresh.Areas.Admin.Controllers
         */
         private bool OrderExists(int id)
         {
-          return _context.Orders.Any(e => e.OrderId == id);
+            return _context.Orders.Any(e => e.OrderId == id);
         }
     }
 }

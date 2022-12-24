@@ -31,7 +31,7 @@
 
 <hr />
 <div class="row">
-    <div style="display:table-cell; vertical-align:middle; text-align:center; width:100%" >
+    <div style="display:table-cell; vertical-align:middle; text-align:center; width:100%">
         <div id="case1" class="avatar avatar-icon avatar-geekblue">
             <i class="anticon anticon-safety-certificate"></i>
         </div>
@@ -77,10 +77,10 @@
 <div>
     <form asp-action="Edit" asp-route-id="@Model.OrderId" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="OrderId"/>
-        <input type="hidden" asp-for="AddId"/>
-        <input type="hidden" asp-for="TransId"/>
-        <input type="hidden" asp-for="DisId"/>
+        <input type="hidden" asp-for="OrderId" />
+        <input type="hidden" asp-for="AddId" />
+        <input type="hidden" asp-for="TransId" />
+        <input type="hidden" asp-for="DisId" />
         <input type="hidden" asp-for="StoreId" />
         <input type="hidden" asp-for="OrderDate" />
         <input type="hidden" asp-for="SubTotal" />
@@ -99,15 +99,15 @@
                 <input type="submit" class="btn btn-success m-r-5" id="next-btn" />
             </div>
             <div class="m-b-15">
-                <button  class="btn btn-danger btn-tone m-r-5" id="cancel-btn">
+                <button class="btn btn-danger btn-tone m-r-5" id="cancel-btn">
                     <i class="anticon anticon-close-circle"></i>
                     Hủy đơn hàng
                 </button>
             </div>
         </div>
         <div style="float: right">
-               <input id="transporter" style="margin-right: 20px; width: 300px; height: 40px" placeholder="Nhập tên đơn vị vận chuyển" asp-for="Trans.Transporter" disabled required />
-          
+            <input id="transporter" style="margin-right: 20px; width: 300px; height: 40px" placeholder="Nhập tên đơn vị vận chuyển" asp-for="Trans.Transporter" disabled required />
+
         </div>
     </form>
 </div>
@@ -121,57 +121,57 @@
 
 <script>
     $("#transporter").hide();
-        $(".avatar.avatar-icon").css({ "font-size": "40px", "padding-top": "20px", "width":"80px", "height":"80px"});
-        if ($("#status").val() == 1) {
-            $("#line1, #line2, #line3, #line4, #line5").css({ "background-color": "#ddd" });
-            $(".avatar-magenta, .avatar-gold, .avatar-lime, .avatar-green, .avatar-cyan").css({ "background-color": "#f2f2f2", "color":"#ddd" });
-            $("#case7").hide();
-            $("#status2, #status3, #status4, #status5, #status6, #status7").hide();
-            $("#next-btn").val("Xác nhận đơn hàng và chuyển tới chuẩn bị hàng");
+    $(".avatar.avatar-icon").css({ "font-size": "40px", "padding-top": "20px", "width": "80px", "height": "80px" });
+    if ($("#status").val() == 1) {
+        $("#line1, #line2, #line3, #line4, #line5").css({ "background-color": "#ddd" });
+        $(".avatar-magenta, .avatar-gold, .avatar-lime, .avatar-green, .avatar-cyan").css({ "background-color": "#f2f2f2", "color": "#ddd" });
+        $("#case7").hide();
+        $("#status2, #status3, #status4, #status5, #status6, #status7").hide();
+        $("#next-btn").val("Xác nhận đơn hàng và chuyển tới chuẩn bị hàng");
+    }
+
+    else if ($("#status").val() == 2) {
+        $("#line2, #line3, #line4, #line5").css({ "background-color": "#ddd" });
+        $(".avatar-gold, .avatar-lime, .avatar-green, .avatar-cyan").css({ "background-color": "none", "color": "#ddd" });
+        $("#case7").hide();
+        $("#status1, #status3, #status4, #status5, #status6, #status7").hide();
+        $("#next-btn").val("Xác nhận đã chuẩn bị hàng và chuyển tới đóng gói");
+    }
+    else if ($("#status").val() == 3) {
+        $("#line3, #line4, #line5").css({ "background-color": "#ddd" });
+        $(".avatar-lime, .avatar-green, .avatar-cyan").css({ "background-color": "none", "color": "#ddd" });
+        $("#case7").hide();
+        $("#status1, #status2, #status4, #status5, #status6, #status7").hide();
+        $("#next-btn").val("Xác nhận đã đóng gói và chuyển tới giao cho đơn vị vận chuyển");
+    }
+    else if ($("#status").val() == 4) {
+        $("#line4, #line5").css({ "background-color": "#ddd" });
+        $(".avatar-green, .avatar-cyan").css({ "background-color": "none", "color": "#ddd" });
+        $("#case7").hide();
+        $("#status1, #status2, #status3, #status5, #status6, #status7").hide();
+        $("#next-btn").val("Xác nhận hàng hóa đang trên đường giao");
+    }
+    else if ($("#status").val() == 5) {
+        $("#line5").css({ "background-color": "#ddd" });
+        $(".avatar-cyan").css({ "background-color": "none", "color": "#ddd" });
+        $("#case7").hide();
+        $("#status1, #status2, #status3, #status4, #status6, #status7").hide();
+        if ($("#payment-status").val() == 0) {
+            $("#next-btn").val("Xác nhận đã giao và nhận được tiền");
+        } else {
+            $("#next-btn").val("Xác nhận đã giao");
         }
-        
-        else if ($("#status").val() == 2) {
-            $("#line2, #line3, #line4, #line5").css({ "background-color": "#ddd" });
-            $(".avatar-gold, .avatar-lime, .avatar-green, .avatar-cyan").css({ "background-color": "none", "color": "#ddd" });
-            $("#case7").hide();
-            $("#status1, #status3, #status4, #status5, #status6, #status7").hide();
-            $("#next-btn").val("Xác nhận đã chuẩn bị hàng và chuyển tới đóng gói");
-        }
-        else if ($("#status").val() == 3) {
-            $("#line3, #line4, #line5").css({ "background-color": "#ddd" });
-            $(".avatar-lime, .avatar-green, .avatar-cyan").css({ "background-color": "none", "color": "#ddd" });
-            $("#case7").hide();
-            $("#status1, #status2, #status4, #status5, #status6, #status7").hide();
-            $("#next-btn").val("Xác nhận đã đóng gói và chuyển tới giao cho đơn vị vận chuyển");
-        }
-        else if ($("#status").val() == 4) {
-            $("#line4, #line5").css({ "background-color": "#ddd" });
-            $(".avatar-green, .avatar-cyan").css({ "background-color": "none", "color": "#ddd" });
-            $("#case7").hide();
-            $("#status1, #status2, #status3, #status5, #status6, #status7").hide();
-            $("#next-btn").val("Xác nhận hàng hóa đang trên đường giao");
-        }
-        else if ($("#status").val() == 5) {
-            $("#line5").css({ "background-color": "#ddd" });
-            $(".avatar-cyan").css({ "background-color": "none", "color": "#ddd" });
-            $("#case7").hide();
-            $("#status1, #status2, #status3, #status4, #status6, #status7").hide();
-            if ($("#payment-status").val() == 0) {
-                $("#next-btn").val("Xác nhận đã giao và nhận được tiền");
-            } else {
-                $("#next-btn").val("Xác nhận đã giao");
-            }
-        }
-        else if ($("#status").val() == 6) {
-            $("#case7").hide();
-            $("#next-btn, #cancel-btn").hide();
-            $("#status1, #status2, #status3, #status4, #status5, #status7").hide();
-        }
-        else if ($("#status").val() == 7) {
-            $("#line1, #line2, #line3, #line4, #line5, #case1, #case2, #case3, #case4, #case5, #case6").hide();
-            $("#next-btn, #cancel-btn").hide();
-            $("#status1, #status2, #status3, #status4, #status5, #status6").hide();
-        }
+    }
+    else if ($("#status").val() == 6) {
+        $("#case7").hide();
+        $("#next-btn, #cancel-btn").hide();
+        $("#status1, #status2, #status3, #status4, #status5, #status7").hide();
+    }
+    else if ($("#status").val() == 7) {
+        $("#line1, #line2, #line3, #line4, #line5, #case1, #case2, #case3, #case4, #case5, #case6").hide();
+        $("#next-btn, #cancel-btn").hide();
+        $("#status1, #status2, #status3, #status4, #status5, #status6").hide();
+    }
     $("#next-btn").click(function () {
         if ($("#status").val() == 1) {
             $("#status").val("2");
@@ -182,24 +182,29 @@
         else if ($("#status").val() == 3) {
             $("#transporter").prop('disabled', false);
             $("#transporter").show();
-            $("#status").val("4");
+            if ($("#transporter").val()) {
+                $("#status").val("4");
+            }
         }
         else if ($("#status").val() == 4) {
+            $("#transporter").prop('disabled', false);
             $("#status").val("5");
         }
         else if ($("#status").val() == 5) {
+            $("#transporter").prop('disabled', false);
             $("#status").val("6");
             $("#payment-status").val("1");
             var currentdate = new Date();
 
-            var datetime = (currentdate.getMonth()+1)+"-"+currentdate.getDate()+"-"+currentdate.getFullYear()+" "+currentdate.getHours()+":"+currentdate.getMinutes()+":"+currentdate.getSeconds();
-           
+            var datetime = (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + "-" + currentdate.getFullYear() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+
             $("#shippingdate").val(datetime);
         }
     })
     $("#cancel-btn").click(function (e) {
         let text = "Xác nhận hủy đơn hàng?"
-        if (confirm(text)==true) {
+        if (confirm(text) == true) {
+            $("#transporter").prop('disabled', false);
             $("#status").val("7");
         }
         else {
