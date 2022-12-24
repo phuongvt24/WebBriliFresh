@@ -24,13 +24,15 @@ namespace WebBriliFresh.Controllers
         private readonly BriliFreshDbContext _context;
         private readonly UserManager<User> _userManager;
         private readonly IEmailSender _emailSender;
+        private readonly IWebHostEnvironment _env;
 
-        public UserLogin(IUserAuthenticationService authService, BriliFreshDbContext context, UserManager<User> userManager, IEmailSender emailSender)
+        public UserLogin(IUserAuthenticationService authService, BriliFreshDbContext context, UserManager<User> userManager, IEmailSender emailSender, IWebHostEnvironment env)
         {
             _authService = authService;
             _context = context;
             _userManager = userManager;
             _emailSender = emailSender;
+            _env = env;
         }
 
 
@@ -145,9 +147,25 @@ namespace WebBriliFresh.Controllers
 
 
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+
                 var confirmationLink = Url.Action(nameof(ConfirmEmail), "UserLogin", new { token, email = user.Email }, Request.Scheme);
 
-                await _emailSender.SendEmailAsync(user.Email, "Xác nhận email", confirmationLink);
+                string body = string.Empty;
+                //using streamreader for reading my htmltemplate   
+
+                string fullpath = Path.Combine(_env.WebRootPath, "MyAccountAssets/ConfirmationEmail.html");
+                using (StreamReader reader = new StreamReader(fullpath))
+
+                {
+
+                    body = reader.ReadToEnd();
+
+                }
+
+                body = body.Replace("{confirmationLink}", confirmationLink); //replacing the required things  
+
+                await _emailSender.SendEmailAsync(user.Email, "Xác nhận email", body);
 
                 result.Message = "Tạo người dùng thành công với đầy đủ thông tin";
                 return RedirectToAction(nameof(SuccessRegistration));
