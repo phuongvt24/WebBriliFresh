@@ -189,8 +189,8 @@ input[type=checkbox]
 {
     text-align: center;
     margin-bottom: 50px;
-}
-
+}   
+.content__order-button_fake,
 .content__order-button
 {
     height: 50px;

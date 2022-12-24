@@ -7,18 +7,15 @@
 <div class="side-nav">
     <div class="side-nav-inner">
         <ul class="side-nav-menu scrollable">
-            <li class="nav-item open">
-                @*                <a class="dropdown-toggle" asp-area="Admin" asp-controller="Home" asp-action="index">
-                *@
-                <a href="/Admin?UserID=@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_USERID")&EmpID=@HttpContextAccessor.HttpContext.Session.GetInt32("ADMIN_SESSION_EMPID")">
-
-
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" asp-area="Admin" asp-controller="AdminStatistic" asp-action="Index">
                     <span class="icon-holder">
-                        <i class="anticon anticon-dashboard"></i>
+                        <i class="anticon anticon-pie-chart"></i>
                     </span>
-                    <span class="title">Bảng điều khiển</span>
+                    <span class="title">Thống kê, báo cáo</span>
                 </a>
             </li>
+
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
@@ -92,21 +89,11 @@
                         <li>
                             <a asp-area="Admin" asp-controller="AdminAccount" asp-action="index">Quản lý tài khoản</a>
                         </li>
-                        <li>
-                            <a href="data-table.html">Quản lý pages</a>
-                        </li>
                     </ul>
                 </li>
             }
            
-            <li class="nav-item dropdown">
-                <a class="dropdown-toggle" asp-area="Admin" asp-controller="AdminStatistic" asp-action="Index">
-                    <span class="icon-holder">
-                        <i class="anticon anticon-pie-chart"></i>
-                    </span>
-                    <span class="title">Thống kê, báo cáo</span>
-                </a>
-            </li>
+            
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" asp-area="Admin" asp-controller="AdminStores" asp-action="Index">
                     <span class="icon-holder">
