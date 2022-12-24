@@ -196,7 +196,7 @@ namespace WebBriliFresh.Controllers
                     }
                     _context.Orders.Add(order);
                     await _context.SaveChangesAsync();
-
+                    
                     for (int i = 0; i < order_details.Count; i++)
                     {
                         OrderDetail orderDetail = new OrderDetail();
@@ -226,6 +226,7 @@ namespace WebBriliFresh.Controllers
                     }
 
                     _context.Addresses.Add(address);
+                    await _context.SaveChangesAsync();
 
                     transport.ShippingDate = null;
                     transport.Transporter = null;
@@ -240,6 +241,7 @@ namespace WebBriliFresh.Controllers
                         transport.Fee = 32000;
                     }
                     _context.Transports.Add(transport);
+                    await _context.SaveChangesAsync();
 
                     order.AddId = address.AddId;
                     order.CusId = cre_Ord.CusId;
